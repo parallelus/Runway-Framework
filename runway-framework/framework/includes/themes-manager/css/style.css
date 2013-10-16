@@ -1,0 +1,69 @@
+/* Lightbox */
+.duplicate-theme-popup,.activate-theme-popup { 
+	display: none; }
+.themeActionsPupup { 
+	text-align: center; }
+.bottom-panel { 
+	margin: 0; padding: 1em 0; }
+.activate-theme-popup a.screenshot { outline: 0; } /* no dotted outline in popup screen shot */
+
+/* Themes List View */
+.runway-theme a.screenshot,.runway-theme a.screenshot img,#current-theme img { 
+	display: inline-block; float: left; margin: 0 20px 0 0; width: 240px; height: 180px; }
+.runway-theme a.screenshot img { 
+	float: none; margin: 0; }
+.runway-theme { 
+	display: block; width: auto; margin: 0 0 30px; padding: 0 0 20px; border-bottom: 1px solid #dfdfdf; }
+.runway-theme:last-child { 
+	border-bottom: 0; }
+.runway-theme h4,.runway-theme h3 { 
+	margin: 3px 0 16px; font-size: 20px; }
+.runway-theme h3 { 
+	font-size: 16px; }
+#current-theme { 
+	padding: 10px; margin-bottom: 30px; }
+#current-theme h4, { 
+	margin: 3px 0 16px; font-size: 20px; }
+.theme-inside { 
+	/*position: relative;
+    float: right;
+    max-width: 500px;
+    height: 100%;
+    overflow: hidden;*/
+    margin-left: 262px; }
+.theme-info { 
+	margin: 1em 0; overflow: hidden; }
+.theme-info li { 
+	float: left; padding-right: 10px; margin-right: 10px; border-right: 1px solid #dfdfdf; }
+.theme-info li:last-child { 
+	padding-right: 0; margin-right: 0; border-right: 0; }
+#current-theme .theme-description,.runway-theme .theme-description { 
+	margin-top: 5px; max-width: 600px; line-height: 1.6em; }
+.theme-options { 
+	margin-bottom: 0; }
+.theme-controlls { 
+	/*position: ition: absolute;
+    bottom: 10px;*/
+    padding-bottom: 0; }
+.theme-controlls ul { 
+	padding-top: 8px; }
+.theme-controlls span { 
+	display: inline-block; background-color: #257ea8; border-radius: 3px; padding: 4px 10px; margin-top: -6px; /*margin-left: 10px;*/ }
+.theme-controlls span a { 
+	color: #fff; text-decoration: none; }
+.links-separator { 
+	display: inline-block; border-left: solid 1px graytext; border-right: solid 1px #fff; height: 12px; margin-left: 3px; margin-bottom: -2px; width: 0; opacity: .5; }
+.links-position .shadow-box { 
+	float: left; background-color: #f1f1f1; padding: 3px 8px; margin: 3px; border-radius: 5px; }
+.loader { 
+	min-height: 72px!important; }
+.loader img { 
+	display: block; margin: 0 auto; width: 92%; }
+
+/* Download Package Lists */
+.widefat td p {
+	margin: .5em 0; }
+
+.ui-widget-overlay {
+    position: fixed;
+}	

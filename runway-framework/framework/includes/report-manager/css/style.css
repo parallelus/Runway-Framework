@@ -1,0 +1,28 @@
+.system-status-report{
+	width: 100%;
+	font-size: 0.923em;
+	margin: 10px 0 10px;
+	border: 1px solid #bebfb9;
+}
+
+tr.fail{	
+	color: #8c2e0b;
+	background-color: #fef5f1;
+}
+
+tr.success{
+	color: #255b1e;
+	background-color: #e5ffe2;
+}
+
+.status-message{
+	font-size: 9pt;
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.source{
+	width: 200px;
+	text-align: center;
+}

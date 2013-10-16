@@ -1,0 +1,414 @@
+/* Tabs */
+#theme-framework.hasPageTitle h2.nav-tab-wrapper { padding-top: 25px }
+/*#theme-framework .dynamic-page-wrapper .tab-active { padding-bottom: 20px; }_NO__DOTCOMMA__AFTER__*/
+/* Container Titles */
+#theme-framework .dynamic-page-wrapper h3.first-title { margin-top: 2em }
+/* Breadcrumbs */
+#theme-framework .nav-bar-trail { overflow: hidden }
+#theme-framework .nav-bar-trail li {
+    float: left;
+    background: #fdfdfd;
+    position: relative;
+    line-height: 14px;
+    font-size: 11px !important;
+    text-shadow: rgba(255,255,255,1) 0 1px 0 !important;
+    font-weight: bold;
+    border: 1px solid #bbb;
+    border-top-color: #ccc;
+    -moz-border-radius: 0 1em 1em 0;
+    -webkit-border-radius: 0 1em 1em 0;
+    -ms-border-radius: 0 1em 1em 0;
+    -o-border-radius: 0 1em 1em 0;
+    color: #464646;
+    margin-right: -1em;
+    padding: .4em 1em .4em 1.75em;
+    -webkit-background-clip: padding-box;
+}
+#theme-framework .nav-bar-trail a {
+    color: #464646;
+    text-decoration: none;
+}
+#theme-framework .nav-bar-trail li:first-child {
+    z-index: 30;
+    padding-left: .75em;
+    padding-right: 1em;
+    -webkit-border-radius: 1em;
+       -moz-border-radius: 1em;
+            border-radius: 1em;    
+    background: #f1f1f1;
+    background: -webkit-gradient(linear,left top,left bottom,from(#f1f1f1),to(#d4d4d4));
+    background: -moz-linear-gradient(top,#f1f1f1,#d4d4d4);
+    background: linear-gradient(#f1f1f1,#d4d4d4);
+}
+#theme-framework .nav-bar-trail li:nth-child(2) {
+    z-index: 20;
+    border-top-color: #ddd;
+    background: #fafafa;
+    background: -webkit-gradient(linear,left top,left bottom,from(#f2f2f2),to(#fff));
+    background: -moz-linear-gradient(top,#f2f2f2,#fff);
+    background: linear-gradient(#f2f2f2,#fff);
+}
+#theme-framework .nav-bar-trail li:nth-child(3) {
+    z-index: 10;
+    border-top-color: #ddd;
+    background: #fafafa;
+    background: -webkit-gradient(linear,left top,left bottom,from(#f2f2f2),to(#fff));
+    background: -moz-linear-gradient(top,#f2f2f2,#fff);
+    background: linear-gradient(#f2f2f2,#fff);
+}
+/* Page description */
+.pageDescription {
+    margin: 0;
+    padding: 1em 0;
+    clear: both;
+}
+/* Options Builder Tables/Forms/Fields */
+#theme-framework a.common-delete {
+    padding: 0 1px 1px;
+    margin-right: -1px;
+    margin-left: -1px;
+}
+#theme-framework a.common-delete:hover {
+    background: #C00;
+    color: #fff;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+#theme-framework .hr {
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+#theme-framework .form-table th { padding-top: 11px }
+/*
+#theme-framework .form-table { margin-bottom: 0; }
+#theme-framework .form-table th, #theme-framework .form-table td { line-height:1.75; }
+#theme-framework .more-advanced-settings .form-table th,#theme-framework .more-advanced-settings .form-table td{padding:.5em .75em .75em}
+#theme-framework .form-table th {padding:10px}
+#theme-framework .form-table td { padding:8px 10px; line-height:20px; }
+*/
+#theme-framework .widefat { 
+	/*clear: none;*/
+	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+#theme-framework .widefat td.last-td {
+    width: 140px;
+    white-space: nowrap;
+}
+#theme-framework .widefat tfoot th p {
+    margin: 0;
+    text-align: right;
+}
+/*#theme-framework table.form-table label { display: block; }_NO__DOTCOMMA__AFTER__*/
+#theme-framework table.form-table caption {
+    font-style: normal;
+    color: #929292;
+    text-align: left;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+#theme-framework table.form-table td p.description {
+	color: #999; }
+/*
+#theme-framework table.form-table em.howto { font-style: normal; color:#929292; }
+#theme-framework table.form-table th em.howto { font-size: 11px; line-height: 15px; }
+#theme-framework table.form-table em code{color:#333}
+*/
+#theme-framework .warning em,
+#theme-framework table.form-table .warning em {
+    color: #c00;
+    padding-top: 4px;
+}
+#theme-framework table.form-table .optionsColumn {
+    float: left;
+    margin: 10px 30px 0 0;
+}
+#theme-framework .input-text { width: 325px }
+#theme-framework textarea {
+    width: 500px;
+    height: 95px;
+}
+#theme-framework textarea.readonly {
+    width: 100%;
+    height: auto;
+}
+#theme-framework .wp-editor-container textarea.wp-editor-area { width: 99.9% }
+#theme-framework select { min-width: 250px }
+#theme-framework label.disabled { color: #888 }
+#theme-framework .postbox .no-move { cursor: default }
+/*
+#theme-framework .inside{padding:6px 6px 8px}
+ul.subsubsub.mp{float:none;display:block}
+ul.subsubsub.mp li{border-left:1px solid #ccc;padding:0 .5em}
+ul.subsubsub.mp li:first-child{padding-left:0;border-left:none}
+.action-links dt{font-size:11px;font-weight:bold}
+.action-links dd{font-style:normal;color:#929292;font-size:11px;margin-bottom:0}
+.theme-framework-box h3 em{font-size:10px;font-style:normal;font-weight:normal;margin-left:3px}
+*/
+/* Development Helpers */
+.data-function {
+    background: #eaf6fb;
+    border: 1px solid #dff2fb;
+}
+/* Popup and Dialog Defaults 
+ ======================================*/
+.ui-dialog, .ui-datepicker
+/*, .ui-widget*/ /* can't use ui-widget because of WP color picker */ {
+    padding: 14px;
+    background: #f5f5f5;
+    border: 1px solid #fff; 
+    /*-webkit-box-shadow: 0 0 42px rgba(0,0,0,.42);
+    -moz-box-shadow: 0 0 42px rgba(0,0,0,.42);
+    -ms-box-shadow: 0 0 42px rgba(0,0,0,.42);
+    -o-box-shadow: 0 0 42px rgba(0,0,0,.42);*/
+    box-shadow: 0 0 42px rgba(0,0,0,.42);
+}
+/*.ui-dialog-titlebar {
+    border: 0;
+    background: none;
+    padding: 15px;
+}
+.ui-dialog .ui-dialog-titlebar-close {
+    right: 10px;
+}*/
+.ui-widget-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #666;
+    opacity: 0.4;
+}
+.ui-widget-overlay.transparent-bg { background-color: transparent }
+/* dialog without modal overlay, needs style adjustment */
+.colorPickerPopup,
+.ui-datepicker { border-color: #bdbdbd }
+/* title bar */
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 0 0.9em;
+    position: relative;
+}
+.ui-dialog .ui-dialog-title {
+    font-size: 18px;
+    font-weight: normal;
+    text-shadow: 1px 1px rgba(255,255,255,.8);
+}
+/*div.settings-dialog-inside,*/
+div.ui-dialog-content,
+.ui-datepicker-calendar {
+    padding: 8px 6px;
+    border: 1px solid #fff;
+    background-color: #fafafa;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    -ms-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    -o-box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+}
+/* Close button */
+.ui-widget-header a { color: #222222 }
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+.ui-icon {
+    width: 16px;
+    height: 16px;
+    background-image: url(smoothness/images/ui-icons_222222_256x240.png);
+}
+.ui-icon-closethick { background-position: -96px -128px }
+/*.ui-widget-header .ui-icon {
+	background-image: url(smoothness/images/ui-icons_222222_256x240.png);
+}*/
+.ui-dialog .ui-dialog-titlebar-close span {
+    display: block;
+    margin: 1px;
+}
+.ui-corner-all {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+}
+.ui-widget-header a { color: #222222 }
+.ui-dialog .ui-dialog-titlebar-close {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 24px;
+    margin: -16px 0 0 0;
+    padding: 3px;
+    height: 23px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    border-radius: 12px;
+    background: #f5f5f5;
+    border: 0px solid #f5f5f5;
+}
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon { background-image: url(smoothness/images/ui-icons_454545_256x240.png) }
+.ui-dialog-titlebar-close.ui-state-hover,
+.ui-widget-content .ui-dialog-titlebar-close.ui-state-hover,
+.ui-widget-header .ui-dialog-titlebar-close.ui-state-hover /*,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus*/ {
+    border: none;
+    /*border: 2px solid #fff;*/
+    /*background: #dadada url(smoothness/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x;*/
+    background: #ddd;
+	background: rgba(0,0,0,.1);
+    font-weight: normal;
+    color: #000;
+    /*padding: 1px;*/
+    /*-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.3), inset 0px 1px 0px 0px rgba(255,255,255,1);
+    -moz-box-shadow: 0 1px 1px rgba(0,0,0,.3), inset 0px 1px 0px 0px rgba(255,255,255,1);
+    -ms-box-shadow: 0 1px 1px rgba(0,0,0,.3), inset 0px 1px 0px 0px rgba(255,255,255,1);
+    -o-box-shadow: 0 1px 1px rgba(0,0,0,.3), inset 0px 1px 0px 0px rgba(255,255,255,1);
+    box-shadow: 0 1px 1px rgba(0,0,0,.3), inset 0px 1px 0px 0px rgba(255,255,255,1);*/
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -khtml-border-radius: 12px;
+    border-radius: 12px;
+}
+/* Data Type Specific 
+ ======================================*/
+
+.wp-picker-container .iris-picker,
+#ui-datepicker-div.ui-datepicker  {
+	box-shadow: 0 2px 10px rgba(0,0,0,.3);
+}
+
+/* Color Picker (WP Default) */
+.wp-picker-holder { 
+	position: absolute; 
+	z-index: 100;
+}
+.wp-picker-container .iris-picker {
+	box-shadow: 0 2px 10px rgba(0,0,0,.3);
+}
+.wp-color-result {
+	top: 0; /* fixes shifting on open/close */
+}
+/* Color Picker (custom) */
+#colorpick-dialog { display: none }
+#theme-framework .color-picker-input { cursor: pointer }
+.control-section .color-picker-input,
+#theme-framework .color-picker-input,
+#colorpick-dialog #color-colorpick {
+    width: 85px;
+    text-align: center;
+    font-size: 14px;
+    padding: 6px 0px;
+    /*font-weight: bold;*/
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    -ms-border-radius: 17px;
+    -o-border-radius: 17px;
+    border-radius: 17px;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    border: none;
+    -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.247059), 0 0 1px 1px rgba(255,255,255,1);
+    -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.247059), 0 0 1px 1px rgba(255,255,255,1);
+    -ms-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.247059), 0 0 1px 1px rgba(255,255,255,1);
+    -o-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.247059), 0 0 1px 1px rgba(255,255,255,1);
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.247059), 0 0 1px 1px rgba(255,255,255,1);
+}
+#colorpick-dialog #color-colorpick { margin-bottom: 12px }
+/* Radio input */
+#theme-framework input[type="checkbox"], #theme-framework input[type="radio"] {
+	margin-right: 3px; }
+/* Radio Images Buttons */
+.radio-image {
+    border: 1px solid #dfdfdf;
+    border-width: 0;
+    margin: 1px 3px 1px 1px;
+    padding: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+}
+.radio-image:hover,
+.radio-image.checked {
+    border-width: 1px;
+    margin: 0 2px 0 0;
+}
+.radio-image:hover { border-color: #bbb }
+.radio-image.checked { background: #efefef }
+.radio-image p {
+    margin: 0;
+    padding: 0;
+}
+.radio-image dt {
+    margin: 0;
+    padding: 0;
+    line-height: 0px;
+}
+/* Date Picker */
+
+
+#ui-datepicker-div.ui-datepicker {
+    /*width: 18em;*/
+    padding: 10px;
+	z-index: 999999 !important;
+}
+#ui-datepicker-div.ui-datepicker-calendar {
+	padding: 8px 6px;
+}
+#ui-datepicker-div.ui-datepicker .ui-datepicker-header { padding-bottom: 1em }
+.ui-datepicker-header .ui-datepicker-title {
+	text-align: center; }
+.ui-datepicker-header .ui-datepicker-prev {
+	float: left; }
+.ui-datepicker-header .ui-datepicker-prev .ui-icon {
+	background-position: -95px -50px; }
+.ui-datepicker-header .ui-datepicker-next {
+	float: right; }
+.ui-datepicker-header .ui-datepicker-next .ui-icon {
+	background-position: -32px -50px; }
+#ui-datepicker-div.ui-datepicker td { padding: 2px }
+#ui-datepicker-div.ui-datepicker td a { padding: .2em .4em; text-decoration: none; }
+.ui-datepicker .ui-state-active,
+.ui-datepicker.ui-widget-content .ui-state-active {
+    border: 1px solid #21759b;
+    background: #298cba;
+    color: #fff;
+}
+.ui-datepicker .ui-state-highlight,
+.ui-datepicker.ui-widget-content .ui-state-highlight {
+    border: 1px solid #E9E9E9;
+    background: #fff;
+    font-weight: bold;
+    color: #212121;
+}
+/* Helpers
+ ======================================*/
+.clear { clear: both }
+.developerMode { display: none } /* developer mode 
+
+/* 
+Temporary - Custom styles for user assigned data-type classes 
+These need to be included by the theme instead. Still working on the best way to do that.
+ ======================================*/
+#theme-framework textarea.custom-js-input, #theme-framework textarea.custom-css-input {
+	width: 90%;
+	height: 300px;
+	font-family: monospace;
+	line-height: 1.5;
+	font-size: 12px; }

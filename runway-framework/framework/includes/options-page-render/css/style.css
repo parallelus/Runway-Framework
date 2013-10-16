@@ -1,0 +1,36 @@
+.mceLayout tr, .mceLayout td, .mceStatusbar div {
+	padding: 0px !important;
+}
+
+.ui-tabs-panel, .ui-tabs {
+	border:none;
+}
+
+.ui-tabs-nav {
+	background:none;
+	border:none;
+}
+
+.tab-controlls {
+	margin-top:10px;
+}
+
+.tab-controlls li {
+	float:left;
+	padding:10px 15px;
+	border-bottom: none !important;
+}
+
+.tab, .tab-title {
+	display: none;
+}
+
+.tab-active {
+	display: block;
+}
+
+.form-table .customize-control-title {
+	display: none;
+}
+
+.dynamic-page-wrapper { margin-top: 25px; }
