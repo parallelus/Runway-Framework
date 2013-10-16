@@ -1,4 +1,4 @@
-Runway_Framework
+Runway Framework for WordPress
 ================
 
 A better way to create WordPress themes.
