@@ -107,7 +107,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	$screenshotLink = ( strtolower( $t['name'] ) != 'runway' ) ? $t['editURL'] : '#' ;
 	$t['screenshot'] = '<a href="'. $screenshotLink .'" class="screenshot"><img src="'. $t['image'] .'" alt=""></a>';
 	// Theme Info Block
-	$t['themeInfo'] = '<div><ul class="theme-info">'. $t['author'] . $t['version'] .'</ul>'. $t['description'] .'</div><p class="theme-options">'. __( 'Folder location:', 'framework' ) .'<code>/themes/'. $t['folder'] .'</code></p>';	
+	$t['themeInfo'] = '<div><ul class="theme-info">'. $t['author'] . $t['version'] .'</ul>'. $t['description'] .'</div><p class="theme-options">'. __( 'Folder location:', 'framework' ) .'<code>/themes/'. $t['folder'] .'</code></p>';
 
 	return $t;
 

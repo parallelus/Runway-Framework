@@ -17,12 +17,12 @@ class Apm_Settings_Object {
 	public $pages_dir, $data_dir;
 	function __construct() {
 		$this->pages_dir = get_stylesheet_directory() . '/data/pages/';
-		$this->data_dir = get_stylesheet_directory() . '/data/';		
+		$this->data_dir = get_stylesheet_directory() . '/data/';
 
-		add_action('wp_ajax_save_option_page', array($this, 'save_option_page'));
+		add_action( 'wp_ajax_save_option_page', array( $this, 'save_option_page' ) );
 	}
 
-	public function save_option_page(){
+	public function save_option_page() {
 		$json_page = $_REQUEST['json_form'];
 		// $new_page_id = $_REQUEST['page_id'];
 		$pages_dir = $this->pages_dir;
@@ -68,10 +68,10 @@ class Apm_Settings_Object {
 					foreach ( $matches as $alias ) {
 						$tmp = array();
 						if ( ( preg_match( '/(.+)-[0-9+]/', $alias, $tmp ) && $tmp[1] == $page['settings']['alias'] ) || $alias == $page['settings']['alias'] ) {
-							// if(isset($tmp[0])){								
-								$num = preg_replace( '/(.+)-/', '', @$tmp[0] ); // capture the number at end of string
-								$numbers[] = $num; // gives the number found at the end of the match
-								$total++;   // keeps count of the number of matches																			
+							// if(isset($tmp[0])){
+							$num = preg_replace( '/(.+)-/', '', @$tmp[0] ); // capture the number at end of string
+							$numbers[] = $num; // gives the number found at the end of the match
+							$total++;   // keeps count of the number of matches
 							// }
 						}
 					}
@@ -87,30 +87,30 @@ class Apm_Settings_Object {
 				else
 					$old = '';
 
-				$old_page = $this->inputs_decode(json_decode($old, true));
-				$old_elements = array_intersect_key( (array) $old_page['elements'], (array) $page['elements']);
-				$edited_elements = array_intersect_key( (array) $page['elements'], (array) $old_page['elements']);
-				
+				$old_page = $this->inputs_decode( json_decode( $old, true ) );
+				$old_elements = array_intersect_key( (array) $old_page['elements'], (array) $page['elements'] );
+				$edited_elements = array_intersect_key( (array) $page['elements'], (array) $old_page['elements'] );
+
 				$changed = array();
 
-				foreach ($edited_elements as $element_key => $element_values) {
-					if($element_key != 'none' && (isset($element_values['alias']) && $element_values['alias'] != $old_elements[$element_key]['alias'] || 
-												  isset($element_values['type']) && $element_values['type'] != $old_elements[$element_key]['type']) ){
-						$diff = array_diff($element_values, $old_elements[$element_key]);
+				foreach ( $edited_elements as $element_key => $element_values ) {
+					if ( $element_key != 'none' && ( isset( $element_values['alias'] ) && $element_values['alias'] != $old_elements[$element_key]['alias'] ||
+							isset( $element_values['type'] ) && $element_values['type'] != $old_elements[$element_key]['type'] ) ) {
+						$diff = array_diff( $element_values, $old_elements[$element_key] );
 						// out($element_values);
 						// echo "\n\n";
-						if(!empty($diff)){
-							$changed[] = (isset($element_values['alias'])) ? $element_values['alias'] : '';
+						if ( !empty( $diff ) ) {
+							$changed[] = ( isset( $element_values['alias'] ) ) ? $element_values['alias'] : '';
 						}
 					}
 				}
 
-				$page = $this->inputs_encode($page);
+				$page = $this->inputs_encode( $page );
 				$new = str_replace( '\r\n', '\\r\\n', json_encode( $page ) );
-//				$new = str_replace( '\\r\\n', '\\\\r\\\\n', json_encode( $page ) );
-				
-				// check is have changes in page conf				
-				if ( md5($old) != md5($new) ) {
+				//    $new = str_replace( '\\r\\n', '\\\\r\\\\n', json_encode( $page ) );
+
+				// check is have changes in page conf
+				if ( md5( $old ) != md5( $new ) ) {
 					// mdp new conf
 					if ( is_writable( $pages_dir ) ) {
 						if ( isset( $_FILES['icon_url'] ) && file_exists( $_FILES['icon_url']['tmp_name'] ) ) {
@@ -125,17 +125,17 @@ class Apm_Settings_Object {
 								$uploadedfile = $_FILES['icon_url']['tmp_name'];
 
 								switch ( $file_extension ) {
-									case 'jpeg':
-									case 'jpg': {
-											$src = imagecreatefromjpeg( $uploadedfile );
+								case 'jpeg':
+								case 'jpg': {
+										$src = imagecreatefromjpeg( $uploadedfile );
 									} break;
-									case 'png': {
-											$src = imagecreatefrompng( $uploadedfile );
+								case 'png': {
+										$src = imagecreatefrompng( $uploadedfile );
 									} break;
-									case 'gif': {
-											$src = imagecreatefromgif( $uploadedfile );
+								case 'gif': {
+										$src = imagecreatefromgif( $uploadedfile );
 									} break;
-									default: {
+								default: {
 										wp_die( 'Unsupported file type.' );
 									} break;
 								}
@@ -165,24 +165,24 @@ class Apm_Settings_Object {
 					global $shortname;
 
 					$old = json_decode( $old );
-					$option_key = (isset($old)) ? $shortname.$old->settings->alias : $shortname;
+					$option_key = ( isset( $old ) ) ? $shortname.$old->settings->alias : $shortname;
 					$tmp = get_option( $option_key );
 					$to_write = array();
 
-					if(count($tmp)) {
-						foreach ($tmp as $key => $value) {
-							if(!in_array($key, $changed)){
+					if ( count( $tmp ) ) {
+						foreach ( $tmp as $key => $value ) {
+							if ( !in_array( $key, $changed ) ) {
 								$to_write[$key] = $value;
-							}						
+							}
 						}
-					}					
+					}
 
 					update_option( $option_key, $to_write );
-				} 
+				}
 				else {
 					$message = '<p>'. __( 'The page has not changed.', 'framework' ) .'</p>';
 				}
-				
+
 				$link = home_url().'/wp-admin/admin.php?page=options-builder&navigation=edit-page&page_id='.$page_id;
 
 				$return = array(
@@ -191,7 +191,7 @@ class Apm_Settings_Object {
 					'reload_url' => $link,
 				);
 
-				echo json_encode($return); 
+				echo json_encode( $return );
 			}
 		}
 
@@ -232,26 +232,26 @@ class Apm_Settings_Object {
 	function get_pages_list() {
 		$error_flag = true;
 		$error_message = '<b>Error:</b> The child theme folder "data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme.';
-		if(!file_exists($this->data_dir) && !file_exists($this->pages_dir)){
-			if(mkdir($this->data_dir, 0777, true) && mkdir($this->pages_dir, 0777, true)){
+		if ( !file_exists( $this->data_dir ) && !file_exists( $this->pages_dir ) ) {
+			if ( mkdir( $this->data_dir, 0777, true ) && mkdir( $this->pages_dir, 0777, true ) ) {
 				$error_flag = true;
 			}
-			else{
+			else {
 				$error_flag = false;
 			}
 		}
 
 		if ( !is_writable( $this->pages_dir ) && !is_writable( $this->data_dir ) && $error_flag ) {
-			if(chmod($this->data_dir, 0777) && chmod($this->pages_dir, 0777)){
+			if ( chmod( $this->data_dir, 0777 ) && chmod( $this->pages_dir, 0777 ) ) {
 				$error_flag = true;
 			}
-			else{
+			else {
 				$error_flag = false;
 			}
 		}
 
-		if(!$error_flag){
-			wp_die($error_message);
+		if ( !$error_flag ) {
+			wp_die( $error_message );
 		}
 
 		$page_files = scandir( $this->pages_dir );
@@ -268,28 +268,28 @@ class Apm_Settings_Object {
 		return $pages;
 	}
 
-	public function inputs_encode($page){
+	public function inputs_encode( $page ) {
 		foreach ( (array) $page['elements'] as $field_id => $element ) {
 			if ( $field_id != 'none' /*&& $field_id > 0*/ && $field_id != 'n' ) {
-				if(isset($page['elements'][$field_id]['title'])){
+				if ( isset( $page['elements'][$field_id]['title'] ) ) {
 					$page['elements'][$field_id]['title'] = addslashes( htmlspecialchars( $element['title'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['values'])){
+				if ( isset( $page['elements'][$field_id]['values'] ) ) {
 					$page['elements'][$field_id]['values'] = addslashes( htmlspecialchars( $element['values'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['requiredMessage'])){
+				if ( isset( $page['elements'][$field_id]['requiredMessage'] ) ) {
 					$page['elements'][$field_id]['requiredMessage'] = addslashes( htmlspecialchars( $element['requiredMessage'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['validationMessage'])){
+				if ( isset( $page['elements'][$field_id]['validationMessage'] ) ) {
 					$page['elements'][$field_id]['validationMessage'] = addslashes( htmlspecialchars( $element['validationMessage'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['cssClass'])){
+				if ( isset( $page['elements'][$field_id]['cssClass'] ) ) {
 					$page['elements'][$field_id]['cssClass'] = addslashes( htmlspecialchars( $element['cssClass'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['titleCaption'])){
+				if ( isset( $page['elements'][$field_id]['titleCaption'] ) ) {
 					$page['elements'][$field_id]['titleCaption'] = addslashes( htmlspecialchars( $element['titleCaption'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['fieldCaption'])){
+				if ( isset( $page['elements'][$field_id]['fieldCaption'] ) ) {
 					$page['elements'][$field_id]['fieldCaption'] = addslashes( htmlspecialchars( $element['fieldCaption'], ENT_QUOTES ) );
 				}
 			}
@@ -297,29 +297,29 @@ class Apm_Settings_Object {
 		return $page;
 	}
 
-	public function inputs_decode($page){
+	public function inputs_decode( $page ) {
 		foreach ( (array) $page['elements'] as $field_id => $element ) {
 			if ( $field_id != 'none' /*&& $field_id > 0*/ && $field_id != 'n' ) {
-				if(isset($page['elements'][$field_id]['title'])){
+				if ( isset( $page['elements'][$field_id]['title'] ) ) {
 					$page['elements'][$field_id]['title'] = stripslashes( htmlspecialchars_decode( $element['title'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['values'])){
+				if ( isset( $page['elements'][$field_id]['values'] ) ) {
 					$page['elements'][$field_id]['values'] = stripslashes( htmlspecialchars_decode( $element['values'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['requiredMessage'])){
+				if ( isset( $page['elements'][$field_id]['requiredMessage'] ) ) {
 					$page['elements'][$field_id]['requiredMessage'] = stripslashes( htmlspecialchars_decode( $element['requiredMessage'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['validationMessage'])){
+				if ( isset( $page['elements'][$field_id]['validationMessage'] ) ) {
 					$page['elements'][$field_id]['validationMessage'] = stripslashes( htmlspecialchars_decode( $element['validationMessage'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['cssClass'])){
+				if ( isset( $page['elements'][$field_id]['cssClass'] ) ) {
 					$page['elements'][$field_id]['cssClass'] = stripslashes( htmlspecialchars_decode( $element['cssClass'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['titleCaption'])){
+				if ( isset( $page['elements'][$field_id]['titleCaption'] ) ) {
 					$page['elements'][$field_id]['titleCaption'] = stripslashes( htmlspecialchars_decode( $element['titleCaption'], ENT_QUOTES ) );
 				}
-				if(isset($page['elements'][$field_id]['fieldCaption'])){
-					$page['elements'][$field_id]['fieldCaption'] = stripslashes( htmlspecialchars_decode( $element['fieldCaption'] , ENT_QUOTES) );
+				if ( isset( $page['elements'][$field_id]['fieldCaption'] ) ) {
+					$page['elements'][$field_id]['fieldCaption'] = stripslashes( htmlspecialchars_decode( $element['fieldCaption'] , ENT_QUOTES ) );
 				}
 			}
 		}

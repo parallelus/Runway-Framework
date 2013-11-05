@@ -47,10 +47,10 @@ if ( is_admin() ) {
 // Setup a custom button in the title
 function title_button_fix_all_issues( $title ) {
 	global $reports;
-    if ( $_GET['page'] == 'reports' && $reports->have_fails() ) {
-        $title .= ' <a href="admin.php?page=reports&action=fix-all-issues" class="add-new-h2">'. __( 'Fix all issues', 'framework' ) .'</a>';
-    }
-    return $title;
+	if ( $_GET['page'] == 'reports' && $reports->have_fails() ) {
+		$title .= ' <a href="admin.php?page=reports&action=fix-all-issues" class="add-new-h2">'. __( 'Fix all issues', 'framework' ) .'</a>';
+	}
+	return $title;
 }
 add_filter( 'framework_admin_title', 'title_button_fix_all_issues' );
 

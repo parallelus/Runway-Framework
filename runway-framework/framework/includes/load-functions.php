@@ -1,5 +1,12 @@
 <?php
 
+spl_autoload_register( function( $class ) {
+		// out(LIBS_DIR);
+		if ( file_exists( LIBS_DIR.$class.'.php' ) ) {
+			require_once LIBS_DIR.$class.'.php';
+		}
+	} );
+
 //-----------------------------------------------------------------
 // Load data-types
 //-----------------------------------------------------------------
@@ -163,7 +170,7 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
-					if ( class_exists( $name ) ) {
+					if ( class_exists( $name ) && $name != 'Html' ) {
 						$libraries[$name] = new $name();
 					}
 				}

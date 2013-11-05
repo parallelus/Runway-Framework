@@ -1,5 +1,5 @@
 <?php
-define('DS', DIRECTORY_SEPARATOR); // I always use this short form in my code.
+define( 'DS', DIRECTORY_SEPARATOR ); // I always use this short form in my code.
 
 /**
  * Themes_Manager_Settings_Object
@@ -184,7 +184,7 @@ class Themes_Manager_Settings_Object {
 	}
 
 	// build and save child theme
-	function build_and_save_theme( $options , $new_theme = true) {
+	function build_and_save_theme( $options , $new_theme = true ) {
 		global $extm;
 		// extract tags from string
 		$options['Tags'] = explode( ' ', $options['Tags'] );
@@ -208,20 +208,20 @@ class Themes_Manager_Settings_Object {
 			if ( !file_exists( $this->themes_path . '/' . $options['Folder'] ) ) {
 				rename( $this->themes_path . '/' . $_REQUEST['name'], $this->themes_path . '/' . $options['Folder'] );
 				// change file names into changed theme folder
-				$this->rename_history_packages($options['Folder']);
+				$this->rename_history_packages( $options['Folder'] );
 			}
 		}
 
 		if ( !file_exists( $this->themes_path . '/' . $options['Folder'] . '/data' ) ) {
 			mkdir( $this->themes_path . '/' . $options['Folder'] . '/data' );
-		}		
+		}
 
 		// check if have new screenshot and if true move file to theme folder
-		if ( $_FILES['theme_options']['name']['Screenshot'] != '' ) {				
+		if ( $_FILES['theme_options']['name']['Screenshot'] != '' ) {
 			imagepng(
 				imagecreatefromstring(
-					file_get_contents($_FILES['theme_options']['tmp_name']['Screenshot'])
-				), 
+					file_get_contents( $_FILES['theme_options']['tmp_name']['Screenshot'] )
+				),
 				$this->themes_path . '/' . $options['Folder'] . '/screenshot.png'
 			);
 			$options['Screenshot'] = true;
@@ -231,29 +231,29 @@ class Themes_Manager_Settings_Object {
 		if ( $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ) {
 			imagepng(
 				imagecreatefromstring(
-					file_get_contents($_FILES['theme_options']['tmp_name']['CustomIcon'])
-				), 
+					file_get_contents( $_FILES['theme_options']['tmp_name']['CustomIcon'] )
+				),
 				$this->themes_path . '/' . $options['Folder'] . '/tmp.png'
-			);			
-			
+			);
+
 			$image = $this->themes_path . '/' . $options['Folder'] . '/tmp.png';
-	        $new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
-	        
-	        $size = getimagesize($image);
-	        $width = 24; //*** Fix Width & Heigh (Autu caculate) ***//
-	        $height = round( $width*$size[1]/$size[0] );
+			$new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
 
-	        $images_orig = imagecreatefrompng($image);
-	        $photoX = imagesx($images_orig);
-	        $photoY = imagesy($images_orig);
+			$size = getimagesize( $image );
+			$width = 24; //*** Fix Width & Heigh (Autu caculate) ***//
+			$height = round( $width*$size[1]/$size[0] );
 
-	        $images_fin = imagecreatetruecolor($width, $height);
-	        imagecopyresampled($images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY);
-	        
-	        imagepng($images_fin, $new_image);
-	        imagedestroy($images_orig);
-	        imagedestroy($images_fin);
-	        unlink($image);
+			$images_orig = imagecreatefrompng( $image );
+			$photoX = imagesx( $images_orig );
+			$photoY = imagesy( $images_orig );
+
+			$images_fin = imagecreatetruecolor( $width, $height );
+			imagecopyresampled( $images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY );
+
+			imagepng( $images_fin, $new_image );
+			imagedestroy( $images_orig );
+			imagedestroy( $images_fin );
+			unlink( $image );
 
 			$options['CustomIcon'] = true;
 		}
@@ -263,8 +263,7 @@ class Themes_Manager_Settings_Object {
 		}
 
 		// If no custom screenshot copy default
-		if ( file_exists( $this->themes_path . '/' . $options['Folder'] . '/screenshot.png' ) ) 
-		{
+		if ( file_exists( $this->themes_path . '/' . $options['Folder'] . '/screenshot.png' ) ) {
 			$options['Screenshot'] = true;
 		}
 		else {
@@ -275,7 +274,7 @@ class Themes_Manager_Settings_Object {
 		// save settings to JSON
 		$this->save_settings( $options['Folder'], $options );
 
-		if($new_theme){			
+		if ( $new_theme ) {
 			// Add functions.php
 			$functions = '';
 			if ( $this->themes_path . '/' . $options['Template'] . '/functions.php' ) {
@@ -285,12 +284,12 @@ class Themes_Manager_Settings_Object {
 			// save settings into wordpress style.css
 			file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css', $this->build_theme_css( $options ) );
 		}
-		else{
+		else {
 			$matches = array();
-			$css = file_get_contents($this->themes_path . '/' . $options['Folder'] . '/style.css');
+			$css = file_get_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css' );
 			$pattern = '/\/\*([^\*]*)/i';
-			$result = preg_match($pattern, $css, $matches);
-			$css = str_replace($matches['0']."*/", '', $css);
+			$result = preg_match( $pattern, $css, $matches );
+			$css = str_replace( $matches['0']."*/", '', $css );
 			$new_css = $this->build_theme_css( $options ).$css;
 			// save settings into wordpress style.css
 			file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css', $new_css );
@@ -331,7 +330,7 @@ class Themes_Manager_Settings_Object {
 
 		$lines[] = "/*\n";
 
-		if ( !empty( $Tags ) && is_array($Tags) ) {
+		if ( !empty( $Tags ) && is_array( $Tags ) ) {
 			$Tags = implode( ',', $Tags );
 			if ( $Tags == ',' ) $Tags = '';
 		}
@@ -452,10 +451,10 @@ class Themes_Manager_Settings_Object {
 	function add_to_zip_r( $path, $path_in_zip, $zip, $exclude = array() ) {
 		if ( !file_exists( $path ) ) return;
 
-		$files = scandir( $path );		
+		$files = scandir( $path );
 		foreach ( $files as $file ) {
 			if ( $file != '.' && $file != '..' ) {
-				if(!in_array($file, $exclude)){
+				if ( !in_array( $file, $exclude ) ) {
 					if ( is_dir( $path.'/'.$file ) ) {
 						$zip->addEmptyDir( $path_in_zip.$file );
 						$this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip );
@@ -471,8 +470,8 @@ class Themes_Manager_Settings_Object {
 	/**
 	 * build_child_package - make child themes packages
 	 *
-	 * @param mixed   $theme_name    Theme name.
-	 * @param mixed   $ts            Time stamp to make unique download archive name.
+	 * @param mixed   $theme_name Theme name.
+	 * @param mixed   $ts         Time stamp to make unique download archive name.
 	 *
 	 * @access public
 	 *
@@ -480,7 +479,7 @@ class Themes_Manager_Settings_Object {
 	 */
 	function build_child_package( $theme_name = null, $ts = null ) {
 
-		if(class_exists('ZipArchive')){
+		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_child_package' );
 			if ( !$theme_name || !$ts ) return false;
 
@@ -506,7 +505,7 @@ class Themes_Manager_Settings_Object {
 				foreach ( $files as $file ) {
 					if ( $file != '.' && $file != '..' ) {
 						$file = $source.'/'.$file;
-						
+
 						if ( is_dir( $file ) === true ) {
 							$zip->addEmptyDir( str_replace( $source . '/', "{$theme_name}/", $file . '/' ) );
 							$arr = explode( '/', $file );
@@ -516,16 +515,16 @@ class Themes_Manager_Settings_Object {
 							if ( array_pop( $arr ) == 'data' ) {
 								$this->add_to_zip_r( $file, $theme_name.'/data/', $zip );
 							}
-						} 
-						else if ( is_file( $file ) === true ) {
-							$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), file_get_contents( $file ) );
 						}
+						else if ( is_file( $file ) === true ) {
+								$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), file_get_contents( $file ) );
+							}
 					}
 				}
 			}
 			else if ( is_file( $source ) === true ) {
-				$zip->addFromString( basename( $source ), file_get_contents( $source ) );
-			}
+					$zip->addFromString( basename( $source ), file_get_contents( $source ) );
+				}
 
 			$zip->close();
 
@@ -533,8 +532,8 @@ class Themes_Manager_Settings_Object {
 
 			return get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
-		else{
-			wp_die('You must have ZipArchive class');
+		else {
+			wp_die( 'You must have ZipArchive class' );
 		}
 	}
 
@@ -551,7 +550,7 @@ class Themes_Manager_Settings_Object {
 	 */
 	function build_alone_theme( $theme_name = null, $ts = null ) {
 
-		if(class_exists('ZipArchive')){
+		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_alone_theme', $theme_name );
 			global $extm;
 			if ( !$theme_name || !$ts ) return false;
@@ -574,20 +573,19 @@ class Themes_Manager_Settings_Object {
 			$source = "$this->themes_path/runway-framework";
 			$source = str_replace( '\\', '/', realpath( $source ) );
 
-			// Copy framework and data types folder		
+			// Copy framework and data types folder
 			$zip->addEmptyDir( $theme_name.'/framework/' );
 			$framework_dir = FRAMEWORK_DIR.'framework/';
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/', $zip );
 
 			$zip->addEmptyDir( $theme_name.'/data-types/' );
-			$framework_dir = FRAMEWORK_DIR.'data-types/';		
+			$framework_dir = FRAMEWORK_DIR.'data-types/';
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/data-types/', $zip );
 
 			// Add active extensions in package
 			$zip->addEmptyDir( $theme_name.'/extensions/' );
-			foreach ( $extm->get_active_extensions_list( $theme_name ) as $ext ) 
-			{
-				if(is_string($ext)) {
+			foreach ( $extm->get_active_extensions_list( $theme_name ) as $ext ) {
+				if ( is_string( $ext ) ) {
 					$ext_dir = explode( '/', $ext );
 					$file = $source.'/extensions/'.$ext_dir[0].'/';
 					$this->add_to_zip_r( $file, $theme_name.'/extensions/'.$ext_dir[0].'/', $zip );
@@ -601,9 +599,9 @@ class Themes_Manager_Settings_Object {
 			$zip->addFromString( $theme_name.'/functions.php', $functions );
 
 			// build plugin header
-			$theme_data = rw_get_theme_data(get_theme_root().'/'.$theme_name);
-			$theme_data['Tags'] = implode(' ', $theme_data['Tags']);
-			$css = $this->build_theme_css($theme_data, true);
+			$theme_data = rw_get_theme_data( get_theme_root().'/'.$theme_name );
+			$theme_data['Tags'] = implode( ' ', $theme_data['Tags'] );
+			$css = $this->build_theme_css( $theme_data, true );
 
 			// merge style.css
 			$css_ext = ( file_exists( "{$this->themes_path}/{$theme_name}/style.css" ) ) ? file_get_contents( "{$this->themes_path}/{$theme_name}/style.css" ) : '';
@@ -612,15 +610,15 @@ class Themes_Manager_Settings_Object {
 			$zip->addFromString( $theme_name.'/style.css', $css_ext );
 
 			// copy child theme files
-			$this->add_to_zip_r( get_stylesheet_directory(), $theme_name.'/', $zip, array('download', 'functions.php', 'style.css') );
+			$this->add_to_zip_r( get_stylesheet_directory(), $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
 
 			$zip->close();
 
 			do_action( 'after_build_alone_theme', $theme_name, get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );
 			return get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
-		else{
-			wp_die('You must have ZipArchive class');
+		else {
+			wp_die( 'You must have ZipArchive class' );
 		}
 	}
 
@@ -629,14 +627,14 @@ class Themes_Manager_Settings_Object {
 
 		$start = 0;
 		do {
-			$pos = strpos($css_ext, 'Theme Name: '.$theme_name, $start);
-			$pos_begin = strpos($css_ext, '/*', $start);
-			$pos_end = strpos($css_ext, '*/', $start);
-			if($pos > $pos_begin && $pos < $pos_end) {
-				$css_ext = substr_replace($css_ext, '', $pos_begin, $pos_end - $pos_begin + 2);
+			$pos = strpos( $css_ext, 'Theme Name: '.$theme_name, $start );
+			$pos_begin = strpos( $css_ext, '/*', $start );
+			$pos_end = strpos( $css_ext, '*/', $start );
+			if ( $pos > $pos_begin && $pos < $pos_end ) {
+				$css_ext = substr_replace( $css_ext, '', $pos_begin, $pos_end - $pos_begin + 2 );
 			}
 			$start = $pos_begin;
-		} while ($pos !== false);
+		} while ( $pos !== false );
 
 		return $css_ext;
 	}
@@ -666,7 +664,7 @@ class Themes_Manager_Settings_Object {
 		if ( file_exists( $this->themes_path . "/{$theme_name}/download" ) )
 			$packages_dir = opendir( $this->themes_path . "/{$theme_name}/download" );
 
-		if ( isset($packages_dir) && $packages_dir ) {
+		if ( isset( $packages_dir ) && $packages_dir ) {
 			while ( $file = readdir( $packages_dir ) ) {
 				if ( $file != '.' && $file != '..' ) {
 					if ( preg_match( '/.zip/', $file ) ) {
@@ -685,16 +683,16 @@ class Themes_Manager_Settings_Object {
 			}
 
 			// Sort array (newest to oldest)
-			krsort($history);
+			krsort( $history );
 
 			// remove packages if their count exceeds 10
-			$to_del = array_slice($history, 10);			
-			foreach ($to_del as $ts => $info) {
-				unset($history[$ts]);
-				if(file_exists($this->themes_path . "/{$theme_name}/download/".$info['c_file']))
-					unlink($this->themes_path . "/{$theme_name}/download/".$info['c_file']);
-				if(file_exists($this->themes_path . "/{$theme_name}/download/".$info['a_file']))
-					unlink($this->themes_path . "/{$theme_name}/download/".$info['a_file']);
+			$to_del = array_slice( $history, 10 );
+			foreach ( $to_del as $ts => $info ) {
+				unset( $history[$ts] );
+				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
+					unlink( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] );
+				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
+					unlink( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] );
 			}
 		}
 
@@ -718,15 +716,15 @@ class Themes_Manager_Settings_Object {
 	function rename_history_packages( $theme_folder = null ) {
 
 		$packages_storage_path = "$this->themes_path/{$theme_folder}/download";
-		if(file_exists( $packages_storage_path ) ) {
+		if ( file_exists( $packages_storage_path ) ) {
 			$download_dir = opendir( $packages_storage_path );
 			while ( $file = readdir( $download_dir ) ) {
 				if ( $file != '.' && $file != '..' ) {
-					$pos = strpos($file, '-(');
-					if($pos > 0) {
-						$old_theme = substr($file, 0, $pos);
-						$new_file = str_replace($old_theme, $theme_folder, $file);
-						rename($packages_storage_path.'/'.$file, $packages_storage_path.'/'.$new_file);
+					$pos = strpos( $file, '-(' );
+					if ( $pos > 0 ) {
+						$old_theme = substr( $file, 0, $pos );
+						$new_file = str_replace( $old_theme, $theme_folder, $file );
+						rename( $packages_storage_path.'/'.$file, $packages_storage_path.'/'.$new_file );
 					}
 				}
 			}

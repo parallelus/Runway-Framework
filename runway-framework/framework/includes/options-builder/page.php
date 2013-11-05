@@ -10,7 +10,7 @@ class page {
 
 		$this->data = json_decode( $json );
 
-	}    
+	}
 
 	// build fields
 	function build_fields( $fields ) {

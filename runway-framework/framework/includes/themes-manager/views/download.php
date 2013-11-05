@@ -92,7 +92,7 @@ else { ?>Not found<?php } ?>
 
 <?php
 // Rebuild package button
-$rebuild_button = $Themes_Manager_Admin->settings_link('Rebuild Download Packages', array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
+$rebuild_button = $html->settings_link('Rebuild Download Packages', array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
 ?>
 
 <p><?php echo $rebuild_button; ?></p>

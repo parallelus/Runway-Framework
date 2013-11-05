@@ -10,8 +10,8 @@ else {
 	if ( !isset( $ApmAdmin->navigation ) || empty( $ApmAdmin->navigation ) )
 		$ApmAdmin->navigation = 'list-pages';
 
-	switch ( $ApmAdmin->navigation ) {		
-		case 'new-page': {
+	switch ( $ApmAdmin->navigation ) {
+	case 'new-page': {
 			$new_page_id = time();
 
 			$page = array(
@@ -32,7 +32,7 @@ else {
 		} break;
 
 		// edit page
-		case 'edit-page': {			
+	case 'edit-page': {
 
 			$page_id = $_GET['page_id'];
 
@@ -40,8 +40,8 @@ else {
 				$page_json = file_get_contents( $pages_dir.$page_id.'.json' );
 				$page = json_decode( $page_json, true );
 
-				$page = $apm->inputs_decode($page);
-				$page_json = addslashes($page_json);
+				$page = $apm->inputs_decode( $page );
+				$page_json = addslashes( $page_json );
 
 				include_once 'views/page-builder.php';
 			} else {
@@ -49,20 +49,20 @@ else {
 			}
 		} break;
 		// list available pages
-		case 'list-pages': {			
+	case 'list-pages': {
 			$pages = $apm->get_pages_list();
 			include_once 'views/list-pages.php';
 
 		} break;
 
-		case 'remove-page': {
+	case 'remove-page': {
 			$apm->del_page( $_GET['page_id'], $pages_dir );
 			$pages = $apm->get_pages_list();
 
 			include_once 'views/list-pages.php';
 		} break;
 
-		case 'duplicate-page': { 
+	case 'duplicate-page': {
 
 			$page_id = $_GET['page_id'];
 
@@ -72,12 +72,12 @@ else {
 
 				$page->settings->page_id = time();
 				$page->settings->title = $page->settings->title . ' (copy)';
-				$new_alias = sanitize_title($page->settings->title);
+				$new_alias = sanitize_title( $page->settings->title );
 				$alias_ = $new_alias;
-				get_copy_alias($new_alias);
+				get_copy_alias( $new_alias );
 				$page->settings->alias = $alias_;
 
-				$page_json = json_encode($page);
+				$page_json = json_encode( $page );
 				file_put_contents( $pages_dir.$page->settings->page_id.'.json', $page_json );
 
 				$pages = $apm->get_pages_list();
@@ -89,7 +89,7 @@ else {
 			include_once 'views/list-pages.php';
 		} break;
 
-		case 'reset-fields-page':{
+	case 'reset-fields-page':{
 			$page = json_decode( file_get_contents( $pages_dir.$_GET['page_id'].'.json' ) );
 			$theme = rw_get_theme_data();
 			delete_option( $theme['Folder'].'_'.$page->settings->alias );
@@ -98,25 +98,25 @@ else {
 			include_once 'views/list-pages.php';
 		} break;
 
-		default : {
+	default : {
 			include_once 'views/list-pages.php';
 		} break;
 	}
 }
 
-function get_copy_alias($alias){
+function get_copy_alias( $alias ) {
 	global $apm, $alias_;
 	$pages = $apm->get_pages_list();
 	$check_sum = 0;
-	foreach ($pages as $page) {
-		if($alias == $page->settings->alias){
+	foreach ( $pages as $page ) {
+		if ( $alias == $page->settings->alias ) {
 			$check_sum++;
 		}
 	}
 
-	if($check_sum > 0){	
+	if ( $check_sum > 0 ) {
 		$alias_ = $alias_.'-copy';
-		get_copy_alias($alias.'-copy');			
+		get_copy_alias( $alias.'-copy' );
 	}
 }
 ?>

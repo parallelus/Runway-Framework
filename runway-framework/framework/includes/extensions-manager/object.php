@@ -24,7 +24,7 @@ class ExtmSettingsObject extends Runway_Object {
 	public $extensions_dir, $theme_name, $admin_settings, $themes_path, $ext_manager_load_file, $core_extensions,
 	$data_dir, $option_key, $extensions_List;
 
-	function __construct($settings) {
+	function __construct( $settings ) {
 		// global $settings;
 		$this->option_key = $settings['option_key'];
 		$this->core_extensions = get_template_directory() . '/framework/includes/';
@@ -239,14 +239,14 @@ class ExtmSettingsObject extends Runway_Object {
 		$ext_data = $this->get_extension_data( $this->extensions_dir . $extension );
 		if ( $this->resolution_to_action( $ext_data['DepsExts'] ) ) {
 			$this->admin_settings['extensions'][$this->theme_name]['unactive'] = array_filter(
-				(array)$this->admin_settings['extensions'][$this->theme_name]['unactive'], 
-				function($elm) use ($extension){
-					if($elm != $extension){
+				(array)$this->admin_settings['extensions'][$this->theme_name]['unactive'],
+				function( $elm ) use ( $extension ) {
+					if ( $elm != $extension ) {
 						return $elm;
 					}
 				}
 			);
-			unset($this->admin_settings['extensions'][$this->theme_name]['unactive'][urldecode( $extension )]);
+			unset( $this->admin_settings['extensions'][$this->theme_name]['unactive'][urldecode( $extension )] );
 			$this->admin_settings['extensions'][$this->theme_name]['active'][] = urldecode( $extension );
 			$this->admin_settings['extensions'][$this->theme_name]['active'] = array_unique( $this->admin_settings['extensions'][$this->theme_name]['active'] );
 			update_option( $this->option_key, $this->admin_settings );
@@ -324,8 +324,7 @@ class ExtmSettingsObject extends Runway_Object {
 				if ( is_dir( $exts_dir . '/' . $file ) ) {
 					$plugins_subdir = @ opendir( $exts_dir . '/' . $file );
 					if ( $plugins_subdir ) {
-						while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) 
-						{
+						while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
 							if ( substr( $subfile, 0, 1 ) == '.' )
 								continue;
 							if ( substr( $subfile, -4 ) == '.php' )
@@ -370,34 +369,34 @@ class ExtmSettingsObject extends Runway_Object {
 	 * @param bool    $translate
 	 * @return array|string
 	 */
-function get_extension_data( $ext_file ) {
+	function get_extension_data( $ext_file ) {
 
-	$default_headers = array(
-		'Name' => 'Extension Name',
-		'ExtensionURI' => 'Extension URI',
-		'Version' => 'Version',
-		'Description' => 'Description',
-		'Author' => 'Author',
-		'AuthorURI' => 'Author URI',
-		'TextDomain' => 'Text Domain',
-		'DomainPath' => 'Domain Path',
-		// 'Network' => 'Network',
-		// '_sitewide' => 'Site Wide Only',
-		'DepsExts' => 'Dependence Extensions',
-	);
-	$ext_data = array();
-	$ext_data = get_file_data( $ext_file, $default_headers );	
-	
-	$ext_data['Title'] = $ext_data['Name'];
-	$ext_data['AuthorName'] = $ext_data['Author'];
+		$default_headers = array(
+			'Name' => 'Extension Name',
+			'ExtensionURI' => 'Extension URI',
+			'Version' => 'Version',
+			'Description' => 'Description',
+			'Author' => 'Author',
+			'AuthorURI' => 'Author URI',
+			'TextDomain' => 'Text Domain',
+			'DomainPath' => 'Domain Path',
+			// 'Network' => 'Network',
+			// '_sitewide' => 'Site Wide Only',
+			'DepsExts' => 'Dependence Extensions',
+		);
+		$ext_data = array();
+		$ext_data = get_file_data( $ext_file, $default_headers );
 
-	if ( $ext_data['DepsExts'] ) {
-		$ext_data['DepsExts'] = explode( ',', $ext_data['DepsExts'] );
+		$ext_data['Title'] = $ext_data['Name'];
+		$ext_data['AuthorName'] = $ext_data['Author'];
+
+		if ( $ext_data['DepsExts'] ) {
+			$ext_data['DepsExts'] = explode( ',', $ext_data['DepsExts'] );
+		}
+
+		return $ext_data;
+
 	}
-
-	return $ext_data;
-
-}
 
 	/**
 	 * Deleting extension function
@@ -429,19 +428,19 @@ function get_extension_data( $ext_file ) {
 	}
 
 	function get_active_extensions_list( $theme_name ) {
-		$theme_name = strtolower($theme_name);
+		$theme_name = strtolower( $theme_name );
 		$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ?
-			$this->admin_settings['extensions'][$theme_name]['active'] : 
+			$this->admin_settings['extensions'][$theme_name]['active'] :
 			$this->admin_settings['extensions']['runway-framework'];
 		return (array)$exts_list;
 
 	}
 
-	function get_desible_extensions_list($theme_name){
-		$exts = $this->get_extensions_list($this->extensions_dir);
+	function get_desible_extensions_list( $theme_name ) {
+		$exts = $this->get_extensions_list( $this->extensions_dir );
 		$desible = array();
-		foreach ($exts as $extension => $extension_info) {
-			if(!$this->is_activated($extension)){
+		foreach ( $exts as $extension => $extension_info ) {
+			if ( !$this->is_activated( $extension ) ) {
 				$desible[$extension] = $extension_info;
 			}
 		}
@@ -456,14 +455,13 @@ function get_extension_data( $ext_file ) {
 		do_action( 'before_load_extension' );
 		$zip = new ZipArchive();
 
-		if ( file_exists( $file )) 
-		{
-			if(is_writable( $this->extensions_dir )){	
-				$zip->open($file);
-				if(!$zip->extractTo( $this->extensions_dir )){
+		if ( file_exists( $file ) ) {
+			if ( is_writable( $this->extensions_dir ) ) {
+				$zip->open( $file );
+				if ( !$zip->extractTo( $this->extensions_dir ) ) {
 					return 'Install error: '.$zip->getStatusString();
 				}
-				else{
+				else {
 					$ext = explode( '/', $zip->getNameIndex( 0 ) );
 					$ext = $ext[0].'/load.php';
 					$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
@@ -475,7 +473,7 @@ function get_extension_data( $ext_file ) {
 					else {
 						return 'Install error: '.$zip->getStatusString();
 					}
-					
+
 				}
 			}
 			else return 'Extensions directory must be writable';
@@ -488,7 +486,7 @@ function get_extension_data( $ext_file ) {
 		}
 		else {
 			if ( is_writable( $this->extensions_dir ) ) {
-				
+
 				$zip->open( $ext_file['file'] );
 				$ext = explode( '/', $zip->getNameIndex( 0 ) );
 				// out($ext_file);
@@ -516,10 +514,10 @@ function get_extension_data( $ext_file ) {
 
 	}
 
-	public function is_install($extension_key){
+	public function is_install( $extension_key ) {
 		$extension = $extension_key.'/load.php';
-		$ext_list = $this->get_extensions_list($this->extensions_dir);
-		if(isset($ext_list[$extension])){
+		$ext_list = $this->get_extensions_list( $this->extensions_dir );
+		if ( isset( $ext_list[$extension] ) ) {
 			return true;
 		}
 		else return false;

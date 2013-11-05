@@ -58,25 +58,25 @@ function test_requested() {
 
 add_action( 'wp_ajax_test', 'test_requested' );
 
-add_action('add_report', 'download_directory_report');
+add_action( 'add_report', 'download_directory_report' );
 
-function download_directory_report($reports_object){
+function download_directory_report( $reports_object ) {
     $upload_dir = wp_upload_dir( );
     $downloads_tmp_dir = $upload_dir['basedir'].'/download_dir/';
-    $reports_object->assign_report(array(
-        'source' => 'Download Directory',
-        'report_key' => 'download_tmp_dir_exists',
-        'path' => $downloads_tmp_dir,
-        'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') exists.',
-        'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') does not exist.',
-    ), 'DIR_EXISTS' );
+    $reports_object->assign_report( array(
+            'source' => 'Download Directory',
+            'report_key' => 'download_tmp_dir_exists',
+            'path' => $downloads_tmp_dir,
+            'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') exists.',
+            'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') does not exist.',
+        ), 'DIR_EXISTS' );
 
-    $reports_object->assign_report(array(
-        'source' => 'Download Directory',
-        'report_key' => 'download_tmp_dir_writable',
-        'path' => $downloads_tmp_dir,
-        'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') is writable.',
-        'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') is not writable.',
-    ), 'IS_WRITABLE' ); 
+    $reports_object->assign_report( array(
+            'source' => 'Download Directory',
+            'report_key' => 'download_tmp_dir_writable',
+            'path' => $downloads_tmp_dir,
+            'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') is writable.',
+            'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') is not writable.',
+        ), 'IS_WRITABLE' );
 }
 ?>

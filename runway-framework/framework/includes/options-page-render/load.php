@@ -34,24 +34,24 @@ if ( !empty( $pages ) ) {
 	foreach ( $pages as $page ) {
 
 		$alias = $page->settings->alias;
-		$page_options[$alias] = $form_builder->prepare_form($page);
-		$settings = $form_builder->make_settings($page_options[$alias]);
-		
+		$page_options[$alias] = $form_builder->prepare_form( $page );
+		$settings = $form_builder->make_settings( $page_options[$alias] );
+
 		global ${$page_options[$alias]['object']}, ${$page_options[$alias]['admin_object']};
 
 		// Using a variable variabel, ${$options['obj_name']}, we can assign the new ojbect on the fly
-		require_once 'object.php';		
+		require_once 'object.php';
 		${$page_options[$alias]['object']} = new Generic_Settings_Object( $settings );
 
 		if ( is_admin() ) {
 			// Setup admin object
-			require_once 'settings-object.php';				
-			${$page_options[$alias]['admin_object']} = new Generic_Admin_Object( $settings );	
-			${$page_options[$alias]['admin_object']}->dir = plugin_dir_path(__FILE__);
-		}	
+			require_once 'settings-object.php';
+			${$page_options[$alias]['admin_object']} = new Generic_Admin_Object( $settings );
+			${$page_options[$alias]['admin_object']}->dir = plugin_dir_path( __FILE__ );
+		}
 
-		$form_builder->add_page_to_pages_list($page);
-		
+		$form_builder->add_page_to_pages_list( $page );
+
 		do_action( 'options_page_render_is_load' );
 	}
 
@@ -62,7 +62,7 @@ if ( !empty( $pages ) ) {
 
 			// Get the current page info
 			$alias = $_GET['page'];
-			$current = (isset($page_options[$alias])) ? $page_options[$alias] : '';
+			$current = ( isset( $page_options[$alias] ) ) ? $page_options[$alias] : '';
 			$template = get_template(); // The parent theme
 
 			// If this is a child theme and $page_options[$alias] exists...

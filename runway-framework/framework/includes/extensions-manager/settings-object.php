@@ -6,7 +6,7 @@ class Extm_Admin extends Runway_Admin_Object {
 	function add_actions() {
 
 		add_action( 'init', array( $this, 'init' ) );
-		
+
 	}
 
 	function init() {

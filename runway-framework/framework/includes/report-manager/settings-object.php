@@ -5,8 +5,8 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 
 	// Add hooks & crooks
 	function add_actions() {
-		add_action( 'init', array( $this, 'init' ) );		
-	}	
+		add_action( 'init', array( $this, 'init' ) );
+	}
 
 	function init() {
 
@@ -20,14 +20,14 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 		/* nothing */
 	}
 
-	function validate_sumbission() {        
-					
+	function validate_sumbission() {
+
 		return true;
-		
+
 	}
-	
+
 	function load_objects() {
-		
+
 	}
 
 }

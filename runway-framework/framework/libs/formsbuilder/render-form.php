@@ -39,7 +39,7 @@ if ( is_object( $sortOrder ) ) :
 
 $options_object->keys  = '_framework,'.$options_object->option_key;
 
-$options_object->settings_form_header( $form_link );
+$options_object->html->settings_form_header( $form_link );
 
 $tabs_count = count( (array)$sortOrder );
 $first_tab = true;
@@ -100,8 +100,8 @@ if ( !empty( $fields ) ) :
 
 	$title = stripslashes( __( htmlspecialchars_decode( $elements->$field->title ), 'framework' ) );
 
-$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
-$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
+$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
+$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
 
 if ( $developerMode ) {
 	if ( $custom_alias != null ) {
@@ -129,7 +129,7 @@ $row = array(
 	$field . $fieldCaption,
 );
 
-$options_object->setting_row( $row );
+$options_object->html->setting_row( $row );
 endforeach;
 endif;
 

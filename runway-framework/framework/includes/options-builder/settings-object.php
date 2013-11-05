@@ -30,6 +30,6 @@ class Apm_Admin extends Runway_Admin_Object {
 		/*global $apm;
 		$this->data = $apm->load_objects();
 		return $this->data;*/
-	}	
+	}
 }
 ?>

@@ -69,13 +69,12 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 	<table class="form-table">
 
 		<?php
-
-$row = array( __( 'Title', 'framework' ) . $required, $Themes_Manager_Admin->settings_input( 'theme_options[Name]', isset( $Name ) ? $Name : '' ) );
-$Themes_Manager_Admin->setting_row( $row );
+$row = array( __( 'Title', 'framework' ) . $required, $html->settings_input( 'theme_options[Name]', isset( $Name ) ? $Name : '' ) );
+$html->setting_row( $row );
 
 $row = array( 
 	__( 'Menu icon', 'framework' ) . $required, 
-		$Themes_Manager_Admin->settings_select( 'theme_options[Icon]', 
+		$html->settings_select( 'theme_options[Icon]', 
 			array(
 			'' => 'Default Generic icon',
 			'menu-icon-dashboard' => 'Dashboard icon',
@@ -93,7 +92,7 @@ $row = array(
 		),
 	isset( $Icon ) ? $Icon : null ), 
 );
-$Themes_Manager_Admin->setting_row( $row );
+$html->setting_row( $row );
 
 ?>		<tr class = 'choose-another' style="display: none;">
 			<td>Custom icon:</td>
@@ -109,23 +108,23 @@ $Themes_Manager_Admin->setting_row( $row );
 		</tr>
 <?php
 $comment = __( 'An optional webpage associated with the theme.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'Theme URI', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[URI]', isset( $URI ) ? $URI : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Theme URI', 'framework' ), $html->settings_input( 'theme_options[URI]', isset( $URI ) ? $URI : '' ) . $comment );
+$html->setting_row( $row );
 
-$row = array( __( 'Description', 'framework' ), $Themes_Manager_Admin->settings_textarea( 'theme_options[Description]', isset( $Description ) ? $Description : '' ) );
-$Themes_Manager_Admin->setting_row( $row );
+$row = array( __( 'Description', 'framework' ), $html->settings_textarea( 'theme_options[Description]', isset( $Description ) ? $Description : '' ) );
+$html->setting_row( $row );
 
-$row = array( __( 'Author name', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[AuthorName]', isset( $AuthorName ) ? $AuthorName : '' ) );
-$Themes_Manager_Admin->setting_row( $row );
+$row = array( __( 'Author name', 'framework' ), $html->settings_input( 'theme_options[AuthorName]', isset( $AuthorName ) ? $AuthorName : '' ) );
+$html->setting_row( $row );
 
 $comment = __( 'An optional link to the author\'s website.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'Author URI', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[AuthorURI]', isset( $AuthorURI ) ? $AuthorURI : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Author URI', 'framework' ), $html->settings_input( 'theme_options[AuthorURI]', isset( $AuthorURI ) ? $AuthorURI : '' ) . $comment );
+$html->setting_row( $row );
 
-$row = array( __( 'Version', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[Version]', isset( $Version ) ? $Version : '' ) );
-$Themes_Manager_Admin->setting_row( $row );
+$row = array( __( 'Version', 'framework' ), $html->settings_input( 'theme_options[Version]', isset( $Version ) ? $Version : '' ) );
+$html->setting_row( $row );
 
 
 if ( isset( $Tags ) && is_array( $Tags ) ) {
@@ -133,14 +132,14 @@ if ( isset( $Tags ) && is_array( $Tags ) ) {
 }
 
 $comment = __( 'Keywords and template tags associated with this theme', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'Tags', 'framework' ), $Themes_Manager_Admin->settings_textarea( 'theme_options[Tags]', isset( $Tags ) ? $Tags : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Tags', 'framework' ), $html->settings_textarea( 'theme_options[Tags]', isset( $Tags ) ? $Tags : '' ) . $comment );
+$html->setting_row( $row );
 
 $comment = __( 'Optional notes to leave in the style.css file.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'Comments', 'framework' ), $Themes_Manager_Admin->settings_textarea( 'theme_options[Comments]', isset( $Comments ) ? $Comments : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Comments', 'framework' ), $html->settings_textarea( 'theme_options[Comments]', isset( $Comments ) ? $Comments : '' ) . $comment );
+$html->setting_row( $row );
 ?>
 
 		<tr>
@@ -171,19 +170,19 @@ if ( isset( $Folder ) ) { ?>
 				<table class="form-table">
 					<?php
 $comment = __( 'Select the folder name for the theme.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'Folder name', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[Folder]', isset( $Folder ) ? $Folder : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Folder name', 'framework' ), $html->settings_input( 'theme_options[Folder]', isset( $Folder ) ? $Folder : '' ) . $comment );
+$html->setting_row( $row );
 
 $comment = __( 'Optional. Specify a license for the theme.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'License', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[License]', isset( $License ) ? $License : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'License', 'framework' ), $html->settings_input( 'theme_options[License]', isset( $License ) ? $License : '' ) . $comment );
+$html->setting_row( $row );
 
 $comment = __( 'An optional link to the license details.', 'framework' );
-$comment = $Themes_Manager_Admin->format_comment( $comment );
-$row = array( __( 'License URI', 'framework' ), $Themes_Manager_Admin->settings_input( 'theme_options[LicenseURI]', isset( $LicenseURI ) ? $LicenseURI : '' ) . $comment );
-$Themes_Manager_Admin->setting_row( $row );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'License URI', 'framework' ), $html->settings_input( 'theme_options[LicenseURI]', isset( $LicenseURI ) ? $LicenseURI : '' ) . $comment );
+$html->setting_row( $row );
 
 ?>
 				</table>
@@ -194,7 +193,7 @@ $Themes_Manager_Admin->setting_row( $row );
 	<?php 
 
 	// Save button
-	$submitText = ($Themes_Manager_Admin->navigation == 'new-theme') ? __( 'Create Theme', 'framework' )  : __( 'Update', 'framework' ); 
+	$submitText = ($html->navigation == 'new-theme') ? __( 'Create Theme', 'framework' )  : __( 'Update', 'framework' ); 
 	echo '<input class="button-primary" type="submit" value="'.$submitText.'">';
 
 	?>
