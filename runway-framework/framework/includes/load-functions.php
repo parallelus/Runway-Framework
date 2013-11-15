@@ -237,28 +237,14 @@ function get_extensions() {
 	return $extensions;
 }
 
-function theme_option_filter() {
-
+function theme_option_filter($pre) {
 	global $wp_current_filter, $shortname;
-	// check if current option is runway extension option
-	$is_runway_option = false;
-	$option_key = '';
-
-	foreach ( $wp_current_filter as $filter ) {
-		if ( strstr( $filter, 'pre_option_'.$shortname ) ) {
-			// prevent loop
-			if ( $is_runway_option )
-				return false;
-			else
-				$is_runway_option = true;
-
-			// get option key
-			$option_key = str_replace( 'pre_option_', '', $filter );
-		}
-	}
 
 	// if current options is from runway extension
-	if ( $is_runway_option ) {
+	if ( strstr( $wp_current_filter[0], 'pre_option_'.$shortname ) ) {
+		
+		$option_key = str_replace( 'pre_option_', '', $wp_current_filter[0] );
+
 		// get option from database (the same way as wordpress default)
 		global $wpdb;
 
@@ -272,12 +258,18 @@ function theme_option_filter() {
 		}
 		else {
 			// else search this option in /data folder (situation when user move extension or theme manually)
-			$extension_name = str_replace( $shortname, '', $option_key );
-			$extension_json_settings = THEME_DIR.'/data/'.$extension_name.'.json';
+			$extension_json_settings = THEME_DIR.'/data/'.$option_key.'.json';
 			if ( file_exists( $extension_json_settings ) ) {
 				// if have option save it into database
-				$value = json_decode( file_get_contents( $extension_json_settings ), true );
-				update_option( $option_key, $value );
+				$value = json_decode( file_get_contents( $extension_json_settings ), true );				
+
+				$result = $wpdb->insert( 
+					$wpdb->options, 
+					array( 
+						'option_value' => maybe_serialize($value),
+						'option_name' => $option_key
+					)
+				);
 				return $value;
 			} else {
 				// else search default options in extension folder (situation when this extension
@@ -302,48 +294,33 @@ function theme_option_filter() {
 
 }
 
-function theme_option_dual_save_filter( $newvalue ) {
-
+function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 	global $wp_current_filter, $shortname;
 
 	// check if current option is runway extension option
 	$is_runway_option = false;
-	$option_key = '';
-
-	foreach ( $wp_current_filter as $filter ) {
-		if ( strstr( $filter, 'pre_update_option_'.$shortname ) ) {
-			// prevent loop
-			if ( $is_runway_option )
-				return false;
-			else
-				$is_runway_option = true;
-			// get option key
-			$option_key = str_replace( 'pre_update_option_', '', $filter );
-		}
-	}
+	$option_key = $option;
 
 	// if current options is from runway extension
-	if ( $is_runway_option ) {
+	if ( $option_key != '' && strstr( $option, $shortname ) ) {
 		global $wpdb;
-
-		$option = $option_key;
-
-		$oldvalue = get_option( $option );
 
 		if ( false === $oldvalue ) {
 			add_option( $option, $newvalue );
-			return false;
 		}
 
+		// wp_die(out($newvalue));
 		$result = $wpdb->update( $wpdb->options, array( 'option_value' => maybe_serialize( $newvalue ) ), array( 'option_name' => $option ) );
 
 		$extension_name = str_replace( $shortname, '', $option_key );
+
 		// convert option new value from php serialized to JSON format
 		$newvalue = maybe_unserialize( $newvalue );
 		$newvalue_json = json_encode( $newvalue );
+
 		// save updated option to file in /data folder
 		if ( is_writable( THEME_DIR.'data/' ) ) {
-			file_put_contents( THEME_DIR.'data/'.str_replace( '-', '_', $extension_name ).'.json', $newvalue_json );
+			file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
 	}
 
@@ -486,5 +463,4 @@ if ( !function_exists( 'after_functions_file' ) ) :
 	}
 add_action( 'functions_after', 'after_functions_file' );
 endif;
-
 ?>
