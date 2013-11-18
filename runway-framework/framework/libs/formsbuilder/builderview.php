@@ -89,13 +89,13 @@
 								<div class="major-publishing-actions">
 									<div class="elements-list tabIn">
 										<div id="add-tab" class="new-element ntab button" data-type='tab' <?php if(!$this->resolutions['options-tabs']){ echo 'style="display:none;"'; } ?>>
-											<img src="%3C?php%20echo%20FRAMEWORK_URL%20?%3Eframework/images/add-icon.png"> <?php _e( 'Tab', 'framework' ); ?>
+											<img src="<?php echo FRAMEWORK_URL ?>framework/images/add-icon.png"> <?php _e( 'Tab', 'framework' ); ?>
 										</div>
 										<div id="add-container" class="new-element ncontainer button" data-type='container' <?php if(!$this->resolutions['options-containers']){ echo 'style="display:none;"'; } ?>>
-											<img src="%3C?php%20echo%20FRAMEWORK_URL%20?%3Eframework/images/add-icon.png"> <?php _e( 'Container', 'framework' ); ?>
+											<img src="<?php echo FRAMEWORK_URL ?>framework/images/add-icon.png"> <?php _e( 'Container', 'framework' ); ?>
 										</div>
 										<div id="add-field" class="new-element nfield button" data-type='field' <?php if(!$this->resolutions['options-fields']){ echo 'style="display:none;"'; } ?>>
-											<img src="%3C?php%20echo%20FRAMEWORK_URL%20?%3Eframework/images/add-icon.png"> <?php _e( 'Field', 'framework' ); ?>
+											<img src="<?php echo FRAMEWORK_URL ?>framework/images/add-icon.png"> <?php _e( 'Field', 'framework' ); ?>
 										</div>
 										<p class="info">
 											<?php _e( 'Drag or click to add elements to the page below.', 'framework' ); ?>
