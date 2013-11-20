@@ -104,6 +104,11 @@
 											<a class="expand-all" href="#">Expand all</a> / <a class="collapse-all" href="#">Collapse all</a>
 										</p>
 									</div>
+									<?php 
+										if( isset( $_GET['saved_options'] ) ) {
+											echo '<div id="setting-error-settings_updated" class="updated settings-error"><p><strong>Settings saved.</strong></p></div>';
+										}  
+									?>
 									<div class="major-publishing-actions">
 										<div class="publishing-action">
 											<input type="submit" class="button-primary save-button" value="<?php _e( 'Save Settings', 'framework' ); ?>">
