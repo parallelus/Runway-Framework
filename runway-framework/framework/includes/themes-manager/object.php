@@ -1,5 +1,8 @@
 <?php
-define( 'DS', DIRECTORY_SEPARATOR ); // I always use this short form in my code.
+if (!defined('DS')) {
+    define( 'DS', DIRECTORY_SEPARATOR ); // I always use this short form in my code.
+} 
+
 
 /**
  * Themes_Manager_Settings_Object
