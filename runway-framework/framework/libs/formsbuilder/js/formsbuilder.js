@@ -1008,7 +1008,7 @@ var system_vars_definition = ['template', 'index'];
                             }
                         });
                         ajax_result = $.parseJSON(response);
-                        window.location = ajax_result.reload_url+'&saved_options=true';
+                        window.location = ajax_result.reload_url;
                     });
                   
 

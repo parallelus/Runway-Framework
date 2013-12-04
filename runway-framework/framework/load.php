@@ -57,11 +57,12 @@ if ( PHP_VERSION_ID >= 50301 ) {
 	// Set filters on get option and update option for all forms, which build with FormsBuilder
 	//................................................................
 	$forms = new FormsBuilder();
-	foreach ($forms->options_pages as $key => $value) {
-		$key = $shortname.$key;
-		add_filter( 'pre_option_'.$key, 'theme_option_filter', 10, 1 );
-		add_action( 'update_option', 'theme_option_dual_save_filter', 10, 3 );
-	}
+	if( ! empty( $forms->options_pages ) )	
+		foreach ($forms->options_pages as $key => $value) {
+			$key = $shortname.$key;
+			add_filter( 'pre_option_'.$key, 'theme_option_filter', 10, 1 );
+			add_action( 'update_option', 'theme_option_dual_save_filter', 10, 3 );
+		}
 
 	// TODO: add filters to all pages created with FormsBuilder
 

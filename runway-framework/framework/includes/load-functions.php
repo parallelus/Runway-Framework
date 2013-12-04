@@ -276,16 +276,18 @@ function theme_option_filter($pre) {
 				// was never being installed or need to reset settings to default)
 
 				$extensions = get_extensions();
-				$extension_path = $extensions[str_replace( '_', '-', $extension_name )];
+				$extension_name = str_replace( $shortname, '', $option_key );
+				if(isset( $extensions[str_replace( '_', '-', $extension_name )] )) {
+					$extension_path = $extensions[str_replace( '_', '-', $extension_name )];
+					$default_settings_file = $extension_path . '/default-settings.json';
 
-				$default_settings_file = $extension_path . '/default-settings.json';
-
-				if ( file_exists( $default_settings_file ) ) {
-					// copy and rename default settings JSON into /data folder
-					copy( $default_settings_file, $extension_json_settings );
-					$value = json_decode( file_get_contents( $extension_json_settings ), true );
-					// save default settings into database
-					update_option( $option_key, $value );
+					if ( file_exists( $default_settings_file ) ) {
+						// copy and rename default settings JSON into /data folder
+						copy( $default_settings_file, $extension_json_settings );
+						$value = json_decode( file_get_contents( $extension_json_settings ), true );
+						// save default settings into database
+						update_option( $option_key, $value );
+					}
 				}
 			}
 		}
@@ -399,11 +401,11 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 }
 
 function custom_theme_menu_icon() {
-	global $menu, $submenu, $developer_tools; $theme = rw_get_theme_data();
+	global $menu, $submenu, $Themes_Manager; $theme = rw_get_theme_data();
 
-	if ( isset( $menu, $developer_tools, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
+	if ( isset( $menu, $Themes_Manager, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
 		unset( $submenu['current-theme']['current-theme'] ); // Delete duplicate of theme name
-		$options = $developer_tools->load_settings( $theme['Folder'] );
+		$options = $Themes_Manager->load_settings( $theme['Folder'] );
 		$themeKey = null;
 		foreach ( $menu as $key => $values ) {
 			if ( $menu[$key][0] == $theme['Title'] ) {
@@ -426,7 +428,7 @@ function custom_theme_menu_icon() {
 add_action( 'admin_head', 'custom_theme_menu_icon' );
 
 function activate_default_child_theme() {
-	global $pagenow, $developer_tools;
+	global $pagenow;
 	$theme = rw_get_theme_data();
 	if ( is_admin() && $pagenow != 'admin.php' && $pagenow == 'themes.php' && isset( $_GET['activated'] ) && $theme['Folder'] == 'runway-framework' ) {
 		wp_redirect( 'admin.php?page=themes&activate-default=activate' );

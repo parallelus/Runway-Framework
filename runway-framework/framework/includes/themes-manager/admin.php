@@ -1,10 +1,10 @@
 	<?php
 
-global $developer_tools, $Themes_Manager_Admin, $extm;
+global $developer_tools, $Themes_Manager, $extm;
 $extensions_dir = TEMPLATEPATH . '/framework/extensions/';
 
 $required = '<em class="required">' . __( 'Required', THEME_NAME ) . '</em>';
-$_data = $Themes_Manager_Admin->data;
+$_data = $developer_tools->data;
 
 $themes_path = explode( '/', TEMPLATEPATH );
 unset( $themes_path[count( $themes_path ) - 1] );
@@ -35,7 +35,7 @@ case 'do-package': {
 
 		if ( isset( $_REQUEST['name'] ) ) {
 			$vals['developer_tools'] = $developer_tools;
-			$vals['Themes_Manager_Admin'] = $Themes_Manager_Admin;
+			$vals['Themes_Manager_Admin'] = $developer_tools;
 			$this->view( 'download', false, $vals );
 		} else {
 			echo 'oops...';
@@ -47,7 +47,7 @@ case 'do-download': {
 		$history = $theme_settings['History'];
 
 		$vals['developer_tools'] = $developer_tools;
-		$vals['Themes_Manager_Admin'] = $Themes_Manager_Admin;
+		$vals['Themes_Manager_Admin'] = $developer_tools;
 		$this->view( 'download', false, $vals );
 	} break;
 
@@ -92,7 +92,10 @@ case 'edit-theme': {
 				$alone_package_download_url = $developer_tools->build_alone_theme( $options['Folder'], $ts );
 				$child_package_download_url = $developer_tools->build_child_package( $options['Folder'], $ts );
 				$developer_tools->make_package_info_from_ts( $options['Folder'], $ts );
-				require_once 'views/themes-list.php';
+
+				$link = home_url().'/wp-admin/admin.php?page=themes';
+    			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
+    			echo $redirect;
 			}
 		} else {
 			$this->view( 'theme-conf' );

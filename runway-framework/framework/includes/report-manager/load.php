@@ -36,12 +36,12 @@ $settings = array(
 // Required components
 include 'object.php';
 
-$reports = new Reports_Object( $settings );
+$reports_admin = new Reports_Object( $settings );
 
 // Load admin components
 if ( is_admin() ) {
 	include 'settings-object.php';
-	$reports_admin = new Reports_Admin_Object( $settings );
+	$reports = new Reports_Admin_Object( $settings );
 }
 
 // Setup a custom button in the title

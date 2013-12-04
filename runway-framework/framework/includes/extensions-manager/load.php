@@ -31,14 +31,16 @@ $settings = array(
 );
 
 // Required components
-include 'object.php';
+include_once 'object.php';
 
-$extm = new ExtmSettingsObject( $settings );
+$Extm_Settings = new ExtmSettingsObject( $settings );
 
 // Load admin components
 if ( is_admin() ) {
-	include 'settings-object.php';
-	$Extm_Admin = new Extm_Admin( $settings );
+	include_once 'settings-object.php';
+	$extm = new Extm_Admin( $settings );
+}else {
+	$extm = new ExtmSettingsObject( $settings );
 }
 do_action( 'extension_manager_is_load' );
 

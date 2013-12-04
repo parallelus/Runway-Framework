@@ -32,7 +32,7 @@ if (!count($history) || $action == 'rebuild') {
 
 // Breadcrumbs
 $navName = ($name) ? ': '.$name : '';
-$Themes_Manager_Admin->navigation_bar( array('Download'.$navName) );
+$developer_tools->navigation_bar( array('Download'.$navName) );
 
 
 // Show the current package (most recent)
@@ -157,7 +157,7 @@ if ( $history ) { ?>
 					</td>
 					<td>
 						<!--.'&name=liftoff&action=delete-package&package='.$package['exp']-->
-						<p><a href="<?php echo $Themes_Manager_Admin->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>"><?php _e('Delete', 'framework'); ?></a></p>
+						<p><a href="<?php echo $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>"><?php _e('Delete', 'framework'); ?></a></p>
 					</td>
 				</tr>
 			<?php }

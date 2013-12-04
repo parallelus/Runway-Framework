@@ -1,5 +1,5 @@
 <?php 
-global $ApmAdmin, $help_tabs_admin;
+global $help_tabs_admin;
 // Breadcrumbs
 //................................................................
 
@@ -11,7 +11,7 @@ if ( $_GET['navigation'] == 'new-page' ) {
 	$breadcrumb = __( 'Edit: ', 'framework' ). $page['settings']['title'];
 }
 // Set breadcrumbs
-$ApmAdmin->navigation_bar( array( $breadcrumb ) );
+$this->navigation_bar( array( $breadcrumb ) );
 
 ?>
 

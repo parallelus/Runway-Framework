@@ -5,7 +5,7 @@ if ( $info_message != '' ) {
 }
 
 $ext_inactive_status = '';
-switch ( $Extm_Admin->navigation ) {
+switch ( $this->navigation ) {
 	case ( 'inactive' ):{
 		$ext_inactive_status = 'class="current"';
 		

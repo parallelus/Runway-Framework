@@ -1,6 +1,6 @@
 <?php
 
-global $developer_tools, $Themes_Manager_Admin;
+global $developer_tools, $Themes_Manager;
 // Look up theme data
 if ( isset( $_REQUEST['name'] ) && !isset( $options ) ) {
 	$options = $developer_tools->load_settings( $_REQUEST['name'] );
@@ -15,8 +15,8 @@ $Name = (isset($Name)) ? $Name : '';
 
 // Beadcrumbs
 $navEdit = ($Name) ? __( 'Edit', 'framework' ) .": ". $Name : __( 'Edit Theme', 'framework' );
-$navText = ($Themes_Manager_Admin->navigation == 'edit-theme') ? $navEdit  : __( 'Create new', 'framework' );
-$Themes_Manager_Admin->navigation_bar( array($navText) );
+$navText = ($developer_tools->navigation == 'edit-theme') ? $navEdit  : __( 'Create new', 'framework' );
+$developer_tools->navigation_bar( array($navText) );
 
 $required = '<p class="description required">' . __( 'Required', 'framework' ) . '</p>';
 ?>
@@ -193,7 +193,7 @@ $html->setting_row( $row );
 	<?php 
 
 	// Save button
-	$submitText = ($html->navigation == 'new-theme') ? __( 'Create Theme', 'framework' )  : __( 'Update', 'framework' ); 
+	$submitText = ($html->object->navigation == 'new-theme') ? __( 'Create Theme', 'framework' )  : __( 'Update', 'framework' ); 
 	echo '<input class="button-primary" type="submit" value="'.$submitText.'">';
 
 	?>

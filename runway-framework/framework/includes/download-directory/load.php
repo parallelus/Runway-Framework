@@ -38,17 +38,17 @@ $settings = array(
     ),
 );
 
-global $directory, $Directory_Admin;
+global $directory, $Directory_Settings;
 
 // Required components
 include 'object.php';
 
-$directory = new Directory_Settings_Object( $settings );
+$Directory_Settings = new Directory_Settings_Object( $settings );
 
 // Load admin components
 if ( is_admin() ) {
     include 'settings-object.php';
-    $Directory_Admin = new Directory_Admin( $settings );
+    $directory = new Directory_Admin( $settings );
 }
 
 function test_requested() {

@@ -1,6 +1,6 @@
 <?php
 
-global $extm, $Extm_Admin, $developer_tools;
+global $extm, $developer_tools;
 
 $info_message = '';
 $exts = array();
@@ -28,7 +28,8 @@ if ( !empty( $exts ) ) {
 		}
 	}
 }
-switch ( $Extm_Admin->navigation ) {
+
+switch ( $this->navigation ) {
 case 'extension-activate':{ // Activate extension
 		if ( !$no_writable ) {
 			if ( isset( $_GET['ext'] ) ) {
@@ -220,13 +221,15 @@ default : {
 }
 
 // Function to recursively remove a directory
-function rrmdir( $dir ) {
-	foreach ( glob( $dir . '/*' ) as $file ) {
-		if ( is_dir( $file ) )
-			rrmdir( $file );
-		else
-			unlink( $file );
+if(!function_exists('rrmdir')){
+	function rrmdir( $dir ) {
+		foreach ( glob( $dir . '/*' ) as $file ) {
+			if ( is_dir( $file ) )
+				rrmdir( $file );
+			else
+				unlink( $file );
+		}
+		rmdir( $dir );
 	}
-	rmdir( $dir );
 }
 ?>

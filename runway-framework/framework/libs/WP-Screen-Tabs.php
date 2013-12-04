@@ -72,7 +72,8 @@ class WP_Screen_Tabs {
 				self::$tabs[$name][$name.'_'.$id] = array( 'id' => $id, 'title' => $title, 'content' => stripslashes( $content ), 'callback' => $callback );
 			}
 		} else {
-			self::$tabs[$page_name][$name.'_'.$id] = array( 'id' => $id, 'title' => $title, 'content' => stripslashes( $content ), 'callback' => $callback );
+			if( isset( $name ) )
+				self::$tabs[$page_name][$name.'_'.$id] = array( 'id' => $id, 'title' => $title, 'content' => stripslashes( $content ), 'callback' => $callback );
 		}
 
 	}

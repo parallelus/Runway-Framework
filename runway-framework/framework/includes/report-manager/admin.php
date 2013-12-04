@@ -1,5 +1,5 @@
 <?php
-global $reports, $reports_admin;
+global $reports;
 
 if ( isset( $_GET['action'] ) && $_GET['action'] == 'fix-all-issues' ) {
 	$reports->fix_all_issues();

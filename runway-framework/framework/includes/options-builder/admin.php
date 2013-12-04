@@ -1,5 +1,5 @@
 <?php
-global $apm, $ApmAdmin, $alias_;
+global $apm, $alias_;
 
 $pages_dir = $apm->pages_dir;
 
@@ -7,10 +7,10 @@ if ( get_stylesheet_directory() == TEMPLATEPATH ) {
 	echo '<br>You must create or activate a Runway child theme to add options pages: <a href="'.home_url().'/wp-admin/admin.php?page=themes">Runway Themes</a>';
 }
 else {
-	if ( !isset( $ApmAdmin->navigation ) || empty( $ApmAdmin->navigation ) )
-		$ApmAdmin->navigation = 'list-pages';
+	if ( !isset( $this->navigation ) || empty( $this->navigation ) )
+		$this->navigation = 'list-pages';
 
-	switch ( $ApmAdmin->navigation ) {
+	switch ( $this->navigation ) {
 	case 'new-page': {
 			$new_page_id = time();
 

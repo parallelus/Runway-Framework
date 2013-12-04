@@ -39,17 +39,17 @@ $settings = array(
 	),
 );
 
-global $developer_tools, $Themes_Manager_Admin;
+global $developer_tools, $Themes_Manager;
 
 // Required components
-include 'object.php';
+include_once 'object.php';
 
-$developer_tools = new Themes_Manager_Settings_Object( $settings );
+$Themes_Manager = new Themes_Manager_Settings_Object( $settings );
 
 // Load admin components
 if ( is_admin() ) {
-	include 'settings-object.php';
-	$Themes_Manager_Admin = new Themes_Manager_Admin( $settings );
+	include_once 'settings-object.php';
+	$developer_tools = new Themes_Manager_Admin( $settings );
 }
 
 do_action( 'themes_manager_is_load' );

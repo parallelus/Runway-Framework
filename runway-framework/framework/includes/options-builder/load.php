@@ -61,12 +61,12 @@ $settings = array(
 include 'object.php';
 
 global $apm;
-$apm = new Apm_Settings_Object( $settings );
+$ApmAdmin = new Apm_Settings_Object( $settings );
 
 // Load admin components
 if ( is_admin() ) {
 	include 'settings-object.php';
-	$ApmAdmin = new Apm_Admin( $settings );
+	$apm = new Apm_Admin( $settings );
 }
 
 do_action( 'options_builder_is_load' );
