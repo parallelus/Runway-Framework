@@ -1,0 +1,1 @@
+<?php // does nothing, just for security ?>
