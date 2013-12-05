@@ -62,7 +62,7 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
 		           $reports->fix_all_issues();
 		        else
-        		   echo "<div class='update-nag'>" . sprintf( __( 'You have '.$fail.' failed tests. To have a good time with Runway these should be fixed. See the error details on the <a href="'.$reports_admin->self_url().'">reports page</a>' ) ) . "</div>";				
+        		   echo "<div class='update-nag'>" . sprintf( __( 'You have '.$fail.' failed tests. To have a good time with Runway these should be fixed. See the error details on the <a href="'.$reports->self_url().'">reports page</a>' ) ) . "</div>";				
 			}
 		}
 		else {
