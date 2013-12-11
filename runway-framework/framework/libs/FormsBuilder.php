@@ -147,6 +147,7 @@ class FormsBuilder {
 											$wp_customize->add_section( $container->index, array(
 													'title' => $container->title, //Visible title of section
 													'description' => '',
+													'priority' => $container->priority,
 												) );
 
 											foreach ( $container_fields as $field_id ) {
