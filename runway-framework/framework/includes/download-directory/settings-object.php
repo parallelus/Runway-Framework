@@ -8,7 +8,7 @@ class Directory_Admin extends Runway_Admin_Object {
 	function add_actions() {
 		$upload_dir = wp_upload_dir( );
 		$this->downloads_dir = $upload_dir['basedir'].'/download_dir/';
-		$this->extensions_server_url = 'http://beta.runwaywp.com/wp-admin/admin-ajax.php?action=';
+		$this->extensions_server_url = 'http://runwaywp.com/sites/main/wp-admin/admin-ajax.php?action=';
 
 		add_action( 'init', array( $this, 'init' ) );
 	}
