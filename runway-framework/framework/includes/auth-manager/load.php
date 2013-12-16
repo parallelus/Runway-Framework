@@ -12,9 +12,6 @@
     Site Wide Only:
 */
 
-// Reset
-//if (0) update_option('dashboard', array());
-
 // Settings
 $fields = array(
     'var' => array(),
@@ -23,11 +20,9 @@ $fields = array(
 
 $default = array();
 
-global $settingshortname;
-
 $settings = array(
     'name' => 'Auth Manager',
-    'option_key' => $settingshortname.'auth-manager',
+    'option_key' => $shortname.'auth-manager',
     'fields' => $fields,
     'default' => $default,
     'parent_menu' => 'framework-options', // managed by framework
