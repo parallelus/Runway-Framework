@@ -299,6 +299,10 @@ function theme_option_filter($pre) {
 function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 	global $wp_current_filter, $shortname;
 
+	$exclude = array(
+		$shortname.'report-manager',
+	);
+
 	// check if current option is runway extension option
 	$is_runway_option = false;
 	$option_key = $option;
@@ -321,7 +325,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 		$newvalue_json = json_encode( $newvalue );
 
 		// save updated option to file in /data folder
-		if ( is_writable( THEME_DIR.'data/' ) ) {
+		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
 			file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
 	}
