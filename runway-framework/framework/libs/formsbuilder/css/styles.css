@@ -303,6 +303,8 @@
 
 .page-layer .fieldbox .page-element-controls {
 	margin-top:10px;
+	position: relative;
+	z-index: 1;
 }
 
 .page-layer .fieldbox .handlediv {
