@@ -234,7 +234,8 @@ var settings_fields_names_definition = {
     changeMonth: 'Month changer enabled',
     changeYear: 'Year changer enabled',
     format: 'Date format',
-    image_size: 'Radio button image size:'
+    image_size: 'Radio button image size:',
+    repeating: 'Repeating'
 };
 
 var system_vars_definition = ['template', 'index'];

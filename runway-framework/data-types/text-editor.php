@@ -118,6 +118,24 @@ class Text_editor extends Data_Type {
 
     </div><div class="clear"></div>
 
+    <!-- Repeating settings -->
+    <div class="settings-container">
+        <label class="settings-title">
+            Repeating:                  
+        </label>
+        <div class="settings-in">
+            <label class="settings-title"> 
+                {{if repeating == 'Yes'}}
+                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+                {{else}}
+                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+                {{/if}}
+                Yes
+            </label>
+            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+        </div>
+    </div><div class="clear"></div>
+
     <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 </script>

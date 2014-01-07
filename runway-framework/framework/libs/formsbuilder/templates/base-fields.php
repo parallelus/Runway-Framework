@@ -27,7 +27,6 @@
                 <a href="#" class="edit" data-type="container"><?php _e( 'Edit', 'framework' ); ?></a> |
                 <span class="delete"><a href="#" class="remove submitdelete"><?php _e( 'Delete', 'framework' ); ?></a></span>
             </div>
-            <!-- <div class="postbox-title hndle"><span>${title}</span> (${type})</div> -->
             <div class="postbox-title hndle"><span>${title}</span></div>
             <div class="inside accept-field" style="display: block; min-height: 50px;"></div>
         </div>
@@ -47,8 +46,7 @@
                 <a href="#" class="edit" data-type="field"><?php _e( 'Edit', 'framework' ); ?></a> |
                 <span class="delete"><a href="#" class="remove submitdelete"><?php _e( 'Delete', 'framework' ); ?></a></span>
             </div>
-            <!-- <div class="postbox-title sidebar-name hndle"><span>${title}</span> (${type})</div> -->
-            <div class="postbox-title sidebar-name hndle"><span>${title}</span></div>
+            <div class="postbox-title sidebar-name hndle" style="width:70%;"><span>${title}</span> (${type})</div>
             <div class="inside" style="display: block;"></div>
         </div>
     </div>
