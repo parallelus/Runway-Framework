@@ -136,11 +136,14 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->keys = isset( $this->keys ) ? $this->keys : array();
 			$keys = implode( ',', (array) $this->keys ); 
 
+			$import_key = (!is_array($this->get_val( 'import_key' ))) ? $this->get_val( 'import_key' ) : '';
+			$ancestor_key = (!is_array($this->get_val( 'ancestor_key' ))) ? $this->get_val( 'ancestor_key' ) : '';
+
 			?>
 
 			<input type="hidden" name='version_key' value='<?php echo $this->get_version_id(); ?>' />
-			<input type="hidden" name='import_key' value='<?php echo $this->get_val( 'import_key' ); ?>' />
-			<input type="hidden" name='ancestor_key' value='<?php echo $this->get_val( 'ancestor_key' ); ?>' />
+			<input type="hidden" name='import_key' value='<?php echo $import_key; ?>' />
+			<input type="hidden" name='ancestor_key' value='<?php echo $ancestor_key; ?>' />
 			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
 			<input type="hidden" name='action' value='save' />
 			<p class="submit">
