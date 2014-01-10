@@ -109,7 +109,84 @@ class FormsBuilder {
 
 					add_action( 'customize_controls_print_styles', array( ${$current['admin_object']}, 'include_extension_css' ) );
 					add_action( 'customize_controls_print_scripts', array( ${$current['admin_object']}, 'include_extension_js' ) );
-					add_action( 'customize_register' , array( ${$current['admin_object']}, 'wp_customize_page_render' ) );
+
+					$_this = ${$current['admin_object']};
+					add_action( 'customize_register' , function ( $wp_customize ) use ( $_this ) {
+						// $data_types_path = get_theme_root() . "/runway-framework/data-types";
+						$data_types_path = FRAMEWORK_DIR . 'data-types';
+						$data_types_base = $data_types_path . '/data-type.php';
+
+						$_this->data_types = array();
+
+						if ( !file_exists( $data_types_path ) || !file_exists( $data_types_base ) ) {
+							wp_die( "Error: data types" );
+						} else {
+							include_once $data_types_base;
+
+							foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $filename ) {
+								include_once "$data_types_path/$filename";
+							}
+						}
+
+						$_this->data = get_option( $_this->option_key );
+
+						// including js and cs
+						// $_this->include_extension_css();
+						// $_this->include_extension_js();
+
+						foreach ( $_this->builder_page->sortOrder as $tab ) {
+							if ( $tab != 'none' ) {
+								foreach ( $tab as $container_id => $container_fields ) {
+									if ( $container_id != 'none' ) {
+										$container = $_this->builder_page->elements->$container_id;
+
+										if (
+											isset( $container->display_on_customization_page ) &&
+											$container->display_on_customization_page == true ) {
+
+											$wp_customize->add_section( $container->index, array(
+													'title' => $container->title, //Visible title of section
+													'description' => '',
+													'priority' => $container->priority,
+												) );
+
+											foreach ( $container_fields as $field_id ) {
+												if ( $field_id != 'none' ) {
+													$field = $_this->builder_page->elements->$field_id;
+
+													$class_Name = ucfirst( str_replace( '-', '_', $field->type ) );
+
+													if ( class_exists( $class_Name ) ) {
+														$wp_customize->add_setting( $field->alias, array(
+																'default' => '',
+																'type' => 'customize'
+															) );
+
+														$option_field = new $class_Name(
+															$_this,
+															$field,
+															$wp_customize,
+															$field->alias,
+															array(
+																'label' => $field->title,
+																'section' => $container->index,
+																'settings' => $field->alias,
+															)
+														);
+
+														add_action( 'customize_save_' .$field->alias, array( $option_field, 'save' ) );
+														add_filter( 'customize_value_' . $field->alias, array( $option_field, 'get_value' ) );
+
+														$wp_customize->add_control( $option_field );
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					} );
 				}
 			}
 		}

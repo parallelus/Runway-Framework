@@ -44,15 +44,15 @@ $settings = array(
 	'menu_permissions' => 'administrator',
 	'file' => __FILE__,
 	'js' => array(
-	    'wp-color-picker',
-	    'formsbuilder',
-		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',		
-        FRAMEWORK_URL.'framework/js/jquery.cookie.js',
-        FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.js',
+		'wp-color-picker',
+		'formsbuilder',
+		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
+		FRAMEWORK_URL.'framework/js/jquery.cookie.js',
+		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.js',
 	),
 	'css' => array(
-	    'wp-color-picker',
-	    'formsbuilder-style',
+		'wp-color-picker',
+		'formsbuilder-style',
 		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.css',
 	),
 );
@@ -61,12 +61,12 @@ $settings = array(
 include 'object.php';
 
 global $apm;
-$apm = new Apm_Settings_Object( $settings );
+$ApmAdmin = new Apm_Settings_Object( $settings );
 
 // Load admin components
 if ( is_admin() ) {
 	include 'settings-object.php';
-	$ApmAdmin = new Apm_Admin( $settings );	
+	$apm = new Apm_Admin( $settings );
 }
 
 do_action( 'options_builder_is_load' );
@@ -80,24 +80,24 @@ function title_button_add( $title ) {
 }
 add_filter( 'framework_admin_title', 'title_button_add' );
 
-add_action('add_report', 'options_page_render_report');
+add_action( 'add_report', 'options_page_render_report' );
 
-function options_page_render_report($reports_object){
+function options_page_render_report( $reports_object ) {
 	$pages_dir = get_stylesheet_directory() . '/data/pages/';
-	$reports_object->assign_report(array(
-		'source' => 'Options Builder',
-		'report_key' => 'pages_dir_exists',
-		'path' => $pages_dir,
-		'success_message' => 'Pages dir ('.$pages_dir.') exists.',
-		'fail_message' => 'Pages dir ('.$pages_dir.') does not exist.',
-	), 'DIR_EXISTS' );
+	$reports_object->assign_report( array(
+			'source' => 'Options Builder',
+			'report_key' => 'pages_dir_exists',
+			'path' => $pages_dir,
+			'success_message' => 'Pages dir ('.$pages_dir.') exists.',
+			'fail_message' => 'Pages dir ('.$pages_dir.') does not exist.',
+		), 'DIR_EXISTS' );
 
-	$reports_object->assign_report(array(
-		'source' => 'Options Builder',
-		'report_key' => 'pages_dir_writable',
-		'path' => $pages_dir,
-		'success_message' => 'Pages dir ('.$pages_dir.') is writable.',
-		'fail_message' => 'Pages dir ('.$pages_dir.') is not writable.',
-	), 'IS_WRITABLE' );	
+	$reports_object->assign_report( array(
+			'source' => 'Options Builder',
+			'report_key' => 'pages_dir_writable',
+			'path' => $pages_dir,
+			'success_message' => 'Pages dir ('.$pages_dir.') is writable.',
+			'fail_message' => 'Pages dir ('.$pages_dir.') is not writable.',
+		), 'IS_WRITABLE' );
 }
 ?>

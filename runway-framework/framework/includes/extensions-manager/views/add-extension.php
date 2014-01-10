@@ -2,7 +2,7 @@
 
 // Breadcrumbs
 //................................................................
-$Extm_Admin->navigation_bar( array( __( 'Upload New', 'framework' ) ) );
+$this->navigation_bar( array( __( 'Upload New', 'framework' ) ) );
 
 ?>
 

@@ -128,10 +128,36 @@ if ( !defined( $runway_framework_admin ) ) {
 			} else {
 				$this->has_save_data = true;
 			}
+
+			$this->html = $html = new Html($this);
+		}
+
+		function settings_save_button( $text = 'Save', $class = 'button' ) {
+			$this->keys = isset( $this->keys ) ? $this->keys : array();
+			$keys = implode( ',', (array) $this->keys ); 
+
+			$import_key = (!is_array($this->get_val( 'import_key' ))) ? $this->get_val( 'import_key' ) : '';
+			$ancestor_key = (!is_array($this->get_val( 'ancestor_key' ))) ? $this->get_val( 'ancestor_key' ) : '';
+
+			?>
+
+			<input type="hidden" name='version_key' value='<?php echo $this->get_version_id(); ?>' />
+			<input type="hidden" name='import_key' value='<?php echo $import_key; ?>' />
+			<input type="hidden" name='ancestor_key' value='<?php echo $ancestor_key; ?>' />
+			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
+			<input type="hidden" name='action' value='save' />
+			<p class="submit">
+				<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, THEME_NAME ); ?>' />
+			</p>
+			</form>
+
+		<?php
 		}
 
 		// experimental
 		function view( $view, $return_as_string = false, $values = null) {
+
+			$html = $this->html;
 
 			if($values != null){
 				extract($values);
@@ -461,7 +487,6 @@ if ( !defined( $runway_framework_admin ) ) {
 		**	Parse requests...
 		*/
 		function request_handler() {
-
 			// Load up our data, internal and external
 			$this->load_objects();
 
@@ -478,7 +503,7 @@ if ( !defined( $runway_framework_admin ) ) {
 					if ( !empty( $this->action_keys ) ) {
 						$keys = $this->action_keys;
 						$this->keys = $keys;
-					}
+					}					
 					$this->set_data( $this->extract_submission(), $keys );
 				}
 				return false;
@@ -510,7 +535,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			if ( $this->action == 'save' ) {
-				$arr = $this->extract_submission();
+				$arr = $this->extract_submission();				
 
 				// The $_POST['index'] needs to be set externally, this is
 				// last index of the data to be saved
@@ -938,69 +963,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<?php
 			$this->footed = true;
 
-		}
-
-		/*
-		**
-		**
-		*/
-		function condition( $condition, $message, $type = 'error' ) {
-
-			if ( !isset( $this->is_ok ) ) $this->is_ok = true;
-
-			// If there is an error already return
-			if ( !$this->is_ok && $type = 'error' ) return $this->is_ok;
-
-			if ( $condition == false && $type != 'silent' ) {
-				echo '<div class="updated fade"><p>' . $message . '</p></div>';
-
-				// Don't set the error flag if this is a warning.
-				if ( $type == 'error' ) $this->is_ok = false;
-			}
-
-			return $condition == true;
-
-		}
-
-		/*
-		**
-		**
-		*/
-		function checkboxes( $name, $title, $values, $arr ) { ?>
-
-			<tr>
-				<th scope="row" valign="top"><?php echo $title; ?></th>
-				<td>
-			<?php
-			foreach ( $values as $key => $title2 ) {
-				$checked = ( in_array( $key, (array) $arr[$name] ) ) ? " checked='checked'" : ''; ?>
-				<label><input type="checkbox" name="<?php echo $name; ?>[]" value="<?php echo $key; ?>" <?php echo $checked; ?>> <?php echo $title2; ?></label>
-			<?php } ?>
-				</td>
-			</tr>
-			<?php
-
-		}
-
-		/*
-		**
-		**
-		*/
-		function bool_var( $name, $title, $arr ) { ?>
-
-			<tr>
-				<th scope="row" valign="top"><?php echo $title; ?></th>
-				<td>
-					<?php
-			$true = ( $arr[$name] ) ? " checked='checked'" : '';
-			$false = ( $true ) ?  '' : " checked='checked'"; ?>
-					<label><input type="radio" name="<?php echo $name; ?>" value="true" <?php echo $true; ?>> <?php echo $title2; ?> Yes</label>
-					<label><input type="radio" name="<?php echo $name; ?>" value="false" <?php echo $false; ?>> <?php echo $title2; ?> No</label>
-				</td>
-			</tr>
-			<?php
-
-		}
+		}		
 
 		/*
 		**
@@ -1024,52 +987,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 			return $new;
 
-		}
-
-		/*
-		**
-		**
-		*/
-		function updown_link( $nbr, $total, $args = array() ) {
-			$html = '';
-			$link = array( 'row' => $nbr, 'navigation' => $this->navigation, 'action' => 'move' );
-
-			// Are we adding more stuff to our link?
-			if ( !empty( $args ) ) $link = array_merge( $link, $args );
-
-			// Build the links
-			if ( $nbr > 0 ) $html .= ' | ' . $this->settings_link( '&uarr;', array_merge( $link, array( 'direction' => 'up' ) ) );
-			if ( $nbr < $total - 1 ) $html .= ' | ' . $this->settings_link( '&darr;', array_merge( $link, array( 'direction' => 'down' ) ) );
-			return $html;
-		}
-
-		/*
-		**
-		**
-		*/
-		function settings_link( $text, $args ) {
-
-			$link = $this->options_url;
-
-			foreach ( $args as $key => $value ) {
-				if ( $key == 'class' ) continue;
-				if ( !$value ) continue;
-				if ( is_array( $value ) ) $value = implode( ',', $value );
-				$link .= '&' . $key . '=' . urlencode( $value );
-			}
-
-			$link = wp_nonce_url( $link, $this->nonce_action( $args ) );
-			$args['class'] = isset( $args['class'] ) ? $args['class'] : '';
-			$class = ( $c = $args['class'] ) ? $c : 'more-common';
-			$html = "<a class='$class' href='$link'>$text</a>";
-
-			if ( !$text ) {
-				return $link;
-			}
-
-			return $html;
-
-		}
+		}	
 
 		/*
 		**
@@ -1085,76 +1003,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				if ( $a = esc_attr( $args['action'] ) ) $action .= $a;
 			}
 			return $action;
-		}
-
-		/*
-		**
-		**
-		*/
-		function table_header( $titles ) { ?>
-
-			<table class="widefat">
-				<thead>
-					<tr>
-			<?php
-			foreach ( (array) $titles as $title ) : ?>
-				<th><?php echo $title; ?></th>
-			<?php endforeach; ?>
-					</tr>
-				</thead>
-				<tbody>
-			<?php
-		}
-
-		/*
-		**
-		**
-		*/
-		function table_footer( $titles ) { ?>
-
-			</tbody><tfoot><tr>
-			<?php
-			foreach ( (array) $titles as $title ) : ?>
-				<th><?php echo $title; ?></th>
-			<?php endforeach; ?>
-			</tr></tfoot></table>
-			<?php
-
-		}
-
-		/*
-		**
-		**
-		*/
-		function table_row( $contents, $nbr, $class = '' ) {
-			$class .= ( $nbr++ % 2 ) ? ' alternate ' : '' ; ?>
-			<tr class="<?php echo $class; ?>">
-			<?php
-			$count = 1;
-			$total = count( $contents );
-			foreach ( (array) $contents as $content ) {
-				$tdClass = ( $count == $total ) ? ' class="last-td"' : ''; ?>
-				<td<?php echo $tdClass; ?>><?php echo $content; ?></td>
-			<?php $count++; } ?>
-			</tr>
-			<?php
-		}
-
-		/*
-		**
-		**
-		*/
-		function setting_row( $cols, $class = '' ) { ?>
-
-			<tr class="<?php echo $class; ?>"><th scope="row" valign="top">
-				<?php echo array_shift( $cols ); ?></th>
-			<?php
-			foreach ( $cols as $col ) { ?>
-				<td><?php echo $col; ?></td>
-			<?php
-			} ?></tr>
-			<?php
-		}
+		}	
 
 		function get_val( $name, $k = array() ) {			
 
@@ -1195,105 +1044,6 @@ if ( !defined( $runway_framework_admin ) ) {
 			if ( !is_array( $subdata ) ) $subdata = stripslashes( $subdata );
 
 			return $subdata;
-		}
-
-		/*
-		**
-		**
-		*/
-		function settings_input( $name, $s = null, $additional_options = null ) {
-
-			$cssClass = '';
-			if ( !$s || is_array( $s ) ) {
-				$value = esc_attr( $this->get_val( $name, $s ) );
-			} else {
-				$value = $s;
-			}
-
-			if ( empty( $value ) && isset( $additional_options->values ) ) $value = $additional_options->values;
-			if ( isset( $additional_options->cssClass ) ) $cssClass = $additional_options->cssClass;
-
-			$html = '<input class="input-text '.@$cssClass.'" type="text" name="' . $name . '" value="' . $value . '">';
-			return $html;
-
-		}
-
-		/*
-		**
-		**
-		*/
-		function settings_bool( $name, $set = array() ) {
-
-			$vars = array( true => 'Yes', false => 'No' );
-			$set = $this->get_val( $name );
-			if ( is_array( $set ) ) {
-				$set = 0;
-			}
-			$html = $this->settings_radiobuttons( $name, $vars, array(), $set );
-			return $html;
-
-		}
-
-		function settings_radiobuttons( $name, $vars, $comments = array(), $checked = 1 ) {
-
-			$html = '';
-			$set = $this->get_val( $name );
-			if ( !isset( $set ) || empty( $set ) ) {
-				$set = $checked;
-			}
-
-			foreach ( $vars as $key => $value ) {
-				$checked = ( $key == $set ) ? ' checked="checked"' : '';
-				$html .= "<label><input class='input-radio' type='radio' name='$name' value='$key' $checked /> $value</label> ";
-
-				if ( isset( $comments[$key] ) && $c == $comments[$key] ) {
-					$html .= $this->format_comment( $c );
-				}
-			}
-
-			return $html;
-
-		}
-
-		function settings_radiobuttons_image( $name, $vars, $comments = array(), $image_size, $checked = 1 ) {
-
-			$html = '';
-			$set = $this->get_val( $name );
-
-			if ( !isset( $set ) || empty( $set ) ) {
-				$set = $checked;
-			}
-
-			foreach ( $vars as $key => $value ) {
-				$checked = ( $key == $set ) ? ' checked="checked"' : '';
-				$html .= "<label><input class='input-radio' type='radio' name='$name' value='$key' $checked /><img src='$value' width='$image_size' height='$image_size'> </label> ";
-				if ( isset( $comments[$key] ) ) {
-					if ( $c = $comments[$key] ) {
-						$html .= $this->format_comment( $c );
-					}
-				}
-			}
-			return $html;
-
-		}
-
-		function settings_hidden( $name, $var = 0 ) {
-
-			if ( !$var ) {
-				$var = $this->get_val( $name );
-			}
-
-			// added condition to test for array so hidden can also be used with individual fields
-			if ( is_array( $var ) ) {
-				$value = ( $var ) ? json_encode( $this->slasherize( $var ) ) : '';
-			} else {
-				$value = $var;
-			}
-
-			$html = $typeof ."<input type='hidden' name='$name' value='$value'>";
-
-			return $html;
-
 		}
 
 		function slasherize( $var, $strip = false ) {
@@ -1360,144 +1110,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		
 			return $skins;
 		}
-
-		/*
-		**
-		**
-		*/
-		function checkbox_list( $name, $vars, $options = array(), $checked_list = array() ) {
-
-			$values = (array) $this->get_val( $name );
-
-			if ( empty( $values[0] ) ) {
-				$values = $checked_list;
-			}
-
-			if ( $values[0] == 'Array' ) {
-				$values = array( 0 => $options['values'] );
-			}
-
-			$html = '';
-
-			foreach ( $vars as $key => $val ) {
-				// Options will over-ride values
-				$class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
-				$readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
-
-				if ( array_key_exists( 'value', (array) $options[$key] ) )
-					$checked = ( $options[$key]['value'] ) ? ' checked="checked" ' : '';
-				else if ( is_array( $values ) )
-						$checked = ( in_array( $key, $values ) ) ? ' checked="checked"' : '';
-
-					$html .= "<label><input class='input-check' type='checkbox' value='$key' name='${name}[]' $class $readonly $checked /> $val</label>";
-				if ( $t = $options[$key]['text'] ) $html .= format_comment( $t );
-			}
-			return $html;
-
-		}
-
-		function settings_select( $name, $vars, $values = false ) {
-
-			$values = ( $values ) ? $values : $this->get_val( $name );
-
-			$html = "<select class='input-select' name='$name'>";
-
-			if ( !empty( $vars ) ) {
-				foreach ( $vars as $key => $val ) {
-					$checked = ( $key == $values ) ? ' selected="selected"' : '';
-					$html .= "<option value='$key' $checked> $val</option>";
-				}
-			}
-
-			$html .= '</select>';
-
-			return $html;
-
-		}
-
-		function settings_textarea( $name, $s = null, $additional_options = null ) {
-
-			$cssClass = '';
-			if ( $s ) {
-				$value = $s;
-			} else {
-				$value = $this->get_val( $name );
-			}
-
-			if ( empty( $value ) && isset( $additional_options->values ) ) $value = $additional_options->values;
-			if ( isset( $additional_options->cssClass ) ) $cssClass = $additional_options->cssClass;
-
-			$html = "<textarea class='input-textarea ".@$cssClass."' name='$name'>$value</textarea>";
-
-			return $html;
-
-		}
-
-		function settings_colorpicker( $name, $s = null, $additional_options = null ) {
-
-			if ( !$s || is_array( $s ) ) {
-				$value = esc_attr( $this->get_val( $name, $s ) );
-			} else {
-				$value = $s;
-			}
-
-			if ( empty( $value ) && isset( $additional_options->values ) ) $value = $additional_options->values;
-			if ( isset( $additional_options->cssClass ) ) $cssClass = $additional_options->cssClass;
-
-			$html = '<input type="text" id="color" name="'.$name.'" class = "input-text '.$cssClass.'"
-			value="'.$value.'" style="background-color:'.$value.'" maxlength="7" />';
-			$html .= '<div id="colorpick-dialog" name = "' . $name . '" style="text-align:center;" title="' . $additional_options->title . '">';
-			$html .= '<input type="text" id="color-colorpick" maxlength="7" name="'.$name.'" value="'.$value.'" style="background-color:'.$value.'; visibility: hidden; position:absolute;" />';
-			$html .= '<div id="colorpicker" align="center" name = "'.$name.'"></div>';
-			$html .= '<br><button class="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;">'. __( 'Apply Color', 'framework' ) .'</button>';
-			// $html .= '<input type="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;" value="Done pick color" /></div>';
-
-			$html .= '
-			<script type="text/javascript">
-				(function ($) {
-					if($("#color[name=\''.$name.'\']").val() == ""){
-						$("#color[name=\''.$name.'\']").val("#ffffff");
-						$("#color-colorpick[name=\''.$name.'\']").val("#ffffff");
-					}
-
-					$(function () {
-						$("#color[name=\''.$name.'\']").focus(function(){
-							$("#colorpick-dialog[name=\''.$name.'\']").dialog({
-								position: ["center"],
-								modal: true,
-								resizable: false
-							});
-
-							$(".ui-widget-overlay").click(function(){
-
-								$("#colorpick-dialog[name=\''.$name.'\']").dialog("close");
-							});
-
-							$("#colorpicker[name=\''.$name.'\']").farbtastic("#color[name=\''.$name.'\'], #color-colorpick[name=\''.$name.'\']");
-							$("#color-colorpick[name=\''.$name.'\']").css("visibility", "visible");
-							$("#color-colorpick[name=\''.$name.'\']").css("position", "inherit");
-							$("#color-colorpick-done[name=\''.$name.'\']").css("visibility", "visible");
-							$("#color-colorpick-done[name=\''.$name.'\']").css("position", "inherit");
-						});
-
-
-
-						 $("#color[name=\''.$name.'\']").change(function(){
-							 var picker = $.farbtastic("#colorpicker[name=\''.$name.'\']");  //picker variable
-							 picker.setColor($("#color[name=\''.$name.'\']").value); //set initial color
-						 });
-
-						 $("#color-colorpick-done[name=\''.$name.'\']").click(function(){
-							$("#colorpick-dialog[name=\''.$name.'\']").dialog("close");
-						 });
-					 })
-
-				})(jQuery);
-			</script>';
-
-			return $html;
-
-		}
+	
 
 		function get_version_id( $prefix = 'id_' ) {
 			$key1 = base_convert( mt_rand( 0x1679616, 0x39AA3FF ), 10, 36 );
@@ -1549,136 +1162,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<?php $css = FRAMEWORK_URL . 'framework/css/styles.css'; ?>
 			<link rel='stylesheet' type='text/css' href='<?php echo $css; ?>' />
 			<?php
-		}
-
-		function settings_form_header( $args = array() ) {
-			$keys = isset( $_GET['keys'] ) ? $_GET['keys'] : '';
-			$defaults = array( 'action' => 'save', 'keys' => $keys );
-			$args = wp_parse_args( $args, $defaults ); ?>
-			<?php $url = $this->settings_link( false, $args ); ?>
-				<form method="post" action='<?php echo $url; ?>'>
-			<?php
-		}
-
-		function format_comment( $comment ) {
-			// return '<em class="howto">' . $comment . '</em>';
-			return '<p class="description">' . $comment . '</p>';
-		}
-
-		function settings_save_button( $text = 'Save', $class = 'button' ) {
-			$this->keys = isset( $this->keys ) ? $this->keys : array();
-			$keys = implode( ',', (array) $this->keys ); ?>
-
-			<input type="hidden" name='version_key' value='<?php echo $this->get_version_id(); ?>' />
-			<input type="hidden" name='import_key' value='<?php echo $this->get_val( 'import_key' ); ?>' />
-			<input type="hidden" name='ancestor_key' value='<?php echo $this->get_val( 'ancestor_key' ); ?>' />
-			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
-			<input type="hidden" name='action' value='save' />
-			<p class="submit">
-				<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, THEME_NAME ); ?>' />
-			</p>
-			</form>
-
-		<?php
-		}
-
-		function permalink_warning() {
-			global $wp_rewrite;
-			
-			if ( empty( $wp_rewrite->permalink_structure ) ) {
-				$html = '<em class="warning">';
-				$html .= __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the <a href="options-permalink.php">Permalink Settings</a>.', THEME_NAME );
-				$html .= '</em>';
-				return $html;
-			} else { 
-				return '';
-			}
-		}
-
-		function settings_multicheck( $name, $vars, $values = false, $_name = '' ) {
-
-			global $theme_settings;
-
-			$values = ( $values ) ? $values : $this->get_val( $name );
-			// $values = ( $values ) ? $values : unserialize( $theme_settings->data_loaded['_framework']['options']['disable_wp_content'] );
-
-			if ( !is_array( $values ) )
-				$values = unserialize( $values );
-
-			if ( $_name ) {
-				$tvalues = array();
-				if ( is_array( $values ) ) {
-					foreach ( $values as $tkey => $tval ) {
-						if ( is_array( $tval ) ) {
-							foreach ( $tval as $ttkey => $ttval ) {
-								if ( $ttval == $_name ) {
-									$tvalues[] = $tkey;
-								}
-							}
-						}
-					}
-				}
-
-				$values = $tvalues;
-			}
-
-			$html = '';
-
-			foreach ( $vars as $key => $val ) {
-				$checked = ( in_array( $key, $values ) ) ? ' checked="checked"' : '';
-				$post_type = get_post_type_object( $val );
-				$html .= '
-						<label>
-							<input type="checkbox" name="'. $name.'['.$_name.'][]" value="'. $key .'" '. $checked .'>
-							'. ( !empty( $post_type->labels->singular_name ) ? $post_type->labels->singular_name : $post_type->labels->menu_name ) .'
-						</label>';
-			}
-
-			return $html;
-		}
-
-		function settings_multiselect( $name, $vars, $values = false, $_name = '' ) {
-
-			global $theme_settings;
-			$values = ( $values ) ? $values : $this->get_val( $name );
-			// $values = ( $values ) ? $values : unserialize( $theme_settings->data_loaded['_framework']['options']['disable_wp_content'] );
-
-			if ( !is_array( $values ) )
-				$values = unserialize( $values );
-
-			if ( $_name ) {
-				$tvalues = array();
-				if ( is_array( $values ) ) {
-					foreach ( $values as $tkey => $tval ) {
-						if ( is_array( $tval ) ) {
-							foreach ( $tval as $ttkey => $ttval ) {
-								if ( $ttval == $_name ) {
-									$tvalues[] = $tkey;
-								}
-							}
-						}
-					}
-				}
-
-				$values = $tvalues;
-			}
-
-			$html = '<select multiple class="input-select" name="' . $name . ( $_name ? "[{$_name}]" : '' ) . '[]" size="5" style="height: 103px;">';
-
-			$html .= '<option value="no">No value</option>';
-
-			foreach ( $vars as $key => $val ) {
-				if ( is_array( $values ) ) {
-					$checked = ( in_array( $key, $values ) ) ? ' selected="selected"' : '';
-				}
-
-				if ( $val != '' ) {
-					$html .= '<option value="'.$key.'"'.$checked.'>'.$val.'</option>';
-				}
-			}
-			$html .= '</select>';
-			return $html;
-		}
+		}		
 
 		function field_template_path($field) {
 			
@@ -1745,84 +1229,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 				return $this->get_rendered_field_content($field_object);
 			}
-		}
-
-		/******/
-
-		function wp_customize_page_render ($wp_customize) {
-			// $data_types_path = get_theme_root() . "/runway-framework/data-types";
-			$data_types_path = FRAMEWORK_DIR . 'data-types';
-			$data_types_base = $data_types_path . '/data-type.php';
-
-			$this->data_types = array();
-
-			if(!file_exists($data_types_path) || !file_exists($data_types_base)) {
-				wp_die("Error: data types");
-			} else {
-				include_once $data_types_base;
-
-				foreach(array_diff(scandir($data_types_path), array('..', '.', 'data-type.php')) as $filename) {							
-					include_once "$data_types_path/$filename";	
-				}
-			}			
-
-		    $this->data = get_option( $this->option_key );
-
-			// including js and cs
-			// $this->include_extension_css();
-			// $this->include_extension_js();
-
-			foreach($this->builder_page->sortOrder as $tab) {
-				if($tab != 'none') {
-					foreach($tab as $container_id => $container_fields) {
-						if($container_id != 'none') {
-							$container = $this->builder_page->elements->$container_id;
-							
-							if(
-							   isset($container->display_on_customization_page) && 
-							   $container->display_on_customization_page == true) {
-
-								$wp_customize->add_section( $container->index, array(
-						        	'title' => $container->title, //Visible title of section
-					        		'description' => '', 
-							    ) );			
-															
-								foreach($container_fields as $field_id) {								
-									if($field_id != 'none') {																																				
-										$field = $this->builder_page->elements->$field_id; 									
-
-										$class_Name = ucfirst(str_replace('-', '_', $field->type));
-
-										if(class_exists($class_Name)) {
-											$wp_customize->add_setting( $field->alias, array(
-										    	'default' => '',
-											) );
-
-											$option_field = new $class_Name( 
-											    $this,
-											    $field,                           
-												$wp_customize, 
-												$field->alias, 
-												array(
-												    'label' => $field->title,
-												    'section' => $container->index,
-												    'settings' => $field->alias,
-												) 
-											);
-
-											add_action('customize_save_' .$field->alias, array($option_field, 'save'));
-											add_filter('customize_value_' . $field->alias, array($option_field, 'get_value'));
-
-											$wp_customize->add_control( $option_field );										
-										}
-									}								
-								}
-							}
-						}						
-					}	
-				}				
-			}
-		}
+		}		
 	}
 }
 

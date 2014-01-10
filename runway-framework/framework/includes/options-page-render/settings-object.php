@@ -30,16 +30,16 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		$default_required_messages = 'is required';
 
 		if ( !$message_template ) {
-			if ( isset( $field_information->validation ) && !empty( $field_information->validation) && !empty( $field_information->validationMessage) ) {
+			if ( isset( $field_information->validation ) && !empty( $field_information->validation ) && !empty( $field_information->validationMessage ) ) {
 				$message_template = $field_information->title . ': '. $field_information->validationMessage;
 			} else {
-				$message_template = isset($default_errors_messages[$field_information->validation])? $default_errors_messages[$field_information->validation] : '';
+				$message_template = isset( $default_errors_messages[$field_information->validation] )? $default_errors_messages[$field_information->validation] : '';
 			}
 		}
 
-		if(empty($field_information->value) && in_array($field_information->required, array('true', 'Yes') ) ) {
-			$br = empty($message_template)? '' : '<br>';
-			if(! empty($field_information->requiredMessage) )
+		if ( empty( $field_information->value ) && in_array( $field_information->required, array( 'true', 'Yes' ) ) ) {
+			$br = empty( $message_template )? '' : '<br>';
+			if ( ! empty( $field_information->requiredMessage ) )
 				$message_template = $field_information->title . ': '. $field_information->requiredMessage . $br .$message_template;
 			else
 				$message_template = $field_information->title . ' ' . $default_required_messages . $br .$message_template;
@@ -60,7 +60,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		$fields_settings = array();
 		foreach ( $this->elements as $element ) {
-			if ( isset($element->template) && $element->template == 'field' ) {
+			if ( isset( $element->template ) && $element->template == 'field' ) {
 				$fields_settings[$element->alias] = $element;
 			}
 		}
@@ -98,7 +98,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		$errors = array();
 		// loop submited data
 
-		if ( isset($_POST['action']) && $_POST['action'] == 'save' ){
+		if ( isset( $_POST['action'] ) && $_POST['action'] == 'save' ) {
 			foreach ( $fields_settings as $key => $field_settings ) {
 				// validation flag
 				$is_valid = true;
@@ -116,16 +116,16 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 					$is_valid = do_action( "{$field_settings->type}_validation", $this, $field_settings );
 				}
 
-				if ( isset($field_settings->validation) && isset( $validation_rules[$field_settings->validation] ) &&
+				if ( isset( $field_settings->validation ) && isset( $validation_rules[$field_settings->validation] ) &&
 					!preg_match( $validation_rules[$field_settings->validation], $value ) ) {
 					$is_valid = false;
 				}
 
 				if ( empty( $value ) ) {
-					if ( isset($field_settings->required) && in_array($field_settings->required, array('true', 'Yes') ) ) {
+					if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
 						$is_valid = false;
 					} else {
-						$is_valid = ($is_valid == false)? false : true;
+						$is_valid = ( $is_valid == false )? false : true;
 					}
 				}
 
@@ -162,7 +162,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		// Get the page id/alias
 		$alias = $_GET['page'];
-		
+
 		$page_options = $GLOBALS['page_options'];
 		$current = $page_options[$alias];
 

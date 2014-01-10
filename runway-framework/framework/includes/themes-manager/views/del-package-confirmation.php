@@ -6,5 +6,5 @@
 </ul>
 
 <p>Are you sure you wish to delete these files?</p>
-<a href="<?php echo $Themes_Manager_Admin->self_url('do-package').'&name='.$name.'&action=delete-package&package='.$package; ?>" class = "button-secondary">Yes, Delete these files</a>
-<a href="<?php echo $Themes_Manager_Admin->self_url('do-package').'&name='.$name; ?>" class = "button-secondary">No, Return me to the theme list</a>
+<a href="<?php echo $developer_tools->self_url('do-package').'&name='.$name.'&action=delete-package&package='.$package; ?>" class = "button-secondary">Yes, Delete these files</a>
+<a href="<?php echo $developer_tools->self_url('do-package').'&name='.$name; ?>" class = "button-secondary">No, Return me to the theme list</a>

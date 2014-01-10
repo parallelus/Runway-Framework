@@ -32,7 +32,7 @@ if (!count($history) || $action == 'rebuild') {
 
 // Breadcrumbs
 $navName = ($name) ? ': '.$name : '';
-$Themes_Manager_Admin->navigation_bar( array('Download'.$navName) );
+$developer_tools->navigation_bar( array('Download'.$navName) );
 
 
 // Show the current package (most recent)
@@ -92,7 +92,7 @@ else { ?>Not found<?php } ?>
 
 <?php
 // Rebuild package button
-$rebuild_button = $Themes_Manager_Admin->settings_link('Rebuild Download Packages', array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
+$rebuild_button = $html->settings_link('Rebuild Download Packages', array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
 ?>
 
 <p><?php echo $rebuild_button; ?></p>
@@ -157,7 +157,7 @@ if ( $history ) { ?>
 					</td>
 					<td>
 						<!--.'&name=liftoff&action=delete-package&package='.$package['exp']-->
-						<p><a href="<?php echo $Themes_Manager_Admin->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>"><?php _e('Delete', 'framework'); ?></a></p>
+						<p><a href="<?php echo $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>"><?php _e('Delete', 'framework'); ?></a></p>
 					</td>
 				</tr>
 			<?php }

@@ -1,5 +1,5 @@
 <?php
-global $developer_tools, $Themes_Manager_Admin;
+global $developer_tools, $Themes_Manager;
 
 $popup_message = '<h2>'. __( 'Activate new theme?', 'framework' ) .'</h2>';
 

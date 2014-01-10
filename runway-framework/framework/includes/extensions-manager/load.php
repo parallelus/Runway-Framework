@@ -31,14 +31,16 @@ $settings = array(
 );
 
 // Required components
-include 'object.php';
+include_once 'object.php';
 
-$extm = new ExtmSettingsObject( $settings );
+$Extm_Settings = new ExtmSettingsObject( $settings );
 
 // Load admin components
 if ( is_admin() ) {
-	include 'settings-object.php';
-	$Extm_Admin = new Extm_Admin( $settings );
+	include_once 'settings-object.php';
+	$extm = new Extm_Admin( $settings );
+}else {
+	$extm = new ExtmSettingsObject( $settings );
 }
 do_action( 'extension_manager_is_load' );
 
@@ -50,27 +52,27 @@ function title_button_new_extension( $title ) {
 	return $title;
 }
 
-add_action('add_report', 'extensions_manager_report');
+add_action( 'add_report', 'extensions_manager_report' );
 
-function extensions_manager_report($reports_object){
-	
+function extensions_manager_report( $reports_object ) {
+
 	$extensions_dir = get_template_directory() . '/extensions/';
-	
-	$reports_object->assign_report(array(
-		'source' => 'Extensions Manager',
-		'report_key' => 'extension_dir_exists',
-		'path' => $extensions_dir,
-		'success_message' => 'Extensions directory ('.$extensions_dir.') exists.',
-		'fail_message' => 'Extensions directory ('.$extensions_dir.') does not exist.',
-	), 'DIR_EXISTS' );
 
-	$reports_object->assign_report(array(
-		'source' => 'Extensions Manager',
-		'report_key' => 'extension_dir_writable',
-		'path' => $extensions_dir,
-		'success_message' => 'Extensions directory ('.$extensions_dir.') is writable.',
-		'fail_message' => 'Extensions directory ('.$extensions_dir.') is not writable.',
-	), 'IS_WRITABLE' );	
+	$reports_object->assign_report( array(
+			'source' => 'Extensions Manager',
+			'report_key' => 'extension_dir_exists',
+			'path' => $extensions_dir,
+			'success_message' => 'Extensions directory ('.$extensions_dir.') exists.',
+			'fail_message' => 'Extensions directory ('.$extensions_dir.') does not exist.',
+		), 'DIR_EXISTS' );
+
+	$reports_object->assign_report( array(
+			'source' => 'Extensions Manager',
+			'report_key' => 'extension_dir_writable',
+			'path' => $extensions_dir,
+			'success_message' => 'Extensions directory ('.$extensions_dir.') is writable.',
+			'fail_message' => 'Extensions directory ('.$extensions_dir.') is not writable.',
+		), 'IS_WRITABLE' );
 }
 
 add_filter( 'framework_admin_title', 'title_button_new_extension' );

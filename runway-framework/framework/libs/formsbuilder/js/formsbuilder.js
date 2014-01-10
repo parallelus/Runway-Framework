@@ -234,7 +234,8 @@ var settings_fields_names_definition = {
     changeMonth: 'Month changer enabled',
     changeYear: 'Year changer enabled',
     format: 'Date format',
-    image_size: 'Radio button image size:'
+    image_size: 'Radio button image size:',
+    repeating: 'Repeating'
 };
 
 var system_vars_definition = ['template', 'index'];
@@ -969,6 +970,7 @@ var system_vars_definition = ['template', 'index'];
                     var page = pageObject.getStructure();
                     $(".save-page").prop("action", 'admin.php?page=options-builder&navigation=edit-page&page_id=' + page.settings.page_id);
                     //                    settings.push({name: "separate", value: builder.availableTypes['input-text'].separate});
+                    var priority = 1;
                     for(var key in page.elements) {
                         page.elements[key].title = htmlspecialchars_decode(page.elements[key].title);
                         page.elements[key].values = htmlspecialchars_decode(page.elements[key].values);
@@ -978,6 +980,8 @@ var system_vars_definition = ['template', 'index'];
                         page.elements[key].titleCaption = htmlspecialchars_decode(page.elements[key].titleCaption);
                         page.elements[key].fieldCaption = htmlspecialchars_decode(page.elements[key].fieldCaption);
                         page.elements[key].separate = '';
+                        if(page.elements[key].template == 'container')
+                            page.elements[key].priority = priority++;
                         if(page.elements[key].template == 'field' && page.elements[key] != 'none') {
                             if(builder.availableTypes[page.elements[key].type].separate != undefined) {
                                 page.elements[key].separate = builder.availableTypes[page.elements[key].type].separate;
@@ -1010,7 +1014,6 @@ var system_vars_definition = ['template', 'index'];
                         ajax_result = $.parseJSON(response);
                         window.location = ajax_result.reload_url;
                     });
-                  
 
                 });
 

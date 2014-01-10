@@ -17,7 +17,6 @@ class Radio_buttons extends Data_Type {
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 
 		$key_values = array();
-		$comments = array();
 
 		$key_values = array();
 		if ( isset( $this->field->values ) && !empty( $this->field->values ) ) {
@@ -67,9 +66,6 @@ class Radio_buttons extends Data_Type {
 			$checked = ( is_string( $set ) && $key == trim( $set ) ) ? 'checked="checked"' : '';
 			$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
 			$html .= '<label><input '.$this->get_link().' class="input-radio custom-data-type" '.$section.' data-type="radio-buttons" type="radio" name="'.$this->field->alias.'" value="'.$key.'" '.$checked.'" />'.stripslashes( $val ).'</label>';
-			if ( isset( $comments[$key] ) ) {
-				if ( $c = $comments[$key] ) $html .= $this->format_comment( $c );
-			}
 			if ( $count < $len ) $html .= '<br>';
 		}
 
@@ -127,6 +123,24 @@ class Radio_buttons extends Data_Type {
 
 		        </div>
 
+		    </div><div class="clear"></div>
+
+		    <!-- Repeating settings -->
+		    <div class="settings-container">
+		        <label class="settings-title">
+		            Repeating:                  
+		        </label>
+		        <div class="settings-in">
+		            <label class="settings-title"> 
+		                {{if repeating == 'Yes'}}
+		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+		                {{else}}
+		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+		                {{/if}}
+		                Yes
+		            </label>
+		            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+		        </div>
 		    </div><div class="clear"></div>
 
 		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>

@@ -1,6 +1,6 @@
 <?php
 
-global $extm, $Extm_Admin, $developer_tools;
+global $extm, $developer_tools;
 
 $info_message = '';
 $exts = array();
@@ -12,7 +12,7 @@ $redirect = '<script type="text/javascript">window.location = "'.$link.'";</scri
 if ( !is_writable( $extm->extensions_dir ) && !is_writable( $extm->data_dir ) ) {
 	$info_message = '<b>NOTIFICATION</b>: You must have write permissions for ' . $extm->extensions_dir.
 		'. All your actions not be saved';
-	$no_writable = TRUE;	
+	$no_writable = TRUE;
 }
 
 $exts = $extm->get_extensions_list( $extm->extensions_dir );
@@ -28,8 +28,9 @@ if ( !empty( $exts ) ) {
 		}
 	}
 }
-switch ( $Extm_Admin->navigation ) {
-	case 'extension-activate':{	// Activate extension
+
+switch ( $this->navigation ) {
+case 'extension-activate':{ // Activate extension
 		if ( !$no_writable ) {
 			if ( isset( $_GET['ext'] ) ) {
 				$info_message = $extm->activate_extension( $_GET['ext'] );
@@ -44,8 +45,8 @@ switch ( $Extm_Admin->navigation ) {
 				'. All your actions not be saved';
 		}
 		echo $redirect;
-	} break;	
-	case 'extension-deactivate':{ // Deactivate extension
+	} break;
+case 'extension-deactivate':{ // Deactivate extension
 		if ( !$no_writable ) {
 			$also_deactivate = $extm->get_dependent_extensions( 'options-builder/load.php' );
 			if ( isset( $_GET['ext'] ) ) {
@@ -60,7 +61,7 @@ switch ( $Extm_Admin->navigation ) {
 
 	} break;
 	// Add new extension
-	case 'add-extension':{
+case 'add-extension':{
 		if ( !$_POST['ext-submit'] ) {
 			if ( is_writable( $extm->extensions_dir ) ) {
 				include_once 'views/add-extension.php';
@@ -94,11 +95,11 @@ switch ( $Extm_Admin->navigation ) {
 			}
 		}
 	} break;
-	case 'del-extension-confirm':{
+case 'del-extension-confirm':{
 		include_once 'views/del-extension-confirmation.php';
 	} break;
 	// Delete extension
-	case 'del-extension':{
+case 'del-extension':{
 		if ( !$no_writable && $_GET['confirm'] == 'true' ) {
 			if ( isset( $extm->admin_settings['extensions'][$extm->theme_name] ) && isset( $_GET['ext'] ) ) {
 				$info_message = $extm->del_extension( urldecode( $_GET['ext'] ) );
@@ -111,18 +112,17 @@ switch ( $Extm_Admin->navigation ) {
 		echo $redirect;
 	} break;
 	// Bulk operations with extensions
-	case 'bulk-actions':{
+case 'bulk-actions':{
 		$no_activated = array();
 		if ( isset( $_POST['bulk-actions-submit'] ) ) {
 			if ( !$no_writable ) {
 				switch ( $_POST['action'] ) {
-					case 'activate-selected':{
+				case 'activate-selected':{
 						$ext_chk = $_POST['ext_chk'];
-						if($ext_chk[0] == 'on')
-							array_shift($ext_chk);  // remove checkbox for all
+						if ( $ext_chk[0] == 'on' )
+							array_shift( $ext_chk );  // remove checkbox for all
 						$dep_exts = array(); $deps_names = array(); $to_active_list = array();
-						foreach ( $ext_chk as $cheked ) 
-						{
+						foreach ( $ext_chk as $cheked ) {
 							if ( $cheked != '' ) {
 								$deps = $extm->get_extension_dependencies( $extm->extensions_dir.$cheked );
 								$tmp_dp = array();
@@ -163,19 +163,19 @@ switch ( $Extm_Admin->navigation ) {
 							$info_message = $deps_list;
 						}
 					} break;
-					case 'deactivate-selected':{
+				case 'deactivate-selected':{
 						$ext_chk = $_POST['ext_chk']; $info_message = 'Extensions deactivated';
 						foreach ( $ext_chk as $cheked ) {
-							if ( $cheked != '' ) { 
-								foreach ( $extm->admin_settings['extensions'][$extm->theme_name]['active'] as $key => $value ) { 
-									if ( $value == $cheked ) { 
+							if ( $cheked != '' ) {
+								foreach ( $extm->admin_settings['extensions'][$extm->theme_name]['active'] as $key => $value ) {
+									if ( $value == $cheked ) {
 										$info_message = $extm->deactivate_extension( $cheked ).'<br>';
 									}
 								}
 							}
 						}
 					} break;
-					case 'delete-selected':{
+				case 'delete-selected':{
 						$ext_chk = $_POST['ext_chk'];
 						foreach ( $ext_chk as $cheked ) {
 							if ( $cheked != '' ) {
@@ -183,7 +183,7 @@ switch ( $Extm_Admin->navigation ) {
 							}
 						}
 					} break;
-					default: {
+				default: {
 						$info_message = 'Please, select the action';
 					}
 				}
@@ -195,14 +195,14 @@ switch ( $Extm_Admin->navigation ) {
 		}
 		echo $redirect;
 	} break;
-	case 'search':{
+case 'search':{
 		if ( $_POST['exts-search-input'] != '' && isset( $_POST['exts-search-input'] ) ) {
 			$exts = $extm->get_extensions_list( $extm->extensions_dir );
 			$exts = $extm->search_exts( $exts, $_POST['exts-search-input'] );
 		}
 		include_once 'views/admin-home.php';
 	} break;
-	case 'inactive':{
+case 'inactive':{
 		$exts = $extm->get_extensions_list( $extm->extensions_dir );
 		$tmp = array();
 		foreach ( $exts as $ext_key => $ext_val ) {
@@ -214,20 +214,22 @@ switch ( $Extm_Admin->navigation ) {
 		include_once 'views/admin-home.php';
 	}break;
 	// Default
-	default : {
+default : {
 		$exts = $extm->get_extensions_list( $extm->extensions_dir );
 		include_once 'views/admin-home.php';
 	} break;
 }
 
 // Function to recursively remove a directory
-function rrmdir( $dir ) {
-	foreach ( glob( $dir . '/*' ) as $file ) {
-		if ( is_dir( $file ) )
-			rrmdir( $file );
-		else
-			unlink( $file );
+if(!function_exists('rrmdir')){
+	function rrmdir( $dir ) {
+		foreach ( glob( $dir . '/*' ) as $file ) {
+			if ( is_dir( $file ) )
+				rrmdir( $file );
+			else
+				unlink( $file );
+		}
+		rmdir( $dir );
 	}
-	rmdir( $dir );
 }
 ?>

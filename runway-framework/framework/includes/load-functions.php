@@ -1,5 +1,12 @@
 <?php
 
+spl_autoload_register( function( $class ) {
+		// out(LIBS_DIR);
+		if ( file_exists( LIBS_DIR.$class.'.php' ) ) {
+			require_once LIBS_DIR.$class.'.php';
+		}
+	} );
+
 //-----------------------------------------------------------------
 // Load data-types
 //-----------------------------------------------------------------
@@ -163,7 +170,7 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
-					if ( class_exists( $name ) ) {
+					if ( class_exists( $name ) && $name != 'Html' ) {
 						$libraries[$name] = new $name();
 					}
 				}
@@ -230,28 +237,14 @@ function get_extensions() {
 	return $extensions;
 }
 
-function theme_option_filter() {
-
+function theme_option_filter($pre) {
 	global $wp_current_filter, $shortname;
-	// check if current option is runway extension option
-	$is_runway_option = false;
-	$option_key = '';
-
-	foreach ( $wp_current_filter as $filter ) {
-		if ( strstr( $filter, 'pre_option_'.$shortname ) ) {
-			// prevent loop
-			if ( $is_runway_option )
-				return false;
-			else
-				$is_runway_option = true;
-
-			// get option key
-			$option_key = str_replace( 'pre_option_', '', $filter );
-		}
-	}
 
 	// if current options is from runway extension
-	if ( $is_runway_option ) {
+	if ( strstr( $wp_current_filter[0], 'pre_option_'.$shortname ) ) {
+		
+		$option_key = str_replace( 'pre_option_', '', $wp_current_filter[0] );
+
 		// get option from database (the same way as wordpress default)
 		global $wpdb;
 
@@ -265,28 +258,36 @@ function theme_option_filter() {
 		}
 		else {
 			// else search this option in /data folder (situation when user move extension or theme manually)
-			$extension_name = str_replace( $shortname, '', $option_key );
-			$extension_json_settings = THEME_DIR.'/data/'.$extension_name.'.json';
+			$extension_json_settings = THEME_DIR.'/data/'.$option_key.'.json';
 			if ( file_exists( $extension_json_settings ) ) {
 				// if have option save it into database
-				$value = json_decode( file_get_contents( $extension_json_settings ), true );
-				update_option( $option_key, $value );
+				$value = json_decode( file_get_contents( $extension_json_settings ), true );				
+
+				$result = $wpdb->insert( 
+					$wpdb->options, 
+					array( 
+						'option_value' => maybe_serialize($value),
+						'option_name' => $option_key
+					)
+				);
 				return $value;
 			} else {
 				// else search default options in extension folder (situation when this extension
 				// was never being installed or need to reset settings to default)
 
 				$extensions = get_extensions();
-				$extension_path = $extensions[str_replace( '_', '-', $extension_name )];
+				$extension_name = str_replace( $shortname, '', $option_key );
+				if(isset( $extensions[str_replace( '_', '-', $extension_name )] )) {
+					$extension_path = $extensions[str_replace( '_', '-', $extension_name )];
+					$default_settings_file = $extension_path . '/default-settings.json';
 
-				$default_settings_file = $extension_path . '/default-settings.json';
-
-				if ( file_exists( $default_settings_file ) ) {
-					// copy and rename default settings JSON into /data folder
-					copy( $default_settings_file, $extension_json_settings );
-					$value = json_decode( file_get_contents( $extension_json_settings ), true );
-					// save default settings into database
-					update_option( $option_key, $value );
+					if ( file_exists( $default_settings_file ) ) {
+						// copy and rename default settings JSON into /data folder
+						copy( $default_settings_file, $extension_json_settings );
+						$value = json_decode( file_get_contents( $extension_json_settings ), true );
+						// save default settings into database
+						update_option( $option_key, $value );
+					}
 				}
 			}
 		}
@@ -295,48 +296,37 @@ function theme_option_filter() {
 
 }
 
-function theme_option_dual_save_filter( $newvalue ) {
-
+function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 	global $wp_current_filter, $shortname;
+
+	$exclude = array(
+		$shortname.'report-manager',
+	);
 
 	// check if current option is runway extension option
 	$is_runway_option = false;
-	$option_key = '';
-
-	foreach ( $wp_current_filter as $filter ) {
-		if ( strstr( $filter, 'pre_update_option_'.$shortname ) ) {
-			// prevent loop
-			if ( $is_runway_option )
-				return false;
-			else
-				$is_runway_option = true;
-			// get option key
-			$option_key = str_replace( 'pre_update_option_', '', $filter );
-		}
-	}
+	$option_key = $option;
 
 	// if current options is from runway extension
-	if ( $is_runway_option ) {
+	if ( $option_key != '' && strstr( $option, $shortname ) ) {
 		global $wpdb;
-
-		$option = $option_key;
-
-		$oldvalue = get_option( $option );
 
 		if ( false === $oldvalue ) {
 			add_option( $option, $newvalue );
-			return false;
 		}
 
+		// wp_die(out($newvalue));
 		$result = $wpdb->update( $wpdb->options, array( 'option_value' => maybe_serialize( $newvalue ) ), array( 'option_name' => $option ) );
 
 		$extension_name = str_replace( $shortname, '', $option_key );
+
 		// convert option new value from php serialized to JSON format
 		$newvalue = maybe_unserialize( $newvalue );
 		$newvalue_json = json_encode( $newvalue );
+
 		// save updated option to file in /data folder
-		if ( is_writable( THEME_DIR.'data/' ) ) {
-			file_put_contents( THEME_DIR.'data/'.str_replace( '-', '_', $extension_name ).'.json', $newvalue_json );
+		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
+			file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
 	}
 
@@ -415,11 +405,11 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 }
 
 function custom_theme_menu_icon() {
-	global $menu, $submenu, $developer_tools; $theme = rw_get_theme_data();
+	global $menu, $submenu, $Themes_Manager; $theme = rw_get_theme_data();
 
-	if ( isset( $menu, $developer_tools, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
+	if ( isset( $menu, $Themes_Manager, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
 		unset( $submenu['current-theme']['current-theme'] ); // Delete duplicate of theme name
-		$options = $developer_tools->load_settings( $theme['Folder'] );
+		$options = $Themes_Manager->load_settings( $theme['Folder'] );
 		$themeKey = null;
 		foreach ( $menu as $key => $values ) {
 			if ( $menu[$key][0] == $theme['Title'] ) {
@@ -442,7 +432,7 @@ function custom_theme_menu_icon() {
 add_action( 'admin_head', 'custom_theme_menu_icon' );
 
 function activate_default_child_theme() {
-	global $pagenow, $developer_tools;
+	global $pagenow;
 	$theme = rw_get_theme_data();
 	if ( is_admin() && $pagenow != 'admin.php' && $pagenow == 'themes.php' && isset( $_GET['activated'] ) && $theme['Folder'] == 'runway-framework' ) {
 		wp_redirect( 'admin.php?page=themes&activate-default=activate' );
@@ -479,5 +469,4 @@ if ( !function_exists( 'after_functions_file' ) ) :
 	}
 add_action( 'functions_after', 'after_functions_file' );
 endif;
-
 ?>
