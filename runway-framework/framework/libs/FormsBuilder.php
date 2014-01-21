@@ -254,7 +254,8 @@ class FormsBuilder {
 			$page_options['name'] = $page->settings->title;
 			$page_options['option_key'] = $shortname.$page->settings->alias;
 			$page_options['parent_menu'] = $page->settings->adminMenuTopItem;
-			$page_options['menu_permissions'] = $page->settings->access;
+			$page_options['menu_permissions'] = (isset($page->settings->access)) ? $page->settings->access : 'edit_theme_options';
+			// wp_die($page->settings->access);
 
 
 			$page_options['object'] = 'object_'.$id;

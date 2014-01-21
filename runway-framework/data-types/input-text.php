@@ -11,17 +11,92 @@ class Input_text extends Data_Type {
 		if ( $vals != null ) {
 			$this->field = (object)$vals;
 		}
+
+		$this->get_value();
+
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-?>
+		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){		
+				?>
+				<label>
+					<span class="customize-control-title"><?php echo $this->field->title ?></span>
+					<div class="customize-control-content">				
+						<?php 
+							$count = isset($this->field->value) ? count((array)$this->field->value) : 1;
+							for( $key = 0; $key < $count; $key++ ):						
+								$repeat_value = isset($this->field->value) && is_array($this->field->value) ? $this->field->value[$key] : '';
+						?>
+								<input 
+									type="text" 
+									class="input-text custom-data-type" 
+									<?php echo $section; ?> 
+									data-type="input-text" 
+									<?php $this->link(); ?> 
+									name="<?php echo $this->field->alias; ?>[]" 
+									value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
+								/>
+								<a href="#" class="delete_field">Delete</a><br>
+						<?php 
+							endfor; 
 
-		<label>
-			<span class="customize-control-title"><?php echo $this->field->title ?></span>
-			<div class="customize-control-content">
-				<input type="text" class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo ( $vals != null ) ? $this->field->saved : $this->get_value(); ?>"/>
-			</div>
-		</label><?php
-
+							if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+								$this->enable_repeating($this->field->alias);
+							} 
+						?>
+					</div>
+				</label>
+				<?php		
+		}
+		else{
+			?>
+			<label>
+				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+				<div class="customize-control-content">
+					<input type="text" 
+						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo ( $vals != null ) ? $this->field->saved : $this->get_value(); ?>"/>
+				</div>
+			</label>
+			<?php
+		}		
 		do_action( self::$type_slug . '_after_render_content', $this );
+	}
+
+
+	public function enable_repeating($field_name){
+		$add_id = 'add_'.$field_name;
+		$del_id = 'del_'.$field_name;
+		?>
+			<div id="<?php echo $add_id; ?>">
+				<a href="#">
+					Add Field
+				</a>
+			</div>
+
+			<script type="text/javascript">
+				(function($){
+					$(document).ready(function(){
+						$('#<?php echo $add_id; ?>').click(function(e){
+							e.preventDefault();
+							var field = $('<input/>', {
+								type: 'text',
+								class: 'input-text custom-data-type',
+								name: '<?php echo $field_name; ?>[]'
+							})							
+							.attr('data-type', 'input-text')
+							.insertBefore($(this));
+
+							field.after('<a href="#" class="delete_field">Delete</a><br>');							
+						});
+
+						$('body').on('click', '.delete_field', function(e){
+							e.preventDefault();
+							$(this).prev('input').remove();
+							$(this).next('br').remove();
+							$(this).remove();
+						});
+					});
+				})(jQuery);
+			</script>
+		<?php
 	}
 
 	public static function render_settings() { ?>
@@ -102,7 +177,6 @@ class Input_text extends Data_Type {
 
 		    </div><div class="clear"></div>
 		    
-		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		    	<label class="settings-title">
 		            Repeating:		            
@@ -125,17 +199,6 @@ class Input_text extends Data_Type {
 		</script>
 
 	<?php }
-
-	public function get_value() {
-
-		$value = parent::get_value();
-
-		if ( is_string( $value ) ) {  // because strimg is array always
-			return $value;
-		} else {
-			return ( isset( $this->field->values ) ) ? $this->field->values : '';
-		}
-	}
 
 	public static function data_type_register() { ?>
 

@@ -60,7 +60,7 @@ class Data_Type extends WP_Customize_Control {
 
 	public function get_value() {
 
-		$this->field->value = $this->page->get_val( $this->field->alias );
+		$this->field->value = $this->page->get_val( $this->field->alias );		
 
 		if ( is_array($this->field->value) && empty( $this->field->value ) ) {
 			$this->field->value = ( isset( $this->field->values ) ) ? $this->field->values : ''; // error check for notice "Undefined property: stdClass::$values"

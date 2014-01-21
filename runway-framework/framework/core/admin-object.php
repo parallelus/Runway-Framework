@@ -535,7 +535,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			if ( $this->action == 'save' ) {
-				$arr = $this->extract_submission();				
+				$arr = $this->extract_submission();
 
 				// The $_POST['index'] needs to be set externally, this is
 				// last index of the data to be saved
@@ -572,8 +572,7 @@ if ( !defined( $runway_framework_admin ) ) {
 						if ( is_array( $value ) ) {
 							$keys[$key] = $value[0];
 						}
-					}
-
+					}					
 					$this->set_data( $arr, $keys );
 					$this->save_data();
 					$this->message = __( 'Saved!', 'more_plugins' );
@@ -1005,7 +1004,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			return $action;
 		}	
 
-		function get_val( $name, $k = array() ) {			
+		function get_val( $name, $k = array() ) {		
 
 			if ( empty( $k ) ) 
 				$k = $this->keys;
@@ -1040,8 +1039,8 @@ if ( !defined( $runway_framework_admin ) ) {
 					$subdata = $subdata[$key];
 				}
 			}
-
-			if ( !is_array( $subdata ) ) $subdata = stripslashes( $subdata );
+			
+			if ( !is_array( $subdata ) ) $subdata = stripslashes( $subdata );			
 
 			return $subdata;
 		}
