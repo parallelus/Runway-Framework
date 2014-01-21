@@ -29,6 +29,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	function add_actions() {
 
 		add_action( 'init', array( $this, 'init' ) );
+		add_action('wp_ajax_get_package_tags', array($this, 'ajax_get_package_tags'));		
+		add_action('wp_ajax_update_package_tags', array($this, 'ajax_update_package_tags'));			
 	}
 
 	function init() {
@@ -46,6 +48,47 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		// If all is OKq
 		return true;
 
+	}
+
+	function get_package_tags( $id ) {
+
+		$packages_dir = THEME_DIR.'data/packages';
+		if (!is_dir($packages_dir))
+		    mkdir($packages_dir, 0777, true);
+
+		$tags_file = $packages_dir.'/package_'.$id;
+		if(file_exists($tags_file)) {
+		 	$tags = file_get_contents($tags_file);
+			return $tags; 	
+		}
+		
+		return false;
+	}
+
+	function ajax_get_package_tags( ) {
+
+		$tags = $this->get_package_tags( $_REQUEST['id'] );
+		die($tags);
+	}
+
+	function ajax_update_package_tags() {
+
+		$tags = array('id' => $_REQUEST['id'],
+					  'tags_show' => isset($_REQUEST['tags_show'])? $_REQUEST['tags_show'] : '',
+					  'tags_edit' => isset($_REQUEST['tags_edit'])? $_REQUEST['tags_edit'] : ''
+			    );
+		$this->update_package_tags( $tags );
+		die();
+	}
+
+	function update_package_tags( $tags = array() ) {
+
+		$packages_dir = THEME_DIR.'data/packages';
+		if (!is_dir($packages_dir))
+		    mkdir($packages_dir, 0777, true);
+
+		$tags_file = $packages_dir.'/package_'.$tags['id'];
+		file_put_contents($tags_file, json_encode($tags));
 	}
 
 	function load_objects() {

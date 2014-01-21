@@ -21,6 +21,11 @@ if (!count($history) || $action == 'rebuild') {
 	$alone_package_download_url = $developer_tools->build_alone_theme( $nameKey, $ts );
 	$child_package_download_url = $developer_tools->build_child_package( $nameKey, $ts );
 	$most_recent = $developer_tools->make_package_info_from_ts( $nameKey, $ts );
+	$tags = array('id' => $most_recent['exp'],
+				  'tags_show' => isset($_REQUEST['tags_show'])? $_REQUEST['tags_show'] : '',
+				  'tags_edit' => isset($_REQUEST['tags_edit'])? $_REQUEST['tags_edit'] : ''
+				  );
+	$developer_tools->update_package_tags( $tags );
 
 	// Display success message
 	if ($alone_package_download_url && $child_package_download_url && $most_recent)
@@ -97,6 +102,17 @@ $rebuild_button = $html->settings_link('Rebuild Download Packages', array('class
 
 <p><?php echo $rebuild_button; ?></p>
 
+<div class="tags-dialog">
+	<fieldset>
+	    <input type="checkbox" name="tags-show" id="tags-show" class="input-check custom-data-type">
+	    <label for="tags-show">Show in the package history</label><br><br>
+	    <label for="tags-edit">Tags</label><br>
+		<textarea id="tags-edit" name="tags-edit" class="settings-textarea" cols=40 rows=5></textarea>
+	    <input type="hidden" id="package-id" value='' >
+	</fieldset>
+	<br>
+	<button id="tags-save" class="button accept-changes button-primary"><?php _e( 'Update', 'framework' ); ?></button>
+</div>
 
 <?php 
 
@@ -114,6 +130,8 @@ if ( $history ) { ?>
 				<th><?php _e('Date', 'framework') ?></th>
 				<th><?php _e('Standalone Theme', 'framework') ?></th>
 				<th><?php _e('Child Theme', 'framework') ?></th>
+				<th><?php _e('Tags', 'framework') ?></th>
+				<th><?php _e('Edit', 'framework') ?></th>				
 				<th><?php _e('Delete', 'framework') ?></th>
 			</tr>
 		</thead>
@@ -134,6 +152,10 @@ if ( $history ) { ?>
 				if ( $current_package['exp'] == $package['exp'] ) 
 					// Skip the one already shown in "Most Recent"
 					continue; 
+				else {
+					$data = json_decode( $developer_tools->get_package_tags( $package['exp'] ) );
+					$tag = ($data && $data->tags_show == "true" )? $data->tags_edit : '';
+				}
 				?>
 				<tr>
 					<td><p><?php echo $package['date'] .", ". $package['time']; ?></p></td>
@@ -156,8 +178,14 @@ if ( $history ) { ?>
 				} ?>
 					</td>
 					<td>
+						<p><?php echo $tag; ?></p>
+					</td>
+					<td>
+						<p><a href="<?php echo $developer_tools->self_url('edit-tags-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" class="link-tags-edit"><?php _e('Edit', 'framework'); ?></a></p>
+					</td>	
+					<td>
 						<!--.'&name=liftoff&action=delete-package&package='.$package['exp']-->
-						<p><a href="<?php echo $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>"><?php _e('Delete', 'framework'); ?></a></p>
+						<p><a href="<?php echo $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" ><?php _e('Delete', 'framework'); ?></a></p>
 					</td>
 				</tr>
 			<?php }
@@ -169,6 +197,8 @@ if ( $history ) { ?>
 				<th><?php _e('Date', 'framework') ?></th>
 				<th><?php _e('Standalone Theme', 'framework') ?></th>
 				<th><?php _e('Child Theme', 'framework') ?></th>
+				<th><?php _e('Tags', 'framework') ?></th>				
+				<th><?php _e('Edit', 'framework') ?></th>				
 				<th><?php _e('Delete', 'framework') ?></th>
 			</tr>
 		</tfoot>

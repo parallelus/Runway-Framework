@@ -67,3 +67,12 @@
 .ui-widget-overlay {
     position: fixed;
 }	
+
+.tags-dialog { 
+	display: none; }
+#theme-framework .nav-bar-trail li:nth-child(1) {
+    z-index: 0;
+}
+#theme-framework .nav-bar-trail li:nth-child(2) {
+    z-index: -1;
+}
