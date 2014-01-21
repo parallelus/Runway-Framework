@@ -111,7 +111,8 @@ if ( PHP_VERSION_ID >= 50301 ) {
 
 	function add_child_theme_submenu() {
 		// Child theme sub-menu
-		add_submenu_page( 'current-theme', 'Add Options Page', '+ Add Options Page', 'administrator', 'admin.php?page=options-builder&navigation=new-page' );
+		if(IS_CHILD and get_template() == 'runway-framework')
+			add_submenu_page( 'current-theme', 'Add Options Page', '+ Add Options Page', 'administrator', 'admin.php?page=options-builder&navigation=new-page' );
 	}
 	add_action( 'admin_menu', 'add_child_theme_submenu', 11 ); // lower priority, 11, forces item to end of sub-menu
 

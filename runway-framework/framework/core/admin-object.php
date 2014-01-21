@@ -34,11 +34,11 @@ if ( !defined( $runway_framework_admin ) ) {
 				$this->admin_layout = $settings['wp_containers'];
 			}
 
-			//set extension or page name
-			$this->name = $settings['name'];
+			// Set extension or page name
+			$this->name = (isset($settings['name'])) ? $settings['name'] : __('Options', 'framework');
 
 			// if dynamic page set slug as alias else create slug from title
-			$this->slug = isset( $settings['alias'] ) ? sanitize_title( $settings['alias'] ) : sanitize_title( $settings['name'] );
+			$this->slug = isset( $settings['alias'] ) ? sanitize_title( $settings['alias'] ) : sanitize_title( $this->name );
 
 			$this->pref = '';
 
@@ -57,10 +57,10 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->settings_file = isset( $settings['settings_file'] ) ? $settings['settings_file'] : 'admin.php';
 
 			// set extension dir
-			$this->dir = plugin_dir_path( $settings['file'] );
+			$this->dir = (isset($settings['file'])) ? plugin_dir_path( $settings['file'] ) : '';
 
 			// broken or deprecated
-			$this->url = plugin_dir_url( $settings['file'] );
+			$this->url = (isset($settings['file'])) ? plugin_dir_url( $settings['file'] ) : '';
 
 			// set access permissions
 			$this->menu_permissions = isset( $settings['menu_permissions'] ) ? $settings['menu_permissions'] : 'manage_options';
@@ -83,7 +83,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->settings_url = $this->options_url;
 
 			// set database option key
-			$this->option_key = $settings['option_key'];
+			$this->option_key = (isset($settings['option_key'])) ? $settings['option_key'] : uniqid();
 
 			// set default values
 			$this->default = isset($settings['default']) ? $settings['default'] : array();

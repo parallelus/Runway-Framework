@@ -54,20 +54,11 @@ case 'do-download': {
 case 'duplicate-theme': {
 		/* under construction */
 		if ( isset( $_REQUEST['name'] ) && isset( $_REQUEST['new_name'] ) ) {
-			if ( isset( $_REQUEST['save'] ) ) {
-				$post = stripslashes_deep( $_POST['theme_options'] );
-				$errors = $developer_tools->validate_theme_settings( $post );
-				if ( count( $errors ) ) {
-					$options = $post;
-					$this->view( 'theme-conf' );
-				} else {
-					$developer_tools->build_and_save_theme( $post );
-					require_once 'views/themes-list.php';
-				}
-			} else {
-				$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
-				$this->view( 'theme-conf' );
-			}
+			$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
+
+			$link = home_url().'/wp-admin/admin.php?page=themes&navigation=edit-theme&name='.$_REQUEST['new_name'];
+			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
+			echo $redirect;
 		}
 	} break;
 

@@ -33,6 +33,12 @@ class Extm_Admin extends Runway_Admin_Object {
 
 		$this->extensions_List = $this->get_extensions_list( $this->extensions_dir );
 	}
+	
+	function get_admin_data( $option_key ) {
+
+		return get_option( $option_key.'_extensions-manager' );
+
+	}
 
 	// Add hooks & crooks
 	function add_actions() {
@@ -454,11 +460,21 @@ class Extm_Admin extends Runway_Admin_Object {
 
 	}
 
-	function get_active_extensions_list( $theme_name ) {
+	function get_active_extensions_list( $theme_name, $active_theme = true ) {
+
 		$theme_name = strtolower( $theme_name );
-		$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ?
-			$this->admin_settings['extensions'][$theme_name]['active'] :
-			$this->admin_settings['extensions']['runway-framework'];
+		if( !$active_theme ) {
+			$theme = wp_get_theme( $theme_name );
+			$admin_data = $this->get_admin_data( $theme->Name );
+			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ? 
+				$admin_data['extensions'][$theme_name]['active'] :
+				array();
+		}
+		else
+			$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ? 
+				$this->admin_settings['extensions'][$theme_name]['active'] :
+				array();
+
 		return (array)$exts_list;
 
 	}
