@@ -59,6 +59,44 @@ class Fileupload_type extends Data_Type {
 		do_action( self::$type_slug . '_after_render_content', $this );
 	}
 
+	public function enable_repeating($field_name){
+		$add_id = 'add_'.$field_name;
+		$del_id = 'del_'.$field_name;
+		?>
+			<div id="<?php echo $add_id; ?>">
+				<a href="#">
+					Add Field
+				</a>
+			</div>
+
+			<script type="text/javascript">
+				(function($){
+					$(document).ready(function(){
+						$('#<?php echo $add_id; ?>').click(function(e){
+							e.preventDefault();
+							var field = $('<input/>', {
+								type: 'text',
+								class: 'input-text custom-data-type',
+								name: '<?php echo $field_name; ?>[]'
+							})							
+							.attr('data-type', 'input-text')
+							.insertBefore($(this));
+
+							field.after('<a href="#" class="delete_field">Delete</a><br>');							
+						});
+
+						$('body').on('click', '.delete_field', function(e){
+							e.preventDefault();
+							$(this).prev('input').remove();
+							$(this).next('br').remove();
+							$(this).remove();
+						});
+					});
+				})(jQuery);
+			</script>
+		<?php
+	}
+
 	public static function render_settings() { ?>
 
 		<script id="fileupload-type" type="text/x-jquery-tmpl">
