@@ -78,6 +78,51 @@ class Data_Type extends WP_Customize_Control {
 
 	<?php }
 
+	public function enable_repeating($field = array() ){
+		if(!empty($field)) :
+			extract($field);
+
+			$add_id = 'add_'.$field_name;
+			$del_id = 'del_'.$field_name;
+
+			?>
+				<div id="<?php echo $add_id; ?>">
+					<a href="#">
+						Add Field
+					</a>
+				</div>			
+
+				<script type="text/javascript">
+					(function($){
+						$(document).ready(function(){
+							var field = $.parseJSON('<?php echo json_encode($field); ?>');
+							$('#<?php echo $add_id; ?>').click(function(e){
+								e.preventDefault();
+								var field = $('<input/>', {
+									type: '<?php echo $type; ?>',
+									class: '<?php echo $class; ?>',
+									name: '<?php echo $field_name; ?>[]'
+								})							
+								.attr('data-type', '<?php echo $data_type; ?>')
+								.insertBefore($(this));
+								field.before('<br>');
+								field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+								field.next().after('<a href="#" class="delete_field">Delete</a>');
+							});
+
+							$('body').on('click', '.delete_field', function(e){
+								e.preventDefault();
+								$(this).prev('input').remove();
+								$(this).next('br').remove();
+								$(this).remove();
+							});
+						});
+					})(jQuery);
+				</script>
+			<?php
+		endif;
+	}
+
 }
 
 ?>

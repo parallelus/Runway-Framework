@@ -39,7 +39,14 @@ class Input_text extends Data_Type {
 							endfor; 
 
 							if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-								$this->enable_repeating($this->field->alias);
+								$field = array(
+									'field_name' => $this->field->alias,
+									'type' => 'text',
+									'class' => 'input-text custom-data-type',
+									'data_type' => 'input-text',
+									'after_field' => ''
+								);
+								$this->enable_repeating($field);
 							} 
 						?>
 					</div>
@@ -58,46 +65,7 @@ class Input_text extends Data_Type {
 			<?php
 		}		
 		do_action( self::$type_slug . '_after_render_content', $this );
-	}
-
-
-	public function enable_repeating($field_name){
-		$add_id = 'add_'.$field_name;
-		$del_id = 'del_'.$field_name;
-		?>
-			<div id="<?php echo $add_id; ?>">
-				<a href="#">
-					Add Field
-				</a>
-			</div>
-
-			<script type="text/javascript">
-				(function($){
-					$(document).ready(function(){
-						$('#<?php echo $add_id; ?>').click(function(e){
-							e.preventDefault();
-							var field = $('<input/>', {
-								type: 'text',
-								class: 'input-text custom-data-type',
-								name: '<?php echo $field_name; ?>[]'
-							})							
-							.attr('data-type', 'input-text')
-							.insertBefore($(this));
-
-							field.after('<a href="#" class="delete_field">Delete</a><br>');							
-						});
-
-						$('body').on('click', '.delete_field', function(e){
-							e.preventDefault();
-							$(this).prev('input').remove();
-							$(this).next('br').remove();
-							$(this).remove();
-						});
-					});
-				})(jQuery);
-			</script>
-		<?php
-	}
+	}	
 
 	public static function render_settings() { ?>
 
