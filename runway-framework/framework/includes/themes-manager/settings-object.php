@@ -827,7 +827,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Activate URL
 	$t['activateURL'] = wp_nonce_url( 'themes.php?action=activate&amp;template='.urlencode( $t['folder'] ).'&amp;stylesheet='.urlencode( $t['folder'] ), 'switch-theme_' . $t['folder'] );
 	// Preview URL
-	$t['previewURL'] = esc_url( get_option( 'home' ) . '/' );
+	$t['previewURL'] = home_url();
 	if ( is_ssl() ) $t['previewURL'] = str_replace( 'http://', 'https://', $t['previewURL'] );
 	$t['previewURL'] = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => strtolower( urlencode( $theme['Template'] ) ), 'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 'preview_iframe' => false, 'TB_iframe' => 'false' ), $t['previewURL'] ) );
 	// Edit URL
