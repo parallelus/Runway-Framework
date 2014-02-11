@@ -134,6 +134,44 @@ if ( PHP_VERSION_ID >= 50301 ) {
 		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => 'Start Here', 'body' => '<p>Visit the dashboard and learn how Runway works to start making awesome themes today.</p>' ), 'edge: "left", align: "center"' );
 	}
 
+	if ( is_admin() ) {
+		function db_json_sync(){
+			global $shortname;
+
+		    $ffs = scandir(THEME_DIR.'data');
+		    foreach($ffs as $ff){
+	    	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
+
+	    	    	if( strpos($option_key, $shortname.'layout_header_') !== false ||
+	    	    	    strpos($option_key, $shortname.'layout_footer_') !== false ||
+	    	    	    strpos($option_key, $shortname.'other_options_layout-') !== false ||
+	    	    	    strpos($option_key, $shortname.'layouts_manager') !== false ||
+	    	    	    strpos($option_key, $shortname.'sidebar_settings') !== false ||
+	    	    	    strpos($option_key, $shortname.'extensions-manager') !== false ||
+	    	    	    strpos($option_key, $shortname.'content_types') !== false) {
+
+							$json = json_decode(file_get_contents( THEME_DIR.'data/'.$ff ), true);
+							$db = get_option($option_key);
+
+							if( !empty($json) && empty($db) || $json != $db ) {
+								update_option($option_key, $json);
+							}
+					}
+	    	    	if(strpos($option_key, $shortname.'formsbuilder_') !== false ) {
+							$json = (array)json_decode(file_get_contents( THEME_DIR.'data/'.$ff ));
+							$db = get_option($option_key);
+							if( !empty($json) && empty($db) || $json != $db ) {
+								update_option($option_key, $json);
+						    }
+					}
+				}	
+			}
+		}
+		if(is_dir(THEME_DIR.'data'))
+			add_action( 'admin_init', 'db_json_sync', 100 );
+	}
+
 
 } else {
 

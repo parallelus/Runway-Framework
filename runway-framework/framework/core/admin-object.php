@@ -1039,8 +1039,8 @@ if ( !defined( $runway_framework_admin ) ) {
 					$subdata = $subdata[$key];
 				}
 			}
-			
-			if ( !is_array( $subdata ) ) $subdata = stripslashes( $subdata );			
+
+			if ( !is_array( $subdata ) ) $subdata = stripslashes( $subdata );
 
 			return $subdata;
 		}
