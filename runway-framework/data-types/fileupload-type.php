@@ -22,42 +22,38 @@ class Fileupload_type extends Data_Type {
 
 		<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
 		<?php
-		wp_enqueue_script( 'thickbox' );
-		wp_enqueue_style( 'thickbox' );
+		wp_enqueue_media();
 ?>
 		<script type="text/javascript">
-			(function($){
-				$(function(){
-					$("#upload_image_button-<?php echo $this->field->alias; ?>").click(function(e) {
-						e.preventDefault();
+			var file_frame;
+ 
+  			(function($){
+  	  		  $(function(){
+  	  			$("#upload_image_button-<?php echo $this->field->alias; ?>").click(function(e) {
+		  		  e.preventDefault();
 
-						formfield = $("#upload_image-<?php echo $this->field->alias; ?>").attr("name");
-						tb_show("", "media-upload.php?type=image&amp;TB_iframe=true");
+          		  if ( file_frame ) {
+                    file_frame.open();
+                    return;
+                  }
 
-						// replace thickbox and overlay
-						var $tb = $('#TB_window');
-						var $ov = $('#TB_overlay');
-						$('#customize-preview').append($tb).append($ov);
-						$tb.css({
-							position: 'absolute',
-							left: '50%',
-							top: '50%'
-						});
+                  file_frame = wp.media.frames.file_frame = wp.media({
+          	        multiple: false
+                  });
 
-						window.send_to_editor = function(html) {
-							imgurl = $("img", html).attr("src");
-							$("#upload_image-<?php echo $this->field->alias; ?>").val(imgurl);
-							tb_remove();
-						}
+                  file_frame.on( 'select', function() {
+                    attachment = file_frame.state().get('selection').first().toJSON();                    
+                    $("#upload_image-<?php echo $this->field->alias; ?>").val(attachment.url);
+          		  });
 
-						return false;
-					});
-				});
-			})(jQuery);
+                  file_frame.open();
+  	  	        });
+  	          });
+  	        })(jQuery);
 		</script><?php
 
 		do_action( self::$type_slug . '_after_render_content', $this );
-	}	
+	}
 
 	public static function render_settings() { ?>
 
