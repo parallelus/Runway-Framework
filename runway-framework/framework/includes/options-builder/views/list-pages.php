@@ -19,7 +19,7 @@
 
 <?php if ( $pages ) { ?>
 
-	<table class="wp-list-table widefat plugins" style="margin-top: 15px;">
+	<table class="wp-list-table widefat" style="margin-top: 15px;">
 	<thead>
 	<tr>
 		<!-- <th scope="col" id="cb" class="manage-column column-cb check-column" style="width: 0px;"><input type="checkbox" name="ext_chk[]" value=""></th> -->

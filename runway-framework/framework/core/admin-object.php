@@ -1129,7 +1129,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<?php
 			for ( $i = 0; $i < count( $levels ); $i++ ) {
 				$selected = ( $i == count( $levels ) - 1 ) ? ' selected="selected"' : '';
-				echo '<li ' . $selected . '">' . $levels[$i] . '</li>';
+				echo '<li ' . $selected . '>' . $levels[$i] . '</li>';
 			}
 			?></ul><?php
 

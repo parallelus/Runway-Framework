@@ -41,7 +41,7 @@ switch ( $this->navigation ) {
 	</div>
 <br><br>
 
-<table class="wp-list-table widefat plugins">
+<table class="wp-list-table widefat">
 	<thead>
 		<tr>
 			<th scope="col" id="cb" class="manage-column column-cb check-column" style="width: 0px;"><input type="checkbox" name="ext_chk[]" /></th>
