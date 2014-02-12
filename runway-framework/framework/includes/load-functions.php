@@ -346,60 +346,53 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 
 	unset( $tmp );
 
-	if ( function_exists( 'wp_get_theme' ) ) {
-		if ( file_exists( $theme_dir.'/style.css' ) && is_dir( $theme_dir ) ) {
-			$stylesheet_files = array();
-			$template_files = array();
+	if ( file_exists( $theme_dir.'/style.css' ) && is_dir( $theme_dir ) ) {
+		$stylesheet_files = array();
+		$template_files = array();
 
-			$theme_files = scandir( $theme_dir );
-			foreach ( $theme_files as $file ) {
-				if ( is_file( $theme_dir.'/'.$file ) ) {
-					if ( preg_match( '/(.+).css/', $file ) ) {
-						$stylesheet_files[] = $theme_dir.'/'.$file;
-					}
-					else {
-						$template_files[] = $theme_dir.'/'.$file;
-					}
+		$theme_files = scandir( $theme_dir );
+		foreach ( $theme_files as $file ) {
+			if ( is_file( $theme_dir.'/'.$file ) ) {
+				if ( preg_match( '/(.+).css/', $file ) ) {
+					$stylesheet_files[] = $theme_dir.'/'.$file;
+				}
+				else {
+					$template_files[] = $theme_dir.'/'.$file;
 				}
 			}
-			if ( $stylesheet == null ) {
-				$explodeTheme_dir = explode( '/', $theme_dir );
-				$stylesheet = array_pop( $explodeTheme_dir );
-			}
-
-			$theme = wp_get_theme( $stylesheet );
-
-			$theme_type = '';
-			if ( file_exists( $theme_dir.'/framework/setup.php' ) &&
-				file_exists( $theme_dir.'/framework/core/admin-object.php' ) &&
-				file_exists( $theme_dir.'/framework/core/common-object.php' ) ) {
-				$theme_type = 'runway-framework';
-			}
-
-			return array(
-				'Name' => $theme->get( 'Name' ),
-				'URI' => $theme->get( 'ThemeURI' ),
-				'Description' => $theme->get( 'Description' ),
-				'Author' => $theme->get( 'Author' ),
-				'AuthorURI' => $theme->get( 'AuthorURI' ),
-				'Version' => $theme->get( 'Version' ),
-				'Template' => $theme->get( 'Template' ),
-				'Status' => $theme->get( 'Status' ),
-				'Tags' => $theme->get( 'Tags' ),
-				'TextDomain' => $theme->get( 'TextDomain' ),
-				'DomainPath' => $theme->get( 'DomainPath' ),
-				'Title' => $theme->get( 'Name' ),
-				'AuthorName' => $theme->get( 'Author' ),
-				'StylesheetFiles' => $stylesheet_files,
-				'TemplateFiles' => $template_files,
-				'Folder' => $stylesheet,
-			);
 		}
-	} else {
-		if ( !$stylesheet )
-			$stylesheet = get_stylesheet_directory() . '/style.css';
+		if ( $stylesheet == null ) {
+			$explodeTheme_dir = explode( '/', $theme_dir );
+			$stylesheet = array_pop( $explodeTheme_dir );
+		}
 
-		return get_theme_data( $stylesheet );
+		$theme = wp_get_theme( $stylesheet );
+
+		$theme_type = '';
+		if ( file_exists( $theme_dir.'/framework/setup.php' ) &&
+			file_exists( $theme_dir.'/framework/core/admin-object.php' ) &&
+			file_exists( $theme_dir.'/framework/core/common-object.php' ) ) {
+			$theme_type = 'runway-framework';
+		}
+
+		return array(
+			'Name' => $theme->get( 'Name' ),
+			'URI' => $theme->get( 'ThemeURI' ),
+			'Description' => $theme->get( 'Description' ),
+			'Author' => $theme->get( 'Author' ),
+			'AuthorURI' => $theme->get( 'AuthorURI' ),
+			'Version' => $theme->get( 'Version' ),
+			'Template' => $theme->get( 'Template' ),
+			'Status' => $theme->get( 'Status' ),
+			'Tags' => $theme->get( 'Tags' ),
+			'TextDomain' => $theme->get( 'TextDomain' ),
+			'DomainPath' => $theme->get( 'DomainPath' ),
+			'Title' => $theme->get( 'Name' ),
+			'AuthorName' => $theme->get( 'Author' ),
+			'StylesheetFiles' => $stylesheet_files,
+			'TemplateFiles' => $template_files,
+			'Folder' => $stylesheet,
+		);
 	}
 
 }
