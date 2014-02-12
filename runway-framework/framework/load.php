@@ -143,27 +143,11 @@ if ( PHP_VERSION_ID >= 50301 ) {
 	    	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
 
-	    	    	if( strpos($option_key, $shortname.'layout_header_') !== false ||
-	    	    	    strpos($option_key, $shortname.'layout_footer_') !== false ||
-	    	    	    strpos($option_key, $shortname.'other_options_layout-') !== false ||
-	    	    	    strpos($option_key, $shortname.'layouts_manager') !== false ||
-	    	    	    strpos($option_key, $shortname.'sidebar_settings') !== false ||
-	    	    	    strpos($option_key, $shortname.'extensions-manager') !== false ||
-	    	    	    strpos($option_key, $shortname.'content_types') !== false) {
-
-							$json = json_decode(file_get_contents( THEME_DIR.'data/'.$ff ), true);
-							$db = get_option($option_key);
-
-							if( !empty($json) && empty($db) || $json != $db ) {
-								update_option($option_key, $json);
-							}
-					}
-	    	    	if(strpos($option_key, $shortname.'formsbuilder_') !== false ) {
-							$json = (array)json_decode(file_get_contents( THEME_DIR.'data/'.$ff ));
-							$db = get_option($option_key);
-							if( !empty($json) && empty($db) || $json != $db ) {
-								update_option($option_key, $json);
-						    }
+					$json = ($option_key == $shortname.'formsbuilder_')? (array)json_decode(file_get_contents( THEME_DIR.'data/'.$ff )) :
+																		 json_decode(file_get_contents( THEME_DIR.'data/'.$ff ), true);
+					$db = get_option($option_key);
+					if( !empty($json) && empty($db) || $json != $db ) {
+						update_option($option_key, $json);
 					}
 				}	
 			}
