@@ -8,7 +8,7 @@ do_action( 'functions_before' );
 #-----------------------------------------------------------------
 # Load framework
 #-----------------------------------------------------------------
-include_once TEMPLATEPATH . '/framework/load.php';
+include_once get_template_directory() . '/framework/load.php';
 
 
 

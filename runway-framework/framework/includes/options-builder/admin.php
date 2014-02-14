@@ -3,7 +3,7 @@ global $apm, $alias_;
 
 $pages_dir = $apm->pages_dir;
 
-if ( get_stylesheet_directory() == TEMPLATEPATH ) {
+if ( get_stylesheet_directory() == get_template_directory() ) {
 	echo '<br>You must create or activate a Runway child theme to add options pages: <a href="'.home_url().'/wp-admin/admin.php?page=themes">Runway Themes</a>';
 }
 else {

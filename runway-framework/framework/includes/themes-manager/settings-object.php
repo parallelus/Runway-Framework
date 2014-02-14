@@ -19,10 +19,10 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	function __construct($settings){
 		parent::__construct($settings);
 
-		$this->extensions_dir = TEMPLATEPATH . '/framework/extensions/';
+		$this->extensions_dir = get_template_directory() . '/framework/extensions/';
 		$this->themes_path = $this->build_themes_path();
 		$this->themes_url = home_url().'/wp-content/themes';
-		$this->default_theme_package_path = TEMPLATEPATH . '/framework/themes/default.zip';
+		$this->default_theme_package_path = get_template_directory() . '/framework/themes/default.zip';
 	}
 
 	// Add hooks & crooks
@@ -176,7 +176,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	// extract wordpress themes path
 	function build_themes_path() {
 
-		$path = explode( '/', TEMPLATEPATH );
+		$path = explode( '/', get_template_directory() );
 		unset( $path[count( $path ) - 1] );
 
 		return implode( '/', $path );
