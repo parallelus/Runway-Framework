@@ -178,7 +178,7 @@ class Apm_Admin extends Runway_Admin_Object {
 								$new = str_replace( '\r\n', '\\r\\n', json_encode( $page ) );
 							}
 						}
-						if( IS_CHILD )
+						if( IS_CHILD && get_template() == 'runway-framework')
 							file_put_contents( "{$pages_dir}{$page_id}.json", $new );
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'framework' ) .'</div>';

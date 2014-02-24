@@ -326,7 +326,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 		// save updated option to file in /data folder
 		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
-			if( IS_CHILD )
+			if( IS_CHILD && get_template() == 'runway-framework')
 				file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
 	}

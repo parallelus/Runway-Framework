@@ -309,7 +309,7 @@ class FormsBuilder {
 		elseif ( $json != '' ) {
 			// TODO: save as form
 			$form = json_decode( $json );
-			if( IS_CHILD )
+			if( IS_CHILD && get_template() == 'runway-framework')
 				file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
 		}
 	}
