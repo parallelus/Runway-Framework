@@ -296,32 +296,6 @@ function theme_option_filter($pre) {
 
 }
 
-if ( is_admin() ) {
-	function db_json_sync(){
-		global $shortname;
-
-		$json_dir = get_stylesheet_directory() . '/data';
-	    $ffs = scandir($json_dir);
-	    foreach($ffs as $ff){
-    	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
-    	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-    	    	if( in_array($option_key, array($shortname.'report-manager')) )
-    	    		continue;
-    	    	if( strpos($option_key, $shortname) !== false ) {
-					$json = ($option_key == $shortname.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
-																		 json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
-					$db = get_option($option_key);
-					if( !empty($json) && empty($db) || $json != $db ) {
-						update_option($option_key, $json);
-					}
-				}
-			}	
-		}
-	}
-	if(is_dir(get_stylesheet_directory() . '/data'))
-		add_action( 'admin_init', 'db_json_sync', 100 );
-}
-
 function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 	global $wp_current_filter, $shortname;
 
