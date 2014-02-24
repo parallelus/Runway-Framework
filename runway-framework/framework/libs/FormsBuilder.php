@@ -309,7 +309,8 @@ class FormsBuilder {
 		elseif ( $json != '' ) {
 			// TODO: save as form
 			$form = json_decode( $json );
-			file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
+			if( IS_CHILD )
+				file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
 		}
 	}
 
