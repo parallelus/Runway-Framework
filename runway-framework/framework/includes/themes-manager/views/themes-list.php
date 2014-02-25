@@ -113,9 +113,9 @@ if ( isset( $options ) ) {
 		<p><?php _e( 'Loading ...', 'framework' ); ?></p>
 		<img src="<?php
 if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
-	echo get_bloginfo( 'url' ) . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
+	echo home_url() . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
 } else {
-	echo get_bloginfo( 'url' ) . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
+	echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
 }
 ?>" />
 

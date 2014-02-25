@@ -191,9 +191,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$theme = rw_get_theme_data( $this->themes_path . '/' . $folder );
 
 		if ( file_exists( $this->themes_path . '/' . $folder . '/screenshot.png' ) ) {
-			$theme['screenshot'] = get_bloginfo( 'url' ) . '/wp-content/themes/' . $folder . '/screenshot.png';
+			$theme['screenshot'] = home_url() . '/wp-content/themes/' . $folder . '/screenshot.png';
 		} else {
-			$theme['screenshot'] = get_bloginfo( 'url' ) . '/wp-content/themes/runway-framework/screenshot.png';
+			$theme['screenshot'] = home_url() . '/wp-content/themes/runway-framework/screenshot.png';
 		}
 
 		$theme['Folder_location'] = '/wp-content/themes/' . $folder;
@@ -587,9 +587,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 			$zip->close();
 
-			do_action( 'after_build_child_package', $theme_name, get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );
+			do_action( 'after_build_child_package', $theme_name, home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );
 
-			return get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
+			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
 			wp_die( 'You must have ZipArchive class' );
@@ -673,8 +673,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 			$zip->close();
 
-			do_action( 'after_build_alone_theme', $theme_name, get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );
-			return get_bloginfo( 'url' ) . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
+			do_action( 'after_build_alone_theme', $theme_name, home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );
+			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
 			wp_die( 'You must have ZipArchive class' );
@@ -768,7 +768,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			copy( "{$this->themes_path}/runway-framework/screenshot.png", $path );
 		}
 
-		return bloginfo( 'url' ) . "/wp-content/themes/{$theme_folder}/screenshot.png";
+		return home_url() . "/wp-content/themes/{$theme_folder}/screenshot.png";
 
 	}
 
@@ -819,7 +819,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Folder
 	$t['folder'] = ( isset( $theme['Folder'] ) ) ? $theme['Folder'] : false;
 	// Image
-	$t['image'] = ( isset( $t['folder'] ) ) ? get_bloginfo( 'url' ) . '/wp-content/themes/' . $t['folder'] . '/screenshot.png' : false;
+	$t['image'] = ( isset( $t['folder'] ) ) ? home_url() . '/wp-content/themes/' . $t['folder'] . '/screenshot.png' : false;
 
 	// URLs
 	// --------------------------------------------
