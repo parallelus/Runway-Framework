@@ -173,10 +173,10 @@ if ( is_admin() ) {
 					split_data($json, current(array_keys($json)), $db, $json_updated);
 
 					if( !empty($json_updated) && empty($db) ) {
-						update_option($option_key, $json);
+						update_option($option_key, $json_updated);
 					}
-					if( !empty($json) && !empty($db) || $json_updated != $db ) {
-						update_option($option_key, $json);
+					if( !empty($json_updated) && !empty($db) || $json_updated != $db ) {
+						update_option($option_key, $json_updated);
 					}					
 				}
 			}	
