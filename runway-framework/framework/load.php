@@ -83,7 +83,7 @@ if ( PHP_VERSION_ID >= 50301 ) {
 	function add_framework_menu() {
 		global $extm;
 
-		if ( IS_CHILD ) {
+		if ( IS_CHILD && get_template() == 'runway-framework' ) {
 			// Runway menu
 			add_menu_page( 'Runway', 'Runway', 'administrator', 'framework-options', 'do_nothing', FRAMEWORK_URL.'framework/images/menu-runway.png' );
 			// Downloads menu
