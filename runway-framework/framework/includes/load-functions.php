@@ -463,4 +463,17 @@ if ( !function_exists( 'after_functions_file' ) ) :
 	}
 add_action( 'functions_after', 'after_functions_file' );
 endif;
+
+function split_data($json, $key, $db, &$json_updated)
+{
+	foreach($json as $k => $v) {
+		if(is_array($v)) {
+			split_data($v, $k, $db[$k], $json_updated[$k]);
+		}
+		else {
+			$json_updated[$k] = isset($db[$k])? $db[$k] : $json_updated[$k];
+		}
+	}	
+}
+
 ?>
