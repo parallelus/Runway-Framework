@@ -416,7 +416,7 @@ function custom_theme_menu_icon() {
 			$menu[$themeKey][4] .= ' '.$options['Icon'];  // Icon class
 
 			if ( $options['Icon'] == 'custom-icon' && file_exists( THEME_DIR.'custom-icon.png' ) ) {
-				$menu[$themeKey][6] = get_bloginfo( 'stylesheet_directory' ).'/custom-icon.png';
+				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
 			} else {
 				$menu[$themeKey][6] = '';
 			}
