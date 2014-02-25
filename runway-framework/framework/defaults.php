@@ -21,9 +21,9 @@ $shortname   	= apply_filters( 'shortname', sanitize_title( $themeTitle . '_' ) 
 //................................................................
 // shortcuts variables
 //................................................................
-$themeUrl   	= apply_filters( 'themeUrl', trailingslashit( get_bloginfo( 'stylesheet_directory' ) ) );
+$themeUrl   	= apply_filters( 'themeUrl', trailingslashit( get_stylesheet_directory_uri() ) );
 $themeDir   	= apply_filters( 'themeDir', trailingslashit( get_stylesheet_directory() ) );
-$frameworkUrl  	= apply_filters( 'frameworkUrl', trailingslashit( get_bloginfo( 'template_url' ) ) );
+$frameworkUrl  	= apply_filters( 'frameworkUrl', trailingslashit( get_template_directory_uri() ) );
 $frameworkDir  	= apply_filters( 'frameworkDir', trailingslashit( get_template_directory() ) );
 $frameworkText  = apply_filters( 'frameworkText', 'runway' );
 $developerMode  = apply_filters( 'developerMode', ( get_template() == 'runway-framework' ) ); // enables developer mode options

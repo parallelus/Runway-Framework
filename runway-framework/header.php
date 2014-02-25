@@ -5,8 +5,8 @@
 	<title><?php wp_title( '|', true, 'right' ); echo ' '; bloginfo( 'name' ); ?></title>
 
 	<!-- Favorites and mobile bookmark icons -->
-	<link rel="shortcut icon" href="<?php bloginfo( 'stylesheet_directory' ); ?>/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" href="<?php bloginfo( 'stylesheet_directory' ); ?>/apple-touch-icon.png">
+	<link rel="shortcut icon" href="<?php get_stylesheet_directory_uri(); ?>/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" href="<?php get_stylesheet_directory_uri(); ?>/apple-touch-icon.png">
 
 	<!-- WP headers -->
 	<?php wp_head(); ?>

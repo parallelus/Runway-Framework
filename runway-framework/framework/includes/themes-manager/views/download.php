@@ -64,7 +64,7 @@ $current_package = $most_recent;
 if ( $current_package['a_hash'] ) { 
 	?>
 
-				<p><a href="<?php echo get_bloginfo( 'url' ) . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['a_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
+				<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['a_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
 				<p class="checksum"><?php echo __('Checksum', 'framework') .": <span class='code'>". $current_package['a_hash']; ?></span></p>
 				<?php 
 			} 
@@ -76,7 +76,7 @@ else {
 			<td>
 <?php 
 if ( $current_package['c_hash'] ) { ?>
-				<p><a href="<?php echo get_bloginfo( 'url' ) . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['c_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
+				<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['c_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
 				<p class="checksum"><?php echo __('Checksum', 'framework') .": <span class='code'>". $current_package['c_hash']; ?></span></p>
 <?php 
 } 
@@ -162,7 +162,7 @@ if ( $history ) { ?>
 					<td>
 				<?php 
 				if ( $package['a_hash'] ) { ?>
-						<p><a href="<?php echo get_bloginfo( 'url' ) . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['a_hash']; ?></span>)</p>
+						<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['a_hash']; ?></span>)</p>
 						<?php 
 				} else { 
 					_e('Package Not Found', 'framework');
@@ -171,7 +171,7 @@ if ( $history ) { ?>
 					<td>
 				<?php 
 				if ( $package['c_hash'] ) { ?>
-						<p><a href="<?php echo get_bloginfo( 'url' ) . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['c_hash']; ?></span>)</p>
+						<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['c_hash']; ?></span>)</p>
 				<?php 
 				} else { 
 					_e('Package Not Found', 'framework');
