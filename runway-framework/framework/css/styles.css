@@ -173,6 +173,7 @@ ul.subsubsub.mp li:first-child{padding-left:0;border-left:none}
     -ms-box-shadow: 0 0 42px rgba(0,0,0,.42);
     -o-box-shadow: 0 0 42px rgba(0,0,0,.42);*/
     box-shadow: 0 0 42px rgba(0,0,0,.42);
+    z-index: 30;
 }
 /*.ui-dialog-titlebar {
     border: 0;
@@ -190,6 +191,7 @@ ul.subsubsub.mp li:first-child{padding-left:0;border-left:none}
     height: 100%;
     background: #666;
     opacity: 0.4;
+    z-index: 30;
 }
 .ui-widget-overlay.transparent-bg { background-color: transparent }
 /* dialog without modal overlay, needs style adjustment */
