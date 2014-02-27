@@ -162,29 +162,31 @@ if ( is_admin() ) {
 	    foreach($ffs as $ff){
     	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
     	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-    	    	if( in_array($option_key, array($shortname.'report-manager', $shortname.'formsbuilder_', $shortname.'extensions-manager')) )
+    	    	if( in_array($option_key, array($shortname.'report-manager', $shortname.'extensions-manager')) )
     	    		continue;
     	    	if( strpos($option_key, $shortname) !== false ) {
 					$json = ($option_key == $shortname.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
 																		 json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
 					$db = get_option($option_key);
-
 					$json_updated = $json;
-					split_data($json, current(array_keys($json)), $db, $json_updated);
 
-					if( !empty($json_updated) && empty($db) ) {
-						update_option($option_key, $json_updated);
-					}
-					if( !empty($json_updated) && !empty($db) || $json_updated != $db ) {
-						update_option($option_key, $json_updated);
-					}					
+					split_data($json, $db, $json_updated);
+
+					 if( !empty($json_updated) && empty($db) ) {
+					 	update_option($option_key, $json_updated);
+					 }
+					 if( !empty($json_updated) && !empty($db) || $json_updated != $db ) {
+					 	update_option($option_key, $json_updated);
+					 }
+                     update_option($shortname."is_first_load", true);
 				}
 			}	
 		}
 	}
-
-	if(is_dir(get_stylesheet_directory() . '/data'))
-		add_action( 'admin_init', 'db_json_sync', 100 );
+    
+    $is_first_load = get_option($shortname."is_first_load");
+	if( is_dir(get_stylesheet_directory() . '/data') && (empty($is_first_load) || $is_first_load == false) )
+       db_json_sync();
 }
 
 ?>
