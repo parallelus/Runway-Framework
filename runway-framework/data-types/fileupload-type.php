@@ -22,7 +22,8 @@ class Fileupload_type extends Data_Type {
 
 		<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
 		<?php
-		wp_enqueue_media();
+		if ( ! did_action( 'wp_enqueue_media' ) )
+    		wp_enqueue_media();    	
 ?>
 		<script type="text/javascript">
 			var file_frame;
@@ -43,7 +44,12 @@ class Fileupload_type extends Data_Type {
 
                   file_frame.on( 'select', function() {
                     attachment = file_frame.state().get('selection').first().toJSON();                    
-                    $("#upload_image-<?php echo $this->field->alias; ?>").val(attachment.url);
+                    var src = $("#upload_image-<?php echo $this->field->alias; ?>").val(attachment.url);
+                    if ( wp.customize ) {
+	      				var api = wp.customize;
+	      				var mysetting = api.instance("<?php echo $this->field->alias; ?>");
+	      				api.instance("<?php echo $this->field->alias; ?>").set(attachment.url);
+      				}
           		  });
 
                   file_frame.open();
