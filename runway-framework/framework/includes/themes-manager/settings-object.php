@@ -292,7 +292,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		}
 
 		// check if have new custom icon and if true move file to theme folder
-		if ( $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ) {
+		if ( $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ||
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/x-png' || 
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/gif' || 
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpeg' || 
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpg' || 
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/pjpeg') {
+
 			imagepng(
 				imagecreatefromstring(
 					file_get_contents( $_FILES['theme_options']['tmp_name']['CustomIcon'] )
