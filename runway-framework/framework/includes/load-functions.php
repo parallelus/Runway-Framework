@@ -476,4 +476,71 @@ function split_data($json, $db, &$json_updated) {
 	}	
 }
 
+function create_theme_ID( $length = 0 ) {
+
+    $result = '';
+    $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $length = ($length > 0)? $length : 12; // used specified length, or default 12
+	for ($i = $length; $i > 0; --$i) {
+		$theme_id .= $chars[intval(round((mt_rand() / mt_getrandmax()) * (strlen($chars) - 1)))];
+	}
+
+    return $theme_id;
+} 
+
+function check_theme_ID( ) {
+
+	$stylecss_file = get_stylesheet_directory() . '/style.css';
+	if ( file_exists( $stylecss_file ) ) {
+		$stylecss = file( $stylecss_file );
+		foreach($stylecss as $row) {
+			if ( strpos( $row, 'Theme Name: ') !== false ) {
+				$theme_name_stylecss = trim(str_replace('Theme Name: ', '', $row));
+				break;
+			}
+		}
+	}
+
+	$settings_file = get_stylesheet_directory() . '/data/settings.json';
+	if ( file_exists( $settings_file ) ) {
+		$json = file_get_contents( $settings_file );
+		$settings = json_decode( $json, true );
+		$theme_name_json = $settings['Name'];
+	}
+
+	if( $theme_name_stylecss != $theme_name_json ) {
+
+		if(isset($_GET['create-theme-id'])) {
+			if($_GET['create-theme-id']) {
+				$theme_id = create_theme_ID();
+				$settings['ThemeID'] = $theme_id;
+				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+	// TODO
+			}
+			else {
+	// TODO
+			}
+
+		}
+
+		$url = add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>
+		<div class="updated">
+			<p><strong>
+			We noticed this theme was previously named <i><?php echo $theme_name_json; ?></i> but is now named <i><?php echo $theme_name_stylecss; ?></i>.<br>
+			If this is a new theme you should create a new unique ID for the data file to avoid any data collisions.<br>
+			If this is the same theme and you are just renaming it, you should keep this ID the same.<br>
+			Do you want to create a new ID now?</strong>
+			<a href="<?php echo add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>"><?php _e('Yes', 'framework') ?></a>
+			<a href="<?php echo add_query_arg( 'create-theme-id', 0, home_url().$_SERVER['REQUEST_URI'] ); ?>"><?php _e('No', 'framework') ?></a>
+			</p>
+		</div>
+	<?php		
+	}
+	else
+		;//out('222');
+
+// out($theme_name_stylecss);
+// out($theme_name_json);
+}
+
 ?>
