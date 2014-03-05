@@ -149,7 +149,7 @@ $html->setting_row( $row );
 if ( isset( $Screenshot ) ) { ?>
 					<a href="<?php echo home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ?>">View Screenshot</a><br>
 				<?php } ?>
-				<input type="file" name="theme_options[Screenshot]" value="<?php echo ($_FILES['theme_options']['name']['Screenshot'] != '') ? $_FILES['theme_options']['name']['Screenshot'] : ''; ?>" />
+				<input type="file" name="theme_options[Screenshot]" value="<?php echo isset($_FILES['theme_options']['name']['Screenshot'])? $_FILES['theme_options']['name']['Screenshot'] : ''; ?>" />
 			</td>
 		</tr>
 
