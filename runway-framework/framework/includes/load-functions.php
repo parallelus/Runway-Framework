@@ -464,21 +464,33 @@ if ( !function_exists( 'after_functions_file' ) ) :
 add_action( 'functions_after', 'after_functions_file' );
 endif;
 
-function split_data($json, $db, &$json_updated) {
+function split_data($json, $db, &$json_updated, &$need_update) {
 	foreach($json as $k => $v) {
 		if(is_array($v)) {
 			$db[$k] = isset($db[$k])? $db[$k] : null;
-			split_data($v, $db[$k], $json_updated[$k]);
+			if($k == 'body_structure') {
+				if( isset($db[$k]) )
+				  $json_updated[$k] = $db[$k];
+				continue;
+			}
+			split_data($v, $db[$k], $json_updated[$k], $need_update);
 		}
 		else {
-            $json_updated[$k] = isset($db[$k])? $db[$k] : $v;
+			if( isset($db[$k]) ) {
+				$json_updated[$k] = $db[$k];
+			}
+			else {
+				$json_updated[$k] = $v;
+				if(!empty($v) )
+					$need_update = true;
+			}
 		}
 	}	
 }
 
 function create_theme_ID( $length = 0 ) {
 
-    $result = '';
+    $theme_id = '';
     $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $length = ($length > 0)? $length : 12; // used specified length, or default 12
 	for ($i = $length; $i > 0; --$i) {
@@ -487,6 +499,52 @@ function create_theme_ID( $length = 0 ) {
 
     return $theme_id;
 } 
+
+function change_json_prefix( $theme_name, $theme_id ) {
+
+	$theme_name = apply_filters( 'shortname', sanitize_title( $theme_name . '_' ) );
+	$json_dir = get_stylesheet_directory() . '/data';
+    $ffs = scandir($json_dir);
+    foreach($ffs as $ff){
+	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
+	    	if( in_array($option_key, array($theme_name.'report-manager', $theme_name.'extensions-manager')) || strstr($option_key, "formsbuilder_") !== false )
+	    		continue;
+	    	if( strpos($option_key, $theme_name) !== false ) {
+// TODO // out(str_replace($theme_name, $theme_id.'_', $ff));
+			}
+		}	
+	}
+}
+
+function get_settings_json() {
+
+	$file = get_stylesheet_directory() . '/data/settings.json';
+	$theme_name = '';
+	if ( file_exists( $file ) ) {
+		$json = file_get_contents( $file );
+		$settings = json_decode( $json, true );
+	}
+
+	return $settings;
+}
+
+function get_theme_name_style_css() {
+
+	$file = get_stylesheet_directory() . '/style.css';
+	$theme_name = '';
+	if ( file_exists( $file ) ) {
+		$stylecss = file( $file );
+		foreach($stylecss as $row) {
+			if ( strpos( $row, 'Theme Name: ') !== false ) {
+				$theme_name = trim(str_replace('Theme Name: ', '', $row));
+				break;
+			}
+		}
+	}
+
+	return $theme_name;
+}
 
 function check_theme_ID( ) {
 
@@ -501,20 +559,17 @@ function check_theme_ID( ) {
 		}
 	}
 
-	$settings_file = get_stylesheet_directory() . '/data/settings.json';
-	if ( file_exists( $settings_file ) ) {
-		$json = file_get_contents( $settings_file );
-		$settings = json_decode( $json, true );
-		$theme_name_json = $settings['Name'];
-	}
+	$settings = get_settings_json();
+	$theme_name_stylecss = get_theme_name_style_css();
 
-	if( $theme_name_stylecss != $theme_name_json ) {
+	if( $theme_name_stylecss != $settings['Name'] ) {
 
 		if(isset($_GET['create-theme-id'])) {
 			if($_GET['create-theme-id']) {
 				$theme_id = create_theme_ID();
 				$settings['ThemeID'] = $theme_id;
 				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+				change_json_prefix( $settings['Name'], $theme_id );
 	// TODO
 			}
 			else {
@@ -526,7 +581,7 @@ function check_theme_ID( ) {
 		$url = add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>
 		<div class="updated">
 			<p><strong>
-			We noticed this theme was previously named <i><?php echo $theme_name_json; ?></i> but is now named <i><?php echo $theme_name_stylecss; ?></i>.<br>
+			We noticed this theme was previously named <i><?php echo $settings['Name']; ?></i> but is now named <i><?php echo $theme_name_stylecss; ?></i>.<br>
 			If this is a new theme you should create a new unique ID for the data file to avoid any data collisions.<br>
 			If this is the same theme and you are just renaming it, you should keep this ID the same.<br>
 			Do you want to create a new ID now?</strong>
