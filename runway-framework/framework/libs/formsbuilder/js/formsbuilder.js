@@ -70,7 +70,7 @@ function save_custom_options(alias, custom_alias, section){
         // console.log($.find('.custom-data-type'));
     $('body').find('.custom-data-type').each(function(index, el){
         types[$(el).attr('name')] = $(el).data('type');
-        
+
         if($(el).data('section') == section){
             switch($(el).data('type')){
                 case "checkbox-bool-type":{
@@ -121,7 +121,19 @@ function save_custom_options(alias, custom_alias, section){
                 // case "text-editor":{
                 // TODO: text editor data saving
                 // } break;
-               
+
+                case "texteditor-type": {
+                    var element_id = $(el).attr('id');
+                    var content;
+                    var editor = tinyMCE.get(element_id);
+                    if (editor) {
+                        content = editor.getContent();
+                    } else {
+                        content = $('#'+element_id).val();
+                    }
+                    values[$(el).attr('name')] = content;
+                } break;
+
                 default:{
                     values[$(el).attr('name')] = $(el).val();
                 }
