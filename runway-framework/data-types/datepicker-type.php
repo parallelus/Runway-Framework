@@ -20,6 +20,75 @@ class Datepicker_type extends Data_Type {
 		}
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
 ?>
+                <?php if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+                    $this->get_value();
+                    if(isset($this->field->value) && is_array($this->field->value)) {
+                        foreach($this->field->value as $key=>$tmp_value) {
+                            if(is_string($key))
+                                unset($this->field->value[$key]);
+                        }
+                    }
+
+                    $count = isset($this->field->value) ? count((array)$this->field->value) : 1;
+                    if($count == 0) 
+                        $count = 1;
+                    ?>
+                    <legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+                    <?php
+                    for( $key = 0; $key < $count; $key++ ) {
+                        if(isset($this->field->value) && is_array($this->field->value))
+                            $repeat_value =  (isset($this->field->value[$key])) ? $this->field->value[$key] : '';
+                        else
+                            $repeat_value = "";
+                        ?>
+                            <input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
+                             name="<?php echo $this->field->alias; ?>[]"
+                             value="<?php echo $repeat_value ?>"
+                             <?php echo $section; ?>
+                             data-format="<?php echo stripslashes( $this->field->format ); ?>"
+                             data-changeMonth="<?php echo stripslashes( $this->field->changeMonth ); ?>"
+                             data-changeYear="<?php echo stripslashes( $this->field->changeYear ); ?>"
+                             data-type="datepicker-type" />
+                            <a href="#" class="delete_datepicker_field">Delete</a><br>
+                        <?php 
+                    }
+                    
+                    $field = array(
+                            'field_name' => $this->field->alias,
+                            'type' => 'text',
+                            'class' => 'datepicker custom-data-type',
+                            'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+                            'data_type' => 'datepicker-type',
+                            'after_field' => '',
+                            'value' => '#'
+                    );
+                    $this->enable_repeating($field);
+                    ?>
+                    <script type="text/javascript">
+			(function ($) {
+				$(function () {
+					$(".datepicker").datepicker({
+						autoSize: false,
+						dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
+						changeMonth: $(this).data('changemonth'),
+						changeYear: $(this).data('changeyear'),
+
+						onSelect: function(date) {}
+					});
+				});
+			})(jQuery);
+                    </script>
+                    <?php
+                } else { 
+                    $input_value = ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : '';
+                    if(!is_string($input_value) && !is_numeric($input_value))
+                    {
+                        if(is_array($input_value) && isset($input_value[0]))
+                            $input_value = $input_value[0];
+                        else
+                            $input_value = "";
+                    }
+                    ?>
 		<script type="text/javascript">
 			(function ($) {
 				$(function () {
@@ -29,9 +98,7 @@ class Datepicker_type extends Data_Type {
 						changeMonth: $(this).data('changemonth'),
 						changeYear: $(this).data('changeyear'),
 
-						onSelect: function(date) {
-          				  console.log(date);
-        				},
+						onSelect: function(date) {}
 					});
 				});
 			})(jQuery);
@@ -39,13 +106,16 @@ class Datepicker_type extends Data_Type {
 		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
 		<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
 			 name="<?php echo $this->field->alias; ?>"
-			 value="<?php echo ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : ''; ?>"
+			 value="<?php echo $input_value ?>"
 			 <?php echo $section; ?>
 			 data-format="<?php echo stripslashes( $this->field->format ); ?>"
 			 data-changeMonth="<?php echo stripslashes( $this->field->changeMonth ); ?>"
 			 data-changeYear="<?php echo stripslashes( $this->field->changeYear ); ?>"
 			 data-type="datepicker-type" />
 		<div id="datapicker-dialog" name="<?php echo isset( $alias )? $alias : ''; ?>" title="<?php echo isset( $title )? stripslashes( $title ) : ''; ?>" style="display:none;"></div>
+                    
+                <?php } ?>
+                
 		<?php
 
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -277,4 +347,68 @@ class Datepicker_type extends Data_Type {
         </script>
 
     <?php }
+    
+    public function enable_repeating($field = array() ){
+        if(!empty($field)) :
+                extract($field);
+
+                $add_id = 'add_'.$field_name;
+                $del_id = 'del_'.$field_name;
+
+                ?>
+                        <div id="<?php echo $add_id; ?>">
+                                <a href="#">
+                                        Add Field
+                                </a>
+                        </div>			
+
+                        <script type="text/javascript">
+                                (function($){
+                                        $(document).ready(function(){
+                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
+                                                //currentTime = new Date().getTime();
+                                                $('#<?php echo $add_id; ?>').click(function(e){
+                                                        e.preventDefault();
+                                                        var field = $('<input/>', {
+                                                                type: '<?php echo $type; ?>',
+                                                                class: '<?php echo $class; ?>',
+                                                                name: '<?php echo $field_name; ?>[]',
+                                                                value: ""
+                                                        })							
+                                                        .attr('data-type', '<?php echo $data_type; ?>')
+                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+                                                        .insertBefore($(this));
+
+                                                        field.click(function(e){
+                                                                e.preventDefault();
+                                                        });
+
+                                                        $('#header').focus();
+                                                        field.after('<br>');
+                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+                                                        field.next().after('<a href="#" class="delete_datepicker_field">Delete</a>');
+                                                        
+                                                        field.datepicker({
+                                                                autoSize: false,
+                                                                dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
+                                                                changeMonth: $(this).data('changemonth'),
+                                                                changeYear: $(this).data('changeyear'),
+
+                                                                onSelect: function(date) {}
+                                                        });
+                                                });
+
+                                                $('body').on('click', '.delete_datepicker_field', function(e){
+                                                        e.preventDefault();
+                                                        $(this).prev('.field_label').remove();
+                                                        $(this).prev().remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).remove();
+                                                });
+                                        });
+                                })(jQuery);
+                        </script>
+                <?php
+        endif;
+    }
 } ?>

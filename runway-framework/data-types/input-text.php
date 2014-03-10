@@ -21,9 +21,21 @@ class Input_text extends Data_Type {
 					<span class="customize-control-title"><?php echo $this->field->title ?></span>
 					<div class="customize-control-content">				
 						<?php 
+                            if(isset($this->field->value) && is_array($this->field->value)) {
+                                foreach($this->field->value as $key=>$tmp_value) {
+                                    if(is_string($key))
+                                        unset($this->field->value[$key]);
+                                }
+                            }
+                                                
 							$count = isset($this->field->value) ? count((array)$this->field->value) : 1;
-							for( $key = 0; $key < $count; $key++ ):						
-								$repeat_value = isset($this->field->value) && is_array($this->field->value) ? $this->field->value[$key] : '';
+							if($count == 0) 
+                                                            $count = 1;
+							for( $key = 0; $key < $count; $key++ ):		
+                                                            if(isset($this->field->value) && is_array($this->field->value))
+                                                                $repeat_value = isset($this->field->value[$key]) ? $this->field->value[$key] : '';
+                                                            else
+								$repeat_value = '';
 						?>
 								<input 
 									type="text" 
@@ -43,8 +55,10 @@ class Input_text extends Data_Type {
 									'field_name' => $this->field->alias,
 									'type' => 'text',
 									'class' => 'input-text custom-data-type',
+									'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
 									'data_type' => 'input-text',
-									'after_field' => ''
+									'after_field' => '',
+									'value' => 'aaa'
 								);
 								$this->enable_repeating($field);
 							} 
@@ -56,10 +70,21 @@ class Input_text extends Data_Type {
 		else{
 			?>
 			<label>
-				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+                            <span class="customize-control-title"><?php echo $this->field->title ?></span>
+                            <?php
+                                $input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
+                                if(!is_string($input_value) && !is_numeric($input_value))
+                                {
+                                    if(is_array($input_value) && isset($input_value[0]))
+                                        $input_value = $input_value[0];
+                                    else
+                                        $input_value = "";
+                                }
+                            ?>
+                            
 				<div class="customize-control-content">
 					<input type="text" 
-						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo ( $vals != null ) ? $this->field->saved : $this->get_value(); ?>"/>
+						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo $input_value; ?>"/>
 				</div>
 			</label>
 			<?php

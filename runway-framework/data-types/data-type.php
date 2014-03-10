@@ -101,17 +101,26 @@ class Data_Type extends WP_Customize_Control {
 								var field = $('<input/>', {
 									type: '<?php echo $type; ?>',
 									class: '<?php echo $class; ?>',
-									name: '<?php echo $field_name; ?>[]'
+									name: '<?php echo $field_name; ?>[]',
+									value: ""
 								})							
 								.attr('data-type', '<?php echo $data_type; ?>')
-								.insertBefore($(this));
-								field.before('<br>');
+                                   	.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+									.insertBefore($(this)).focus();
+
+								field.click(function(e){
+									e.preventDefault();
+								});
+
+								$('#header').focus();
+								field.after('<br>');
 								field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
 								field.next().after('<a href="#" class="delete_field">Delete</a>');
 							});
 
 							$('body').on('click', '.delete_field', function(e){
 								e.preventDefault();
+								$(this).prev('.field_label').remove();
 								$(this).prev('input').remove();
 								$(this).next('br').remove();
 								$(this).remove();

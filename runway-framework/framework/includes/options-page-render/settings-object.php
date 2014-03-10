@@ -155,6 +155,47 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		return true;
 
 	}
+        
+    function save_data( $data = array() ) {
+        
+        if ( empty( $data ) ) $data = $this->data['_framework'];
+        if ( $this->dynamic && isset($data[$this->option_key]) ) $data = $data[$this->option_key];
+        if(is_array($data) && isset($data['field_types'])) {
+            foreach($data['field_types'] as $field_type_key => $field_type_value) {
+                switch($field_type_value) {
+                    case "checkbox-type":
+                        if(isset($data[$field_type_key]) && is_array($data[$field_type_key])) {
+                            foreach($data[$field_type_key] as $checkbox_type_key => $checkbox_type_value) {
+                                if(is_array($checkbox_type_value)) {
+                                    foreach($data[$field_type_key][$checkbox_type_key] as $sub_checkbox_type_key => $sub_checkbox_type_value) {
+                                        if($sub_checkbox_type_value === 'false') {
+                                            unset($data[$field_type_key][$checkbox_type_key][$sub_checkbox_type_key]);
+                                        }
+                                    }
+                                    if(count($data[$field_type_key][$checkbox_type_key]) == 0) {
+                                        $data[$field_type_key][$checkbox_type_key][0] = '';
+                                    }
+                                }
+                            }
+                        }
+                    break;
+
+                    case "radio-buttons-image":
+                    case "radio-buttons":
+                        if(isset($data[$field_type_key]) && is_array($data[$field_type_key])) {
+                            foreach($data[$field_type_key] as $radio_type_key => $radio_type_value) {
+                                if($radio_type_value === 'false') {
+                                    $data[$field_type_key][$radio_type_key] = "";
+                                }
+                            }
+                        }
+                    break;
+                }
+            }
+        }
+           
+	update_option( $this->option_key, $data );
+	}
 
 	// Setup the data reference for this page/area
 	// We've made this generic so it should work for all pages now.

@@ -16,6 +16,55 @@ class Textarea_type extends Data_Type {
         $value = ( $vals != null ) ? $this->field->saved : $this->get_value();
         $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
         $customize_title = stripslashes( $this->field->title );
+        
+        ?>
+        <legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+        <?php
+        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+            $this->get_value();
+            if(isset($this->field->value) && is_array($this->field->value)) {
+                foreach($this->field->value as $key=>$tmp_value) {
+                    if(is_string($key))
+                        unset($this->field->value[$key]);
+                }
+            }
+            else if(!is_array($this->field->value) && is_string($this->field->value))
+            {
+                $tmp_arr = array();
+                $tmp_arr[] = $this->field->value;
+                $this->field->value = $tmp_arr;
+            }
+
+            $count = isset($this->field->value) ? count((array)$this->field->value) : 1;
+            if($count == 0) 
+                $count = 1;
+            ?>
+            <legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+            <?php
+            for( $key = 0; $key < $count; $key++ ) {
+                ?>
+                <textarea
+                    class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
+                    <?php $this->link() ?>
+                    name="<?php echo $this->field->alias; ?>[]"
+                    <?php echo $section; ?>
+                    data-type='textarea-image'
+                    ><?php echo isset($this->field->value[$key]) && is_string( $this->field->value[$key] )? $this->field->value[$key] : ''; ?></textarea>
+                <a href="#" class="delete_textarea_field">Delete</a><br>
+                <?php
+            }
+            
+            $field = array(
+                    'field_name' => $this->field->alias,
+                    'class' => 'input-textarea ' . $this->field->cssClass.' custom-data-type',
+                    'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+                    'data_type' => 'textarea-image',
+                    'after_field' => '',
+                    'value' => '#'
+                );
+            $this->enable_repeating($field);
+            
+        } else {
 ?>
         <legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
         <textarea
@@ -25,7 +74,8 @@ class Textarea_type extends Data_Type {
             <?php echo $section; ?>
             data-type='textarea-image'
             ><?php echo is_string( $value )? $value : ''; ?></textarea><?php
-
+        }
+        
         do_action( self::$type_slug . '_after_render_content', $this );
 
     }
@@ -144,4 +194,58 @@ class Textarea_type extends Data_Type {
         </script>
 
     <?php }
+    
+    public function enable_repeating($field = array(), $default_values = array() ){
+        if(!empty($field)) :
+                extract($field);
+
+                $add_id = 'add_'.$field_name;
+                $del_id = 'del_'.$field_name;
+
+                ?>
+                        <div id="<?php echo $add_id; ?>">
+                                <a href="#">
+                                        Add Field
+                                </a>
+                        </div>			
+
+                        <script type="text/javascript">
+                                (function($){
+                                        $(document).ready(function(){
+                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
+                                                //currentTime = new Date().getTime();
+                                                $('#<?php echo $add_id; ?>').click(function(e){
+                                                        e.preventDefault();
+                                                        var field = $('<textarea>', {
+                                                                class: '<?php echo $class; ?>',
+                                                                name: '<?php echo $field_name; ?>[]',
+                                                                value: ""
+                                                        })							
+                                                        .attr('data-type', '<?php echo $data_type; ?>')
+                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
+                                                        field.insertBefore($(this));
+
+                                                        field.click(function(e){
+                                                                e.preventDefault();
+                                                        });
+
+                                                        $('#header').focus();
+                                                        field.after('<br>');
+                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+                                                        field.next().after('<a href="#" class="delete_textarea_field">Delete</a>');
+                                                });
+
+                                                $('body').on('click', '.delete_textarea_field', function(e){
+                                                        e.preventDefault();
+                                                        $(this).prev('.field_label').remove();
+                                                        $(this).prev().remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).remove();
+                                                });
+                                        });
+                                })(jQuery);
+                        </script>
+                <?php
+        endif;
+    }
 } ?>

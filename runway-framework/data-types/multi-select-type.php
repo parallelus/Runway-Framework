@@ -39,33 +39,81 @@ class Multi_select_type extends Data_Type {
 			}
 		}
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-		$html ='<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>';
-		$html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
+                
+        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+            $vals = ( $vals != null ) ? $this->field->saved : $this->get_value();
+             
+            if(isset($vals) && is_array($vals)) {
+                foreach($vals as $key=>$tmp_value) {
+                    if(!is_array($tmp_value) || is_string($key))
+                        unset($vals[$key]);
+                }
+            }
+            
+            $count = isset($vals) ? count((array)$vals) : 1;
+            if($count == 0) 
+                $count = 1;
+            
+            for( $key = 0; $key < $count; $key++ ) {
+                ?>
+                <select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
+                        name="<?php echo $this->field->alias;?>[<?php echo $key;?>][]" size="5" style="height: 103px;">
+                    
+                    <option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>>No value</option>
+                    <?php foreach ( $key_values as $select_value_key => $val ) { 
+                        if(is_array($vals[$key])) {
+                            $checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
+                        }
+                        else
+                            $checked = '';
+                    ?>
+                    <option value='<?php echo $select_value_key;?>' <?php echo $checked;?>><?php echo stripslashes( $val );?></option>
+                    <?php } ?>
+                </select>
+                <a href="#" class="delete_multiselect_field">Delete</a><br>
+                <?php
+            }
+                
+            $field = array(
+                'field_name' => $this->field->alias,
+                'start_number' => $count,
+                'type' => 'select',
+                'class' => 'input-select custom-data-type',
+                'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+                'data_type' => 'multi-select-type',
+                'after_field' => '',
+                'value' => '#'
+            );
+            $this->enable_repeating($field, $key_values);
+        }
+        else {
+            $html ='<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>';
+            $html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
 
-		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
+            $value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 
-		if ( isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value ) && array_key_exists( 'field_types', $this->field->value ) ) {
-			$value = $this->field->value[$this->field->alias];
-		}
+            if ( isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value ) && array_key_exists( 'field_types', $this->field->value ) ) {
+                    $value = $this->field->value[$this->field->alias];
+            }
 
-		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
+            $key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
+            
+            $html .= '<option value="no">No value</option>';
+            foreach ( $key_values as $key => $val ) {
+                    if ( is_array( $value ) ) {
+                            $checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
+                    }
+                    else
+                            $checked = '';
 
-		$html .= '<option value="no">No value</option>';
-		foreach ( $key_values as $key => $val ) {
-			if ( is_array( $value ) ) {
-				$checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
-			}
-			else
-				$checked = '';
+                    if ( $val != '' ) {
+                            $html .= '<option value="'.$key.'"'.$checked.'>'.stripslashes( $val ).'</option>';
+                    }
+            }
+            $html .= '</select>';
 
-			if ( $val != '' ) {
-				$html .= '<option value="'.$key.'"'.$checked.'>'.stripslashes( $val ).'</option>';
-			}
-		}
-		$html .= '</select>';
-
-		echo $html;
-
+            echo $html;
+        }
 		do_action( self::$type_slug . '_after_render_content', $this );
 
 		/* dirty hack to make multiple elms on customize.php page */
@@ -77,11 +125,11 @@ class Multi_select_type extends Data_Type {
 
 				var name = '<?php echo $this->field->alias; ?>';
 
-				jQuery('[name="'+name+'[]"] option').on('click', function () {
+				jQuery('[name="'+name+'"] option').on('click', function () {
 
 					var value = [];
 
-					jQuery('[name="'+name+'[]"] option:selected').each(function () {
+					jQuery('[name="'+name+'"] option:selected').each(function () {
 
 		            	value.push(jQuery(this).val());
 
@@ -227,4 +275,71 @@ class Multi_select_type extends Data_Type {
         </script>
 
     <?php }
+    
+    public function enable_repeating($field = array(), $default_values = array() ){
+        if(!empty($field)) :
+                extract($field);
+
+                $add_id = 'add_'.$field_name;
+                $del_id = 'del_'.$field_name;
+
+                ?>
+                        <div id="<?php echo $add_id; ?>">
+                                <a href="#">
+                                        Add Field
+                                </a>
+                        </div>			
+
+                        <script type="text/javascript">
+                                (function($){
+                                        $(document).ready(function(){
+                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
+                                                var start_radio_groups_index = <?php echo $start_number;?>;
+                                                
+                                                //currentTime = new Date().getTime();
+                                                $('#<?php echo $add_id; ?>').click(function(e){
+                                                        e.preventDefault();
+                                                        var field = $('<select>', {
+                                                                type: '<?php echo $type; ?>',
+                                                                class: '<?php echo $class; ?>',
+                                                                name: '<?php echo $field_name; ?>['+start_radio_groups_index+'][]',
+                                                                value: "",
+                                                                multiple: ""
+                                                        })							
+                                                        .attr('data-type', '<?php echo $data_type; ?>')
+                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
+                                                        start_radio_groups_index++;
+                                                
+                                                        field.append('<option value="no">No value</option>');
+                                                        <?php foreach($default_values as $val_key=>$val) { 
+                                                                $html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
+                                                        ?>
+                                                            field.append('<?php echo $html;?>');
+                                                        <?php } ?>
+                                                            
+                                                        field.insertBefore($(this));
+
+                                                        field.click(function(e){
+                                                                e.preventDefault();
+                                                        });
+
+                                                        $('#header').focus();
+                                                        field.after('<br>');
+                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+                                                        field.next().after('<a href="#" class="delete_multiselect_field">Delete</a>');
+                                                });
+
+                                                $('body').on('click', '.delete_multiselect_field', function(e){
+                                                        e.preventDefault();
+                                                        $(this).prev('.field_label').remove();
+                                                        $(this).prev().remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).remove();
+                                                });
+                                        });
+                                })(jQuery);
+                        </script>
+                <?php
+        endif;
+    }
 } ?>

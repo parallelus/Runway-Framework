@@ -47,33 +47,87 @@ class Radio_buttons extends Data_Type {
 		$vars = $key_values;
 		$checked = 1;
 
-		$html = '';
+        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+            $this->get_value();
+            if(isset($this->field->value) && is_array($this->field->value)) {
+                foreach($this->field->value as $key=>$tmp_value) {
+                    if(is_string($key))
+                        unset($this->field->value[$key]);
+                }
+            }
+            else if(!is_array($this->field->value) && is_string($this->field->value))
+            {
+                $tmp_arr = array();
+                $tmp_arr[] = $this->field->value;
+                $this->field->value = $tmp_arr;
+            }
 
-		$set = $value;
+            $count = isset($this->field->value) ? count((array)$this->field->value) : 1;
+            if($count == 0) 
+                $count = 1;
+    
+            $len = count( $vars );
+            $vars = apply_filters( $this->field->alias . '_data_options', $vars );
+            
+            for( $key_val = 0; $key_val < $count; $key_val++ ) {
+                $cnt = 0;
+                $html = "<div class='radio_group'>";
+                
+                foreach ( $vars as $key => $val ) {
+                        $cnt++;
 
-		if ( !isset( $set ) || empty( $set ) ) {
-			$set = $value;
-		}
+                        $checked = ( isset($this->field->value[$key_val]) && $key == trim( $this->field->value[$key_val] ) ) ? 'checked="checked"' : '';
+                        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+                        $html .= '<label><input '.$this->get_link().' class="input-radio custom-data-type" '.$section.' data-type="radio-buttons" type="radio" name="'.$this->field->alias.'['.$key_val.']" value="'.$key.'" '.$checked.' />'.stripslashes( $val ).'</label>';
+                        if ( $cnt < $len ) $html .= '<br>';
+                }
+                echo $html."</div>";
+                ?>
+                <a href="#" class="delete__radio_buttons_field">Delete</a><br><br>
+                <?php
+            }
+            $field = array(
+                    'field_name' => $this->field->alias,
+                    'start_number' => $count,
+                    'type' => 'radio',
+                    'class' => 'input-radio custom-data-type',
+                    'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+                    'data_type' => 'radio-buttons',
+                    'after_field' => '',
+                    'value' => '#'
+            );
+            $this->enable_repeating($field, $key_values);
+            
+        } else {
+        
+            $html = '';
 
-		$len = count( $vars );
-		$count = 0;
+            $set = $value;
 
-		$vars = apply_filters( $this->field->alias . '_data_options', $vars ); // allow filters to alter values
+            if ( !isset( $set ) || empty( $set ) ) {
+                    $set = $value;
+            }
 
-		foreach ( $vars as $key => $val ) {
-			$count++;
+            $len = count( $vars );
+            $count = 0;
 
-			$checked = ( is_string( $set ) && $key == trim( $set ) ) ? 'checked="checked"' : '';
-			$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-			$html .= '<label><input '.$this->get_link().' class="input-radio custom-data-type" '.$section.' data-type="radio-buttons" type="radio" name="'.$this->field->alias.'" value="'.$key.'" '.$checked.'" />'.stripslashes( $val ).'</label>';
-			if ( $count < $len ) $html .= '<br>';
-		}
+            $vars = apply_filters( $this->field->alias . '_data_options', $vars ); // allow filters to alter values
+            
+            foreach ( $vars as $key => $val ) {
+                    $count++;
 
-		// Add the fieldset container
-		$html = '<fieldset><legend class="screen-reader-text"><span>'. stripslashes( $this->field->title ) .'</span></legend>'. stripslashes( $html ) .'</fieldset>';
+                    $checked = ( is_string( $set ) && $key == trim( $set ) ) ? 'checked="checked"' : '';
+                    $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+                    $html .= '<label><input '.$this->get_link().' class="input-radio custom-data-type" '.$section.' data-type="radio-buttons" type="radio" name="'.$this->field->alias.'" value="'.$key.'" '.$checked.' />'.stripslashes( $val ).'</label>';
+                    if ( $count < $len ) $html .= '<br>';
+            }
 
-		echo $html;
+            // Add the fieldset container
+            $html = '<fieldset><legend class="screen-reader-text"><span>'. stripslashes( $this->field->title ) .'</span></legend>'. stripslashes( $html ) .'</fieldset>';
 
+            echo $html;
+        }
+                
 		do_action( self::$type_slug . '_after_render_content', $this );
 
 	}
@@ -209,4 +263,66 @@ class Radio_buttons extends Data_Type {
         </script>
 
     <?php }
+    
+    public function enable_repeating($field = array(), $default_values = array() ){
+        if(!empty($field)) :
+                extract($field);
+
+                $add_id = 'add_'.$field_name;
+                $del_id = 'del_'.$field_name;
+
+                ?>
+                        <div id="<?php echo $add_id; ?>">
+                                <a href="#">
+                                        Add Field
+                                </a>
+                        </div>			
+
+                        <script type="text/javascript">
+                                (function($){
+                                        $(document).ready(function(){
+                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
+                                                var start_radio_groups_index = <?php echo $start_number;?>;
+                                                
+                                                $('#<?php echo $add_id; ?>').click(function(e){
+                                                        e.preventDefault();
+                                                        var field = $('<div class="radio_group">');
+                                                        
+                                                        <?php foreach($default_values as $val_key=>$val) { ?>
+                                                        var child_field = $('<input/>', {
+                                                                type: '<?php echo $type; ?>',
+                                                                class: '<?php echo $class; ?>',
+                                                                name: '<?php echo $field_name; ?>['+start_radio_groups_index+']',
+                                                                value: "<?php echo $val_key;?>"
+                                                        })							
+                                                        .attr('data-type', '<?php echo $data_type; ?>')
+                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
+                                                        
+                                                        field.append(child_field);
+                                                        field.append("<?php echo $val;?><br/>");
+                                                        <?php } ?>
+                                                        start_radio_groups_index++;
+                                                            
+                                                        field.insertBefore($(this));
+
+                                                        $('#header').focus();
+                                                        field.after('<br><br>');
+                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+                                                        field.next().after('<a href="#" class="delete__radio_buttons_field">Delete</a>');
+                                                });
+
+                                                $('body').on('click', '.delete__radio_buttons_field', function(e){
+                                                        e.preventDefault();
+                                                        $(this).prev('.field_label').remove();
+                                                        $(this).prev('.radio_group').remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).remove();
+                                                });
+                                        });
+                                })(jQuery);
+                        </script>
+                <?php
+        endif;
+    }
 } ?>

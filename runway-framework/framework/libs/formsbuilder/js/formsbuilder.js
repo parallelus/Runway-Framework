@@ -50,6 +50,11 @@
             if (!uiObject.isPageEmpty())
                 new_item_added_event(element);
         });
+        
+        $('body').on('click', '.customize-control-content', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
     });
 })(jQuery);
 
@@ -67,81 +72,252 @@ function save_custom_options(alias, custom_alias, section){
         custom_alias = null;
     }
 
-        // console.log($.find('.custom-data-type'));
+    //variables for save repeating checkbox list & radio groups
+    var currentIndexInGroup = 0;
+    var nextIndexInGroup = 0;
+    
     $('body').find('.custom-data-type').each(function(index, el){
-        types[$(el).attr('name')] = $(el).data('type');
-
+        
+        
+        //check if input is repeating - is array
+        var isInputArray = false;
+        var isDoubleArray = false;
+        var element_name = $(el).attr('name');
+        if(/\[\d*\]$/.test(element_name))
+        {
+            isInputArray = true;
+            element_name = element_name.replace(/\[\d*\]$/, "");
+        }
+        
+        types[element_name] = $(el).data('type');
+        
         if($(el).data('section') == section){
+            
             switch($(el).data('type')){
                 case "checkbox-bool-type":{
-                    if($(el).prop("checked")){
-                        values[$(el).attr('name')] = $(el).prop("checked");            
-                    }
-                    else{
-                        values[$(el).attr('name')] = 'false';
-                    }
+                        if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                            values[element_name] = [];
+                            values[element_name].push($(el).prop("checked") ? $(el).prop("checked") : 'false');
+                        }
+                        else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                            values[element_name].push($(el).prop("checked") ? $(el).prop("checked") : 'false');
+                        }
+                        else {
+                            if($(el).prop("checked")){
+                                values[element_name] = $(el).prop("checked");            
+                            }
+                            else{
+                                values[element_name] = 'false';
+                            }
+                        }
                 } break;
                 
                 case "checkbox-type":{
-                    var el_index = $(el).attr('name').replace('[]', '');        
-                    var all_checks = $("input[name='"+$(el).attr('name')+"']:checked");
-                    var result = [];
-
-                    all_checks.each(function(i, checkbox){
-                        result.push($(checkbox).val());
-                    });
-
-                    values[el_index] = result;
+                            
+                        if(/\[(\d*)\]/.test(element_name)) {
+                            var matched = element_name.match(/\[(\d*)\]/);
+                            element_name = element_name.replace(/\[\d*\]$/, "");
+                            isDoubleArray = true;
+                            
+                            if(matched[1] !== "undefined")
+                            {
+                                if(currentIndexInGroup !== parseInt(matched[1], 10))
+                                {
+                                    nextIndexInGroup ++;
+                                    currentIndexInGroup = parseInt(matched[1], 10);
+                                }
+                                
+                                if(nextIndexInGroup > 0 && typeof values[element_name] === "undefined") {
+                                    nextIndexInGroup = 0;
+                                }
+                            }
+                        }
+                        else {
+                            isDoubleArray = false;
+                            currentIndexInGroup = 0;
+                            nextIndexInGroup = 0;
+                        }
+                        
+                        if(typeof values[element_name] === "undefined")
+                            values[element_name] = [];
+                        
+                        if(isDoubleArray === true) {
+                            if(typeof values[element_name][nextIndexInGroup] === "undefined")
+                                values[element_name][nextIndexInGroup] = [];
+                            
+                            if($(el).prop("checked"))
+                                values[element_name][nextIndexInGroup].push($(el).val());
+                            if( $("input[name='"+$(el).attr('name')+"']:checked").length === 0)
+                            {
+                                values[element_name][nextIndexInGroup] = [];
+                                values[element_name][nextIndexInGroup].push('');
+                            }
+                        }
+                        else {
+                            if($(el).prop("checked"))
+                                values[element_name].push($(el).val());
+                        }
                 } break;
                             
                 case "multi-select-type":{
-                    var el_index = $(el).attr('name').replace('[]', '');        
-                    var all_selects = $("select[name='"+$(el).attr('name')+"'] option:selected");
-                    var result = [];
-
-                    all_selects.each(function(i, select){
-                        result.push($(select).val());
-                    });
-
-                    values[el_index] = result;
+                        
+                        if(/\[(\d*)\]/.test(element_name)) {
+                            var matched = element_name.match(/\[(\d*)\]/);
+                            element_name = element_name.replace(/\[\d*\]$/, "");
+                            isDoubleArray = true;
+                        }
+                        else {
+                            isDoubleArray = false;
+                        }
+                        
+                        if(typeof values[element_name] === "undefined")
+                            values[element_name] = [];
+                        
+                        var iterator = values[element_name].length;
+                        if(typeof values[element_name][iterator] === "undefined" && isDoubleArray === true)
+                            values[element_name][iterator] = [];
+                        
+                        $(el).children("option:selected").each(function(){
+                            if(isDoubleArray === true)
+                                values[element_name][iterator].push($(this).val());
+                            else
+                                values[element_name].push($(this).val());
+                        });
+                        
+                        if(isInputArray === true && values[element_name][iterator].length == 0)
+                            values[element_name][iterator].push('no');
+                        
                 } break;
                
                 case "radio-buttons-image":{
-                    if($(el).prop('checked')){
-                        values[$(el).attr('name')] = $(el).val();
+                        
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        nextIndexInGroup = 0;
+                        currentIndexInGroup = 0;
+                        
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);  
+                        if(matched[1] !== "undefined")
+                            currentIndexInGroup = matched[1];
+                        
+                        values[element_name][nextIndexInGroup] = '';
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);
+                        if(matched[1] !== "undefined")
+                        {
+                            if(currentIndexInGroup != matched[1])
+                            {
+                                nextIndexInGroup ++;
+                                currentIndexInGroup = matched[1];
+                            }
+                        }
+                        
+                        if(typeof values[element_name][nextIndexInGroup] === 'undefined')
+                            values[element_name][nextIndexInGroup] = '';
+                        
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }   
+                    else {
+                        if($(el).prop('checked')){
+                            values[element_name] = $(el).val();
+                        }
+                        
+                        if($("input[name='"+$(el).attr('name')+"']:checked").length === 0) {
+                            values[element_name] = '';
+                        }
+                            
                     }
                 } break;
                 
                 case "radio-buttons":{
-                    if($(el).prop('checked')){
-                        values[$(el).attr('name')] = $(el).val();
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        nextIndexInGroup = 0;
+                        currentIndexInGroup = 0;
+                        
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);  
+                        if(matched[1] !== "undefined")
+                            currentIndexInGroup = matched[1];
+                        
+                        values[element_name][nextIndexInGroup] = '';
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
                     }
-                } break;                    
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);
+                        if(matched[1] !== "undefined")
+                        {
+                            if(currentIndexInGroup != matched[1])
+                            {
+                                nextIndexInGroup ++;
+                                currentIndexInGroup = matched[1];
+                            }
+                        }
+                        
+                        if(typeof values[element_name][nextIndexInGroup] === 'undefined')
+                            values[element_name][nextIndexInGroup] = '';
+                        
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }   
+                    else {
+                        if($(el).prop('checked')){
+                            values[element_name] = $(el).val();
+                        }
+                        
+                        if($("input[name='"+$(el).attr('name')+"']:checked").length === 0) {
+                            values[element_name] = '';
+                        }
+                    }
+                } break;      
+            
+                case "texteditor-type": {
+                        var element_id = $(el).attr('id');
+                        var content;
+                        var editor = tinyMCE.get(element_id);
+                        if (editor) {
+                            // Ok, the active tab is Visual
+                            content = editor.getContent();
+                        } else {
+                            // The active tab is HTML, so just query the textarea
+                            content = $('#'+element_id).val();
+                        }
+                        values[element_name] = content;
+                } break;
                 
                 // case "text-editor":{
                 // TODO: text editor data saving
                 // } break;
-
-                case "texteditor-type": {
-                    var element_id = $(el).attr('id');
-                    var content;
-                    var editor = tinyMCE.get(element_id);
-                    if (editor) {
-                        content = editor.getContent();
-                    } else {
-                        content = $('#'+element_id).val();
-                    }
-                    values[$(el).attr('name')] = content;
-                } break;
-
+               
                 default:{
-                    values[$(el).attr('name')] = $(el).val();
+                        
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        values[element_name].push($(el).val());
+                    }
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        values[element_name].push($(el).val());
+                    }
+                    else {
+                        values[element_name] = $(el).val();
+                    }
                 }
                 break;
             }        
         }
-    });    
-    // console.log(values);
+    });   
+    
+    /*console.log(values);
+    return false;*/
+    
     if(!isEmpty(values) && !isEmpty(types)){
         if($('#layout_alias').val())
             layout_alias = $('#layout_alias').val();
@@ -150,6 +326,7 @@ function save_custom_options(alias, custom_alias, section){
         $.ajax({
             async: false,
             url: ajaxurl,
+            method: "POST",
             data:{
                 action: 'save_custom_options',
                 form_key: alias,
@@ -897,7 +1074,7 @@ var system_vars_definition = ['template', 'index'];
                             $('#adminmenuwrap').css({'z-index':0});
                         },
                         close: function(event, ui) {
-                            $('#adminmenuwrap').css({'z-index':'auto'});
+                            $('#adminmenuwrap').css({'z-index':'99'});
                         },
                         autoOpen:false,
                         modal: true,

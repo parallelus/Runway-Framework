@@ -329,9 +329,6 @@ class FormsBuilder {
 		}
 
 		if ( !empty( $options['form_key'] ) && !empty( $options['vals'] ) ) {
-			// if($options['form_key'] == 'other_options')
-			//  $options['form_key'] = $custom_alias;
-
 			$save = array();
 
 			foreach ( $options['types'] as $key => $value ) {

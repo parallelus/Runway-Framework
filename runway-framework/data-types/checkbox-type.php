@@ -45,6 +45,7 @@ class Checkbox_type extends Data_Type {
 		$checked_list = array();
 
 		$this->field->values = ( $vals != null ) ? $this->field->saved : (array) $this->get_value();
+        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
 
 		if ( isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value ) && in_array( 'field_types', (array) $this->field->value ) ) {
 			$this->field->value = $this->field->value[$this->field->alias];
@@ -58,56 +59,130 @@ class Checkbox_type extends Data_Type {
 			$this->field->values = array( 0 => $options['values'] );
 		}
 
-		$html = '';
-		$len = count( $key_values );
-		$count = 0;
+        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+            
+            $this->get_value();
+            if(isset($this->field->value) && is_array($this->field->value)) {
+                foreach($this->field->value as $key=>$tmp_value) {
+                    if(is_string($key) || !is_array($tmp_value))
+                        unset($this->field->value[$key]);
+                }
+            }
+            else if(!is_array($this->field->value) && is_string($this->field->value))
+            {
+                $tmp_arr = array();
+                $tmp_arr[] = $this->field->value;
+                $this->field->value = $tmp_arr;
+            }
+            
+            $count = isset($this->field->value) ? count((array)$this->field->value) : 1;
+            if($count == 0) 
+                $count = 1;
+            
+            $key_values = apply_filters( $this->field->alias . '_data_options', $key_values );
+            
+            $len = count( $key_values );
+            
+            for( $key_val = 0; $key_val < $count; $key_val++ ) {
+                $cnt = 0;
+                $html = "<div class='checkbox_group'>";
+                foreach ( $key_values as $key => $val ) {
+                    $cnt++;
+                    if ( !isset( $options[$key] ) ) {
+                            $options[$key] = array( 'class' => '', 'disabled' => '' );
+                    }
 
-		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
+                    $class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
+                    $readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
+                    
+                    if ( isset($this->field->values[$key_val]) && is_array( $this->field->values[$key_val] ) ) {
+                        $checked = ( in_array( $key, $this->field->values[$key_val] ) ) ? ' checked="checked"' : '';
+                    }
+                    else
+                        $checked = "";
+                    
+                    $html .= '<label>
+                            <input
+                            class="input-check custom-data-type"
+                            '.$section.'
+                            type="checkbox"
+                            data-type="checkbox-type"
+                            value="'.$key.'"
+                            name="'.$this->field->alias.'['.$key_val.'][]" '.(isset($this->field->class) ? $this->field->class : "").' '.
+                            $readonly.' '.$checked.'/>'.stripslashes( $val ).'</label>';
+                }
+                    
+                echo $html."</div>";
+                ?>
+                <a href="#" class="delete__checkbox_group_field">Delete</a><br><br>
+                <?php
+            }
+            
+            $field = array(
+                    'field_name' => $this->field->alias,
+                    'start_number' => $count,
+                    'type' => 'checkbox',
+                    'class' => 'input-check custom-data-type',
+                    'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+                    'data_type' => 'checkbox-type',
+                    'after_field' => '',
+                    'value' => '#'
+            );
+            $this->enable_repeating($field, $key_values);
+            
+        } else {
+            $html = '';
+            $len = count( $key_values );
+            $count = 0;
 
-		foreach ( $key_values as $key => $val ) {
-			$count++;
-			// Options will over-ride values
-			if ( !isset( $options[$key] ) ) {
-				$options[$key] = array( 'class' => '', 'disabled' => '' );
-			}
+            $key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
+            
+            foreach ( $key_values as $key => $val ) {
+                    $count++;
+                    // Options will over-ride values
+                    if ( !isset( $options[$key] ) ) {
+                            $options[$key] = array( 'class' => '', 'disabled' => '' );
+                    }
 
-			$class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
-			$readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
+                    $class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
+                    $readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
 
-			if ( array_key_exists( 'value', (array)$options[$key] ) ) {
-				$checked = ( $options[$key]['value'] ) ? ' checked="checked" ' : '';
-			} elseif ( is_array( $this->field->values ) ) {
-				$checked = ( in_array( $key, $this->field->values ) ) ? ' checked="checked"' : '';
-			}
+                    if ( array_key_exists( 'value', (array)$options[$key] ) ) {
+                            $checked = ( $options[$key]['value'] ) ? ' checked="checked" ' : '';
+                    } elseif ( is_array( $this->field->values ) ) {
+                            $checked = ( in_array( $key, $this->field->values ) ) ? ' checked="checked"' : '';
+                    }
 
-			if ( !isset( $this->field->class ) ) {
-				$this->field->class = '';
-			}
-			$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-			$html .= '<label>
-				<input
-				class="input-check custom-data-type"
-				'.$section.'
-				type="checkbox"
-				data-type="checkbox-type"
-				value="'.$key.'"
-				name="'.$this->field->alias.'[]" '.$this->field->class.' '.$readonly.' '.$checked.'/>'.stripslashes( $val ).'</label>';
+                    if ( !isset( $this->field->class ) ) {
+                            $this->field->class = '';
+                    }
+                    $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+                    $html .= '<label>
+                            <input
+                            class="input-check custom-data-type"
+                            '.$section.'
+                            type="checkbox"
+                            data-type="checkbox-type"
+                            value="'.$key.'"
+                            name="'.$this->field->alias.'[]" '.(isset($this->field->class) ? $this->field->class : "").' '.
+                            $readonly.' '.$checked.'/>'.stripslashes( $val ).'</label>';
 
-			if ( isset( $options[$key]['text'] ) ) {
-				if ( $t = $options[$key]['text'] ) {
-					$html .= '<em>' . $t . '</em>';
-				}
-			}
+                    if ( isset( $options[$key]['text'] ) ) {
+                            if ( $t = $options[$key]['text'] ) {
+                                    $html .= '<em>' . $t . '</em>';
+                            }
+                    }
 
-			if ( $count < $len ) {
-				$html .= '<br>';
-			}
-		}
+                    if ( $count < $len ) {
+                            $html .= '<br>';
+                    }
+            }
 
-		// Add the fieldset container
-		$html = '<fieldset><legend class="screen-reader-text"><span>'. $this->field->title .'</span></legend>'. $html .'</fieldset>';
+            // Add the fieldset container
+            $html = '<fieldset><legend class="screen-reader-text"><span>'. $this->field->title .'</span></legend>'. $html .'</fieldset>';
 
-		echo $html;
+            echo $html;
+        }
 
 		do_action( self::$type_slug . '_after_render_content', $this );
 
@@ -265,4 +340,64 @@ class Checkbox_type extends Data_Type {
         </script>
 
 	<?php }
+        
+    public function enable_repeating($field = array(), $default_values = array() ){
+        if(!empty($field)) :
+                extract($field);
+
+                $add_id = 'add_'.$field_name;
+                $del_id = 'del_'.$field_name;
+                
+                ?>
+                        <div id="<?php echo $add_id; ?>">
+                                <a href="#">
+                                        Add Field
+                                </a>
+                        </div>			
+
+                        <script type="text/javascript">
+                                (function($){
+                                        $(document).ready(function(){
+                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
+                                                var start_radio_groups_index = <?php echo $start_number;?>;
+                                                
+                                                $('#<?php echo $add_id; ?>').click(function(e){
+                                                        e.preventDefault();
+                                                        var field = $('<div class="checkbox_group">');
+                                                        
+                                                        <?php foreach($default_values as $val_key=>$val) { ?>
+                                                        
+                                                        //what about disabled checkboxes? :)
+                                                        var child_field = $('<label>'+
+                                                                '<input class="<?php echo $class;?>" data-type="<?php echo $data_type;?>" data-section="<?php echo $data_section;?>" type="<?php echo $type;?>" name="<?php echo $field_name;?>['+start_radio_groups_index+'][]" value="<?php echo $val_key;?>"/>'+
+                                                                '<?php echo $val;?> '+
+                                                            '</label>');
+                                                        
+                                                        field.append(child_field);
+                                                        <?php } ?>
+                                                        start_radio_groups_index++;
+                                                            
+                                                        field.insertBefore($(this));
+
+                                                        $('#header').focus();
+                                                        field.after('<br><br>');
+                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+                                                        field.next().after('<a href="#" class="delete__checkbox_group_field">Delete</a>');
+                                                });
+
+                                                $('body').on('click', '.delete__checkbox_group_field', function(e){
+                                                        e.preventDefault();
+                                                        
+                                                        $(this).prev('.field_label').remove();
+                                                        $(this).prev('.checkbox_group').remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).next('br').remove();
+                                                        $(this).remove();
+                                                });
+                                        });
+                                })(jQuery);
+                        </script>
+                <?php
+        endif;
+    }
 } ?>

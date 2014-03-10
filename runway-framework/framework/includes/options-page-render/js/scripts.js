@@ -31,4 +31,113 @@ jQuery(function() {
 		return false;
 	});
 
+    $('body').on('click', '.customize-control-content', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    
+    $('.submit input').click(function(e){
+        var current_index = -1;
+        var start_index = -1;
+        
+        $('.input-check.custom-data-type').each(function(){
+            var name = $(this).attr('name');
+            if(/\[(\d*)\]\[\]$/.test(name)) {
+                var matched = name.match(/\[(\d*)\]\[\]$/);
+                if(current_index != matched[1])
+                {
+                    current_index = matched[1];
+                    start_index++;
+                }
+                
+                name = name.replace(/\[\d*\]\[\]$/, "");
+                $(this).attr('name', name+'['+start_index+'][]');
+            }
+            
+            if($(this).attr('data-type') === 'checkbox-bool-type' && /\[\]$/.test(name)) {
+                if(!$(this).prop("checked"))
+                    $(this).val('false');
+            }
+        });
+        
+        var current_index = -1;
+        var start_index = -1;
+        $('.input-radio.custom-data-type').each(function(){
+            var name = $(this).attr('name');
+            if(/\[(\d*)\]$/.test(name)) {
+                var matched = name.match(/\[(\d*)\]$/);
+                if(current_index != matched[1])
+                {
+                    current_index = matched[1];
+                    start_index++;
+                }
+                
+                name = name.replace(/\[\d*\]$/, "");
+                $(this).attr('name', name+'['+start_index+']');
+            }
+        });
+        
+        $('body').find('.custom-data-type').each(function(index, el){
+            var name = $(el).attr('name');
+            switch($(el).data('type')){
+                case "checkbox-type":
+                    if(/\[(\d*)\]\[\]$/.test(name)) {
+                        var checked = $("input[name='"+name+"']:checked");
+                        if(checked.length === 0) {
+                            var data_section = '';
+                            if(typeof $(el).attr('data-section') !== "undefined")
+                                data_section = "data-section='"+$(el).attr('data-section')+"'";
+                            
+                            $(this).attr('name', '').after("<input type='hidden' class='"+$(el).attr('class')+"' "+
+                                    "value='false' name='"+name+"' "+data_section+" data-type='"+$(el).attr('data-type')+"' "+
+                                    "/>");
+                        }
+                    }
+                break;
+                case "checkbox-bool-type": 
+                    if(/\[\]$/.test(name)) {
+                        var data_section = '';
+                        if(typeof $(el).attr('data-section') !== "undefined")
+                            data_section = "data-section='"+$(el).attr('data-section')+"'";
+                            
+                        if(!$(this).prop('checked')) {
+                            $(this).attr('name', '').after("<input type='hidden' class='"+$(el).attr('class')+"' "+
+                                    "value='false' name='"+name+"' "+data_section+" data-type='"+$(el).attr('data-type')+"' "+
+                                    "/>");
+                        }
+                        else {
+                            $(this).attr('name', '').after("<input type='hidden' class='"+$(el).attr('class')+"' "+
+                                    "value='true' name='"+name+"' "+data_section+" data-type='"+$(el).attr('data-type')+"' "+
+                                    "/>");
+                        }
+                    }
+                break;
+                case "multi-select-type":
+                    if(/\[(\d*)\]\[\]$/.test(name)) {
+                        var selected = $(el).children("option:selected");
+                        if(selected.length === 0)
+                            $(el).children('option').eq(0).prop('selected', 'selected');
+                    }
+                break;
+                case "radio-buttons-image":
+                case "radio-buttons":    
+                    if(/\[(\d*)\]$/.test(name)) {
+                        var checked = $("input[name='"+name+"']:checked");
+                        if(checked.length === 0) {
+                            
+                            var data_section = '';
+                            if(typeof $(el).attr('data-section') !== "undefined")
+                                data_section = "data-section='"+$(el).attr('data-section')+"'";
+                            
+                            $("input[name='"+name+"']").attr('name', '');
+                            $(this).attr('name', '').after("<input type='hidden' class='"+$(el).attr('class')+"' "+
+                                    "value='false' name='"+name+"' "+data_section+" data-type='"+$(el).attr('data-type')+"' "+
+                                    "/>");
+                        }
+                    }
+                break;
+            }
+        });
+    });
+    
 });
