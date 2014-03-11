@@ -155,12 +155,11 @@ class Fileupload_type extends Data_Type {
                                 file_frame.on( 'select', function() {
                                     attachment = file_frame.state().get('selection').first().toJSON();
                                     attached_input.val(attachment.url);
-                                                        var src = $("#upload_image-<?php echo $this->field->alias; ?>").val(attachment.url);
-                    if ( wp.customize ) {
-	      				var api = wp.customize;
-	      				var mysetting = api.instance("<?php echo $this->field->alias; ?>");
-	      				api.instance("<?php echo $this->field->alias; ?>").set(attachment.url);
-      				}
+									if ( wp.customize ) {
+					      				var api = wp.customize;
+					      				var mysetting = api.instance(attached_input.attr('name'));
+					      				api.instance(attached_input.attr('name')).set(attachment.url);
+				      				}
 
                                     var e = jQuery.Event("keypress");
                                     e.which = 13; //choose the one you want
