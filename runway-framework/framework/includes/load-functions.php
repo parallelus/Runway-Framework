@@ -500,20 +500,42 @@ function create_theme_ID( $length = 0 ) {
     return $theme_id;
 } 
 
-function change_json_prefix( $theme_name, $theme_id ) {
+function change_theme_prefix( $theme_name, $theme_id ) {
+	global $wpdb, $shortname;
 
 	$theme_name = apply_filters( 'shortname', sanitize_title( $theme_name . '_' ) );
 	$json_dir = get_stylesheet_directory() . '/data';
     $ffs = scandir($json_dir);
+
+	$sql = $wpdb->prepare( "SELECT option_name FROM wp_options WHERE option_name LIKE %s", $shortname.'%' );
+	$res = $wpdb->get_results($sql, ARRAY_A);
+
+	$flag = true;
+	foreach($res as $key => $option) {
+		$data_pre = get_option($option['option_name']);
+		$option_key_new = str_replace($shortname, $theme_id.'_', $option['option_name']);
+		update_option($option_key_new, $data_pre);
+		$data_post = get_option($option_key_new);
+		if($data_pre != $data_post)
+			$flag = false;
+	}
+
     foreach($ffs as $ff){
 	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-	    	if( in_array($option_key, array($theme_name.'report-manager', $theme_name.'extensions-manager')) || strstr($option_key, "formsbuilder_") !== false )
-	    		continue;
 	    	if( strpos($option_key, $theme_name) !== false ) {
-// TODO // out(str_replace($theme_name, $theme_id.'_', $ff));
+				if (!rename($json_dir.'/'.$ff, str_replace($theme_name, $theme_id.'_', $json_dir.'/'.$ff)) )
+				 	$flag = false;
 			}
 		}	
+	}
+
+	if( !$flag ) {							// if error - rollback
+		foreach($res as $key => $option) {
+			$option_key_new = str_replace($shortname, $theme_id.'_', $option['option_name']);
+			delete_option($option_key_new);
+		}
+		return false;
 	}
 }
 
@@ -547,6 +569,13 @@ function get_theme_name_style_css() {
 }
 
 function check_theme_ID( ) {
+	global $shortname;
+
+	$settings = get_settings_json();
+	if( isset($settings['ThemeID']) ) {            		// if theme_id already exists
+		//out('000');
+		return true;
+	}
 
 	$stylecss_file = get_stylesheet_directory() . '/style.css';
 	if ( file_exists( $stylecss_file ) ) {
@@ -558,24 +587,44 @@ function check_theme_ID( ) {
 			}
 		}
 	}
-
-	$settings = get_settings_json();
 	$theme_name_stylecss = get_theme_name_style_css();
 
-	if( $theme_name_stylecss != $settings['Name'] ) {
+	if( !isset($settings['ThemeID']) ) {         		// if there is not a prefix
+		//out('111');
+		$settings['ThemeID'] = create_theme_ID();
+		change_theme_prefix( $settings['Name'], $settings['ThemeID'] );
+		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+		return true;
+	}
+
+	if( $theme_name_stylecss != $settings['Name'] ) {//out('222');
 
 		if(isset($_GET['create-theme-id'])) {
 			if($_GET['create-theme-id']) {
 				$theme_id = create_theme_ID();
 				$settings['ThemeID'] = $theme_id;
-				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
-				change_json_prefix( $settings['Name'], $theme_id );
-	// TODO
-			}
-			else {
-	// TODO
-			}
 
+
+				$success = true;
+				if ( !is_writable( get_stylesheet_directory() . '/data' ) ) {
+					if ( !chmod( get_stylesheet_directory() . '/data' , 0777 ) ) 
+						$success = false;
+				}
+
+				if( $success ) {
+//					change_json_prefix( $settings['Name'], $theme_id );
+//					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+				}
+				else { ?>
+				<div class="updated">
+					<p><strong>
+					Sorry, but prefix of the theme was not changed.<br>
+					No write permissions to directory <i><?php echo get_stylesheet_directory() . '/data'; ?></i> </strong>
+					</p>
+				</div>
+				<?php
+				}
+			}
 		}
 
 		$url = add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>
@@ -591,11 +640,7 @@ function check_theme_ID( ) {
 		</div>
 	<?php		
 	}
-	else
-		;//out('222');
 
-// out($theme_name_stylecss);
-// out($theme_name_json);
 }
 
 ?>
