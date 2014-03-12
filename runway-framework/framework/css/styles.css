@@ -145,6 +145,7 @@
 }
 #theme-framework .wp-editor-container textarea.wp-editor-area { width: 99.9% }
 #theme-framework select { min-width: 250px }
+#tgmpa-plugins select { min-width: 111px }
 #theme-framework label.disabled { color: #888 }
 #theme-framework .postbox .no-move { cursor: default }
 /*
@@ -421,4 +422,19 @@ These need to be included by the theme instead. Still working on the best way to
 	height: 300px;
 	font-family: monospace;
 	line-height: 1.5;
-	font-size: 12px; }
+    font-size: 12px; 
+}
+
+#menu-settings-column .menu-item-handle .item-title {
+    margin-right: 0;
+}
+
+#menu-settings-column .menu-item-bar .menu-item-handle {
+    width: 223px;
+}
+
+#menu-settings-column .menu-item-settings {
+    border: 1px solid #e5e5e5;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}

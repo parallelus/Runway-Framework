@@ -158,7 +158,8 @@ class FormsBuilder {
 
 													if ( class_exists( $class_Name ) ) {
 														$wp_customize->add_setting( $field->alias, array(
-																'default' => ''
+																'default' => '',
+																'type' => 'customize'
 															) );
 
 														$option_field = new $class_Name(
