@@ -464,28 +464,30 @@ if ( !function_exists( 'after_functions_file' ) ) :
 add_action( 'functions_after', 'after_functions_file' );
 endif;
 
-function split_data($json, $db, &$json_updated, &$need_update) {
-	foreach($json as $k => $v) {
-		if(is_array($v)) {
-			$db[$k] = isset($db[$k])? $db[$k] : null;
-			if($k == 'body_structure') {
-				if( isset($db[$k]) )
-				  $json_updated[$k] = $db[$k];
-				continue;
-			}
-			split_data($v, $db[$k], $json_updated[$k], $need_update);
-		}
-		else {
-			if( isset($db[$k]) ) {
-				$json_updated[$k] = $db[$k];
+function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
+	if(isset($json)) {
+		foreach($json as $k => $v) {
+			if(is_array($v)) {
+				$db[$k] = isset($db[$k])? $db[$k] : null;
+				if( in_array($k, $excludes) ) {
+					if( isset($db[$k]) )
+					  $json_updated[$k] = $db[$k];
+					continue;
+				}
+				split_data($v, $db[$k], $json_updated[$k], $need_update, $excludes);
 			}
 			else {
-				$json_updated[$k] = $v;
-				if(!empty($v) )
-					$need_update = true;
+				if( isset($db[$k]) ) {
+					$json_updated[$k] = $db[$k];
+				}
+				else {
+					$json_updated[$k] = $v;
+					if(!empty($v) )
+						$need_update = true;
+				}
 			}
 		}
-	}	
+	}
 }
 
 function create_theme_ID( $length = 0 ) {

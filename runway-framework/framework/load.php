@@ -172,7 +172,9 @@ if ( is_admin() ) {
 					$json_updated = $json;
 
 					$need_update = false;
-					split_data($json, $db, $json_updated, $need_update);
+
+					$excludes = array('body_structure', 'layouts', 'headers', 'footers');  // don't synchronize
+					split_data($json, $db, $json_updated, $need_update, $excludes);
 
 					if( !empty($json_updated) && empty($db) ) {
 						update_option($option_key, $json_updated);
