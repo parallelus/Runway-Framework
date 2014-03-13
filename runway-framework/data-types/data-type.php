@@ -43,19 +43,26 @@ class Data_Type extends WP_Customize_Control {
 	}
 
 	public function save( $value = null ) {
+		
+		if(!isset($_REQUEST['customized'])) {
+			$page_options = get_option( $this->page->option_key );
 
-		$page_options = get_option( $this->page->option_key );
+			if ( !$value ) {
+				$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
+				$value = $submited_value->{$this->field->alias};
+			}
 
-		if ( !$value ) {
+			$page_options[$this->field->alias] = $value;
+			$page_options['field_types'][$this->field->alias] = $this->type;
+			update_option( $this->page->option_key, $page_options );
+		}
+		else {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 			$value = $submited_value->{$this->field->alias};
+			
+			SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
+			SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 		}
-
-		$page_options[$this->field->alias] = $value;
-
-		$page_options['field_types'][$this->field->alias] = $this->type;
-
-		update_option( $this->page->option_key, $page_options );
 	}
 
 	public function get_value() {
@@ -132,6 +139,38 @@ class Data_Type extends WP_Customize_Control {
 		endif;
 	}
 
+}
+
+class SingletonSaveCusomizeData {
+	private static $instance; 
+	private static $data;
+	private static $key;
+	
+	private function __construct(){}  
+	private function __clone()    {}  
+	private function __wakeup()   {}  
+	
+	public static function getInstance() {
+		if ( empty(self::$instance) ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+    
+	public function save_data($alias, $value, $type) {
+		self::$data[$alias] = $value;
+		self::$data['field_types'][$alias] = $type;
+		
+		update_option( self::$key, self::$data );
+	}
+    
+	public function set_option($key) {
+		if(self::$key !== $key)
+		{
+			self::$data = get_option( $key );
+			self::$key = $key;
+		}
+	}
 }
 
 ?>
