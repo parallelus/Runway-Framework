@@ -118,8 +118,11 @@
     font-size: 12px;
     font-weight: bold;
 }
-#theme-framework table.form-table td p.description {
-	color: #999; }
+#theme-framework table.form-table td p.description,
+#theme-framework table.form-table th p.description {
+ 	color: #999;
+ 	font-weight: 300; }
+
 /*
 #theme-framework table.form-table em.howto { font-style: normal; color:#929292; }
 #theme-framework table.form-table th em.howto { font-size: 11px; line-height: 15px; }
