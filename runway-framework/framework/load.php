@@ -33,6 +33,9 @@ if ( PHP_VERSION_ID >= 50301 ) {
 	//-----------------------------------------------------------------
 	if ( is_admin() ) {
 		include_once 'core/admin-object.php';
+
+		db_json_sync();
+		//check_theme_ID();
 	}
 
 	load_data_types();
@@ -150,44 +153,6 @@ if ( PHP_VERSION_ID >= 50301 ) {
 		'</div>';
 	}
 
-}
-
-//if ( is_admin() && IS_CHILD && get_template() == 'runway-framework') {
-if ( is_admin() ) {
-	function db_json_sync(){
-		global $shortname;
-
-		$theme_name = $shortname;
-		$json_dir = get_stylesheet_directory() . '/data';
-	    $ffs = scandir($json_dir);
-	    foreach($ffs as $ff){
-    	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
-    	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-    	    	if( in_array($option_key, array($theme_name.'report-manager', $theme_name.'extensions-manager')) || strstr($option_key, "formsbuilder_") !== false )
-    	    		continue;
-    	    	if( strpos($option_key, $theme_name) !== false ) {
-					$json = ($option_key == $theme_name.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
-																		  json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
-					$db = get_option($option_key);
-					$json_updated = $json;
-
-					$need_update = false;
-
-					$excludes = array('body_structure', 'layouts', 'headers', 'footers');  // don't synchronize
-					split_data($json, $db, $json_updated, $need_update, $excludes);
-
-					if( !empty($json_updated) && empty($db) ) {
-						update_option($option_key, $json_updated);
-					}
-					if( $need_update ) {
-					 	update_option($option_key, $json_updated);
-					}
-				}
-			}	
-		}
-	}
-    
-    db_json_sync();
 }
 
 ?>
