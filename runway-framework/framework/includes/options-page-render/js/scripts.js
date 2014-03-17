@@ -39,18 +39,25 @@ jQuery(function() {
     $('.submit input').click(function(e){
         var current_index = -1;
         var start_index = -1;
+		var current_name = '';
         
         $('.input-check.custom-data-type').each(function(){
             var name = $(this).attr('name');
             if(/\[(\d*)\]\[\]$/.test(name)) {
                 var matched = name.match(/\[(\d*)\]\[\]$/);
+                name = name.replace(/\[\d*\]\[\]$/, "");
+				if(current_name != name) {
+					current_name = name;
+					current_index = -1;
+					start_index = -1;
+				}
+		
                 if(current_index != matched[1])
                 {
                     current_index = matched[1];
                     start_index++;
                 }
                 
-                name = name.replace(/\[\d*\]\[\]$/, "");
                 $(this).attr('name', name+'['+start_index+'][]');
             }
             
@@ -62,17 +69,25 @@ jQuery(function() {
         
         var current_index = -1;
         var start_index = -1;
+		var current_name = '';
         $('.input-radio.custom-data-type').each(function(){
             var name = $(this).attr('name');
             if(/\[(\d*)\]$/.test(name)) {
                 var matched = name.match(/\[(\d*)\]$/);
+                name = name.replace(/\[\d*\]$/, "");
+		
+				if(current_name != name) {
+					current_name = name;
+					current_index = -1;
+					start_index = -1;
+				}
+		
                 if(current_index != matched[1])
                 {
                     current_index = matched[1];
                     start_index++;
                 }
                 
-                name = name.replace(/\[\d*\]$/, "");
                 $(this).attr('name', name+'['+start_index+']');
             }
         });

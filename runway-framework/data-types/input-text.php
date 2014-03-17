@@ -14,73 +14,73 @@ class Input_text extends Data_Type {
 
 		$this->get_value();
 
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){		
-				?>
-				<label>
-					<span class="customize-control-title"><?php echo $this->field->title ?></span>
-					<div class="customize-control-content">				
-						<?php 
-                            if(isset($this->field->value) && is_array($this->field->value)) {
-                                foreach($this->field->value as $key=>$tmp_value) {
-                                    if(is_string($key))
-                                        unset($this->field->value[$key]);
-                                }
-                            }
-                                                
-							$count = isset($this->field->value) ? count((array)$this->field->value) : 1;
-							if($count == 0) 
-                                                            $count = 1;
-							for( $key = 0; $key < $count; $key++ ):		
-                                                            if(isset($this->field->value) && is_array($this->field->value))
-                                                                $repeat_value = isset($this->field->value[$key]) ? $this->field->value[$key] : '';
-                                                            else
-								$repeat_value = '';
-						?>
-								<input 
-									type="text" 
-									class="input-text custom-data-type" 
-									<?php echo $section; ?> 
-									data-type="input-text" 
-									<?php $this->link(); ?> 
-									name="<?php echo $this->field->alias; ?>[]" 
-									value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
-								/>
-								<a href="#" class="delete_field">Delete</a><br>
-						<?php 
-							endfor; 
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
+		?>
+			<label>
+				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+				<div class="customize-control-content">				
+			<?php
+			if (isset($this->field->value) && is_array($this->field->value)) {
+				foreach ($this->field->value as $key => $tmp_value) {
+					if (is_string($key))
+						unset($this->field->value[$key]);
+				}
+			}
 
-							if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-								$field = array(
-									'field_name' => $this->field->alias,
-									'type' => 'text',
-									'class' => 'input-text custom-data-type',
-									'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
-									'data_type' => 'input-text',
-									'after_field' => '',
-									'value' => 'aaa'
-								);
-								$this->enable_repeating($field);
-							} 
-						?>
-					</div>
-				</label>
-				<?php		
+			$count = isset($this->field->value) ? count((array) $this->field->value) : 1;
+			if ($count == 0)
+				$count = 1;
+			for ($key = 0; $key < $count; $key++):
+				if (isset($this->field->value) && is_array($this->field->value))
+					$repeat_value = isset($this->field->value[$key]) ? $this->field->value[$key] : '';
+				else
+					$repeat_value = '';
+			?>
+				<input 
+					type="text" 
+					class="input-text custom-data-type" 
+					<?php echo $section; ?> 
+					data-type="input-text" 
+					<?php $this->link(); ?> 
+					name="<?php echo $this->field->alias; ?>[]" 
+					accept=""value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
+				/>
+					<a href="#" class="delete_field">Delete</a><br>
+				<?php
+			endfor;
+
+			if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
+				$field = array(
+					'field_name' => $this->field->alias,
+					'type' => 'text',
+					'class' => 'input-text custom-data-type',
+					'data_section' => isset($this->page->section) ? $this->page->section : '',
+					'data_type' => 'input-text',
+					'after_field' => '',
+					'value' => 'aaa'
+				);
+				$this->enable_repeating($field);
+			}
+			?>
+				</div>
+			</label>
+			<?php
+			$this->wp_customize_js();
 		}
 		else{
 			?>
 			<label>
-                            <span class="customize-control-title"><?php echo $this->field->title ?></span>
-                            <?php
-                                $input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-                                if(!is_string($input_value) && !is_numeric($input_value))
-                                {
-                                    if(is_array($input_value) && isset($input_value[0]))
-                                        $input_value = $input_value[0];
-                                    else
-                                        $input_value = "";
-                                }
-                            ?>
+				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+				<?php
+					$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
+					if(!is_string($input_value) && !is_numeric($input_value)) {
+						if(is_array($input_value) && isset($input_value[0]))
+							$input_value = $input_value[0];
+						else
+							$input_value = "";
+					}
+				?>
                             
 				<div class="customize-control-content">
 					<input type="text" 
@@ -90,8 +90,8 @@ class Input_text extends Data_Type {
 			<?php
 		}		
 		do_action( self::$type_slug . '_after_render_content', $this );
-	}	
-
+	}
+        
 	public static function render_settings() { ?>
 
 		<script id="input-text" type="text/x-jquery-tmpl">
@@ -195,17 +195,17 @@ class Input_text extends Data_Type {
 
 	public static function data_type_register() { ?>
 
-        <script type="text/javascript">
+	<script type="text/javascript">
 
-            jQuery(document).ready(function ($) {
-                builder.registerDataType({
-		            name: 'Input text',
-		            alias: '<?php echo self::$type_slug ?>',
-                    settingsFormTemplateID: '<?php echo self::$type_slug ?>'
-	        	});
-            });
+		jQuery(document).ready(function ($) {
+			builder.registerDataType({
+				name: 'Input text',
+				alias: '<?php echo self::$type_slug ?>',
+				settingsFormTemplateID: '<?php echo self::$type_slug ?>'
+			});
+		});
 
-        </script>
+	</script>
 
     <?php }
 } ?>

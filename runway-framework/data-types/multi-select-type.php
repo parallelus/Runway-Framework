@@ -39,83 +39,85 @@ class Multi_select_type extends Data_Type {
 			}
 		}
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
-                
-        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-            $vals = ( $vals != null ) ? $this->field->saved : $this->get_value();
+		$customize_title = stripslashes( $this->field->title );
+		?>
+		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<?php
+		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+		$vals = ( $vals != null ) ? $this->field->saved : $this->get_value();
              
-            if(isset($vals) && is_array($vals)) {
-                foreach($vals as $key=>$tmp_value) {
-                    if(!is_array($tmp_value) || is_string($key))
-                        unset($vals[$key]);
-                }
-            }
+		if(isset($vals) && is_array($vals)) {
+			foreach($vals as $key=>$tmp_value) {
+				if(!is_array($tmp_value) || is_string($key))
+					unset($vals[$key]);
+			}
+		}
             
-            $count = isset($vals) ? count((array)$vals) : 1;
-            if($count == 0) 
-                $count = 1;
+		$count = isset($vals) ? count((array)$vals) : 1;
+		if($count == 0) 
+			$count = 1;
             
-            for( $key = 0; $key < $count; $key++ ) {
-                ?>
-                <select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
-                        name="<?php echo $this->field->alias;?>[<?php echo $key;?>][]" size="5" style="height: 103px;">
+		for( $key = 0; $key < $count; $key++ ) {
+		?>
+			<select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
+				name="<?php echo $this->field->alias;?>[<?php echo $key;?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
                     
-                    <option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>>No value</option>
-                    <?php foreach ( $key_values as $select_value_key => $val ) { 
-                        if(is_array($vals[$key])) {
-                            $checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
-                        }
-                        else
-                            $checked = '';
-                    ?>
-                    <option value='<?php echo $select_value_key;?>' <?php echo $checked;?>><?php echo stripslashes( $val );?></option>
-                    <?php } ?>
-                </select>
-                <a href="#" class="delete_multiselect_field">Delete</a><br>
-                <?php
-            }
-                
-            $field = array(
-                'field_name' => $this->field->alias,
-                'start_number' => $count,
-                'type' => 'select',
-                'class' => 'input-select custom-data-type',
-                'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
-                'data_type' => 'multi-select-type',
-                'after_field' => '',
-                'value' => '#'
-            );
-            $this->enable_repeating($field, $key_values);
-        }
-        else {
-            $html ='<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>';
-            $html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
+				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>>No value</option>
+				<?php foreach ( $key_values as $select_value_key => $val ) { 
+					if(is_array($vals[$key])) {
+						$checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
+					}
+					else
+						$checked = '';
+				?>
+				<option value='<?php echo $select_value_key;?>' <?php echo $checked;?>><?php echo stripslashes( $val );?></option>
+				<?php } ?>
+			</select>
+		<a href="#" class="delete_multiselect_field">Delete</a><br>
+		<?php
+		}
 
-            $value = ( $vals != null ) ? $this->field->saved : $this->get_value();
+		$field = array(
+			'field_name' => $this->field->alias,
+			'start_number' => $count,
+			'type' => 'select',
+			'class' => 'input-select custom-data-type',
+			'data_section' => isset($this->page->section) ? $this->page->section : '',
+			'data_type' => 'multi-select-type',
+			'after_field' => '',
+			'value' => '#'
+		);
+		$this->enable_repeating($field, $key_values);
+		$this->wp_customize_js();
+	}
+	else {
+		$html ='<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>';
+		$html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
 
-            if ( isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value ) && array_key_exists( 'field_types', $this->field->value ) ) {
-                    $value = $this->field->value[$this->field->alias];
-            }
+		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 
-            $key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
+		if ( isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value[$this->field->alias] ) && isset( $this->field->value ) && array_key_exists( 'field_types', $this->field->value ) ) {
+			$value = $this->field->value[$this->field->alias];
+		}
+
+		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
             
-            $html .= '<option value="no">No value</option>';
-            foreach ( $key_values as $key => $val ) {
-                    if ( is_array( $value ) ) {
-                            $checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
-                    }
-                    else
-                            $checked = '';
+		$html .= '<option value="no">No value</option>';
+		foreach ( $key_values as $key => $val ) {
+			if ( is_array( $value ) ) {
+				$checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
+			}
+			else
+				$checked = '';
 
-                    if ( $val != '' ) {
-                            $html .= '<option value="'.$key.'"'.$checked.'>'.stripslashes( $val ).'</option>';
-                    }
-            }
-            $html .= '</select>';
+			if ( $val != '' ) {
+				$html .= '<option value="'.$key.'"'.$checked.'>'.stripslashes( $val ).'</option>';
+			}
+		}
+		$html .= '</select>';
 
-            echo $html;
-        }
-		do_action( self::$type_slug . '_after_render_content', $this );
-
+		echo $html;
+            
 		/* dirty hack to make multiple elms on customize.php page */
 		if ( $this->is_customize_theme_page ) { ?>
 
@@ -131,28 +133,36 @@ class Multi_select_type extends Data_Type {
 
 					jQuery('[name="'+name+'"] option:selected').each(function () {
 
-		            	value.push(jQuery(this).val());
+						value.push(jQuery(this).val());
 
-		            });
+					});
 
-		            jQuery('[name="'+name+'"]').val(value).trigger('change');
+					jQuery('[name="'+name+'"]').val(value).trigger('change');
 
 				});
 
 			</script>
 		<?php }
 		/* dirty hack to make multiple elms on customize.php page */
-
+	}
+            
+		do_action( self::$type_slug . '_after_render_content', $this );
 	}
 
 	public function save( $value = null ) {
-
 		/* dirty hack to make multiple elms on customize.php page */
 		$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
-
-		parent::save( explode( ',', $submited_value->{$this->field->alias} ) );
-		/* dirty hack to make multiple elms on customize.php page */
-
+		$value = $submited_value->{$this->field->alias};
+		
+		if(is_string($value))
+			$value = explode( ',', $value );
+		
+		if(is_object($value)) {
+			$value = "";
+		}
+		
+		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
+		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 	}
 
 	public static function render_settings() { ?>
@@ -161,68 +171,68 @@ class Multi_select_type extends Data_Type {
 
 		<?php do_action( self::$type_slug . '_before_render_settings' ); ?>
 
-    <div class="settings-container">
-        <label class="settings-title">
-            Values:
-            <br><span class="settings-title-caption"></span>
-        </label>
-        <div class="settings-in">
+		<div class="settings-container">
+		    <label class="settings-title">
+			Values:
+			<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
 
-            <textarea data-set="values" name="values" class="settings-textarea multi-select-type">${values}</textarea>
+			<textarea data-set="values" name="values" class="settings-textarea multi-select-type">${values}</textarea>
 
-            <br><span class="settings-field-caption"></span>
+			<br><span class="settings-field-caption"></span>
 
-        </div>
+		    </div>
 
-    </div><div class="clear"></div>
+		</div><div class="clear"></div>
 
-    <div class="settings-container">
-        <label class="settings-title">
-            Required:
-            <br><span class="settings-title-caption"></span>
-        </label>
-        <div class="settings-in">
+		<div class="settings-container">
+		    <label class="settings-title">
+			Required:
+			<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
 
-            <label>
-                {{if required == 'true'}}
-                <input data-set="required" name="required" value="true" checked="true" type="checkbox">
-                {{else}}
-                <input data-set="required" name="required" value="true" type="checkbox">
-                {{/if}}
-                Yes
-            </label>
+			<label>
+			    {{if required == 'true'}}
+			    <input data-set="required" name="required" value="true" checked="true" type="checkbox">
+			    {{else}}
+			    <input data-set="required" name="required" value="true" type="checkbox">
+			    {{/if}}
+			    Yes
+			</label>
 
-            <br><span class="settings-field-caption">Is this a required field.</span><br>
+			<br><span class="settings-field-caption">Is this a required field.</span><br>
 
-            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-            <br><span class="settings-field-caption">Optional. Enter a custom error message.</span>
+			<br><span class="settings-field-caption">Optional. Enter a custom error message.</span>
 
-        </div>
+		    </div>
 
-    </div><div class="clear"></div>
+		</div><div class="clear"></div>
 
-    <!-- Repeating settings -->
-    <div class="settings-container">
-        <label class="settings-title">
-            Repeating:                  
-        </label>
-        <div class="settings-in">
-            <label class="settings-title"> 
-                {{if repeating == 'Yes'}}
-                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
-                {{else}}
-                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
-                {{/if}}
-                Yes
-            </label>
-            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
-        </div>
-    </div><div class="clear"></div>
+		<!-- Repeating settings -->
+		<div class="settings-container">
+		    <label class="settings-title">
+			Repeating:                  
+		    </label>
+		    <div class="settings-in">
+			<label class="settings-title"> 
+			    {{if repeating == 'Yes'}}
+				<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+			    {{else}}
+				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+			    {{/if}}
+			    Yes
+			</label>
+			<br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+		    </div>
+		</div><div class="clear"></div>
 
-    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
+		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
-</script>
+		</script>
 
 	<?php }
 
@@ -274,72 +284,124 @@ class Multi_select_type extends Data_Type {
 
         </script>
 
-    <?php }
+	<?php }
     
-    public function enable_repeating($field = array(), $default_values = array() ){
-        if(!empty($field)) :
-                extract($field);
+	public function enable_repeating($field = array(), $default_values = array() ){
+		if(!empty($field)) :
+			extract($field);
 
-                $add_id = 'add_'.$field_name;
-                $del_id = 'del_'.$field_name;
+		$add_id = 'add_'.$field_name;
+		$del_id = 'del_'.$field_name;
 
-                ?>
-                        <div id="<?php echo $add_id; ?>">
-                                <a href="#">
-                                        Add Field
-                                </a>
-                        </div>			
+		?>
+		<div id="<?php echo $add_id; ?>">
+			<a href="#">
+				Add Field
+			</a>
+		</div>			
 
-                        <script type="text/javascript">
-                                (function($){
-                                        $(document).ready(function(){
-                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
-                                                var start_radio_groups_index = <?php echo $start_number;?>;
+		<script type="text/javascript">
+			(function($){
+				$(document).ready(function(){
+					var field = $.parseJSON('<?php echo json_encode($field); ?>');
+					var start_radio_groups_index = <?php echo $start_number;?>;
                                                 
-                                                //currentTime = new Date().getTime();
-                                                $('#<?php echo $add_id; ?>').click(function(e){
-                                                        e.preventDefault();
-                                                        var field = $('<select>', {
-                                                                type: '<?php echo $type; ?>',
-                                                                class: '<?php echo $class; ?>',
-                                                                name: '<?php echo $field_name; ?>['+start_radio_groups_index+'][]',
-                                                                value: "",
-                                                                multiple: ""
-                                                        })							
-                                                        .attr('data-type', '<?php echo $data_type; ?>')
-                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
-                                                        start_radio_groups_index++;
+					$('#<?php echo $add_id; ?>').click(function(e){
+						e.preventDefault();
+						var field = $('<select>', {
+							type: '<?php echo $type; ?>',
+							class: '<?php echo $class; ?>',
+							name: '<?php echo $field_name; ?>['+start_radio_groups_index+'][]',
+							value: "",
+							multiple: ""
+						})							
+						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>').
+						css({'height': '103px'});
+						start_radio_groups_index++;
                                                 
-                                                        field.append('<option value="no">No value</option>');
-                                                        <?php foreach($default_values as $val_key=>$val) { 
-                                                                $html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
-                                                        ?>
-                                                            field.append('<?php echo $html;?>');
-                                                        <?php } ?>
+						field.append('<option value="no">No value</option>');
+						<?php foreach($default_values as $val_key=>$val) { 
+							$html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
+						?>
+						field.append('<?php echo $html;?>');
+						<?php } ?>
                                                             
-                                                        field.insertBefore($(this));
+						field.insertBefore($(this));
 
-                                                        field.click(function(e){
-                                                                e.preventDefault();
-                                                        });
+						field.click(function(e){
+							e.preventDefault();
+						});
 
-                                                        $('#header').focus();
-                                                        field.after('<br>');
-                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-                                                        field.next().after('<a href="#" class="delete_multiselect_field">Delete</a>');
-                                                });
+						$('#header').focus();
+						field.after('<br>');
+						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.next().after('<a href="#" class="delete_multiselect_field">Delete</a>');
+                                                        
+						if(typeof reinitialize_customize_multiselect_instance == 'function') {
+							reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+						}
+					});
 
-                                                $('body').on('click', '.delete_multiselect_field', function(e){
-                                                        e.preventDefault();
-                                                        $(this).prev('.field_label').remove();
-                                                        $(this).prev().remove();
-                                                        $(this).next('br').remove();
-                                                        $(this).remove();
-                                                });
-                                        });
-                                })(jQuery);
-                        </script>
-                <?php
-        endif;
-    }
+					$('body').on('click', '.delete_multiselect_field', function(e){
+						e.preventDefault();
+						$(this).prev('.field_label').remove();
+						$(this).prev().remove();
+						$(this).next('br').remove();
+						$(this).remove();
+                                                        
+						if(typeof reinitialize_customize_multiselect_instance == 'function') {
+							reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+						}
+					});
+                                                        
+					if ( wp.customize ) {
+						if(typeof reinitialize_customize_multiselect_instance == 'function') {
+							var api = wp.customize;
+							api.bind('ready', function(){
+								reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+							});
+						}
+					}
+				});
+			})(jQuery);
+		</script>
+		<?php
+	endif;
+	}
+    
+	public function wp_customize_js() {
+	?>
+		<script type="text/javascript">
+			(function($){
+				$('body').on('click', 'select[name^="<?php echo $this->field->alias;?>"] option', function(){
+					reinitialize_customize_multiselect_instance('<?php echo $this->field->alias;?>');
+				});
+			})(jQuery);
+                
+			if(typeof reinitialize_customize_multiselect_instance !== 'function') {
+				function reinitialize_customize_multiselect_instance(alias) {
+					(function($){
+						if ( wp.customize ) {
+							var values_array = [];
+							alias = alias.replace(/(\[\d*\])?\[\d*\]$/, "");
+							$('select[name^="'+alias+'"]').each(function(){
+								var tmp_array = [];
+								$(this).children("option:selected").each(function(){
+									tmp_array.push($(this).val());
+								});
+								values_array.push(tmp_array);
+								if(values_array[values_array.length - 1].length == 0)
+									values_array[values_array.length - 1].push('no');
+							});
+
+							var api = wp.customize;
+							api.instance(alias).set(values_array);
+						}
+					})(jQuery);
+				}
+			}
+		</script>
+	<?php
+	}
 } ?>

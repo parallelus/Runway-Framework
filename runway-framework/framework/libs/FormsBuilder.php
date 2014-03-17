@@ -149,7 +149,8 @@ class FormsBuilder {
 													'description' => '',
 													'priority' => isset($container->priority)? $container->priority : ''
 												) );
-
+											
+											$priority_level = 0;
 											foreach ( $container_fields as $field_id ) {
 												if ( $field_id != 'none' ) {
 													$field = $_this->builder_page->elements->$field_id;
@@ -171,8 +172,10 @@ class FormsBuilder {
 																'label' => $field->title,
 																'section' => $container->index,
 																'settings' => $field->alias,
+																'priority' => $priority_level
 															)
 														);
+														$priority_level++;
 
 														add_action( 'customize_save_' .$field->alias, array( $option_field, 'save' ) );
 														add_filter( 'customize_value_' . $field->alias, array( $option_field, 'get_value' ) );

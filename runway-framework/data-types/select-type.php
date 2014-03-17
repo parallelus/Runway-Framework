@@ -44,76 +44,76 @@ class Select_type extends Data_Type {
 		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
 		$customize_title = stripslashes( $this->field->title );
-                
-        if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-            $vals = isset($this->field->value) ? $this->field->value : array();
-            
-            if(isset($vals) && is_array($vals)) {
-                foreach($vals as $key=>$tmp_value) {
-                    if(is_string($key))
-                        unset($vals[$key]);
-                }
-            }
-            
-            $count = isset($vals) ? count((array)$vals) : 1;
-            if($count == 0) 
-                $count = 1;
-            
-            for( $key = 0; $key < $count; $key++ ) {
                 ?>
-                <select <?php echo $this->get_link();?>
-                    class='input-select custom-data-type'
-                    <?php echo $section;?>
-                    data-type='select-type'
-                    name="<?php echo $this->field->alias;?>[]">
-                    <?php foreach($key_values as $select_value_key=>$val) { 
-                        $html = "";
-                        if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-                            $html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$select_value_key.'">' : '</optgroup>';
-                        } else {
-                            if($vals[$key] == trim($select_value_key))
-                                $checked = ' selected="selected"';
-                            else
-                                $checked = '';
-                            $html .= '<option value="'.$select_value_key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
-                        }
-                        echo $html;
-                    } ?>
-                </select>
-                <a href="#" class="delete_select_field">Delete</a><br>
+		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
                 <?php
-            }
+		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
+			$vals = isset($this->field->value) ? $this->field->value : array();
             
-            $field = array(
-                    'field_name' => $this->field->alias,
-                    'type' => 'select',
-                    'class' => 'input-select custom-data-type',
-                    'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
-                    'data_type' => 'select-type',
-                    'after_field' => '',
-                    'value' => '#'
-            );
-            $this->enable_repeating($field, $key_values);
-        } else {
-            $html = "<select " . $this->get_link() . " class='input-select custom-data-type' $section data-type='select-type' name='{$this->field->alias}'>";
+			if(isset($vals) && is_array($vals)) {
+				foreach($vals as $key=>$tmp_value) {
+					if(is_string($key))
+						unset($vals[$key]);
+				}
+			}
+            
+			$count = isset($vals) ? count((array)$vals) : 1;
+			if($count == 0) 
+				$count = 1;
+            
+			for( $key = 0; $key < $count; $key++ ) {
+			?>
+			<select <?php $this->link();?>
+				class='input-select custom-data-type'
+				<?php echo $section;?>
+				data-type='select-type'
+				name="<?php echo $this->field->alias;?>[]">
+			<?php foreach($key_values as $select_value_key=>$val) { 
+				$html = "";
+				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
+					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$select_value_key.'">' : '</optgroup>';
+				} else {
+					if($vals[$key] == trim($select_value_key))
+						$checked = ' selected="selected"';
+					else
+					$checked = '';
+					$html .= '<option value="'.$select_value_key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
+				}
+				echo $html;
+			} ?>
+			</select>
+			<a href="#" class="delete_select_field">Delete</a><br>
+			<?php
+			}
 
-            foreach ( $key_values as $key => $val ) {
-                    if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-                            $html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$key.'">' : '</optgroup>';
-                    } else {
-                            $checked = ( is_string( $vals ) && $key == trim( $vals ) ) ? ' selected="selected"' : '';
-                            $html .= '<option value="'.$key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
-                    }
-            }
+			$field = array(
+				'field_name' => $this->field->alias,
+				'type' => 'select',
+				'class' => 'input-select custom-data-type',
+				'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
+				'data_type' => 'select-type',
+				'after_field' => '',
+				'value' => '#'
+			);
+			$this->enable_repeating($field, $key_values);
+			$this->wp_customize_js();
+		} else {
+			$html = "<select " . $this->get_link() . " class='input-select custom-data-type' $section data-type='select-type' name='{$this->field->alias}'>";
 
-            $html .= '</select>';
+			foreach ( $key_values as $key => $val ) {
+				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
+					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$key.'">' : '</optgroup>';
+				} else {
+					$checked = ( is_string( $vals ) && $key == trim( $vals ) ) ? ' selected="selected"' : '';
+					$html .= '<option value="'.$key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
+				}
+			}
 
-            echo $html;
-        }
+			$html .= '</select>';
+
+			echo $html;
+		}
         
-//$html = "<legend class='customize-control-title'><span>$customize_title</span></legend>";
-		
-
 		do_action( self::$type_slug . '_after_render_content', $this );
 
 	}
@@ -221,72 +221,118 @@ class Select_type extends Data_Type {
 
         </script>
 
-    <?php }
+	<?php }
     
-    public function enable_repeating($field = array(), $default_values = array() ){
-        if(!empty($field)) :
-                extract($field);
+	public function enable_repeating($field = array(), $default_values = array() ){
+		if(!empty($field)) :
+			extract($field);
 
-                $add_id = 'add_'.$field_name;
-                $del_id = 'del_'.$field_name;
+		$add_id = 'add_'.$field_name;
+		$del_id = 'del_'.$field_name;
 
-                ?>
-                        <div id="<?php echo $add_id; ?>">
-                                <a href="#">
-                                        Add Field
-                                </a>
-                        </div>			
+		?>
+		<div id="<?php echo $add_id; ?>">
+			<a href="#">
+				Add Field
+			</a>
+		</div>			
+	
+		<script type="text/javascript">
+			(function($){
+				$(document).ready(function(){
+					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 
-                        <script type="text/javascript">
-                                (function($){
-                                        $(document).ready(function(){
-                                                var field = $.parseJSON('<?php echo json_encode($field); ?>');
-                                                //currentTime = new Date().getTime();
-                                                $('#<?php echo $add_id; ?>').click(function(e){
-                                                        e.preventDefault();
-                                                        var field = $('<select>', {
-                                                                type: '<?php echo $type; ?>',
-                                                                class: '<?php echo $class; ?>',
-                                                                name: '<?php echo $field_name; ?>[]',
-                                                                value: ""
-                                                        })							
-                                                        .attr('data-type', '<?php echo $data_type; ?>')
-                                                        .attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
+					$('#<?php echo $add_id; ?>').click(function(e){
+						e.preventDefault();
+						var field = $('<select>', {
+							type: '<?php echo $type; ?>',
+							class: '<?php echo $class; ?>',
+							name: '<?php echo $field_name; ?>[]',
+							value: ""
+						})							
+						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
                                                 
-                                                        <?php foreach($default_values as $val_key=>$val) { 
-                                                            $html = "";
-                                                            if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-                                                                $html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$val_key.'">' : '</optgroup>';
-                                                            } else {
-                                                                    $html .= '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
-                                                            }
-                                                        ?>
-                                                            field.append('<?php echo $html;?>');
-                                                        <?php } ?>
+						<?php foreach($default_values as $val_key=>$val) { 
+							$html = "";
+							if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
+								$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$val_key.'">' : '</optgroup>';
+							} else {
+								$html .= '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
+							}
+						?>
+						field.append('<?php echo $html;?>');
+						<?php } ?>
                                                             
-                                                        field.insertBefore($(this));
+						field.insertBefore($(this));
 
-                                                        field.click(function(e){
-                                                                e.preventDefault();
-                                                        });
+						field.click(function(e){
+							e.preventDefault();
+						});
 
-                                                        $('#header').focus();
-                                                        field.after('<br>');
-                                                        field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-                                                        field.next().after('<a href="#" class="delete_select_field">Delete</a>');
-                                                });
+						$('#header').focus();
+						field.after('<br>');
+						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.next().after('<a href="#" class="delete_select_field">Delete</a>');
+                                                        
+						if(typeof reinitialize_customize_select_instance == 'function') {
+							reinitialize_customize_select_instance('<?php echo $field_name ?>');
+						}
+					});
 
-                                                $('body').on('click', '.delete_select_field', function(e){
-                                                        e.preventDefault();
-                                                        $(this).prev('.field_label').remove();
-                                                        $(this).prev().remove();
-                                                        $(this).next('br').remove();
-                                                        $(this).remove();
-                                                });
-                                        });
-                                })(jQuery);
-                        </script>
-                <?php
-        endif;
-    }
+					$('body').on('click', '.delete_select_field', function(e){
+						e.preventDefault();
+						$(this).prev('.field_label').remove();
+						$(this).prev().remove();
+						$(this).next('br').remove();
+						$(this).remove();
+                                                        
+						if(typeof reinitialize_customize_select_instance == 'function') {
+							reinitialize_customize_select_instance('<?php echo $field_name ?>');
+						}
+					});
+                                                        
+					if ( wp.customize ) {
+						if(typeof reinitialize_customize_select_instance == 'function') {
+							var api = wp.customize;
+							api.bind('ready', function(){
+								reinitialize_customize_select_instance('<?php echo $field_name ?>');
+							});
+						}
+					}
+				});
+			})(jQuery);
+		</script>
+		<?php
+	endif;
+	}
+    
+	public function wp_customize_js() {
+	?>
+		<script type="text/javascript">
+			(function($){
+				$('body').on('change', 'select[name="<?php echo $this->field->alias;?>[]"]', function(){
+					reinitialize_customize_select_instance('<?php echo $this->field->alias;?>');
+				});
+			})(jQuery);
+                
+			if(typeof reinitialize_customize_select_instance !== 'function') {
+				function reinitialize_customize_select_instance(alias) {
+					(function($){
+						if ( wp.customize ) {
+							var values_array = [];
+							alias = alias.replace(/\[\d*\]$/, "");
+							$('select[name="'+alias+'[]"]').each(function(){
+								values_array.push($(this).val());
+							});
+
+							var api = wp.customize;
+							api.instance(alias).set(values_array);
+						}
+					})(jQuery);
+				}
+			}
+		</script>
+	<?php
+	}
 } ?>
