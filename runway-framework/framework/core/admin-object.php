@@ -45,7 +45,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			if(isset($this->builder_page)) {						
 				$this->pref = $this->get_menu_adapt($this->builder_page->settings->adminMenuTopItem);								
 			} else {
-				$this->pref = $this->pref . strtolower(THEME_NAME);
+				$this->pref = $this->pref . strtolower('framework');
 			}
 
 			$this->page_hook = $this->pref . "_page_" . $this->slug;			
@@ -147,7 +147,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
 			<input type="hidden" name='action' value='save' />
 			<p class="submit">
-				<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, THEME_NAME ); ?>' />
+				<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, 'framework' ); ?>' />
 			</p>
 			</form>
 
@@ -520,7 +520,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				$data = $this->get_data( $action_keys );
 
 				if ( empty( $data ) )
-					return $this->error( __( 'Someting has gone awry. Sorry.', THEME_NAME ) );
+					return $this->error( __( 'Someting has gone awry. Sorry.', 'framework' ) );
 
 				// Which element is being moved?
 				$row = esc_attr( $_GET['row'] );
@@ -582,7 +582,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			if ( $this->action == 'delete' ) {
 				$data = $this->unset_data( $this->action_keys );
 				$this->save_data();
-				$this->message = __( 'Deleted!', THEME_NAME );
+				$this->message = __( 'Deleted!', 'framework' );
 			}
 
 			if ( count( $this->keys ) && $this->action == 'add' ) {
@@ -916,14 +916,14 @@ if ( !defined( $runway_framework_admin ) ) {
 
 							// Right Column Box ?>
 							<div class="dpostbox theme-framework-box">
-								<h3 class="hndle"><span><?php _e('Title', THEME_NAME); ?></span></h3>
+								<h3 class="hndle"><span><?php _e('Title', 'framework'); ?></span></h3>
 								<div class="inside">
 									<ul class="action-links">
 
 										<li>
 											<dl>
-												<dt><a href="#"><?php _e('A Title', THEME_NAME); ?></a></dt>
-												<dd><?php _e('Description', THEME_NAME); ?></dd>
+												<dt><a href="#"><?php _e('A Title', 'framework'); ?></a></dt>
+												<dd><?php _e('Description', 'framework'); ?></dd>
 											</dl>
 										</li>
 
@@ -1145,7 +1145,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			//<![CDATA[
 				jQuery(document).ready(function($){
 					$("a.common-delete, a.more-common-delete").click(function(){
-						return confirm("<?php _e( 'Are you sure you want to delete?', THEME_NAME ); ?>");
+						return confirm("<?php _e( 'Are you sure you want to delete?', 'framework' ); ?>");
 					});
 					$("#post-body-content .postbox").each( function(){
 							var handle = jQuery(this).children('.hndle, .handlediv');

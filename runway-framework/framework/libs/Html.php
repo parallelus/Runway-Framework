@@ -379,7 +379,7 @@ class Html {
 		<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
 		<input type="hidden" name='action' value='save' />
 		<p class="submit">
-			<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, THEME_NAME ); ?>' />
+			<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, 'framework' ); ?>' />
 		</p>
 		</form>
 
@@ -391,7 +391,7 @@ class Html {
 
 		if ( empty( $wp_rewrite->permalink_structure ) ) {
 			$html = '<em class="warning">';
-			$html .= __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the <a href="options-permalink.php">Permalink Settings</a>.', THEME_NAME );
+			$html .= __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the <a href="options-permalink.php">Permalink Settings</a>.', 'framework' );
 			$html .= '</em>';
 			return $html;
 		} else {

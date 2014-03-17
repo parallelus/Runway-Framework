@@ -3,7 +3,7 @@
 global $developer_tools, $Themes_Manager, $extm;
 $extensions_dir = get_template_directory() . '/framework/extensions/';
 
-$required = '<em class="required">' . __( 'Required', THEME_NAME ) . '</em>';
+$required = '<em class="required">' . __( 'Required', 'framework' ) . '</em>';
 $_data = $developer_tools->data;
 
 $themes_path = explode( '/', get_template_directory() );
