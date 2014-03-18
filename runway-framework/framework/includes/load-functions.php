@@ -529,6 +529,26 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 	}
 }
 
+function get_theme_prefix( $folder = false ) {
+	$settings = get_settings_json( $folder );
+	$theme_prefix = isset($settings['ThemeID'])? $settings['ThemeID'] : '';
+
+	return $theme_prefix;
+}
+
+function get_settings_json( $folder = false ) {
+	$file = (!$folder)? get_stylesheet_directory() . '/data/settings.json' : 
+						preg_replace("~\/(?!.*\/)(.*)~", '/'.$folder, get_stylesheet_directory()) . '/data/settings.json';
+
+	$settings = '';
+	if ( file_exists( $file ) ) {
+		$json = file_get_contents( $file );
+		$settings = json_decode( $json, true );
+	}
+
+	return $settings;
+}
+
 function create_theme_ID( $length = 0 ) {
 
     $theme_id = '';
@@ -542,25 +562,13 @@ function create_theme_ID( $length = 0 ) {
 } 
 
 function change_theme_prefix( $theme_name, $theme_id ) {
-	global $wpdb, $shortname;
+	global $shortname;
 
 	$theme_name = apply_filters( 'shortname', sanitize_title( $theme_name . '_' ) );
 	$json_dir = get_stylesheet_directory() . '/data';
     $ffs = scandir($json_dir);
 
-	$sql = $wpdb->prepare( "SELECT option_name FROM wp_options WHERE option_name LIKE %s", $shortname.'%' );
-	$res = $wpdb->get_results($sql, ARRAY_A);
-
-	$flag = true;
-	foreach($res as $key => $option) {
-		$data_pre = get_option($option['option_name']);
-		$option_key_new = str_replace($shortname, $theme_id.'_', $option['option_name']);
-		update_option($option_key_new, $data_pre);
-		$data_post = get_option($option_key_new);
-		if($data_pre != $data_post)
-			$flag = false;
-	}
-
+    $flag = true;
     foreach($ffs as $ff){
 	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
@@ -571,100 +579,35 @@ function change_theme_prefix( $theme_name, $theme_id ) {
 		}	
 	}
 
-	if( !$flag ) {							// if error - rollback
-		foreach($res as $key => $option) {
-			$option_key_new = str_replace($shortname, $theme_id.'_', $option['option_name']);
-			delete_option($option_key_new);
-		}
-		return false;
-	}
+	return $flag;
 }
 
-function get_settings_json() {
-
-	$file = get_stylesheet_directory() . '/data/settings.json';
-	$theme_name = '';
-	if ( file_exists( $file ) ) {
-		$json = file_get_contents( $file );
-		$settings = json_decode( $json, true );
-	}
-
-	return $settings;
-}
-
-function get_theme_name_style_css() {
-
-	$file = get_stylesheet_directory() . '/style.css';
-	$theme_name = '';
-	if ( file_exists( $file ) ) {
-		$stylecss = file( $file );
-		foreach($stylecss as $row) {
-			if ( strpos( $row, 'Theme Name: ') !== false ) {
-				$theme_name = trim(str_replace('Theme Name: ', '', $row));
-				break;
-			}
-		}
-	}
-
-	return $theme_name;
-}
-
-function check_theme_ID( ) {
-	global $shortname;
+function check_theme_ID() {
 
 	$settings = get_settings_json();
-	if( isset($settings['ThemeID']) ) {            		// if theme_id already exists
-		//out('000');
-		return true;
-	}
 
-	$stylecss_file = get_stylesheet_directory() . '/style.css';
-	if ( file_exists( $stylecss_file ) ) {
-		$stylecss = file( $stylecss_file );
-		foreach($stylecss as $row) {
-			if ( strpos( $row, 'Theme Name: ') !== false ) {
-				$theme_name_stylecss = trim(str_replace('Theme Name: ', '', $row));
-				break;
-			}
-		}
-	}
-	$theme_name_stylecss = get_theme_name_style_css();
+	$themeInfo = rw_get_theme_data();
+	$theme_name_stylecss = $themeInfo['Name'];
 
-	if( !isset($settings['ThemeID']) ) {         		// if there is not a prefix
-		//out('111');
+	if( !isset($settings['ThemeID']) ) {
 		$settings['ThemeID'] = create_theme_ID();
-		change_theme_prefix( $settings['Name'], $settings['ThemeID'] );
 		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
-		return true;
 	}
 
-	if( $theme_name_stylecss != $settings['Name'] ) {//out('222');
+	if( $theme_name_stylecss != $settings['Name'] ) {
 
 		if(isset($_GET['create-theme-id'])) {
 			if($_GET['create-theme-id']) {
-				$theme_id = create_theme_ID();
-				$settings['ThemeID'] = $theme_id;
+				// $theme_id = create_theme_ID();
+				// $settings['ThemeID'] = $theme_id;
 
-
-				$success = true;
-				if ( !is_writable( get_stylesheet_directory() . '/data' ) ) {
-					if ( !chmod( get_stylesheet_directory() . '/data' , 0777 ) ) 
-						$success = false;
-				}
-
-				if( $success ) {
-//					change_json_prefix( $settings['Name'], $theme_id );
-//					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
-				}
-				else { ?>
-				<div class="updated">
-					<p><strong>
-					Sorry, but prefix of the theme was not changed.<br>
-					No write permissions to directory <i><?php echo get_stylesheet_directory() . '/data'; ?></i> </strong>
-					</p>
-				</div>
-				<?php
-				}
+			 // 	if( change_theme_prefix( $settings['Name'], $settings['ThemeID'] ) ) {
+			 // 		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+			 // 		return true;
+			 // 	}
+			 // 	else {
+			 // 		return false;
+			 // 	}
 			}
 		}
 
@@ -681,7 +624,8 @@ function check_theme_ID( ) {
 		</div>
 	<?php		
 	}
-
+	else
+		return true;
 }
 
 ?>
