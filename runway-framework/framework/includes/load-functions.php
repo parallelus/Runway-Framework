@@ -468,21 +468,26 @@ function db_json_sync(){
 	global $shortname;
 
 	$settings = get_settings_json();
-	//$theme_name = isset($settings['Name'])? apply_filters( 'shortname', sanitize_title( $settings['Name'] . '_' ) ) : '';
-	$theme_name = $shortname;
 
+	$json_prefix = $option_prefix = $shortname;
 	$json_dir = get_stylesheet_directory() . '/data';
+	if(IS_CHILD && !is_dir($json_dir)) {
+		$json_dir = preg_replace("~\/(?!.*\/)(.*)~", '/'.get_template(), get_stylesheet_directory()) . '/data';
+		$json_prefix = apply_filters( 'shortname', sanitize_title( wp_get_theme(get_template()) . '_' ) );
+	}
+
     if(is_dir($json_dir)) {
 	    $ffs = scandir($json_dir);
 	    foreach($ffs as $ff){
     	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
-    	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-    	    	//if( in_array($option_key, array($shortname.'report-manager', $shortname.'formsbuilder_', $shortname.'extensions-manager')) )
-    	    	if( in_array($option_key, array($theme_name.'report-manager', $theme_name.'extensions-manager')) || strstr($option_key, "formsbuilder_") !== false )
+    	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
+    	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
+
+    	    	if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) || strstr($option_key_json, "formsbuilder_") !== false )
     	    		continue;
-    	    	if( strpos($option_key, $theme_name) !== false ) {
-					$json = ($option_key == $theme_name.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
-																		  json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+    	    	if( strpos($option_key_json, $json_prefix) !== false ) {
+					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
+																		  		json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
 					$db = get_option($option_key);
 					$json_updated = $json;
 
