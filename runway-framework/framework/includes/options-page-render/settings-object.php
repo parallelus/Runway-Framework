@@ -41,7 +41,19 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 			$hasEmpty = false;
 			
 			foreach($field_information->value as $tmp_key => $tmp_val) {
-				$hasEmpty = true;
+				if($field_information->type === 'checkbox-type') {
+					if(is_array($tmp_val)) {
+						foreach($tmp_val as $tmp_checkbox_sub_key => $tmp_checkbox_sub_value) {
+							if(empty($tmp_checkbox_sub_value)) { 
+								$hasEmpty = true;
+							}
+						}
+					}
+				} else {
+					if(empty($tmp_val)) { 
+						$hasEmpty = true;
+					}
+				}
 			}
 			
 			if($hasEmpty) {
