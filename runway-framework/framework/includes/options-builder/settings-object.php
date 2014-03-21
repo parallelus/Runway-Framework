@@ -194,7 +194,7 @@ class Apm_Admin extends Runway_Admin_Object {
 					$tmp = get_option( $option_key );
 					$to_write = array();
 
-					if ( count( $tmp ) ) {
+					if ( count( $tmp ) && is_array($tmp)) {
 						foreach ( $tmp as $key => $value ) {
 							if ( !in_array( $key, $changed ) ) {
 								$to_write[$key] = $value;
