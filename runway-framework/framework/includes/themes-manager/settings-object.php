@@ -164,6 +164,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$settings = json_decode( file_get_contents( $this->themes_path . '/' . $new_name . '/data/settings.json' ), true );
 		$settings['Folder'] = $new_name;
 		$settings['ThemeID'] = create_theme_ID();
+		unset($settings['isPrefixID']);
 		file_put_contents( $this->themes_path . '/' . $new_name . '/data/settings.json', json_encode( $settings ) );
 
 		$theme_info = file_get_contents( $this->themes_path . '/' . $new_name . '/style.css' );

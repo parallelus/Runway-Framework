@@ -326,6 +326,8 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 		// save updated option to file in /data folder
 		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
+			$settings = get_settings_json();
+			$option = (isset($settings['ThemeID']) && isset($settings['isPrefixID']) && $settings['isPrefixID'])? str_replace($shortname, $settings['ThemeID'] . '_', $option) : $option;
 			if( IS_CHILD && get_template() == 'runway-framework')
 				file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
@@ -483,7 +485,8 @@ function db_json_sync(){
     	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
     	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-    	    	if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) || strstr($option_key_json, "formsbuilder_") !== false )
+    	    	//if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) || strstr($option_key_json, "formsbuilder_") !== false )
+    	    	if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) )
     	    		continue;
     	    	if( strpos($option_key_json, $json_prefix) !== false ) {
 					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
@@ -567,53 +570,99 @@ function create_theme_ID( $length = 0 ) {
 } 
 
 function change_theme_prefix( $theme_name, $theme_id ) {
-	global $shortname;
+	// global $wpdb, $shortname;
 
-	$theme_name = apply_filters( 'shortname', sanitize_title( $theme_name . '_' ) );
 	$json_dir = get_stylesheet_directory() . '/data';
     $ffs = scandir($json_dir);
 
     $flag = true;
-    foreach($ffs as $ff){
-	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
-	    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
-	    	if( strpos($option_key, $theme_name) !== false ) {
-				if (!rename($json_dir.'/'.$ff, str_replace($theme_name, $theme_id.'_', $json_dir.'/'.$ff)) )
-				 	$flag = false;
-			}
-		}	
+	if ( is_dir($json_dir) ) {
+		if( !is_writable( $json_dir ) ) {
+			$flag = chmod( $json_dir, 0777 );
+		}
 	}
+	else 
+		$flag = false;
+
+	if( $flag ) {
+		$json_number = 0;
+		$json_renamed_number = 0;
+	    foreach($ffs as $ff){
+		    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+		    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
+
+		    	if( strpos($option_key, $theme_name) !== false ) {
+		    		$json_number++;
+
+		    		// $theme_id_prefix = (!preg_match('/_$/', $theme_id))? $theme_id . '_' : $theme_id;
+		    		$theme_id_prefix = (strpos($json_dir.'/'.$ff, $theme_name . '_') !== false )? $theme_id : $theme_id . '_';
+				 	if (!rename($json_dir.'/'.$ff, str_replace($theme_name, $theme_id_prefix, $json_dir.'/'.$ff)) )
+					 	$flag = false;
+					else
+					 	$json_renamed_number++;
+				}
+			}	
+		}
+		$flag = ( $json_number == $json_renamed_number)? $flag : false;
+	}
+
+	// if($flag) {
+	// 	$sql = $wpdb->prepare( "SELECT option_name FROM wp_options WHERE option_name LIKE %s", str_replace('_', '\_', $shortname).'%' );
+	// 	$res = $wpdb->get_results($sql, ARRAY_A);
+
+	// 	foreach($res as $key => $option) {
+	// 		$data_pre = get_option($option['option_name']);
+	// 		$option_key_new = str_replace($shortname, $theme_id.'_', $option['option_name']);
+	// 		update_option($option_key_new, $data_pre);
+	// 		$data_post = get_option($option_key_new);
+	// 		if($data_pre != $data_post) {
+	// 			$flag = false;
+
+	// 		}
+	// 	} 
+	// }
 
 	return $flag;
 }
 
-function check_theme_ID() {
+function check_theme_ID( $folder = false ) {
+	global $shortname;
 
-	$settings = get_settings_json();
+	$settings = get_settings_json( $folder );
 
 	$themeInfo = rw_get_theme_data();
 	$theme_name_stylecss = $themeInfo['Name'];
 
-	if( !isset($settings['ThemeID']) ) {
-		$settings['ThemeID'] = create_theme_ID();
-		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+	$is_prefix_ID = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) )? $settings['isPrefixID'] : false;
+	if( isset($settings['ThemeID']) ) {
+		if( !isset($settings['isPrefixID']) || (isset($settings['isPrefixID']) && !$settings['isPrefixID']) ) {
+			if( change_theme_prefix( $shortname, $settings['ThemeID'] ) ) {
+				$settings['isPrefixID'] = true;
+				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
+			}
+		}
 	}
 
 	if( $theme_name_stylecss != $settings['Name'] ) {
 
 		if(isset($_GET['create-theme-id'])) {
 			if($_GET['create-theme-id']) {
-				// $theme_id = create_theme_ID();
-				// $settings['ThemeID'] = $theme_id;
+				$theme_prefix_old = $settings['ThemeID'];
+				$theme_id = create_theme_ID();
+				$settings['ThemeID'] = $theme_id;
 
-			 // 	if( change_theme_prefix( $settings['Name'], $settings['ThemeID'] ) ) {
-			 // 		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
-			 // 		return true;
-			 // 	}
-			 // 	else {
-			 // 		return false;
-			 // 	}
-			}
+			  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
+			  		$settings['Name'] = $theme_name_stylecss;
+			  		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+			  	}
+		  	}
+		  	else {
+				$settings['Name'] = $theme_name_stylecss;
+				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+		  	}
+		  	$link = home_url().'/wp-admin/admin.php?page=themes'; 
+			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
+			echo $redirect;
 		}
 
 		$url = add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>

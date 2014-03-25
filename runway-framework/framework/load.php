@@ -35,7 +35,7 @@ if ( PHP_VERSION_ID >= 50301 ) {
 		include_once 'core/admin-object.php';
 
 		db_json_sync();
-		//check_theme_ID();
+		check_theme_ID();
 	}
 
 	load_data_types();

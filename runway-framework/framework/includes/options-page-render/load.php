@@ -50,7 +50,10 @@ if ( !empty( $pages ) ) {
 			${$page_options[$alias]['admin_object']}->dir = plugin_dir_path( __FILE__ );
 		}
 
-		$form_builder->add_page_to_pages_list( $page );
+		$formsbilder_option = get_option($form_builder->option_key);
+		if(!isset($formsbilder_option) || $formsbilder_option == false) {
+			$form_builder->add_page_to_pages_list( $page );
+		}
 
 		do_action( 'options_page_render_is_load' );
 	}

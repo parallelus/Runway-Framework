@@ -4,7 +4,7 @@ global $developer_tools, $Themes_Manager;
 $popup_message = '<h2>'. __( 'Activate new theme?', 'framework' ) .'</h2>';
 
 $themesActivate = home_url().'/wp-admin/themes.php';
-$httpReferer = str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] );
+$httpReferer = isset( $_SERVER['HTTP_REFERER'] )? str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] ) : '';
 
 if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activate' && ($httpReferer == $themesActivate || strstr($httpReferer, 'action=upload-theme') ) ) {
 	$popup_message = '<a href="#" class="screenshot"><img src="../wp-content/themes/runway-framework/framework/images/screenshot-transparent.png" width="265" height="199"></a>';
