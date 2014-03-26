@@ -916,20 +916,27 @@ var system_vars_definition = ['template', 'index'];
                     else{
                         var cookie_arr = Array();
                     }
-                    var index = $(this).parent().parent().data('index').toString();
+		    
+		    if($(this).parent().parent().data('index') != undefined) {
+			var index = $(this).parent().parent().data('index').toString();
 
-                    if($.inArray(index, cookie_arr) == -1){
-                        cookie_arr.push(index)
-                        $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
-                        $(this).parent().find('.inside').hide();
-                    }
-                    else{
-                        cookie_arr.splice( $.inArray(index, cookie_arr), 1 );
-                        $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
-                        $(this).parent().find('.inside').show();
-                    }
-                    hide_from_cookie();
-
+			if($.inArray(index, cookie_arr) == -1){
+			    cookie_arr.push(index)
+			    $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
+			    $(this).parent().find('.inside').hide();
+			}
+			else{
+			    cookie_arr.splice( $.inArray(index, cookie_arr), 1 );
+			    $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
+			    $(this).parent().find('.inside').show();
+			}
+			hide_from_cookie();
+		    }
+		    else {
+			var p = $(this).parent('.postbox'), id = p.attr('id');
+			p.toggleClass('closed');
+			event.preventDefault();
+		    }
                 });
 
                 function hide_from_cookie(){
