@@ -471,7 +471,8 @@ function db_json_sync(){
 
 	$settings = get_settings_json();
 
-	$json_prefix = $option_prefix = $shortname;
+	$option_prefix = $shortname;
+	$json_prefix = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) && $settings['isPrefixID'] )? $settings['ThemeID'] . '_' : $shortname;
 	$json_dir = get_stylesheet_directory() . '/data';
 	if(IS_CHILD && !is_dir($json_dir)) {
 		$json_dir = preg_replace("~\/(?!.*\/)(.*)~", '/'.get_template(), get_stylesheet_directory()) . '/data';
@@ -569,10 +570,10 @@ function create_theme_ID( $length = 0 ) {
     return $theme_id;
 } 
 
-function change_theme_prefix( $theme_name, $theme_id ) {
+function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 	// global $wpdb, $shortname;
 
-	$json_dir = get_stylesheet_directory() . '/data';
+	$json_dir = ($json_dir)? $json_dir : get_stylesheet_directory() . '/data';
     $ffs = scandir($json_dir);
 
     $flag = true;

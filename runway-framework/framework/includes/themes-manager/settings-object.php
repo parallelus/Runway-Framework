@@ -163,9 +163,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		$settings = json_decode( file_get_contents( $this->themes_path . '/' . $new_name . '/data/settings.json' ), true );
 		$settings['Folder'] = $new_name;
+		$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : apply_filters( 'shortname', sanitize_title( $themeTitle ) );
 		$settings['ThemeID'] = create_theme_ID();
 		unset($settings['isPrefixID']);
-		file_put_contents( $this->themes_path . '/' . $new_name . '/data/settings.json', json_encode( $settings ) );
+
+		if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'], $this->themes_path . '/' . $new_name . '/data' ) ) {
+			file_put_contents( $this->themes_path . '/' . $new_name . '/data/settings.json', json_encode($settings) );
+		}
 
 		$theme_info = file_get_contents( $this->themes_path . '/' . $new_name . '/style.css' );
 		$theme_info = str_replace( "Theme Name:     $name", "Theme Name:     $new_name", $theme_info );
