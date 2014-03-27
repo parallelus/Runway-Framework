@@ -41,7 +41,6 @@ class Multi_select_type extends Data_Type {
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
 		$customize_title = stripslashes( $this->field->title );
 		?>
-		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
 		<?php
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
 		$vals = ( $vals != null ) ? $this->field->saved : $this->get_value();
@@ -56,7 +55,9 @@ class Multi_select_type extends Data_Type {
 		$count = isset($vals) ? count((array)$vals) : 1;
 		if($count == 0) 
 			$count = 1;
-            
+		?>
+		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<?php
 		for( $key = 0; $key < $count; $key++ ) {
 		?>
 			<select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
@@ -91,7 +92,7 @@ class Multi_select_type extends Data_Type {
 		$this->wp_customize_js();
 	}
 	else {
-		$html ='<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>';
+		$html ='<legend class="customize-control-title"><span>'.stripslashes( $this->field->title ).'</span></legend>';
 		$html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
@@ -121,25 +122,19 @@ class Multi_select_type extends Data_Type {
 		/* dirty hack to make multiple elms on customize.php page */
 		if ( $this->is_customize_theme_page ) { ?>
 
-			<input <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="" />
-
 			<script type="text/javascript">
 
-				var name = '<?php echo $this->field->alias; ?>';
-
-				jQuery('[name="'+name+'"] option').on('click', function () {
-
-					var value = [];
-
-					jQuery('[name="'+name+'"] option:selected').each(function () {
-
-						value.push(jQuery(this).val());
-
+				(function($){
+					$('body').on('click', 'select[name^="<?php echo $this->field->alias;?>"] option', function(){
+						var values_array = [];
+						$(this).parent().children("option:selected").each(function(){
+							values_array.push($(this).val());
+						});
+						
+						var api = wp.customize;
+						api.instance('<?php echo $this->field->alias;?>').set(values_array);
 					});
-
-					jQuery('[name="'+name+'"]').val(value).trigger('change');
-
-				});
+				})(jQuery);
 
 			</script>
 		<?php }
