@@ -18,7 +18,9 @@ class Select_type extends Data_Type {
 
 		$key_values = array();
 		if ( isset( $this->field->values ) && !empty( $this->field->values ) ) {
-
+			if(is_array($this->field->values))
+				$this->field->values = "";
+			
 			if ( strstr( $this->field->values, "\r\n" ) ) {
 				$rows = explode( "\r\n", $this->field->values );
 			}

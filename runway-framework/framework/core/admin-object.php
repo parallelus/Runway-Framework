@@ -200,8 +200,14 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			if ( isset( $slugs[$url] ) )
 				return $slugs[$url];
-			else
-				return strtolower(THEME_NAME);
+			else {
+				global $shortname;
+				
+				if(isset($shortname) && $shortname != "")
+					return preg_replace('/_$/', "", $shortname);
+				else
+					return preg_replace('/\s/', '-', strtolower(THEME_NAME));
+			}
 
 		}
 

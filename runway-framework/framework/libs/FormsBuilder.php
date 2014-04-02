@@ -234,6 +234,9 @@ class FormsBuilder {
 						$search_function_preg = '/get_values_from=\"(?P<functions>\w+)\"/';
 
 						if ( isset( $element->values ) && !empty( $element->values ) ) {
+							if(is_array($element->values)) {
+								$element->values = implode("=>", $element->values);
+							}
 							$value = html_entity_decode( $element->values );
 							preg_match_all( $search_function_preg, $value, $result );
 						}
