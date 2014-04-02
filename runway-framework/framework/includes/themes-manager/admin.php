@@ -70,7 +70,7 @@ case 'edit-theme': {
 			$errors = $developer_tools->validate_theme_settings( $post );
 			if ( count( $errors ) ) {
 				$options = $post;
-				$this->view( 'theme-conf' );
+				$this->view( 'theme-conf', false, array('errors'=>$errors) );
 			} else {
 				$options = $developer_tools->build_and_save_theme( $post, false );
 

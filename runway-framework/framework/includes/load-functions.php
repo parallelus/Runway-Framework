@@ -327,7 +327,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 		// save updated option to file in /data folder
 		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
 			$settings = get_settings_json();
-			$option = (isset($settings['ThemeID']) && isset($settings['isPrefixID']) && $settings['isPrefixID'])? str_replace($shortname, $settings['ThemeID'] . '_', $option) : $option;
+			$option = isset($settings['ThemeID'])? str_replace($shortname, $settings['ThemeID'] . '_', $option) : $option;
 			if( IS_CHILD && get_template() == 'runway-framework')
 				file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 		}
@@ -472,7 +472,7 @@ function db_json_sync(){
 	$settings = get_settings_json();
 
 	$option_prefix = $shortname;
-	$json_prefix = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) && $settings['isPrefixID'] )? $settings['ThemeID'] . '_' : $shortname;
+	$json_prefix = isset($settings['ThemeID'])? $settings['ThemeID'] . '_' : $shortname;
 	$json_dir = get_stylesheet_directory() . '/data';
 	if(IS_CHILD && !is_dir($json_dir)) {
 		$json_dir = preg_replace("~\/(?!.*\/)(.*)~", '/'.get_template(), get_stylesheet_directory()) . '/data';
@@ -496,7 +496,6 @@ function db_json_sync(){
 					$json_updated = $json;
 
 					$need_update = false;
-
 					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts');  // don't synchronize
 					split_data($json, $db, $json_updated, $need_update, $excludes);
 
@@ -579,32 +578,24 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
     $flag = true;
 	if ( is_dir($json_dir) ) {
 		if( !is_writable( $json_dir ) ) {
-			$flag = chmod( $json_dir, 0777 );
+			$flag = false;
 		}
 	}
 	else 
 		$flag = false;
 
 	if( $flag ) {
-		$json_number = 0;
-		$json_renamed_number = 0;
 	    foreach($ffs as $ff){
 		    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 		    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
 
-		    	if( strpos($option_key, $theme_name) !== false ) {
-		    		$json_number++;
-
-		    		// $theme_id_prefix = (!preg_match('/_$/', $theme_id))? $theme_id . '_' : $theme_id;
-		    		$theme_id_prefix = (strpos($json_dir.'/'.$ff, $theme_name . '_') !== false )? $theme_id : $theme_id . '_';
-				 	if (!rename($json_dir.'/'.$ff, str_replace($theme_name, $theme_id_prefix, $json_dir.'/'.$ff)) )
+	    		$theme_id_prefix = ($pos = strpos($option_key, '_'))? substr($option_key, 0, $pos+1) : '';
+			 	if( $theme_id_prefix != $theme_id . '_' ) {
+				 	if (!rename($json_dir.'/'.$ff, str_replace($theme_id_prefix, $theme_id.'_', $json_dir.'/'.$ff)) )
 					 	$flag = false;
-					else
-					 	$json_renamed_number++;
 				}
 			}	
 		}
-		$flag = ( $json_number == $json_renamed_number)? $flag : false;
 	}
 
 	// if($flag) {
@@ -626,61 +617,73 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 	return $flag;
 }
 
+function ask_new_theme( $old_theme, $new_theme, $link) {
+	?>
+	<div class="error">
+		<p><strong>
+		We noticed this theme was previously named <i><?php echo $old_theme; ?></i> but is now named <i><?php echo $new_theme; ?></i>.<br>
+		If this is a new theme you should create a new unique ID for the data file to avoid any data collisions.<br>
+		If this is the same theme and you are just renaming it, you should keep this ID the same.<br>
+		Do you want to create a new ID now?</strong>
+		<a href="<?php echo add_query_arg( 'create-theme-id', 1, $link ); ?>"><?php _e('Yes', 'framework') ?></a>
+		<a href="<?php echo add_query_arg( 'create-theme-id', 0, $link ); ?>"><?php _e('No', 'framework') ?></a>
+		</p>
+	</div>
+	<?php
+}
+
 function check_theme_ID( $folder = false ) {
 	global $shortname;
 
 	$settings = get_settings_json( $folder );
 
-	$themeInfo = rw_get_theme_data();
-	$theme_name_stylecss = $themeInfo['Name'];
+	if( isset($settings['Name']) ) {
+		$themeInfo = rw_get_theme_data();
+		$theme_name_stylecss = $themeInfo['Name'];
 
-	$is_prefix_ID = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) )? $settings['isPrefixID'] : false;
-	if( isset($settings['ThemeID']) ) {
-		if( !isset($settings['isPrefixID']) || (isset($settings['isPrefixID']) && !$settings['isPrefixID']) ) {
-			if( change_theme_prefix( $shortname, $settings['ThemeID'] ) ) {
-				$settings['isPrefixID'] = true;
-				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
-			}
+		// $is_prefix_ID = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) )? $settings['isPrefixID'] : false;
+		if( isset($settings['ThemeID']) ) {
+			//if( !isset($settings['isPrefixID']) || (isset($settings['isPrefixID']) && !$settings['isPrefixID']) ) {
+				$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
+				if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
+					//$settings['isPrefixID'] = true;
+					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
+				}
+			//}
 		}
-	}
 
-	if( $theme_name_stylecss != $settings['Name'] ) {
+		if( isset($settings['Name']) && $theme_name_stylecss != $settings['Name'] ) {
 
-		if(isset($_GET['create-theme-id'])) {
-			if($_GET['create-theme-id']) {
-				$theme_prefix_old = $settings['ThemeID'];
-				$theme_id = create_theme_ID();
-				$settings['ThemeID'] = $theme_id;
+			$link = home_url().'/wp-admin/admin.php?page=themes';
+			//$link = home_url().$_SERVER['REQUEST_URI'];
 
-			  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
-			  		$settings['Name'] = $theme_name_stylecss;
-			  		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+			if(isset($_GET['create-theme-id'])) {
+				if($_GET['create-theme-id']) {
+					//$theme_prefix_old = $settings['ThemeID'];
+					$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
+					$theme_id = create_theme_ID();
+					$settings['ThemeID'] = $theme_id;
+
+				  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
+				  		$settings['Name'] = $theme_name_stylecss;
+				  		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+				  	}
 			  	}
-		  	}
-		  	else {
-				$settings['Name'] = $theme_name_stylecss;
-				file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
-		  	}
-		  	$link = home_url().'/wp-admin/admin.php?page=themes'; 
-			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-			echo $redirect;
+			  	else {
+					$settings['Name'] = $theme_name_stylecss;
+					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+			  	}
+				$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
+				echo $redirect;
+			}
+			add_action('admin_notices', 'ask_new_theme', 10, 3);
+			do_action('admin_notices', $settings['Name'], $theme_name_stylecss, $link );
+			remove_action('admin_notices', 'ask_new_theme');
 		}
-
-		$url = add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>
-		<div class="updated">
-			<p><strong>
-			We noticed this theme was previously named <i><?php echo $settings['Name']; ?></i> but is now named <i><?php echo $theme_name_stylecss; ?></i>.<br>
-			If this is a new theme you should create a new unique ID for the data file to avoid any data collisions.<br>
-			If this is the same theme and you are just renaming it, you should keep this ID the same.<br>
-			Do you want to create a new ID now?</strong>
-			<a href="<?php echo add_query_arg( 'create-theme-id', 1, home_url().$_SERVER['REQUEST_URI'] ); ?>"><?php _e('Yes', 'framework') ?></a>
-			<a href="<?php echo add_query_arg( 'create-theme-id', 0, home_url().$_SERVER['REQUEST_URI'] ); ?>"><?php _e('No', 'framework') ?></a>
-			</p>
-		</div>
-	<?php		
+		else
+			return true;
 	}
-	else
-		return true;
+	
 }
 
 ?>
