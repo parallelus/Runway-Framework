@@ -497,7 +497,7 @@ function db_json_sync(){
 
 					$need_update = false;
 
-					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list');  // don't synchronize
+					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts');  // don't synchronize
 					split_data($json, $db, $json_updated, $need_update, $excludes);
 
 					if( !empty($json_updated) && empty($db) ) {
