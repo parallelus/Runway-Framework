@@ -368,10 +368,14 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		else {
 			$matches = array();
 			$css = file_get_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css' );
-			$pattern = '/\/\*([^\*]*)/i';
-			$result = preg_match( $pattern, $css, $matches );
-			$css = str_replace( $matches['0']."*/", '', $css );
-			$new_css = $this->build_theme_css( $options ).$css;
+			
+			if(preg_match('/^\s*\/\*\*!/i', $css))
+				$is_sass = true;
+			else
+				$is_sass = false;			
+			$css = preg_replace( '/\/\*\*?!?([^\*]*)\*?\*\//i', '', $css );
+			$new_css = $this->build_theme_css( $options, false, $is_sass ).$css;
+			
 			// save settings into wordpress style.css
 			file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css', $new_css );
 		}
@@ -402,14 +406,14 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 
 	// function-template for chuild theme css
-	function build_theme_css( $options = null, $alone = false ) {
+	function build_theme_css( $options = null, $alone = false, $is_sass = false ) {
 		do_action( 'before_build_theme_css', $options );
 		if ( !$options ) return false;
 
 		$lines = array();
 		extract( $options );
 
-		$lines[] = "/*\n";
+		$lines[] = $is_sass? "/**!\n" : "/*\n";
 
 		if ( !empty( $Tags ) && is_array( $Tags ) ) {
 			$Tags = implode( ',', $Tags );
@@ -444,8 +448,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$lines[] = "License URI: {$LicenseURI}\n";
 		if ( isset( $Comments ) )
 			$lines[] = "{$Comments}\n";
-
-		$lines[] = '*/';
+		
+		$lines[] = $is_sass? '**/' : '*/';
 		$string = '';
 
 		foreach ( $lines as $line ) {
