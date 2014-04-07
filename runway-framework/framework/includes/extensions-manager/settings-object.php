@@ -333,7 +333,7 @@ class Extm_Admin extends Runway_Admin_Object {
 	 */
 	function is_activated( $ext ) {
 
-		if ( in_array( $ext, (array)$this->admin_settings['extensions'][$this->theme_name]['active'] ) )
+		if ( isset($this->admin_settings['extensions'][$this->theme_name]['active']) && in_array( $ext, (array)$this->admin_settings['extensions'][$this->theme_name]['active'] ) )
 			return TRUE;
 		else return FALSE;
 
