@@ -17,7 +17,7 @@ $ts      = time();
 
 // Get most recent package (or create it)
 if (!count($history) || $action == 'rebuild') {
-	// No packages exist or user requested new build
+	// No packages exist or user requested new build 
 	$alone_package_download_url = $developer_tools->build_alone_theme( $nameKey, $ts );
 	$child_package_download_url = $developer_tools->build_child_package( $nameKey, $ts );
 	$most_recent = $developer_tools->make_package_info_from_ts( $nameKey, $ts );
@@ -44,7 +44,8 @@ $developer_tools->navigation_bar( array('Download'.$navName) );
 // -----------------------------------------
  
 $current_package = $most_recent;
-
+$current_data = json_decode( $developer_tools->get_package_tags( $current_package['exp'] ) );
+$current_tag = ($current_data && $current_data->tags_show == "true" )? $current_data->tags_edit : '';
 ?>
 <h3><?php _e('Most Recent', 'framework') ?></h3>
 
@@ -54,6 +55,7 @@ $current_package = $most_recent;
 			<th><?php _e('Date', 'framework') ?></th>
 			<th><?php _e('Standalone Theme', 'framework') ?></th>
 			<th><?php _e('Child Theme', 'framework') ?></th>
+			<th><?php _e('Tags', 'framework') ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -82,6 +84,9 @@ if ( $current_package['c_hash'] ) { ?>
 } 
 else { ?>Not found<?php } ?>
 			</td>
+			<td>
+				<?php echo $current_tag; ?>
+			</td>
 		</tr>
 	</tbody>
 
@@ -90,6 +95,7 @@ else { ?>Not found<?php } ?>
 			<th><?php _e('Date', 'framework') ?></th>
 			<th><?php _e('Standalone Theme', 'framework') ?></th>
 			<th><?php _e('Child Theme', 'framework') ?></th>
+			<th><?php _e('Tags', 'framework') ?></th>
 		</tr>
 	</tfoot>
 </table>
@@ -123,7 +129,7 @@ if ( $history ) { ?>
 
 	<br>
 	<h3><?php _e('History', 'framework') ?></h3>
-
+	
 	<table class="widefat">
 		<thead>
 			<tr>
@@ -178,7 +184,7 @@ if ( $history ) { ?>
 				} ?>
 					</td>
 					<td>
-						<p><?php echo $tag; ?></p>
+						<p><?php echo $tag;?></p>
 					</td>
 					<td>
 						<p><a href="<?php echo $developer_tools->self_url('edit-tags-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" class="link-tags-edit"><?php _e('Edit', 'framework'); ?></a></p>
