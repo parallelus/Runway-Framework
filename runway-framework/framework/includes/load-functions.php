@@ -66,6 +66,38 @@ if ( !function_exists( 'r_option' ) ) {
 	}
 }
 
+// register taxonommies to custom post types
+if ( !function_exists( 'get_options_data' ) ) {	
+	function register_custom_taxonomies() {
+		global $shortname;
+
+		$content_types_options = get_option($shortname. 'content_types');
+		if(isset($content_types_options['taxonomies']))
+		foreach ((array)$content_types_options['taxonomies'] as $taxonomy => $values) {
+			$content_types_to_adding = array();
+			if(isset($content_types_options['content_types']))	
+			foreach ((array)$content_types_options['content_types'] as $content_type => $vals) {
+				if(isset($vals['taxonomies']) && in_array($taxonomy, $vals['taxonomies'])){
+					$content_types_to_adding[] = $content_type;
+				}
+			}
+
+			register_taxonomy($taxonomy, $content_types_to_adding, array(
+				// Hierarchical taxonomy (like categories)
+				'hierarchical' => true,
+				// This array of options controls the labels displayed in the WordPress Admin UI
+				'labels' => $values['labels'],
+				// Control the slugs used for this taxonomy
+				'rewrite' => array(
+					'slug' => $taxonomy, // This controls the base slug that will display before each term
+					'with_front' => false, // Don't display the category base before "/locations/"
+					'hierarchical' => true // This will allow URL's like "/locations/boston/cambridge/"
+				),
+			));
+		}
+	}
+}	
+
 // get framework data
 if ( !function_exists( 'get_options_data' ) ) {
 	// $key (required) to identify options-set in database
@@ -462,6 +494,7 @@ endif;
 if ( !function_exists( 'after_functions_file' ) ) :
 	function after_functions_file() {
 		locate_template( 'functions-after.php', true );
+		register_custom_taxonomies();
 	}
 add_action( 'functions_after', 'after_functions_file' );
 endif;
