@@ -520,7 +520,7 @@ function db_json_sync(){
     	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
     	    	//if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) || strstr($option_key_json, "formsbuilder_") !== false )
-    	    	if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) )
+    	    	if( in_array($option_key_json, array($json_prefix.'report-manager')) )
     	    		continue;
     	    	if( strpos($option_key_json, $json_prefix) !== false ) {
 					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
