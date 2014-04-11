@@ -36,6 +36,7 @@ if ( PHP_VERSION_ID >= 50301 ) {
 
 		db_json_sync();
 		check_theme_ID();
+		prepare_translate_files();
 	}
 
 	load_data_types();

@@ -570,6 +570,98 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 	}
 }
 
+function find_custom_recursive($array = array(), $searched_key = 'source', $returned_key = 0, &$excludes) {
+	$tmp_array = array();
+	foreach($array as $key=>$value) {
+		if(in_array($key, $excludes))
+			continue;
+		if(is_array($value)) {
+			$returned = find_custom_recursive($value, $searched_key, $returned_key, $excludes);
+			if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
+				if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
+					$tmp_array[] = trim($value[$returned_key]);
+				}
+			}
+			foreach($returned as $key2 => $value2) {
+				if(!empty($value2) && !in_array($value2, $tmp_array)) 
+					$tmp_array[] = trim($value2);
+			}
+		}
+		else {
+			if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
+				if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
+					$tmp_array[] = trim($value[$returned_key]);
+				}
+			}
+		}
+	}
+	return $tmp_array;
+}
+
+function create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix) {
+	$ffs = scandir($json_dir);
+	$ffs_name = array();
+    foreach($ffs as $ff){
+	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
+	    	$ffs_name[] = $option_key_json;
+	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
+
+			$json = json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+
+			$translation_file = $translation_dir.'/'.str_replace('.json', '.php', $ff);
+
+			$excludes = array('layouts', 'headers', 'footers', 'sidebars_list');
+
+			$titles = find_custom_recursive($json, 'title', 'title', $excludes);
+			$pageDescription = find_custom_recursive($json, 'pageDescription', 'pageDescription', $excludes);
+			$titleCaptions = find_custom_recursive($json, 'titleCaption', 'titleCaption', $excludes);
+			$fieldCaptions = find_custom_recursive($json, 'fieldCaption', 'fieldCaption', $excludes);
+
+			$translation_array = array_merge($titles, $pageDescription, $titleCaptions, $fieldCaptions);
+
+			if(!empty($translation_array)) {
+				$translation_string = "<?php \r\n// Translation strings\r\n";
+				foreach($translation_array as $text)
+					$translation_string.= "__('".$text."', 'framework');\r\n";
+				$translation_string.= "?>";
+				file_put_contents( $translation_file, $translation_string );
+			}
+		}	
+	}
+
+	$ffs_translation = scandir($translation_dir);
+    foreach($ffs_translation as $ff){
+	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'php') {
+	    	if(!in_array(pathinfo($ff, PATHINFO_FILENAME), $ffs_name))
+	    		unlink($translation_dir.'/'.$ff);
+	    }
+    }
+}
+
+function prepare_translate_files(){
+	global $shortname;
+
+	$settings = get_settings_json();
+
+	$option_prefix = $shortname;
+	$json_prefix = isset($settings['ThemeID'])? $settings['ThemeID'] . '_' : $shortname;
+	$json_dir = get_stylesheet_directory() . '/data';
+
+	$translation_dir = $json_dir.'/translation';
+	$json_pages_dir = $json_dir.'/pages';
+	if (!is_dir($translation_dir.'/pages'))
+    	mkdir($translation_dir.'/pages', 0755, true);
+
+    if(is_dir($json_dir)) {
+    	create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix);
+	}    
+    if(is_dir($json_pages_dir)) {
+    	create_translate_files($translation_dir.'/pages', $json_pages_dir, $option_prefix, $json_prefix);
+	}
+}
+
+
 function get_theme_prefix( $folder = false ) {
 	$settings = get_settings_json( $folder );
 	$theme_prefix = isset($settings['ThemeID'])? $settings['ThemeID'] : '';
