@@ -128,7 +128,7 @@ class Select_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Values:
+		            <?php echo __('Values', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -144,7 +144,7 @@ class Select_type extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Repeating:                  
+		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
 		            <label class="settings-title"> 
@@ -153,9 +153,9 @@ class Select_type extends Data_Type {
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                Yes
+		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
 		        </div>
 		    </div><div class="clear"></div>
 

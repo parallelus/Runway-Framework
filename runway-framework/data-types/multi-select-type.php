@@ -168,8 +168,8 @@ class Multi_select_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-			Values:
-			<br><span class="settings-title-caption"></span>
+				<?php echo __('Values', 'framework'); ?>:
+				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
 
@@ -183,8 +183,8 @@ class Multi_select_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-			Required:
-			<br><span class="settings-title-caption"></span>
+				<?php echo __('Required', 'framework'); ?>:
+				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
 
@@ -194,14 +194,14 @@ class Multi_select_type extends Data_Type {
 			    {{else}}
 			    <input data-set="required" name="required" value="true" type="checkbox">
 			    {{/if}}
-			    Yes
+			    <?php echo __('Yes', 'framework'); ?>
 			</label>
 
-			<br><span class="settings-field-caption">Is this a required field.</span><br>
+			<br><span class="settings-field-caption"><?php echo __('Is this a required field', 'framework'); ?>.</span><br>
 
 			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-			<br><span class="settings-field-caption">Optional. Enter a custom error message.</span>
+			<br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
 
 		    </div>
 
@@ -210,7 +210,7 @@ class Multi_select_type extends Data_Type {
 		<!-- Repeating settings -->
 		<div class="settings-container">
 		    <label class="settings-title">
-			Repeating:                  
+				<?php echo __('Repeating', 'framework'); ?>:
 		    </label>
 		    <div class="settings-in">
 			<label class="settings-title"> 
@@ -219,9 +219,9 @@ class Multi_select_type extends Data_Type {
 			    {{else}}
 				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 			    {{/if}}
-			    Yes
+			    <?php echo __('Yes', 'framework'); ?>
 			</label>
-			<br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+			<br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
 		    </div>
 		</div><div class="clear"></div>
 

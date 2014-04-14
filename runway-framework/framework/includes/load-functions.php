@@ -570,7 +570,7 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 	}
 }
 
-function find_custom_recursive($array = array(), $searched_key = 'source', $returned_key = 0, &$excludes) {
+function find_custom_recursive($array = array(), $searched_key = '', $returned_key = 0, &$excludes) {
 	$tmp_array = array();
 	foreach($array as $key=>$value) {
 		if(in_array($key, $excludes))

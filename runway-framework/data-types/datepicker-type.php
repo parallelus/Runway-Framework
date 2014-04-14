@@ -135,7 +135,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Date format:
+		            <?php echo __('Date format', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -155,7 +155,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Values:
+		            <?php echo __('Values', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -167,7 +167,7 @@ class Datepicker_type extends Data_Type {
 		                       data-changeYear="true"/>
 		                <input type="hidden" id="datepicker-custom-format" value="${values}" />
 		            </div>
-		            <span class="settings-field-caption">You can input default value respectively with selected in format field</span>
+		            <span class="settings-field-caption"><?php echo __('You can input default value respectively with selected in format field', 'framework'); ?></span>
 
 		        </div>
 
@@ -175,7 +175,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Required:
+		            <?php echo __('Required', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -189,11 +189,11 @@ class Datepicker_type extends Data_Type {
 		                Yes
 		            </label>
 
-		            <br><span class="settings-field-caption">Is this a required field.</span><br>
+		            <br><span class="settings-field-caption"><?php echo __('Is this a required field', 'framework'); ?>.</span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <br><span class="settings-field-caption">Optional. Enter a custom error message.</span>
+		            <br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
 
 		        </div>
 
@@ -201,7 +201,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Month changer:
+		            <?php echo __('Month changer', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -213,7 +213,7 @@ class Datepicker_type extends Data_Type {
 		                {{else}}
 		                <input data-set="changeMonth" name="changeMonth" value="true" type="checkbox">
 		                {{/if}}
-		                Yes
+		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
 		            <br><span class="settings-field-caption"></span><br>
@@ -224,7 +224,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Year changer:
+		            <?php echo __('Year changer', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -235,7 +235,7 @@ class Datepicker_type extends Data_Type {
 		                {{else}}
 		                <input data-set="changeYear" name="changeYear" value="true" type="checkbox">
 		                {{/if}}
-		                Yes
+		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
 		            <br><span class="settings-field-caption"></span><br>
@@ -247,7 +247,7 @@ class Datepicker_type extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            Repeating:                  
+		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
 		            <label class="settings-title"> 
@@ -256,9 +256,9 @@ class Datepicker_type extends Data_Type {
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                Yes
+		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
+		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
 		        </div>
 		    </div><div class="clear"></div>
 

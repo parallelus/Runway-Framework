@@ -5,7 +5,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                Title:
+                <?php echo __('Title', 'framework'); ?>:
                 <br><span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
@@ -20,7 +20,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                Title caption:
+                <?php echo __('Title caption', 'framework'); ?>:
                 <br><span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
@@ -35,7 +35,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                Alias:
+                <?php echo __('Alias', 'framework'); ?>:
                 <br><span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
@@ -50,7 +50,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                Field type:
+                <?php echo __('Field type', 'framework'); ?>:
                 <br><span class="settings-title-caption"></span>
             </label>
             <div class="settings-in" >
@@ -86,7 +86,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                Field caption:
+                <?php echo __('Field caption', 'framework'); ?>:
                 <br><span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
