@@ -351,15 +351,22 @@ if ( !defined( $runway_framework_admin ) ) {
 		 * Including js files to extension
 		 */
 		function include_extension_js() {
-
+			global $translation_array;
+		
 			if ( isset( $this->js ) && !empty( $this->js ) ) {
 				foreach ( $this->js as $js ) {
 					if ( preg_match( '|(.+)/(.+).js|', $js ) ) {
 						$explodeJS = explode( '/', $js );
 						$js_name = array_pop( $explodeJS );
+						if (!wp_script_is( $js_name, 'registered' ))
+							wp_register_script($js_name, $js);
+						wp_localize_script( $js_name, 'translations_js', $translation_array );
 						wp_enqueue_script( $js_name, $js );
 					}
 					else {
+						if (!wp_script_is( $js, 'registered' ))
+							wp_register_script($js, $js);
+						wp_localize_script( $js, 'translations_js', $translation_array );
 						wp_enqueue_script( $js );
 					}
 				}

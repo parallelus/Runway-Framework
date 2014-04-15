@@ -19,7 +19,7 @@
         $('#add-tab').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-tab new-element',
+                class:  'accept-tab new-element'
             });
             $('.elements-list.page-layer.accept-tab.tabIn').append(replaceMarker);
             uiObject.onAddTab();
@@ -30,7 +30,7 @@
         $('#add-container').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-container new-element scrollTo',
+                class:  'accept-container new-element scrollTo'
             });
             $('.inside.accept-container:last').append(replaceMarker);
             uiObject.onAddContainer();       
@@ -42,7 +42,7 @@
         $('#add-field').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-field new-element',
+                class:  'accept-field new-element'
             });
             $('.inside.accept-field:last').append(replaceMarker);
             uiObject.onAddField();
@@ -408,23 +408,23 @@ var pageObject = {};
 var uiObject = {};
 
 var settings_fields_names_definition = {
-    index: "Field id: ",
-    title: "Field title: ",
-    titleCaption: "Field title caption: ",
-    alias: "Field alias: ",
-    type: "Field type: ",
-    fieldCaption: "Field caption: ",
-    values: "Field values: ",
-    required: "Required: ",
-    validation: 'Validation: ',
-    validationMessage: 'Validation message: ',
-    requiredMessage: "Field required message: ",
-    cssClass: "Field custom css class: ",
-    changeMonth: 'Month changer enabled',
-    changeYear: 'Year changer enabled',
-    format: 'Date format',
-    image_size: 'Radio button image size:',
-    repeating: 'Repeating'
+    index: translations_js.field_id,
+    title: translations_js.field_title,
+    titleCaption: translations_js.field_title_caption,
+    alias: translations_js.field_alias,
+    type: translations_js.field_type,
+    fieldCaption: translations_js.field_caption,
+    values: translations_js.field_values,
+    required: translations_js.required,
+    validation: translations_js.validation,
+    validationMessage: translations_js.validation_message,
+    requiredMessage: translations_js.field_required_message,
+    cssClass: translations_js.field_css_class,
+    changeMonth: translations_js.change_month_enabled,
+    changeYear: translations_js.change_year_enabled,
+    format: translations_js.date_format,
+    image_size: translations_js.radio_image_size,
+    repeating: translations_js.repeating
 };
 
 var system_vars_definition = ['template', 'index'];
@@ -447,13 +447,13 @@ var system_vars_definition = ['template', 'index'];
 
                 switch(type) {
                     case 'tab': {
-                            options.title = 'New Tab';
+                            options.title = translations_js.new_tab;
 
                     } break;
 
                     case 'field': {
 
-                            options.title = 'New Field';
+                            options.title = translations_js.new_field;
                             options.type = 'input-text';
                             options.alias = 'field-' + options.index; /*options.requiredMessage = '%field_name% is required.';*/
 
@@ -462,7 +462,7 @@ var system_vars_definition = ['template', 'index'];
                     case 'container': {
 
                             options.type = 'invisible';
-                            options.title = 'New Container';
+                            options.title = translations_js.new_container;
                             options.display_on_customization_page = false;
 
                     } break;
@@ -709,7 +709,7 @@ var system_vars_definition = ['template', 'index'];
                 
                 var options = pageObject.addNew("container");
 
-                options.title = "New Container | " + options.type.replace("-type", " field");
+                options.title = translations_js.new_container+" | " + options.type.replace("-type", " field");
 
                 var repl = godObj.template.build(options);
 
@@ -733,7 +733,7 @@ var system_vars_definition = ['template', 'index'];
 
                 var options = pageObject.addNew("field");
 
-                options.title = "New Field | " + options.type.replace("-type", " field");
+                options.title = translations_js.new_field+" | " + options.type.replace("-type", " field");
 
                 var repl = godObj.template.build(options);
 
@@ -830,7 +830,7 @@ var system_vars_definition = ['template', 'index'];
 
                 if($.inArray(options.type, datatypes_with_default) > -1) {
                     if($.trim(options.values).length === 0) {
-                        answer = confirm('Default values ' + default_value + ' will be added');
+                        answer = confirm(translations_js.default_values+' ' + default_value + ' '+translations_js.will_be_added);
                         if(answer)
                             options.values = default_value;
                         else
@@ -894,8 +894,8 @@ var system_vars_definition = ['template', 'index'];
 
             fillSettingsDialog: function(options) {
 
-                if(options.title.search("Default .* field") == 0) {
-                    options.title = "Default " + options.type.replace("-type", " field");
+                if(options.title.search(translations_js.default+" .* field") == 0) {
+                    options.title = translations_js.default+" " + options.type.replace("-type", " field");
                 }
 
                 // load settings form basis
@@ -973,7 +973,7 @@ var system_vars_definition = ['template', 'index'];
                         $this.remove();
                     });
 
-                    $('div#message').html('<p>Item deleted. <a href="#" id="undo-delete">Undo</a></p>');
+                    $('div#message').html('<p>'+translations_js.item_deleted+'. <a href="#" id="undo-delete">'+translations_js.undo+'</a></p>');
                     $('div#message').each( function(i){
                         if( !i ) this.remove();
                     })
@@ -999,12 +999,12 @@ var system_vars_definition = ['template', 'index'];
                         $(removeItem.item[0]).fadeIn(1000);
                         $('div.page-layer.accept-tab').append('<div class="clear"></div>');                        
                     }
-                    $('div#message').html('<p>Item restored</p>');
+                    $('div#message').html('<p>'+translations_js.item_restored+'</p>');
                 });
 
                 $('.settings-dialog').dialog({
                     autoOpen: false,                    
-                    title: '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Field</h2>',
+                    title: '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_field+'</h2>',
                     modal: true,
                     width: 600,
                     draggable: false,
@@ -1054,19 +1054,19 @@ var system_vars_definition = ['template', 'index'];
                     switch(options.template) {
                         case "field":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Field</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_field+'</h2>');
                         }
                         break;
 
                         case "container":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Container</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_container+'</h2>');
                         }
                         break;
 
                         case "tab":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Tab</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_tab+'</h2>');
                         }
                         break;
 
@@ -1343,7 +1343,7 @@ var system_vars_definition = ['template', 'index'];
         },
         availableTypes: {},
         registerDataType: function(type) {
-            if(builder.availableTypes[type.alias] !== undefined) return this.out("Type with this alias " + options.alias + " already exists.");
+            if(builder.availableTypes[type.alias] !== undefined) return this.out(translations_js.type_with_this_alias+" " + options.alias + " "+translations_js.already_exists+".");
             else this.availableTypes[type.alias] = type;
         }
     };

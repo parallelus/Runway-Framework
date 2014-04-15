@@ -474,6 +474,9 @@ class FormsBuilder {
 				'jquery-cookie',
 			)
 		);
+		
+		global $translation_array;
+		wp_localize_script( 'formsbuilder', 'translations_js', $translation_array );
 	}
 }
 
