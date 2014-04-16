@@ -6,6 +6,8 @@ $translation_array = array(	'edit_field'			=> __( 'Edit Field', 'framework' ),
 				'edit_container'		=> __( 'Edit Container', 'framework' ),
 				'edit_tab'			=> __( 'Edit Tab', 'framework' ),
 				'edit_item'			=> __( 'Edit Item', 'framework' ),
+				'edit_gallery'			=> __( 'Edit Gallery', 'framework' ),
+				'edit_connection'		=> __( 'Edit connection', 'framework' ),
 				'new_field'			=> __( 'New Field', 'framework' ), 
 				'new_container'			=> __( 'New Container', 'framework' ),
 				'new_tab'			=> __( 'New Tab', 'framework' ),
@@ -36,5 +38,6 @@ $translation_array = array(	'edit_field'			=> __( 'Edit Field', 'framework' ),
 				'type_with_this_alias'		=> __( 'Type with this alias', 'framework' ),
 				'already_exists'		=> __( 'already exists', 'framework' ),
 				'will_be_added'			=> __( 'will be added', 'framework' ),
-				'title_must_be_set'		=> __( 'Title must be set before saving!', 'framework')
+				'title_must_be_set'		=> __( 'Title must be set before saving!', 'framework'),
+				'gallery_post_format'		=> __( 'Gallery Post Format', 'framework' )
 );
