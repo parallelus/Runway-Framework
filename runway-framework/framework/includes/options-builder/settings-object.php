@@ -142,7 +142,7 @@ class Apm_Admin extends Runway_Admin_Object {
 							$icons_dir = THEME_DIR . 'data/icons';
 
 							if ( !file_exists( $icons_dir ) && !mkdir( $icons_dir, 2775, true ) ) {
-								$message =  '<div id="message" class="updated below-h2"><p>I can not save icon</div>';
+								$message =  '<div id="message" class="updated below-h2"><p>'. __('I can not save icon', 'framework').'</div>';
 							}
 
 							$file_extension = pathinfo( $_FILES['icon_url']['name'], PATHINFO_EXTENSION );
@@ -161,7 +161,7 @@ class Apm_Admin extends Runway_Admin_Object {
 										$src = imagecreatefromgif( $uploadedfile );
 									} break;
 								default: {
-										wp_die( 'Unsupported file type.' );
+										wp_die( __('Unsupported file type', 'framework').'.' );
 									} break;
 								}
 
@@ -183,7 +183,7 @@ class Apm_Admin extends Runway_Admin_Object {
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'framework' ) .'</div>';
 					} else {
-						$message = '<p>Saving error: '.$pages_dir.' most be a writable directory.</p>';
+						$message = '<p>'.__( 'Saving error', 'framework' ).': '.$pages_dir.' '.__( 'most be a writable directory', 'framework' ).'.</p>';
 					}
 
 					// reset page data if it have changes
@@ -256,7 +256,7 @@ class Apm_Admin extends Runway_Admin_Object {
 
 	function get_pages_list() {
 		$error_flag = true;
-		$error_message = '<b>Error:</b> The child theme folder "data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme.';
+		$error_message = '<b>'. __( 'Error', 'framework' ) .':</b> '. __( '"data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme', 'framework' ).' .';
 		if ( !file_exists( $this->data_dir ) && !file_exists( $this->pages_dir ) ) {
 			if ( mkdir( $this->data_dir, 0777, true ) && mkdir( $this->pages_dir, 0777, true ) ) {
 				$error_flag = true;

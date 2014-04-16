@@ -4,7 +4,7 @@ global $apm, $alias_;
 $pages_dir = $apm->pages_dir;
 
 if ( get_stylesheet_directory() == get_template_directory() ) {
-	echo '<br>You must create or activate a Runway child theme to add options pages: <a href="'.home_url().'/wp-admin/admin.php?page=themes">Runway Themes</a>';
+	echo '<br>'. __('You must create or activate a Runway child theme to add options pages', 'framework').': <a href="'.home_url().'/wp-admin/admin.php?page=themes">'.__('Runway Themes', 'framework').'</a>';
 }
 else {
 	if ( !isset( $this->navigation ) || empty( $this->navigation ) )
@@ -17,7 +17,7 @@ else {
 			$page = array(
 				'settings' => array(
 					'page_id' => $new_page_id,
-					'title' => 'New Options Page',
+					'title' => __('New Options Page', 'framework'),
 					'alias' => 'options-page',
 					'adminMenuTopItem' => 'current-theme',
 					'showPageTitle' => 'true',
@@ -45,7 +45,7 @@ else {
 
 				include_once 'views/page-builder.php';
 			} else {
-				wp_die( 'Page not found' );
+				wp_die( __('Page not found', 'framework') );
 			}
 		} break;
 		// list available pages
@@ -71,7 +71,7 @@ else {
 				$page = json_decode( $page_json );
 
 				$page->settings->page_id = time();
-				$page->settings->title = $page->settings->title . ' (copy)';
+				$page->settings->title = $page->settings->title . ' ('.__('copy', 'framework').')';
 				$new_alias = sanitize_title( $page->settings->title );
 				$alias_ = $new_alias;
 				get_copy_alias( $new_alias );
@@ -83,7 +83,7 @@ else {
 				$pages = $apm->get_pages_list();
 				include_once 'views/list-pages.php';
 			} else {
-				wp_die( 'Page not found' );
+				wp_die( __('Page not found', 'framework') );
 			}
 
 			include_once 'views/list-pages.php';

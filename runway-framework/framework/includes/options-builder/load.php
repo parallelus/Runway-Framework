@@ -36,7 +36,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => 'Options Builder',
+	'name' => __('Options Builder', 'framework'),
 	'option_key' => $shortname.'options-builder',
 	'fields' => $fields,
 	'default' => $default,
@@ -88,16 +88,16 @@ function options_page_render_report( $reports_object ) {
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_exists',
 			'path' => $pages_dir,
-			'success_message' => 'Pages dir ('.$pages_dir.') exists.',
-			'fail_message' => 'Pages dir ('.$pages_dir.') does not exist.',
+			'success_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('exists', 'framework').'.',
+			'fail_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('does not exist', 'framework').'.',
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_writable',
 			'path' => $pages_dir,
-			'success_message' => 'Pages dir ('.$pages_dir.') is writable.',
-			'fail_message' => 'Pages dir ('.$pages_dir.') is not writable.',
+			'success_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('is writable', 'framework').'.',
+			'fail_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('is not writable', 'framework').'.',			
 		), 'IS_WRITABLE' );
 }
 ?>

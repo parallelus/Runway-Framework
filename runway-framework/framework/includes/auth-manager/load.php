@@ -21,7 +21,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-    'name' => 'Auth Manager',
+    'name' => __('Auth Manager', 'framework'),
     'option_key' => $shortname.'auth-manager',
     'fields' => $fields,
     'default' => $default,

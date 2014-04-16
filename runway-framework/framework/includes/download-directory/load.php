@@ -25,7 +25,7 @@ global $settingshortname;
 
 
 $settings = array(
-    'name' => 'Directory',
+    'name' => __('Directory', 'framework'),
     'alias' => 'directory',
     'option_key' => $settingshortname.'download-directory',
     'fields' => $fields,

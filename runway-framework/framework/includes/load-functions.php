@@ -66,6 +66,11 @@ if ( !function_exists( 'r_option' ) ) {
 	}
 }
 
+// function load_translate_domain(){
+//     load_theme_textdomain('framework', get_template_directory() . '/languages');
+// }
+// add_action('after_setup_theme', 'load_translate_domain');
+
 // register taxonommies to custom post types
 if ( !function_exists( 'get_options_data' ) ) {	
 	function register_custom_taxonomies() {
@@ -491,13 +496,20 @@ if ( !function_exists( 'before_functions_file' ) ) :
 add_action( 'functions_before', 'before_functions_file' );
 endif;
 
-if ( !function_exists( 'after_functions_file' ) ) :
-	function after_functions_file() {
-		locate_template( 'functions-after.php', true );
-		register_custom_taxonomies();
+// if ( !function_exists( 'after_functions_file' ) ) :
+// 	function after_functions_file() {
+// 		locate_template( 'functions-after.php', true );
+// 		register_custom_taxonomies();
+// 	}
+// add_action( 'functions_after', 'after_functions_file' );
+// endif;
+
+if ( !function_exists( 'custom_tmp_translate' ) ) {
+	function custom_tmp_translate($key, $domain = 'framework') {
+		return __($key, $domain);
 	}
-add_action( 'functions_after', 'after_functions_file' );
-endif;
+}
+add_action( 'functions_after', 'custom_tmp_translate',10,2 );
 
 function db_json_sync(){
 	global $shortname;
@@ -611,7 +623,8 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 
 			$translation_file = $translation_dir.'/'.str_replace('.json', '.php', $ff);
 
-			$excludes = array('layouts', 'headers', 'footers', 'sidebars_list');
+			// $excludes = array('layouts', 'headers', 'footers', 'sidebars_list');
+			$excludes = array();
 
 			$titles = find_custom_recursive($json, 'title', 'title', $excludes);
 			$pageDescription = find_custom_recursive($json, 'pageDescription', 'pageDescription', $excludes);

@@ -1,13 +1,13 @@
 
 
 	<div class="changelog">
-		<h3>Support Forums</h3>
+		<h3><?php echo __('Support Forums', 'framework'); ?></h3>
 
 		<div class="feature-section images-stagger-right">
 			<img src="<?php echo get_template_directory_uri() ?>/framework/images/welcome/help-and-support-screen.png" class="image-50">
-			<p>Visit our <a href="http://beta.runwaywp.com/" target="_blank">Beta Feedback Forum</a> to report bugs, ask questions and share ideas for updates and new features.</p>
-			<h4>Coming soon!</h4>
-			<p>Community support is on the way. The next big steps in making Runway the best it can be is a great resources for sharing information and excellent great support.</p>
+			<p><?php echo __('Visit our', 'framework'); ?> <a href="http://beta.runwaywp.com/" target="_blank"><?php echo __('Beta Feedback Forum</a> to report bugs, ask questions and share ideas for updates and new features', 'framework'); ?>.</p>
+			<h4><?php echo __('Coming soon', 'framework'); ?>!</h4>
+			<p><?php echo __('Community support is on the way. The next big steps in making Runway the best it can be is a great resources for sharing information and excellent great support', 'framework'); ?>.</p>
 		</div>
 	</div>
 
