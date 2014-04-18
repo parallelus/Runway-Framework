@@ -108,10 +108,10 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		// Theme title validation
 		if ( !isset( $settings['Name'] ) || empty( $settings['Name'] ) )
-			$errors[] = 'Theme title is required';
+			$errors[] = __('Theme title is required', 'framework');
 
 		if ( !preg_match( '/([a-zA-Z])/', $settings['Name'] ) ) {
-			$errors[] = 'Theme title need to have at least one character';
+			$errors[] = __('Theme title need to have at least one character', 'framework');
 		}
 
 		if ( empty( $settings['Folder'] ) && isset( $settings['Name'] ) && !empty( $settings['Name'] ) ) {
@@ -121,7 +121,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$_REQUEST['base_name'] = ( isset( $_REQUEST['base_name'] ) ) ? $_REQUEST['base_name'] : '';
 		if ( $_REQUEST['base_name'] != $settings['Folder'] ) {
 			if ( file_exists( $this->themes_path . '/' . $settings['Folder'] ) ) {
-				$errors[] = 'Please choose another theme folder';
+				$errors[] = __('Please choose another theme folder', 'framework');
 			}
 		}
 
@@ -564,7 +564,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( 'Please set write permissions for ' . $this->themes_path.'/'.$theme_name . '  and then refresh page' );
+				wp_die( __('Please set write permissions for', 'framework').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'framework') );
 			}
 
 			$zip = new ZipArchive();
@@ -613,7 +613,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
-			wp_die( 'You must have ZipArchive class' );
+			wp_die( __('You must have ZipArchive class', 'framework') );
 		}
 	}
 
@@ -636,7 +636,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( 'Please set write permissions for ' . $this->themes_path.'/'.$theme_name . '  and then refresh page' );
+				wp_die( __('Please set write permissions for', 'framework').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'framework') );
 			}
 
 			$zip = new ZipArchive();

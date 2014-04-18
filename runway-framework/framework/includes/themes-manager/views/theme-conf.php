@@ -22,7 +22,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 ?>
 
 <p>
-	Fill out the options below to create a new Runway child theme. The new child theme folder will be created in the <code>wp-content/themes</code> folder.
+	<?php echo __('Fill out the options below to create a new Runway child theme. The new child theme folder will be created in the', 'framework'); ?> <code>wp-content/themes</code> <?php echo __('folder', 'framework'); ?>.
 </p>
 
 <script type="text/javascript">
@@ -76,19 +76,19 @@ $row = array(
 	__( 'Menu icon', 'framework' ) . $required, 
 		$html->settings_select( 'theme_options[Icon]', 
 			array(
-			'' => 'Default Generic icon',
-			'menu-icon-dashboard' => 'Dashboard icon',
-			'menu-icon-post' => 'Posts icon',
-			'menu-icon-media' => 'Media icon',
-			'menu-icon-links' => 'Links icon',
-			'menu-icon-page' => 'Page icon',
-			'menu-icon-comments' => 'Comments icon',
-			'menu-icon-appearance' => 'Appearance icon',
-			'menu-icon-plugins' => 'Plugins icon',
-			'menu-icon-users' => 'Users icon',
-			'menu-icon-tools' => 'Tools icon',
-			'menu-icon-settings' => 'Settings icon',
-			'custom-icon' => 'Custom icon',
+			'' => __( 'Default Generic icon', 'framework' ),
+			'menu-icon-dashboard' => __( 'Dashboard icon', 'framework' ),
+			'menu-icon-post' => __( 'Posts icon', 'framework' ),
+			'menu-icon-media' => __( 'Media icon', 'framework' ),
+			'menu-icon-links' => __( 'Links icon', 'framework' ),
+			'menu-icon-page' => __( 'Page icon', 'framework' ),
+			'menu-icon-comments' => __( 'Comments icon', 'framework' ),
+			'menu-icon-appearance' => __( 'Appearance icon', 'framework' ),
+			'menu-icon-plugins' => __( 'Plugins icon', 'framework' ),
+			'menu-icon-users' => __( 'Users icon', 'framework' ),
+			'menu-icon-tools' => __( 'Tools icon', 'framework' ),
+			'menu-icon-settings' => __( 'Settings icon', 'framework' ),
+			'custom-icon' => __( 'Custom icon', 'framework' ),
 		),
 	isset( $Icon ) ? $Icon : null ), 
 );

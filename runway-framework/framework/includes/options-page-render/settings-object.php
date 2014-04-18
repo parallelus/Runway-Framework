@@ -21,13 +21,13 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		$message_template = null;
 
 		$default_errors_messages = array(
-			'url' => '%field_name% may be url',
-			'email' => '%field_name% may be email',
-			'alpha_only' => '%field_name% may be only letters',
-			'alpha_num_only' => '%field_name% may be only letters or digits',
-			'num_only' => '%field_name% may be only digits',
+			'url' => '%field_name% ' . __('may be url', 'framework'),
+			'email' => '%field_name% ' . __('may be email', 'framework'),
+			'alpha_only' => '%field_name% ' . __('may be only letters', 'framework'),
+			'alpha_num_only' => '%field_name% ' . __('may be only letters or digits', 'framework'),
+			'num_only' => '%field_name% ' . __('may be only digits', 'framework'),
 		);
-		$default_required_messages = 'is required';
+		$default_required_messages = __('is required', 'framework');
 
 		if ( !$message_template ) {
 			if ( isset( $field_information->validation ) && !empty( $field_information->validation ) && !empty( $field_information->validationMessage ) ) {

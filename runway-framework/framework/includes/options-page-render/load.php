@@ -82,7 +82,7 @@ if ( !empty( $pages ) ) {
 				// Toggle Developer Info
 				$title .= ' <a href="#" title="'. __( 'Show or hide the developer information.', 'framework' ) .'" class="add-new-h2" id="ToggleDevMode">'. __( 'Toggle Developer Info', 'framework' ) .'</a>';
 				// Add a pointer describing the function of the developer toggle
-				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => 'Developer Functions', 'body' => '<p>Show PHP references used to output options in theme files.</p>' ), 'edge: "top", align: "left"' );
+				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => __( 'Developer Functions', 'framework' ), 'body' => '<p>'.__('Show PHP references used to output options in theme files', 'framework').'.</p>' ), 'edge: "top", align: "left"' );
 
 			}
 

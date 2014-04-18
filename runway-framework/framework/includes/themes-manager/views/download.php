@@ -29,7 +29,7 @@ if (!count($history) || $action == 'rebuild') {
 
 	// Display success message
 	if ($alone_package_download_url && $child_package_download_url && $most_recent)
-		echo '<div id="message" class="updated below-h2"><p>New download package created.</p></div>';
+		echo '<div id="message" class="updated below-h2"><p>'. __('New download package created', 'framework').'.</p></div>';
 } else {
 	// Use most recent package from history
 	$most_recent = array_shift($history);
@@ -103,7 +103,7 @@ else { ?>Not found<?php } ?>
 
 <?php
 // Rebuild package button
-$rebuild_button = $html->settings_link('Rebuild Download Packages', array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
+$rebuild_button = $html->settings_link(__('Rebuild Download Packages', 'framework'), array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
 ?>
 
 <p><?php echo $rebuild_button; ?></p>
@@ -111,8 +111,8 @@ $rebuild_button = $html->settings_link('Rebuild Download Packages', array('class
 <div class="tags-dialog">
 	<fieldset>
 	    <input type="checkbox" name="tags-show" id="tags-show" class="input-check custom-data-type">
-	    <label for="tags-show">Show in the package history</label><br><br>
-	    <label for="tags-edit">Tags</label><br>
+	    <label for="tags-show"><?php echo __('Show in the package history', 'framework'); ?></label><br><br>
+	    <label for="tags-edit"><?php echo __('Tags', 'framework'); ?></label><br>
 		<textarea id="tags-edit" name="tags-edit" class="settings-textarea" cols=40 rows=5></textarea>
 	    <input type="hidden" id="package-id" value='' >
 	</fieldset>

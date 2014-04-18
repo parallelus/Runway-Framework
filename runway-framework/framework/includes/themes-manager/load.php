@@ -23,7 +23,7 @@ $default = array();
 global $settingshortname;
 
 $settings = array(
-	'name' => 'Runway Themes',
+	'name' => __('Runway Themes', 'framework'),
 	'alias' => 'themes',
 	'option_key' => $settingshortname.'developer-tools',
 	'fields' => $fields,

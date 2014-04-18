@@ -240,7 +240,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 	</script>
 
 	<p>
-		A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active.
+		<?php echo __( 'A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active', 'framework' ); ?>.
 	</p>
 
 	<h3><?php _e( 'Current Theme', 'framework' ); ?></h3>
@@ -366,7 +366,7 @@ unset( $themes_list[$current_theme['Folder']] );
 							<?php } 
 										}
 										else{
-											echo "Please wait until an administrator activates theme for the network</li>";
+											echo __('Please wait until an administrator activates theme for the network', 'framework') . '</li>';
 										}
 									}
 								?>							
