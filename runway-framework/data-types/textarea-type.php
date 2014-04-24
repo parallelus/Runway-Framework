@@ -45,7 +45,7 @@ class Textarea_type extends Data_Type {
 					name="<?php echo $this->field->alias; ?>[]"
 					<?php echo $section; ?>
 					data-type='textarea-image'><?php echo isset($this->field->value[$key]) && is_string($this->field->value[$key]) ? $this->field->value[$key] : ''; ?></textarea>
-				<a href="#" class="delete_textarea_field">Delete</a><br>
+				<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
 			}
 
@@ -177,7 +177,7 @@ class Textarea_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: 'Textarea',
+					name: '<?php echo __('Textarea', 'framework'); ?>',
 					separate: 'none',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
@@ -198,7 +198,7 @@ class Textarea_type extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -225,7 +225,7 @@ class Textarea_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_textarea_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
 							reinitialize_customize_textarea_instance('<?php echo $field_name ?>');

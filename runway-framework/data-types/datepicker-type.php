@@ -50,7 +50,7 @@ class Datepicker_type extends Data_Type {
 					data-changeMonth="<?php echo stripslashes($this->field->changeMonth); ?>"
 					data-changeYear="<?php echo stripslashes($this->field->changeYear); ?>"
 					data-type="datepicker-type" />
-				<a href="#" class="delete_datepicker_field">Delete</a><br>
+				<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
 			}
 
@@ -140,12 +140,12 @@ class Datepicker_type extends Data_Type {
 		        </label>
 		        <div class="settings-in">
 		            <select name="format" class="format">
-		                <option {{if format == "mm/dd/yy"}} selected="true" {{/if}} value="mm/dd/yy">Default - mm/dd/yy</option>
+		                <option {{if format == "mm/dd/yy"}} selected="true" {{/if}} value="mm/dd/yy"><?php echo __('Default', 'framework'); ?> - mm/dd/yy</option>
 		                <option {{if format == "yy-mm-dd"}} selected="true" {{/if}} value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
-		                <option {{if format == "dd M, y"}} selected="true" {{/if}} value="dd M, y">Short - dd M, y</option>
-		                <option {{if format == "dd MM, y"}} selected="true" {{/if}} value="dd MM, y">Medium - dd MM, y</option>
-		                <option {{if format == "DD, dd MM, yy"}} selected="true" {{/if}} value="DD, dd MM, yy">Full - DD, dd MM, yy</option>
-		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy">With text - 'day' d 'of' MM 'in the year' yy</option>
+		                <option {{if format == "dd M, y"}} selected="true" {{/if}} value="dd M, y"><?php echo __('Short', 'framework'); ?> - dd M, y</option>
+		                <option {{if format == "dd MM, y"}} selected="true" {{/if}} value="dd MM, y"><?php echo __('Medium', 'framework'); ?> - dd MM, y</option>
+		                <option {{if format == "DD, dd MM, yy"}} selected="true" {{/if}} value="DD, dd MM, yy"><?php echo __('Full', 'framework'); ?> - DD, dd MM, yy</option>
+		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy"><?php echo __('With text', 'framework'); ?> - '<?php echo __('day', 'framework'); ?>' d '<?php echo __('of', 'framework'); ?>' MM '<?php echo __('in the year', 'framework'); ?> yy</option>
 		            </select>
 		            <br><span class="settings-field-caption"></span>
 
@@ -286,26 +286,26 @@ class Datepicker_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: 'Datepicker',
+		            name: '<?php echo __('Datepicker', 'framework'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
 
 				function convertCustomFormatDate(date){
-					date = date.replace("day", "");
-				    date = date.replace("of", "");
-				    date = date.replace("in the year", "");
+					date = date.replace("<?php echo __('day', 'framework'); ?>", "");
+				    date = date.replace("<?php echo __('of', 'framework'); ?>", "");
+				    date = date.replace("<?php echo __('in the year', 'framework'); ?>", "");
 				   return date;
 				}
 
 				function isCustomFormat(date){     // check custom format of date
-					if($('.format').val() == "'day' d 'of' MM 'in the year' yy" )
+					if($('.format').val() == "'<?php echo __('day', 'framework'); ?>' d '<?php echo __('of', 'framework'); ?>' MM '<?php echo __('in the year', 'framework'); ?>' yy" )
 		            	date = convertCustomFormatDate(date);
 				    return date;
 				}
 
 				function isCustomDate(date){       // check custom value of date field
-					if (date.indexOf("in the year") >= 0) {
+					if (date.indexOf("<?php echo __('in the year', 'framework'); ?>") >= 0) {
 		        		date = convertCustomFormatDate(date);
 		                $('#datepicker-custom-format').val(date);
 		        	}
@@ -364,7 +364,7 @@ class Datepicker_type extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -392,7 +392,7 @@ class Datepicker_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_datepicker_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						field.datepicker({
 							autoSize: false,

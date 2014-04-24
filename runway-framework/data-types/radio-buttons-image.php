@@ -126,7 +126,7 @@ class Radio_buttons_image extends Data_Type {
 				}
 				echo $html . "</div>";
 				?>
-					<a href="#" class="delete_radio_image_field">Delete</a><br><br>
+					<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
 				<?php
 			}
 			$field = array(
@@ -194,7 +194,7 @@ class Radio_buttons_image extends Data_Type {
 		        </label>
 		        <div class="settings-in">
 		            <select name="image_size" class="settings-select">
-		                <option {{if image_size == ''}} selected="true" {{/if}} value="">Real size</option>
+		                <option {{if image_size == ''}} selected="true" {{/if}} value=""><?php echo __('Real size', 'framework'); ?></option>
 		                <option {{if image_size == '16'}} selected="true" {{/if}} value="16">16x16</option>
 		                <option {{if image_size == '24'}} selected="true" {{/if}} value="24">24x24</option>
 		                <option {{if image_size == '32'}} selected="true" {{/if}} value="32">32x32</option>
@@ -294,7 +294,7 @@ class Radio_buttons_image extends Data_Type {
 	                    str_render[key] = new String(str_render[key]);
 	                    str_render[key] = str_render[key].split('=>');
 	                    if(str_render[key].length == 1){
-	                        result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=>INSERT LINK TO IMAGE!');
+	                        result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=><?php echo __('INSERT LINK TO IMAGE', 'framework'); ?>!');
 	                    }
 	                    else if(str_render[key].length == 2){
 	                        if(str_render[key][1] != ''){
@@ -346,7 +346,7 @@ class Radio_buttons_image extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -380,7 +380,7 @@ class Radio_buttons_image extends Data_Type {
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_radio_image_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'framework'); ?></a>');
 
 						if(typeof reinitialize_customize_radio_image_instance == 'function') {
 							reinitialize_customize_radio_image_instance('<?php echo $field_name ?>');

@@ -46,7 +46,7 @@ class Input_text extends Data_Type {
 					name="<?php echo $this->field->alias; ?>[]" 
 					accept=""value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
 				/>
-					<a href="#" class="delete_field">Delete</a><br>
+					<a href="#" class="delete_field"><?php echo __('Delete', 'framework'); ?></a><br>
 				<?php
 			endfor;
 
@@ -141,12 +141,12 @@ class Input_text extends Data_Type {
 		        <div class="settings-in">
 
 		            <select data-set="validation" name="validation" class="settings-select">
-		                <option {{if validation == ''}} selected="true" {{/if}} value="">None</option>
-		                <option {{if validation == 'url'}} selected="true" {{/if}} value="url">Url</option>
-		                <option {{if validation == 'email'}} selected="true" {{/if}} value="email">Email</option>
-		                <option {{if validation == 'alpha_only'}} selected="true" {{/if}} value="alpha_only">Alpha</option>
-		                <option {{if validation == 'alpha_num_only'}} selected="true" {{/if}} value="alpha_num_only">Alpha num</option>
-		                <option {{if validation == 'num_only'}} selected="true" {{/if}} value="num_only">Numeric</option>
+		                <option {{if validation == ''}} selected="true" {{/if}} value=""><?php echo __('None', 'framework'); ?></option>
+		                <option {{if validation == 'url'}} selected="true" {{/if}} value="url"><?php echo __('Url', 'framework'); ?></option>
+		                <option {{if validation == 'email'}} selected="true" {{/if}} value="email"><?php echo __('Email', 'framework'); ?></option>
+		                <option {{if validation == 'alpha_only'}} selected="true" {{/if}} value="alpha_only"><?php echo __('Alpha', 'framework'); ?></option>
+		                <option {{if validation == 'alpha_num_only'}} selected="true" {{/if}} value="alpha_num_only"><?php echo __('Alpha num', 'framework'); ?></option>
+		                <option {{if validation == 'num_only'}} selected="true" {{/if}} value="num_only"><?php echo __('Numeric', 'framework'); ?></option>
 		            </select>
 
 		            <br><span class="settings-field-caption"></span>
@@ -199,7 +199,7 @@ class Input_text extends Data_Type {
 
 		jQuery(document).ready(function ($) {
 			builder.registerDataType({
-				name: 'Input text',
+				name: '<?php echo __('Input text', 'framework'); ?>', 
 				alias: '<?php echo self::$type_slug ?>',
 				settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 			});

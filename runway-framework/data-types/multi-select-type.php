@@ -63,7 +63,7 @@ class Multi_select_type extends Data_Type {
 			<select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
 				name="<?php echo $this->field->alias;?>[<?php echo $key;?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
                     
-				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>>No value</option>
+				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'framework'); ?></option>
 				<?php foreach ( $key_values as $select_value_key => $val ) { 
 					if(is_array($vals[$key])) {
 						$checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
@@ -74,7 +74,7 @@ class Multi_select_type extends Data_Type {
 				<option value='<?php echo $select_value_key;?>' <?php echo $checked;?>><?php echo stripslashes( $val );?></option>
 				<?php } ?>
 			</select>
-		<a href="#" class="delete_multiselect_field">Delete</a><br>
+		<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a><br>
 		<?php
 		}
 
@@ -103,7 +103,7 @@ class Multi_select_type extends Data_Type {
 
 		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
             
-		$html .= '<option value="no">No value</option>';
+		$html .= '<option value="no">'.__('No value', 'framework').'</option>';
 		foreach ( $key_values as $key => $val ) {
 			if ( is_array( $value ) ) {
 				$checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
@@ -237,7 +237,7 @@ class Multi_select_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: 'Multiselect',
+		            name: '<?php echo __('Multiselect', 'framework'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -291,7 +291,7 @@ class Multi_select_type extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -315,7 +315,7 @@ class Multi_select_type extends Data_Type {
 						css({'height': '103px'});
 						start_radio_groups_index++;
                                                 
-						field.append('<option value="no">No value</option>');
+						field.append('<option value="no"><?php echo __('No value', 'framework'); ?></option>');
 						<?php foreach($default_values as $val_key=>$val) { 
 							$html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
 						?>
@@ -331,7 +331,7 @@ class Multi_select_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_multiselect_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
 							reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');

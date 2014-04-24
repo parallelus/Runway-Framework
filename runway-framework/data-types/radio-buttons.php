@@ -85,7 +85,7 @@ class Radio_buttons extends Data_Type {
 				}
 				echo $html . "</div>";
 				?>
-					<a href="#" class="delete__radio_buttons_field">Delete</a><br><br>
+					<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
 				<?php
 			}
 			$field = array(
@@ -223,7 +223,7 @@ class Radio_buttons extends Data_Type {
 
             jQuery(document).ready(function ($) {
 	            builder.registerDataType({
-		            name: 'Radio buttons',
+		            name: '<?php echo __('Radio buttons', 'framework'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                 settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 	        	});
@@ -276,7 +276,7 @@ class Radio_buttons extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -310,7 +310,7 @@ class Radio_buttons extends Data_Type {
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete__radio_buttons_field">Delete</a>');
+						field.next().after('<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a>');
 						
 						if(typeof reinitialize_customize_radio_instance == 'function') {
 							reinitialize_customize_radio_instance('<?php echo $field_name ?>');

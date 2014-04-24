@@ -143,7 +143,7 @@ class Text_editor extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-                    name: 'Text editor',
+                    name: '<?php echo __('Text editor', 'framework'); ?>',
                     separate: 'none',
                     alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'

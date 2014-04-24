@@ -151,7 +151,7 @@ class Data_Type extends WP_Customize_Control {
 							$('#header').focus();
 							field.after('<br>');
 							field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-							field.next().after('<a href="#" class="delete_field">Delete</a>');
+							field.next().after('<a href="#" class="delete_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                                 
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo $field_name ?>');

@@ -61,7 +61,7 @@ class Checkbox_type extends Data_Type {
 		
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 		?>
-		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ); ?></span></legend>
 		<?php
 			$this->get_value();
 			if (isset($this->field->value) && is_array($this->field->value)) {
@@ -114,7 +114,7 @@ class Checkbox_type extends Data_Type {
 
 				echo $html . "</div>";
 				?>
-					<a href="#" class="delete__checkbox_group_field">Delete</a><br><br>
+					<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
 				<?php
 			}
 
@@ -307,7 +307,7 @@ class Checkbox_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
         		builder.registerDataType({
-		            name: 'Checkbox List',
+		            name: '<?php echo __('Checkbox List', 'framework'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -360,7 +360,7 @@ class Checkbox_type extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -390,7 +390,7 @@ class Checkbox_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete__checkbox_group_field">Delete</a>');
+						field.next().after('<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a>');
 								
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
 							reinitialize_customize_checkbox_list_instance('<?php echo $field_name ?>');

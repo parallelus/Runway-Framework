@@ -28,13 +28,13 @@ class Checkbox_bool_type extends Data_Type {
 			$count = 1;
 		?>
 		<fieldset>
-			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ); ?></span></legend>
                         
 		<?php for( $key = 0; $key < $count; $key++ ) { ?>
 			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo $section; ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo $this->field->alias ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> /> 
 			<span class="field_label"><?php _e( 'Yes', 'framework' ) ?></span>
                                 
-			<a href="#" class="delete_checkbox_bool_field">Delete</a><br>
+			<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a><br>
 		<?php } ?>        
 		<?php 
 			$field = array(
@@ -53,7 +53,7 @@ class Checkbox_bool_type extends Data_Type {
 		else:
 		?>
 			<fieldset>
-				<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+				<legend class="customize-control-title"><span><?php echo __(stripslashes( $this->field->title ), 'framework'); ?></span></legend>
 				<input type="hidden" value="false" name="<?php echo $this->field->alias ?>"  />
 				<label>
 					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo $section; ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo $this->field->alias ?>" <?php  if ( $this->get_value() == 'true' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>
@@ -133,7 +133,7 @@ class Checkbox_bool_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: 'Checkbox (true / false)',
+					name: '<?php echo __('Checkbox (true / false)', 'framework'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 				});
@@ -153,7 +153,7 @@ class Checkbox_bool_type extends Data_Type {
 		?>
 		<div id="<?php echo $add_id; ?>">
 			<a href="#">
-				Add Field
+				<?php echo __('Add Field', 'framework'); ?>
 			</a>
 		</div>			
 
@@ -177,7 +177,7 @@ class Checkbox_bool_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_checkbox_bool_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a>');
 								
 						if(typeof reinitialize_customize_checkbox_bool_instance == 'function') {
 							reinitialize_customize_checkbox_bool_instance('<?php echo $field_name ?>');

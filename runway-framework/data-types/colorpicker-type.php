@@ -45,7 +45,7 @@ class Colorpicker_type extends Data_Type {
 					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?> 
 					name="<?php echo $this->field->alias ?>[]" 
 					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : ''; ?>" />
-				<a href="#" class="delete_colorpicker_field">Delete</a><br>
+				<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
 				<?php
 			}
 
@@ -244,7 +244,7 @@ class Colorpicker_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: 'Colorpicker',
+					name: '<?php echo __('Colorpicker', 'framework'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>',
 					onSettingsDialogOpen: function () {
@@ -267,7 +267,7 @@ class Colorpicker_type extends Data_Type {
 			?>
 			<div id="<?php echo $add_id; ?>">
 				<a href="#">
-					Add Field
+					<?php echo __('Add Field', 'framework'); ?>
 				</a>
 			</div>			
 
@@ -295,7 +295,7 @@ class Colorpicker_type extends Data_Type {
 							$('#header').focus();
 							field.after('<br>');
 							field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-							field.next().after('<a href="#" class="delete_colorpicker_field">Delete</a>');
+							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 							field.wpColorPicker({ change: function () {
 								setTimeout(function () {

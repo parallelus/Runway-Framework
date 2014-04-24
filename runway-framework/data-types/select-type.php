@@ -84,7 +84,7 @@ class Select_type extends Data_Type {
 				echo $html;
 			} ?>
 			</select>
-			<a href="#" class="delete_select_field">Delete</a><br>
+			<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
 			}
 
@@ -182,7 +182,7 @@ class Select_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: 'Select',
+		            name: '<?php echo __('Select', 'framework'); ?>,
 		            alias: '<?php echo self::$type_slug ?>',
                 settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -275,7 +275,7 @@ class Select_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete_select_field">Delete</a>');
+						field.next().after('<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_select_instance == 'function') {
 							reinitialize_customize_select_instance('<?php echo $field_name ?>');

@@ -47,7 +47,7 @@ class Fileupload_type extends Data_Type {
 					<span class="field_label">
 						<button id="upload_image_button-<?php echo $this->field->alias; ?>_<?php echo $key; ?>" class="custom-file-upload-button button"><?php _e('Select File', 'framework'); ?></button>
 					</span>
-					<a href="#" class="delete_fileupload_field">Delete</a><br>
+					<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
 				}
 
@@ -275,7 +275,7 @@ class Fileupload_type extends Data_Type {
 			jQuery(document).ready(function ($) {
 
 				builder.registerDataType({
-					name: 'File upload',
+					name: '<?php echo __('File upload', 'framework'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 				});
@@ -294,7 +294,7 @@ class Fileupload_type extends Data_Type {
 		?>
 			<div id="<?php echo $add_id; ?>">
 				<a href="#">
-					Add Field
+					<?php echo __('Add Field', 'framework'); ?>
 				</a>
 			</div>			
 
@@ -323,7 +323,7 @@ class Fileupload_type extends Data_Type {
 							$('#header').focus();
 							field.after('<br>');
 							field.after('<span class="field_label"> <button class="custom-file-upload-button button"><?php echo $after_field ?></button> </span>');
-							field.next().after('<a href="#" class="delete_fileupload_field">Delete</a>');
+							field.next().after('<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a>');
 			                                                                
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo $field_name ?>');
