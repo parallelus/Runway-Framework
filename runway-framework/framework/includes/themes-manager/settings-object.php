@@ -664,7 +664,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 			// Add active extensions in package
 			$zip->addEmptyDir( $theme_name.'/extensions/' );
-			foreach ( $extm->get_active_extensions_list( $theme_name, false ) as $ext ) {
+
+			foreach ( $extm->get_active_extensions_list( $theme_name ) as $ext ) {
 				if ( is_string( $ext ) ) {
 					$ext_dir = explode( '/', $ext );
 					$file = $source.'/extensions/'.$ext_dir[0].'/';

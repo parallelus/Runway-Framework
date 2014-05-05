@@ -460,20 +460,21 @@ class Extm_Admin extends Runway_Admin_Object {
 
 	}
 
-	function get_active_extensions_list( $theme_name, $active_theme = true ) {
+	function get_active_extensions_list( $theme_name ) {
 
 		$theme_name = strtolower( $theme_name );
-		if( !$active_theme ) {
+		if( $theme_name != get_stylesheet() ) {
 			$theme = wp_get_theme( $theme_name );
 			$admin_data = $this->get_admin_data( $theme->Name );
 			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ? 
 				$admin_data['extensions'][$theme_name]['active'] :
 				array();
 		}
-		else
+		else {
 			$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ? 
 				$this->admin_settings['extensions'][$theme_name]['active'] :
 				array();
+		}
 
 		return (array)$exts_list;
 
