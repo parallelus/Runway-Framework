@@ -5,6 +5,15 @@ function out( $what ) {
 	echo '<br><br>' . $bt[0]['file'] . '[' . $bt[0]['line'] . ']: <br><pre>' . print_r( $what, true ) . '</pre><br>';
 }
 
+if (!defined ('PHP_VERSION_ID'))
+{
+	$ver = array_map ('intval', explode ('.', PHP_VERSION, 3));
+	$ver[0] *= 10000;
+	$ver[1] *= 100;
+	define ('PHP_VERSION_ID', array_sum ($ver));
+	unset ($ver);
+}
+
 // Test the PHP version before we continue
 if ( PHP_VERSION_ID >= 50301 ) {
 
