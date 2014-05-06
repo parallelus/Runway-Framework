@@ -66,10 +66,17 @@ if ( !function_exists( 'r_option' ) ) {
 	}
 }
 
-// function load_translate_domain(){
-//     load_theme_textdomain('framework', get_template_directory() . '/languages');
-// }
-// add_action('after_setup_theme', 'load_translate_domain');
+if ( !function_exists( 'rf__' ) ) {
+	function rf__( $var, $domain = 'framework' ){
+		return call_user_func( '__', $var, $domain );    
+	}
+}
+
+if ( !function_exists( 'rf_e' ) ) {
+	function rf_e( $var, $domain = 'framework' ){
+		call_user_func( '_e', $var, $domain );    
+	}
+}
 
 // register taxonommies to custom post types
 if ( !function_exists( 'get_options_data' ) ) {	
@@ -504,12 +511,6 @@ endif;
 // add_action( 'functions_after', 'after_functions_file' );
 // endif;
 
-if ( !function_exists( 'custom_tmp_translate' ) ) {
-	function custom_tmp_translate($key, $domain = 'framework') {
-		return __($key, $domain);
-	}
-}
-add_action( 'functions_after', 'custom_tmp_translate',10,2 );
 
 function db_json_sync(){
 	global $shortname;

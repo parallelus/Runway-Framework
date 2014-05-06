@@ -40,6 +40,7 @@ if ( PHP_VERSION_ID >= 50301 ) {
 	// Load translations for javascript
 	//-----------------------------------------------------------------
 	include_once 'translations-js.php';
+//	load_theme_textdomain('framework', get_template_directory() . '/languages');
 
 
 	//-----------------------------------------------------------------

@@ -379,7 +379,7 @@ class Html {
 		<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
 		<input type="hidden" name='action' value='save' />
 		<p class="submit">
-			<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, 'framework' ); ?>' />
+			<input type="submit" class='<?php echo $class; ?>' value='<?php rf_e($text); ?>' />
 		</p>
 		</form>
 
