@@ -183,8 +183,8 @@ function save_custom_options(alias, custom_alias, section){
                             else
                                 values[element_name].push($(this).val());
                         });
-                        
-                        if(isInputArray === true && values[element_name][iterator].length == 0)
+                        			
+                        if(isDoubleArray === true && values[element_name][iterator].length == 0)
                             values[element_name][iterator].push('no');
                         
                 } break;
@@ -314,9 +314,6 @@ function save_custom_options(alias, custom_alias, section){
             }        
         }
     });   
-    
-    /*console.log(values);
-    return false;*/
     
     if(!isEmpty(values) && !isEmpty(types)){
         if($('#layout_alias').val())

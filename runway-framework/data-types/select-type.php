@@ -182,7 +182,7 @@ class Select_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: '<?php echo __('Select', 'framework'); ?>,
+		            name: '<?php echo __('Select', 'framework'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                 settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
