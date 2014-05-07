@@ -75,15 +75,6 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 		// check php version compare
 		$min_php_version = 50310;
 		$min_version_display = "5.3.1";
-		
-		if (!defined ('PHP_VERSION_ID'))
-		{
-			$ver = array_map ('intval', explode ('.', PHP_VERSION, 3));
-			$ver[0] *= 10000;
-			$ver[1] *= 100;
-			define ('PHP_VERSION_ID', array_sum ($ver));
-			unset ($ver);
-		}
 
 		$settings = array(
 			'source' => 'Runway System',
@@ -92,7 +83,7 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 			'fail_message' => __('Your PHP version is', 'framework').': '.PHP_VERSION.'. '.__('Your PHP version id is', 'framework').': '.PHP_VERSION_ID.'. '.__('You must have PHP version', 'framework').' '. $min_version_display .' '.__('or later', 'framework').'.',
 			'type' => 'SYSTEM',
 		);
-		if ( $min_php_version <= PHP_VERSION_ID ) {
+		if ( $min_php_version <= runway_php_version(true) ) {
 			$this->set_success( $settings );
 		}
 		else {
