@@ -79,7 +79,7 @@ if ( !function_exists( 'rf_e' ) ) {
 }
 
 // register taxonommies to custom post types
-if ( !function_exists( 'get_options_data' ) ) {	
+if ( !function_exists( 'register_custom_taxonomies' ) ) {	
 	function register_custom_taxonomies() {
 		global $shortname;
 
@@ -148,6 +148,13 @@ if ( !function_exists( 'get_options_data' ) ) {
 
 		// get value from database
 		$value = get_option( $key );
+
+		$key_tmp = explode('_', $original_key);
+		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
+			$meta_value = get_post_meta( end($key_tmp), $option, true );
+			if( !empty($meta_value) )
+				return $meta_value;			
+		}
 
 		// apply data-type filter
 		if ( isset( $value['field_types'][$option] ) ) {
