@@ -475,6 +475,8 @@ class FormsBuilder {
 			)
 		);
 		
+		wp_register_script('ace', FRAMEWORK_URL.'framework/js/ace/src-noconflict/ace.js');
+		
 		global $translation_array;
 		wp_localize_script( 'formsbuilder', 'translations_js', $translation_array );
 	}

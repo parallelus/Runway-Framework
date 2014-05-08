@@ -292,6 +292,15 @@ function save_custom_options(alias, custom_alias, section){
                         }
                         values[element_name] = content;
                 } break;
+		
+		case "code-editor": {
+			if($(el).hasClass('ace_editor')) {
+				var editor = ace.edit($(el).attr('id'));
+				var code = editor.getSession().getValue();
+				
+				values[element_name] = code;
+			}
+		} break;
                 
                 // case "text-editor":{
                 // TODO: text editor data saving

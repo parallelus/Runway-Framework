@@ -46,6 +46,7 @@ $settings = array(
 	'js' => array(
 		'wp-color-picker',
 		'formsbuilder',
+		'ace',
 		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
 		FRAMEWORK_URL.'framework/js/jquery.cookie.js',
 		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.js',
