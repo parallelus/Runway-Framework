@@ -23,6 +23,8 @@ class Code_editor_type extends Data_Type {
 		?>
 
 		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		
+		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
 		<div id="<?php echo $this->field->alias; ?>" class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 			<?php $this->link() ?>
 			name="<?php echo $this->field->alias; ?>"
@@ -31,10 +33,26 @@ class Code_editor_type extends Data_Type {
 			<script>
 				jQuery(document).ready(function() {
 					var editor = ace.edit("<?php echo $this->field->alias; ?>");
-					editor.setTheme("ace/theme/monokai");
-					editor.getSession().setMode("ace/mode/javascript");
+					
+					<?php if(isset($this->field->enableVim) && ($this->field->enableVim === 'true' || $this->field->enableVim === true)) { ?>
+					ace.require("ace/lib/net").loadScript("https://rawgithub.com/ajaxorg/ace-builds/master/src-min-noconflict/keybinding-vim.js", 
+					function() { 
+					    e = document.querySelector("#<?php echo $this->field->alias; ?>").env.editor; 
+					    e.setKeyboardHandler(ace.require("ace/keyboard/vim").handler); 
+					});
+					<?php } ?>
+					//chrome
+					editor.setTheme("ace/theme/chrome");
+					editor.getSession().setMode("ace/mode/<?php echo (isset($this->field->editorLanguage)) ? strtolower($this->field->editorLanguage) : 'javascript'; ?>");
 				});
 			</script>
+		<?php } else { ?>
+			<textarea id="<?php echo $this->field->alias; ?>" class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type"
+			<?php $this->link() ?>
+			name="<?php echo $this->field->alias; ?>"
+			<?php echo $section; ?>
+			data-type='code-editor'><?php echo is_string( $value )? $value : ''; ?></textarea>
+		<?php } ?>
 		<?php
 					
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -113,21 +131,52 @@ class Code_editor_type extends Data_Type {
 
 		</div><div class="clear"></div>
 
-		<!-- Repeating settings -->
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Repeating', 'framework'); ?>:
+			<?php echo __('Code editor type', 'framework'); ?>:
+			<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
-			<label class="settings-title"> 
-			    {{if repeating == 'Yes'}}
-				<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+			
+			<select name="editorType">
+				<option {{if editorType == "default"}} selected="true" {{/if}} value="default"><?php echo __('Default', 'framework'); ?></option>
+				<option {{if editorType == "ace"}} selected="true" {{/if}} value="ace"><?php echo __('ACE', 'framework'); ?></option>
+			</select>
+			
+		    </div>
+		</div><div class="clear"></div>
+		
+		<div class="settings-container">
+		    <label class="settings-title">
+			<?php echo __('Editor language', 'framework'); ?>:
+			<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
+			
+			<select name="editorLanguage">
+				<option {{if editorLanguage == "javascript"}} selected="true" {{/if}} value="javascript">JavaScript</option>
+				<option {{if editorLanguage == "css"}} selected="true" {{/if}} value="css">CSS</option>
+			</select>
+			
+		    </div>
+		</div><div class="clear"></div>
+		
+		<div class="settings-container">
+		    <label class="settings-title">
+			<?php echo __('Enable Vim keys', 'framework'); ?>:
+			<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
+			
+			<label>
+			    {{if enableVim == 'true'}}
+			    <input data-set="enableVim" name="enableVim" value="true" checked="true" type="checkbox">
 			    {{else}}
-				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+			    <input data-set="enableVim" name="enableVim" value="true" type="checkbox">
 			    {{/if}}
 			    <?php echo __('Yes', 'framework'); ?>
 			</label>
-			<br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
+			
 		    </div>
 		</div><div class="clear"></div>
 
