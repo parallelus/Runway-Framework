@@ -25,11 +25,17 @@ class Code_editor_type extends Data_Type {
 		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
 		
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
-		<div id="<?php echo $this->field->alias; ?>" class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type"
+		
+		<div id="<?php echo $this->field->alias; ?>" class="code-editor"><?php echo is_string( $value )? $value : ''; ?></div>
+		<input  type="hidden" 
+			class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type ace_editor"
+			name="<?php echo $this->field->alias; ?>" 
 			<?php $this->link() ?>
+			id="hidden-<?php echo $this->field->alias; ?>"
 			name="<?php echo $this->field->alias; ?>"
 			<?php echo $section; ?>
-			data-type='code-editor'><?php echo is_string( $value )? $value : ''; ?></div>
+			value="<?php echo is_string( $value )? $value : ''; ?>"
+			data-type='code-editor'/>
 			<script>
 				jQuery(document).ready(function() {
 					var editor = ace.edit("<?php echo $this->field->alias; ?>");
@@ -41,9 +47,14 @@ class Code_editor_type extends Data_Type {
 					    e.setKeyboardHandler(ace.require("ace/keyboard/vim").handler); 
 					});
 					<?php } ?>
-					//chrome
+					
 					editor.setTheme("ace/theme/chrome");
 					editor.getSession().setMode("ace/mode/<?php echo (isset($this->field->editorLanguage)) ? strtolower($this->field->editorLanguage) : 'javascript'; ?>");
+					editor.getSession().on('change', function(e) {
+						var editor = ace.edit("<?php echo $this->field->alias; ?>");
+						var code = editor.getSession().getValue();
+						jQuery('#hidden-<?php echo $this->field->alias; ?>').val(code);
+					}); 
 				});
 			</script>
 		<?php } else { ?>

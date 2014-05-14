@@ -295,10 +295,7 @@ function save_custom_options(alias, custom_alias, section){
 		
 		case "code-editor": {
 			if($(el).hasClass('ace_editor')) {
-				var editor = ace.edit($(el).attr('id'));
-				var code = editor.getSession().getValue();
-				
-				values[element_name] = code;
+				values[element_name] = $(el).val();	
 			}
 		} break;
                 
