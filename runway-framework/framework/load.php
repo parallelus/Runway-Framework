@@ -114,7 +114,7 @@ if ( runway_php_version(true) >= 50301 ) {
 	function add_framework_menu() {
 		global $extm;
 
-		if ( IS_CHILD && get_template() == 'runway-framework' ) {
+		if ( get_template() == 'runway-framework' ) {
 			// Runway menu
 			add_menu_page( 'Runway', 'Runway', 'administrator', 'framework-options', 'do_nothing', FRAMEWORK_URL.'framework/images/menu-runway.png' );
 			// Downloads menu
@@ -142,7 +142,7 @@ if ( runway_php_version(true) >= 50301 ) {
 
 	function add_child_theme_submenu() {
 		// Child theme sub-menu
-		if(IS_CHILD and get_template() == 'runway-framework')
+		if( get_template() == 'runway-framework' )
 			add_submenu_page( 'current-theme', 'Add Options Page', '+ Add Options Page', 'administrator', 'admin.php?page=options-builder&navigation=new-page' );
 	}
 	add_action( 'admin_menu', 'add_child_theme_submenu', 11 ); // lower priority, 11, forces item to end of sub-menu
