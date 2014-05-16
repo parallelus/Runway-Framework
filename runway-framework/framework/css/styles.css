@@ -151,6 +151,10 @@
 #tgmpa-plugins select { min-width: 111px }
 #theme-framework label.disabled { color: #888 }
 #theme-framework .postbox .no-move { cursor: default }
+.code-editor {
+	width: 500px;
+	height: 320px;
+}
 /*
 #theme-framework .inside{padding:6px 6px 8px}
 ul.subsubsub.mp{float:none;display:block}

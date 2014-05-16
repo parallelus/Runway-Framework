@@ -26,7 +26,9 @@ class Code_editor_type extends Data_Type {
 		
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
 		
-		<div id="<?php echo $this->field->alias; ?>" class="code-editor"><?php echo is_string( $value )? $value : ''; ?></div>
+		<div id="<?php echo $this->field->alias; ?>" class="code-editor" 
+		     style="<?php echo isset($this->field->editorWidth) ? 'width: '.$this->field->editorWidth.'px; ': ' '; ?> 
+			    <?php echo isset($this->field->editorHeight) ? 'height: '.$this->field->editorHeight.'px; ': ''; ?>"><?php echo is_string( $value )? $value : ''; ?></div>
 		<input  type="hidden" 
 			class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type ace_editor"
 			name="<?php echo $this->field->alias; ?>" 
@@ -135,6 +137,36 @@ class Code_editor_type extends Data_Type {
 		    <div class="settings-in">
 
 			<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
+
+			<br><span class="settings-field-caption"></span>
+
+		    </div>
+
+		</div><div class="clear"></div>
+		
+		<div class="settings-container">
+		    <label class="settings-title">
+				<?php echo __('Width', 'framework'); ?>:
+				<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
+
+			<input data-set="editorWidth" name="editorWidth" value="${editorWidth}" class="settings-input" type="text">
+
+			<br><span class="settings-field-caption"></span>
+
+		    </div>
+
+		</div><div class="clear"></div>
+		
+		<div class="settings-container">
+		    <label class="settings-title">
+				<?php echo __('Height', 'framework'); ?>:
+				<br><span class="settings-title-caption"></span>
+		    </label>
+		    <div class="settings-in">
+
+			<input data-set="editorHeight" name="editorHeight" value="${editorHeight}" class="settings-input" type="text">
 
 			<br><span class="settings-field-caption"></span>
 
