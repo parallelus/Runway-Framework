@@ -592,25 +592,27 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 
 function find_custom_recursive($array = array(), $searched_key = '', $returned_key = 0, &$excludes) {
 	$tmp_array = array();
-	foreach($array as $key=>$value) {
-		if(in_array($key, $excludes))
-			continue;
-		if(is_array($value)) {
-			$returned = find_custom_recursive($value, $searched_key, $returned_key, $excludes);
-			if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
-				if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
-					$tmp_array[] = trim($value[$returned_key]);
+	if (!empty($array)) {
+		foreach($array as $key=>$value) {
+			if(in_array($key, $excludes))
+				continue;
+			if(is_array($value)) {
+				$returned = find_custom_recursive($value, $searched_key, $returned_key, $excludes);
+				if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
+					if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
+						$tmp_array[] = trim($value[$returned_key]);
+					}
+				}
+				foreach($returned as $key2 => $value2) {
+					if(!empty($value2) && !in_array($value2, $tmp_array)) 
+						$tmp_array[] = trim($value2);
 				}
 			}
-			foreach($returned as $key2 => $value2) {
-				if(!empty($value2) && !in_array($value2, $tmp_array)) 
-					$tmp_array[] = trim($value2);
-			}
-		}
-		else {
-			if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
-				if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
-					$tmp_array[] = trim($value[$returned_key]);
+			else {
+				if(isset($value[$searched_key]) && !empty($value[$searched_key]) && !is_array($value[$searched_key])) {
+					if(isset($value[$returned_key]) && !in_array($value[$returned_key], $tmp_array)) {
+						$tmp_array[] = trim($value[$returned_key]);
+					}
 				}
 			}
 		}
