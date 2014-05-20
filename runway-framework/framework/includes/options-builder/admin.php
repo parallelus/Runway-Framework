@@ -55,6 +55,24 @@ else {
 
 		} break;
 
+	case 'confirm-remove-page':{
+			$page_id = $_GET['page_id'];
+
+			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
+				$page_json = file_get_contents( $pages_dir.$page_id.'.json' );
+				$page = json_decode( $page_json, true );
+
+				$item_confirm = 'option page';
+				$item_title = $page['settings']['title'];
+				$action_url_yes = home_url().'/wp-admin/admin.php?page=options-builder&navigation=remove-page&page_id='.$page_id;
+				$action_url_no = home_url().'/wp-admin/admin.php?page=options-builder';
+
+				require_once('views/delete-confirmation.php');
+			} else {
+				wp_die( __('Page not found', 'framework') );
+			}
+	} break;
+
 	case 'remove-page': {
 			$apm->del_page( $_GET['page_id'], $pages_dir );
 			$pages = $apm->get_pages_list();
