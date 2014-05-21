@@ -67,7 +67,7 @@ else {
 				$action_url_yes = home_url().'/wp-admin/admin.php?page=options-builder&navigation=remove-page&page_id='.$page_id;
 				$action_url_no = home_url().'/wp-admin/admin.php?page=options-builder';
 
-				require_once('views/delete-confirmation.php');
+				require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 			} else {
 				wp_die( __('Page not found', 'framework') );
 			}
