@@ -93,7 +93,6 @@ if ( !function_exists( 'register_custom_taxonomies' ) ) {
 					$content_types_to_adding[] = $content_type;
 				}
 			}
-
 			register_taxonomy($taxonomy, $content_types_to_adding, array(
 				// Hierarchical taxonomy (like categories)
 				'hierarchical' => true,
@@ -108,7 +107,9 @@ if ( !function_exists( 'register_custom_taxonomies' ) ) {
 			));
 		}
 	}
+	add_action('init', 'register_custom_taxonomies');
 }	
+
 
 // get framework data
 if ( !function_exists( 'get_options_data' ) ) {
