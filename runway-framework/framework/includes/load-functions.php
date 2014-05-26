@@ -550,7 +550,7 @@ function db_json_sync(){
 					$json_updated = $json;
 
 					$need_update = false;
-					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts');  // don't synchronize
+					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts', 'content_types');  // don't synchronize
 					split_data($json, $db, $json_updated, $need_update, $excludes);
 
 					if( !empty($json_updated) && empty($db) ) {
