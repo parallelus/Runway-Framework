@@ -70,6 +70,16 @@ class Code_editor_type extends Data_Type {
 					
 		do_action( self::$type_slug . '_after_render_content', $this );
 	}
+	
+	public static function assign_actions_and_filters() {
+		add_filter( 'get_options_data_type_' . self::$type_slug,  array('Code_editor_type', 'code_editor_filter'), 5, 10 );
+	}
+	
+	public static function code_editor_filter($val) {
+		$val = stripslashes($val);
+		$val = htmlspecialchars_decode($val, ENT_QUOTES);
+		return $val;
+	}
 
 	public function get_value() {
 
