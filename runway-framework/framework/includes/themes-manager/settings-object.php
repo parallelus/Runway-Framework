@@ -719,8 +719,12 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			// Copy framework and data types folder
 			$zip->addEmptyDir( $theme_name.'/framework/' );
 			$framework_dir = FRAMEWORK_DIR.'framework/';
-			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/', $zip );
-
+			$exclude = array('themes', 'includes');
+			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/', $zip, $exclude );
+			$zip->addEmptyDir( $theme_name.'/framework/includes/' );
+			$framework_dir = FRAMEWORK_DIR.'framework/includes/';
+			$exclude = array('report-manager', 'themes-manager', 'download-directory', 'dashboard', 'pointers');
+			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/includes/', $zip, $exclude );
 			$zip->addEmptyDir( $theme_name.'/data-types/' );
 			$framework_dir = FRAMEWORK_DIR.'data-types/';
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/data-types/', $zip );
