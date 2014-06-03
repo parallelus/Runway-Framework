@@ -117,7 +117,12 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 
 			case 'FILE_EXISTS':{
 					if ( !file_exists( $report['path'] ) ) {
-						file_put_contents( $report['path'], '' );
+						if(!function_exists('WP_Filesystem'))
+							require_once(ABSPATH . 'wp-admin/includes/file.php');
+						WP_Filesystem();
+						global $wp_filesystem;
+						$wp_filesystem->put_contents($report['path'], '', FS_CHMOD_FILE);
+						//file_put_contents( $report['path'], '' );
 						chmod( $report['path'], 0755 );
 						return file_exists( $report['path'] );
 					}

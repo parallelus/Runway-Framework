@@ -290,6 +290,10 @@ function get_extensions() {
 }
 
 function theme_option_filter($pre) {
+	if(!function_exists('WP_Filesystem'))
+		require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
 	global $wp_current_filter, $shortname;
 
 	// if current options is from runway extension
@@ -313,7 +317,8 @@ function theme_option_filter($pre) {
 			$extension_json_settings = THEME_DIR.'/data/'.$option_key.'.json';
 			if ( file_exists( $extension_json_settings ) ) {
 				// if have option save it into database
-				$value = json_decode( file_get_contents( $extension_json_settings ), true );				
+				//$value = json_decode( file_get_contents( $extension_json_settings ), true );
+				$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
 
 				$result = $wpdb->insert( 
 					$wpdb->options, 
@@ -336,7 +341,8 @@ function theme_option_filter($pre) {
 					if ( file_exists( $default_settings_file ) ) {
 						// copy and rename default settings JSON into /data folder
 						copy( $default_settings_file, $extension_json_settings );
-						$value = json_decode( file_get_contents( $extension_json_settings ), true );
+						//$value = json_decode( file_get_contents( $extension_json_settings ), true );
+						$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
 						// save default settings into database
 						update_option( $option_key, $value );
 					}
@@ -380,8 +386,12 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 		if ( is_writable( THEME_DIR.'data/' ) && !in_array($option, $exclude) ) {
 			$settings = get_settings_json();
 			$option = isset($settings['ThemeID'])? str_replace($shortname, $settings['ThemeID'] . '_', $option) : $option;
-			if( IS_CHILD && get_template() == 'runway-framework')
-				file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
+			if( IS_CHILD && get_template() == 'runway-framework') {
+				WP_Filesystem();
+				global $wp_filesystem;
+				$wp_filesystem->put_contents(THEME_DIR.'data/'.$option.'.json', $newvalue_json, FS_CHMOD_FILE);
+				//file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
+			}
 		}
 	}
 
@@ -521,6 +531,10 @@ endif;
 
 
 function db_json_sync(){
+	if(!function_exists('WP_Filesystem'))
+		require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
 	global $shortname;
 
 	$settings = get_settings_json();
@@ -544,8 +558,10 @@ function db_json_sync(){
     	    	if( in_array($option_key_json, array($json_prefix.'report-manager')) )
     	    		continue;
     	    	if( strpos($option_key_json, $json_prefix) !== false ) {
-					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
-																		  		json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+					//$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
+					//													  		json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff )) :
+																		  		json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff ), true);
 					$db = get_option($option_key);
 					$json_updated = $json;
 
@@ -624,13 +640,19 @@ function find_custom_recursive($array = array(), $searched_key = '', $returned_k
 function create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix) {
 	$ffs = scandir($json_dir);
 	$ffs_name = array();
+	
+	if(!function_exists('WP_Filesystem'))
+		require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
     foreach($ffs as $ff){
 	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 	    	$ffs_name[] = $option_key_json;
 	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-			$json = json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+			//$json = json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
+		$json = json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff ), true);
 
 			$translation_file = $translation_dir.'/'.str_replace('.json', '.php', $ff);
 
@@ -649,7 +671,8 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 				foreach($translation_array as $text)
 					$translation_string.= "__('".$text."', 'framework');\r\n";
 				$translation_string.= "?>";
-				file_put_contents( $translation_file, $translation_string );
+				$wp_filesystem->put_contents($translation_file, $translation_string, FS_CHMOD_FILE);
+				//file_put_contents( $translation_file, $translation_string );
 			}
 		}	
 	}
@@ -694,12 +717,17 @@ function get_theme_prefix( $folder = false ) {
 }
 
 function get_settings_json( $folder = false ) {
+	if(!function_exists('WP_Filesystem'))
+		require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
 	$file = (!$folder)? get_stylesheet_directory() . '/data/settings.json' : 
 						preg_replace("~\/(?!.*\/)(.*)~", '/'.$folder, get_stylesheet_directory()) . '/data/settings.json';
 
 	$settings = '';
 	if ( file_exists( $file ) ) {
-		$json = file_get_contents( $file );
+		//$json = file_get_contents( $file );
+		$json = $wp_filesystem->get_contents( $file );
 		$settings = json_decode( $json, true );
 	}
 
@@ -783,6 +811,10 @@ function ask_new_theme( $old_theme, $new_theme, $link) {
 
 function check_theme_ID( $folder = false ) {
 	global $shortname;
+	if(!function_exists('WP_Filesystem'))
+		require_once(ABSPATH . 'wp-admin/includes/file.php');
+	WP_Filesystem();
+	global $wp_filesystem;
 
 	$settings = get_settings_json( $folder );
 
@@ -796,7 +828,8 @@ function check_theme_ID( $folder = false ) {
 				$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
 				if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
 					//$settings['isPrefixID'] = true;
-					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
+					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
+					//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
 				}
 			//}
 		}
@@ -815,12 +848,14 @@ function check_theme_ID( $folder = false ) {
 
 				  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
 				  		$settings['Name'] = $theme_name_stylecss;
-				  		file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+						$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
+				  		//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
 				  	}
 			  	}
 			  	else {
 					$settings['Name'] = $theme_name_stylecss;
-					file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
+					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
+					//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
 			  	}
 				$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 				echo $redirect;

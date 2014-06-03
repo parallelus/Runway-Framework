@@ -316,8 +316,15 @@ class FormsBuilder {
 		elseif ( $json != '' ) {
 			// TODO: save as form
 			$form = json_decode( $json );
-			if( IS_CHILD && get_template() == 'runway-framework')
-				file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
+			if( IS_CHILD && get_template() == 'runway-framework') {
+				
+				if(!function_exists('WP_Filesystem'))
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				WP_Filesystem();
+				global $wp_filesystem;
+				$wp_filesystem->put_contents($this->forms_path.$form->page_id.'.json', $json, FS_CHMOD_FILE);
+				//file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
+			}
 		}
 	}
 

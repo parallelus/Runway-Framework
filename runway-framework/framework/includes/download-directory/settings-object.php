@@ -35,8 +35,13 @@ class Directory_Admin extends Runway_Admin_Object {
 	}
 
 	function make_request( $url = '', $data = array() ) {
-
-		$responce = json_decode( file_get_contents( $url, false ) );
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem;
+				
+		//$responce = json_decode( file_get_contents( $url, false ) );
+		$responce = json_decode( $wp_filesystem->get_contents( $url, false ) );
 
 		if ( isset( $responce->hash ) && $responce->hash == md5( $responce->data ) ) {
 			return json_decode( base64_decode( $responce->data ) );
