@@ -79,20 +79,24 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$gtu = substr($theme_info, $start, $end - $start);
 		}
 
-		$postdata = http_build_query(
-			array(
-				'token' => 'f7804479f02be6350dbf5ebd0fbbaba8',
-				'site_url' => site_url(),
-				'wp_version' => $wp_version,
-				'runway_version' => $rf->get('Version'),
-				'theme_name' => get_current_theme(),
-				'theme_type' => $theme_type,
-				'post_data' => json_encode($_REQUEST),
-			)
+		$postdata = array(
+			'token' => 'f7804479f02be6350dbf5ebd0fbbaba8',
+			'site_url' => site_url(),
+			'wp_version' => $wp_version,
+			'runway_version' => $rf->get('Version'),
+			'theme_name' => get_current_theme(),
+			'theme_type' => $theme_type,
+			'post_data' => json_encode($_REQUEST),
 		);
 
-		$url = 'http://wptest.loc/upd/index.php?'.$postdata;
-		$response_json = wp_remote_get($url);
+		$post_args = array(
+			'method' => 'POST',
+			'timeout' => 10,
+			'body' => $postdata
+		    );
+
+		$url = 'http://update.runwaywp.com/index.php';
+		$response_json = wp_remote_post($url, $post_args);
 
 //$response_json['body'] = '{"success":true,"result":{"has_update":true,"link":"https:\/\/api.github.com\/repos\/parallelus\/Runway_Framework\/zipball\/v1.0.1","version":"1.0.1"}}';
 		$response_data = json_decode($response_json['body'], true);
@@ -122,12 +126,6 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			do_action("save_last_request", $new_data);
 
 			return $new_data;
-		}
-		if( empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) )	{  // once in 24 hours
-			// $new_data = $this->ping_check_theme_update($data);
-			// do_action("save_last_request", $new_data);
-
-			// return $new_data;
 		}
 		else {
 			if(empty($this->theme_updater_options))
