@@ -86,6 +86,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			'runway_version' => $rf->get('Version'),
 			'theme_name' => get_current_theme(),
 			'theme_type' => $theme_type,
+			'github' => $gtu,
 			'post_data' => json_encode($_REQUEST),
 		);
 
@@ -96,12 +97,13 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		    );
 
 		$url = 'http://update.runwaywp.com/index.php';
+
 		$response_json = wp_remote_post($url, $post_args);
 
 //$response_json['body'] = '{"success":true,"result":{"has_update":true,"link":"https:\/\/api.github.com\/repos\/parallelus\/Runway_Framework\/zipball\/v1.0.1","version":"1.0.1"}}';
 		$response_data = json_decode($response_json['body'], true);
 
-		if($response_data['success'] && $response_data['result']['has_update']) {
+		if($theme_type == 'child' && isset($response_data['success']) && $response_data['success'] && $response_data['result']['has_update']) {
 			$update = array();
 			$update['theme'] = 'runway-framework';
 			$update['new_version'] = $response_data['result']['version'];
