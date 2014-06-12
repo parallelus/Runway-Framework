@@ -5,6 +5,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	public $theme_update_notise;
 	public $option_key, $theme_updater_options;
 	public $interval;
+	public $url_update_fw, $url_update_exts;
 
 	public function __construct($settings) {
 
@@ -12,6 +13,11 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 		$this->interval = $settings['interval'];
 		$this->option_key = $settings['option_key'];
+		$this->url_update_fw = 'http://update.runwaywp.com/index.php';
+//		$this->url_update_fw = 'http://wptest.loc/upd/index.php';
+		$this->url_update_exts = 'http://runwaywp.com/sites/main';
+//		$this->url_update_exts = 'http://wptest.loc';
+
 		$this->theme_updater_options = get_option($this->option_key);
 
 		// register the custom stylesheet header
@@ -25,6 +31,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		add_action( 'admin_notices', array( $this, 'show_theme_update_notise' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_fs' ) );	
 		add_action( 'save_last_request', array( $this, 'save_options' ) );
+		add_action( 'update_extensions', array( $this, 'ping_check_extensions_update' ), 10, 1 );
 	}
 
 	function upgrader_process_complete_fs() {
@@ -35,13 +42,16 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$dir_dt = FRAMEWORK_DIR.'data-types';
 			$dir_fw = FRAMEWORK_DIR.'framework';
 			$dir_ext = FRAMEWORK_DIR.'extensions';
+			$dir_data = FRAMEWORK_DIR.'data';
 
 			$wp_filesystem->mkdir($dir_dt, FS_CHMOD_DIR);
 			$wp_filesystem->mkdir($dir_fw, FS_CHMOD_DIR);
 			$wp_filesystem->mkdir($dir_ext, FS_CHMOD_DIR);
+			$wp_filesystem->mkdir($dir_data, FS_CHMOD_DIR);
 
-			copy_dir(FRAMEWORK_DIR.'runway-framework', FRAMEWORK_DIR, array('extensions'));
+			copy_dir(FRAMEWORK_DIR.'runway-framework', FRAMEWORK_DIR, array('extensions', 'data'));
 			copy_dir($dir.'extensions', $dir_ext);
+			copy_dir($dir.'data', $dir_data);
 
 			$wp_filesystem->delete($dir, true);
 			$wp_filesystem->delete(FRAMEWORK_DIR.'runway-framework', true);
@@ -66,10 +76,9 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$theme_type = (get_template() == 'runway-framework')? 'child' : 'child_of_standalone';
 		}
 
-			// Add Github Theme Updater to return $data and hook into admin
-			remove_action( "after_theme_row_" . 'runway-framework', array( $this, 'wp_theme_update_row') );
-			add_action( "after_theme_row_" . 'runway-framework', array($this, 'github_theme_update_row', 11, 2 ) );
-
+			// // Add Github Theme Updater to return $data and hook into admin
+			// remove_action( "after_theme_row_" . 'runway-framework', array( $this, 'wp_theme_update_row') );
+			// add_action( "after_theme_row_" . 'runway-framework', array($this, 'github_theme_update_row', 11, 2 ) );
 
 		$theme_info = file_get_contents( ABSPATH . 'wp-content/themes/runway-framework/style.css' );
 		$start = strpos( $theme_info, 'Github Theme URI' );
@@ -96,10 +105,8 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			'body' => $postdata
 		    );
 
-		$url = 'http://update.runwaywp.com/index.php';
-
-		$response_json = wp_remote_post($url, $post_args);
-
+		$response_json = wp_remote_post($this->url_update_fw, $post_args);
+//out($response_json);
 //$response_json['body'] = '{"success":true,"result":{"has_update":true,"link":"https:\/\/api.github.com\/repos\/parallelus\/Runway_Framework\/zipball\/v1.0.1","version":"1.0.1"}}';
 		$response_data = json_decode($response_json['body'], true);
 
@@ -111,8 +118,44 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$update['package']     = $response_data['result']['link'];
 			$data->response['runway-framework'] = $update;		
 		}
-
+//out($data);
 	return $data;
+	}
+
+	function ping_check_extensions_update( $data ) {
+
+		global $wp_version, $auth_manager_admin;
+
+		$theme = wp_get_theme();
+		$template_name = $theme->get('Template');
+		$rf = wp_get_theme('runway-framework');
+
+		if(empty($template_name))
+			$theme_type = 'standalone';
+		elseif (IS_CHILD) {
+			$theme_type = (get_template() == 'runway-framework')? 'child' : 'child_of_standalone';
+		}
+
+		require_once __DIR__.'/../extensions-manager/settings-object.php';
+		$extm = new Extm_Admin( $settings );
+//$extm->extensions_List['layout-manager/load.php']['Name'] = "Runway Framework"; // downloads product simulates extension
+//out($extm->extensions_List);
+
+		$postdata = array(
+			'login' => $auth_manager_admin->login,
+			'psw' => $auth_manager_admin->psw,
+			'extensions' => $extm->extensions_List
+		);
+
+		$post_args = array(
+			'method' => 'POST',
+			'timeout' => 10,
+			'body' => $postdata
+		    );
+
+//out($url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads');
+ 		$response_json = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+// out($response_json);
 	}
 
 	function save_options($data) {
@@ -127,6 +170,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$new_data = $this->ping_check_theme_update($data);
 			do_action("save_last_request", $new_data);
 
+			do_action('update_extensions', $new_data);
 			return $new_data;
 		}
 		else {
@@ -138,7 +182,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function need_framework_updates() {
-		if( empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) )
+		if( get_current_theme() != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
 			return true;
 		else
 			return false;
@@ -154,9 +198,14 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$dst = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
 		if (!is_dir($dst)) {
 		    $wp_filesystem->mkdir($dst, FS_CHMOD_DIR);
+		    
 		    $wp_filesystem->mkdir($dst.'extensions', FS_CHMOD_DIR);
 		 	$src = FRAMEWORK_DIR.'extensions';
 		 	copy_dir($src, $dst.'extensions');
+
+		    $wp_filesystem->mkdir($dst.'data', FS_CHMOD_DIR);
+		 	$src = FRAMEWORK_DIR.'data';
+		 	copy_dir($src, $dst.'data');		 	
 		}
 			
 		$upgrader->skin->feedback(__("Executing upgrader_source_selection_filter function...", 'framework'));

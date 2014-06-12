@@ -46,6 +46,7 @@ default: {
 		}
 
 		include_once 'views/browse.php';
+//		include_once 'views/downloads.php';
 
 	} break;
 }

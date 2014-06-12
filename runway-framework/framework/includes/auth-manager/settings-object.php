@@ -6,7 +6,8 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 	public function __construct($settings){
 		parent::__construct($settings);
 
-		$this->runwaywp_url = 'http://runwaywp.com/';
+		$this->runwaywp_url = 'http://runwaywp.com/sites/main';
+		$this->runwaywp_url = 'http://wptest.loc/';
 
 		// get settings
 		$options = get_option($this->option_key);
@@ -62,47 +63,33 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 	public function auth_user(){
 		if(isset($this->login, $this->psw)){		
 			// build post
-			$postdata = http_build_query(
-				array(
-					'login' => $this->login,
-					'psw' => $this->psw,
-				)
+			$postdata = array(
+				'login' => $this->login,
+				'psw' => md5($this->psw),
 			);
 
-			// // set request options
-			$opts = array( 
-	           'http' => array(
-					'method'  => 'POST',
-					'header'  => 'Content-type: application/x-www-form-urlencoded',
-					'content' => $postdata,
-				)
-			);
-
-			// // get context
-			$context  = stream_context_create( $opts );
+			$post_args = array(
+				'method' => 'POST',
+				'timeout' => 10,
+				'body' => $postdata
+			    );			
 
 			$request_url = $this->runwaywp_url . 'wp-admin/admin-ajax.php?action=auth_user';
 
-			// execute query convert/result			
-			$file_headers = @get_headers($request_url);
-			$exists = ( isset($file_headers[0] ) )? true : false;
-
-			$responce = array();
-			if( $exists ){
-				$responce = json_decode( file_get_contents( $url . '/wp-admin/admin-ajax.php?action=sync', false, $context ), true );
-			}			
-
-			if(!empty($responce)){
+			$response = wp_remote_post($request_url, $post_args);
+		
+			if($response['body']){
 				$this->auth = true;
-				update_option($this->option_key, array(
-					'auth' => $this->auth,
-					'login' => $this->login,
-					'psw' => $this->psw,
-				));
-
-				return true;
 			}
-			else return false;
+			else {
+				$this->auth = false;
+			}
+			update_option($this->option_key, array(
+				'auth' => $this->auth,
+				'login' => $this->login,
+				'psw' => $this->psw,
+			)); 			
+			return $this->auth;
 		}
 	}
 

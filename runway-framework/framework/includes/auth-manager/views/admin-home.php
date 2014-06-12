@@ -1,4 +1,4 @@
-<?php if(!$this->auth) : ?>
+<?php //if(!$this->auth) : ?>
 <form name="loginform" id="loginform" action="<?php echo $this->self_url('auth'); ?>" method="post">
 	<p>
 		<label for="user_login"><?php echo __('Username', 'framework'); ?><br>
@@ -12,6 +12,6 @@
 		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php echo __('Log In', 'framework'); ?>">				
 	</p>
 </form>
-<?php else: ?>
+<?php //else: ?>
 <!-- TODO: user logged in -->
-<?php endif; ?>
+<?php //endif; ?>
