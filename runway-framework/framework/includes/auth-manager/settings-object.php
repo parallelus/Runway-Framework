@@ -7,7 +7,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 		parent::__construct($settings);
 
 		$this->runwaywp_url = 'http://runwaywp.com/sites/main';
-		$this->runwaywp_url = 'http://wptest.loc/';
+		//$this->runwaywp_url = 'http://wptest.loc/';
 
 		// get settings
 		$options = get_option($this->option_key);

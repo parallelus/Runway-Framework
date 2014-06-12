@@ -1,9 +1,9 @@
 <?php
 /*
-    Extension Name: Auth Manager
+    Extension Name: Accounts
     Extension URI:
     Version: 0.1
-    Description: Auth Manager
+    Description: Accounts
     Author:
     Author URI:
     Text Domain:
@@ -21,7 +21,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-    'name' => __('Auth Manager', 'framework'),
+    'name' => __('Accounts', 'framework'),
     'option_key' => $shortname.'auth-manager',
     'fields' => $fields,
     'default' => $default,

@@ -124,7 +124,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 	function ping_check_extensions_update( $data ) {
 
-		global $wp_version, $auth_manager_admin;
+		global $shortname, $wp_version, $auth_manager_admin;
 
 		$theme = wp_get_theme();
 		$template_name = $theme->get('Template');
@@ -137,7 +137,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		}
 
 		require_once __DIR__.'/../extensions-manager/settings-object.php';
-		$extm = new Extm_Admin( $settings );
+		$extm = new Extm_Admin( array('option_key' => $shortname.'auth-manager') );
 //$extm->extensions_List['layout-manager/load.php']['Name'] = "Runway Framework"; // downloads product simulates extension
 //out($extm->extensions_List);
 
