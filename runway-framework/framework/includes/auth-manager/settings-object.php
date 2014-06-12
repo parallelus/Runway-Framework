@@ -65,7 +65,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 			// build post
 			$postdata = array(
 				'login' => $this->login,
-				'psw' => md5($this->psw),
+				'psw' => $this->psw,
 			);
 
 			$post_args = array(
