@@ -37,6 +37,8 @@ $Extm_Settings = new ExtmSettingsObject( $settings );
 
 // Load admin components
 if ( is_admin() ) {
+	global $extm;
+
 	include_once 'settings-object.php';
 	$extm = new Extm_Admin( $settings );
 }else {
