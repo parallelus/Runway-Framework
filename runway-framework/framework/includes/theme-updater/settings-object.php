@@ -16,22 +16,20 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$this->url_update_fw = 'http://update.runwaywp.com/index.php';
 //		$this->url_update_fw = 'http://wptest.loc/upd/index.php';
 		$this->url_update_exts = 'http://runwaywp.com/sites/main';
-//		$this->url_update_exts = 'http://wptest.loc';
 
 		$this->theme_updater_options = get_option($this->option_key);
 
 		// register the custom stylesheet header
 		add_filter('upgrader_source_selection', array( $this, 'upgrader_source_selection_filter'), 10, 3);
+		//add_filter('upgrader_pre_download', array($this, 'upgrader_extension_pre_download_filter'), 10, 3);
 		add_action('http_request_args', array( $this, 'no_ssl_http_request_args' ), 10, 2);
-		//add_action( 'admin_init', array ( $this, 'theme_upgrader_stylesheet' ) );
-		//add_filter('site_transient_update_themes', array( $this, 'transient_update_themes_filter') );
+		
 		add_filter('site_transient_update_themes', array( $this, 'check_theme_update') );
 		add_filter('enable_framework_updates', array( $this, 'need_framework_updates'), 10, 3);
 
 		add_action( 'admin_notices', array( $this, 'show_theme_update_notise' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_fs' ) );	
 		add_action( 'save_last_request', array( $this, 'save_options' ) );
-		add_action( 'update_extensions', array( $this, 'ping_check_extensions_update' ), 10, 1 );
 	}
 
 	function upgrader_process_complete_fs() {
@@ -93,12 +91,12 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			'site_url' => site_url(),
 			'wp_version' => $wp_version,
 			'runway_version' => $rf->get('Version'),
-			'theme_name' => get_current_theme(),
+			'theme_name' => wp_get_theme()->get('Name'),
 			'theme_type' => $theme_type,
 			'github' => $gtu,
 			'post_data' => json_encode($_REQUEST),
 		);
-
+		
 		$post_args = array(
 			'method' => 'POST',
 			'timeout' => 10,
@@ -106,20 +104,17 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		    );
 
 		$response_json = wp_remote_post($this->url_update_fw, $post_args);
-//out($response_json);
-//$response_json['body'] = '{"success":true,"result":{"has_update":true,"link":"https:\/\/api.github.com\/repos\/parallelus\/Runway_Framework\/zipball\/v1.0.1","version":"1.0.1"}}';
 		$response_data = json_decode($response_json['body'], true);
 
 		if($theme_type == 'child' && isset($response_data['success']) && $response_data['success'] && $response_data['result']['has_update']) {
 			$update = array();
 			$update['theme'] = 'runway-framework';
 			$update['new_version'] = $response_data['result']['version'];
-			$update['url']         = $gtu;
+			$update['url']         = str_replace("Github Theme URI: ", "", $gtu);
 			$update['package']     = $response_data['result']['link'];
 			$data->response['runway-framework'] = $update;		
 		}
-//out($data);
-	return $data;
+		return $data;
 	}
 
 	function ping_check_extensions_update( $data ) {
@@ -138,8 +133,6 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 		require_once __DIR__.'/../extensions-manager/settings-object.php';
 		$extm = new Extm_Admin( array('option_key' => $shortname.'auth-manager') );
-//$extm->extensions_List['layout-manager/load.php']['Name'] = "Runway Framework"; // downloads product simulates extension
-//out($extm->extensions_List);
 
 		$postdata = array(
 			'login' => $auth_manager_admin->login,
@@ -153,14 +146,45 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			'body' => $postdata
 		    );
 
-//out($url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads');
- 		$response_json = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
-// out($response_json);
+ 		$response = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+		if($response['response']['code'] != '200')
+			return;
+		
+		$response_json = json_decode($response['body']);
+		if(is_array($response_json) && !empty($response_json)) {
+			foreach($extm->extensions_List as $key => $current_extension) {
+				foreach($response_json as $response_extension) {
+					if($current_extension['Name'] == $response_extension->Name && $current_extension['Version'] != $response_extension->Version) {
+												
+						$package = "";
+						foreach($response_extension->Files as $package) {
+							$package = $package->file;
+							break;
+						}
+						
+						$name = $response_extension->Name;
+						if(!strstr($name, "Extension") && !strstr($name, "extension"))
+							$name .= " Extension";
+						
+						$update = array();
+						$update['theme'] = $response_extension->Name;
+						$update['rw_extension'] = true;
+						$update['rw_extension_core'] = $key;
+						$update['new_version'] = $response_extension->Version;
+						$update['package']     = $package;
+						$data->response[$name] = $update;	
+					}
+				}
+			}
+		}
+		
+		return $data;
 	}
 
 	function save_options($data) {
 		$this->theme_updater_options['data'] = (array)$data;
 		$this->theme_updater_options['last_request'] = time();
+		
 		update_option( $this->option_key, $this->theme_updater_options );
 	}
 
@@ -168,9 +192,10 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$check_for_updates = apply_filters( 'enable_framework_updates', true );
 		if ( $check_for_updates ) {
 			$new_data = $this->ping_check_theme_update($data);
+			$new_data = $this->ping_check_extensions_update($new_data);
+			
 			do_action("save_last_request", $new_data);
-
-			do_action('update_extensions', $new_data);
+			//do_action('update_extensions', $new_data);
 			return $new_data;
 		}
 		else {
@@ -182,7 +207,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function need_framework_updates() {
-		if( get_current_theme() != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
+		if( wp_get_theme()->get('Name') != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
 			return true;
 		else
 			return false;
@@ -232,6 +257,40 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$upgrader->skin->feedback(__('**Source or Remote Source is unavailable.', 'framework'));
 			
 		return $source;
+	}
+
+	function upgrader_extension_pre_download_filter($reply, $package, $upgrader) {
+		$option = get_option($this->option_key);
+		$current_theme_name = "";
+		if(isset($upgrader->skin->theme_info))
+			$current_theme_name = $upgrader->skin->theme_info->get('Name');
+		else
+			return false;
+		
+		if(is_array($option) && isset($option['data']['response']) && is_array($option['data']['response'])) {
+			foreach($option['data']['response'] as $key => $response) {
+				//find extensions in updater
+				if($key == $current_theme_name && isset($response['rw_extension']) && $response['rw_extension'] == true) {
+					if(is_array($package)) {
+						$package = $package[0];
+					}
+
+					$last_slash = strrpos($package, "/");
+					
+					$http = _wp_http_get_object();
+					$http_response = $http->get($package);
+					$fname = ABSPATH."wp-content/upgrade/".substr($package, $last_slash+1);
+					
+					$file = fopen($fname, 'w+'); // Create a new file, or overwrite the existing one.
+					fwrite($file, $http_response['body']);
+					fclose($file);
+					return $fname;
+						
+				}
+			}
+		}
+		die();
+		return false;
 	}
 
 	/*
