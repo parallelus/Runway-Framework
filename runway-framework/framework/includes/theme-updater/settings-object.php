@@ -16,7 +16,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$this->url_update_fw = 'http://update.runwaywp.com/index.php';
 //		$this->url_update_fw = 'http://wptest.loc/upd/index.php';
 		$this->url_update_exts = 'http://runwaywp.com/sites/main';
-		$this->url_update_exts = 'http://wordpresstest.dev';
+//		$this->url_update_exts = 'http://wordpresstest.dev';
 
 		$this->theme_updater_options = get_option($this->option_key);
 
