@@ -14,7 +14,7 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 
 	//$extension_zip = file_get_contents( $directory->extensions_server_url . "download_extension&item={$item}", false );
 	$extension_zip = $wp_filesystem->get_contents( $directory->extensions_server_url . "download_extension&item={$item}");
-	$extension_zip = base64_decode( $extension_zip );
+	$extension_zip = runway_base_decode( $extension_zip );
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
 
 	$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);

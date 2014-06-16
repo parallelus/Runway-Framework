@@ -44,7 +44,7 @@ class Directory_Admin extends Runway_Admin_Object {
 		$responce = json_decode( $wp_filesystem->get_contents( $url, false ) );
 
 		if ( isset( $responce->hash ) && $responce->hash == md5( $responce->data ) ) {
-			return json_decode( base64_decode( $responce->data ) );
+			return json_decode( runway_base_decode( $responce->data ) );
 		} else {
 			return false;
 		}
