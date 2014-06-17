@@ -30,9 +30,9 @@ if(!empty($response_json)) {
 if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 	$item = $_GET['item'];
 
-	$extension_zip = $wp_filesystem->get_contents( $this->extensions_server_url . "download_extension&item={$item}&zip=".$this->extensions_Paid[0]->Path);
-	$extension_zip = base64_decode( $extension_zip );
-//	$extension_zip = runway_base_decode( $extension_zip );
+	$extension_zip = $wp_filesystem->get_contents( $directory->extensions_server_url . "download_extension&item={$item}&zip=".$this->extensions_Paid[0]->Path);
+//	$extension_zip = base64_decode( $extension_zip );
+	$extension_zip = runway_base_decode( $extension_zip, true );
 
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
 
@@ -56,7 +56,7 @@ default: {
 		$page = $current_page - 1;
 		$search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
-		$response_pre = $wp_filesystem->get_contents( $this->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
+		$response_pre = $wp_filesystem->get_contents( $directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
 		$response_pre = json_decode( $response_pre );
 
 		if ( $response_pre->on_page == 0 ) {
