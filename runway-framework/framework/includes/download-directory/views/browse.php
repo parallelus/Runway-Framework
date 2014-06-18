@@ -87,7 +87,7 @@ else { ?>
 	<tbody id="the-list">
 
 		<?php
-if ( $response->extensions ) 
+if ( isset($response->extensions) && $response->extensions ) 
 {
 	foreach ( $response->extensions as $token => $extension ) {	?>
 			<tr>
