@@ -96,98 +96,91 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			echo '<div class="updated"><p>'.rf__($this->theme_update_notise).'</p></div>';
 	}
 
-	function ping_check_theme_update($data) {
+	function get_theme_info($item = 'theme') {
 		global $wp_version;
+
+		$theme_info = array();
 
 		$theme = wp_get_theme();
 		$template_name = $theme->get('Template');
 		$rf = wp_get_theme('runway-framework');
 
 		if(empty($template_name))
-			$theme_type = 'standalone';
+			$theme_info['type'] = 'standalone';
 		elseif (IS_CHILD) {
-			$theme_type = (get_template() == 'runway-framework')? 'child' : 'child_of_standalone';
+			$theme_info['type'] = (get_template() == 'runway-framework')? 'child' : 'child_of_standalone';
 		}
 
-			// // Add Github Theme Updater to return $data and hook into admin
-			// remove_action( "after_theme_row_" . 'runway-framework', array( $this, 'wp_theme_update_row') );
-			// add_action( "after_theme_row_" . 'runway-framework', array($this, 'github_theme_update_row', 11, 2 ) );
+		if($item == 'theme') {
+			$info = file_get_contents( ABSPATH . 'wp-content/themes/runway-framework/style.css' );
+			$start = strpos( $info, 'Github Theme URI' );
+			$gtu = '';
+			if($start > 0) {
+				$end = strpos( $info, PHP_EOL, $start );
+				$gtu = substr($info, $start, $end - $start);
+			}
 
-		$theme_info = file_get_contents( ABSPATH . 'wp-content/themes/runway-framework/style.css' );
-		$start = strpos( $theme_info, 'Github Theme URI' );
-		$gtu = '';
-		if($start > 0) {
-			$end = strpos( $theme_info, PHP_EOL, $start );
-			$gtu = substr($theme_info, $start, $end - $start);
+			$postdata = array(
+				'token' => 'f7804479f02be6350dbf5ebd0fbbaba8',
+				'site_url' => site_url(),
+				'wp_version' => $wp_version,
+				'runway_version' => $rf->get('Version'),
+				'theme_name' => wp_get_theme()->get('Name'),
+				'theme_type' => $theme_info['type'],
+				'github' => $gtu,
+				'post_data' => json_encode($_REQUEST),
+			);
 		}
+		else {
+			global $extm, $auth_manager_admin;
 
-		$postdata = array(
-			'token' => 'f7804479f02be6350dbf5ebd0fbbaba8',
-			'site_url' => site_url(),
-			'wp_version' => $wp_version,
-			'runway_version' => $rf->get('Version'),
-			'theme_name' => wp_get_theme()->get('Name'),
-			'theme_type' => $theme_type,
-			'github' => $gtu,
-			'post_data' => json_encode($_REQUEST),
-		);
+			$postdata = array(
+				'login' => $auth_manager_admin->login,
+				'psw' => $auth_manager_admin->psw,
+				'extensions' => $extm->extensions_List
+			);			
+		}
 		
-		$post_args = array(
+		$theme_info['post_args'] = array(
 			'method' => 'POST',
 			'timeout' => 10,
 			'body' => $postdata
 		    );
 
-		$response_json = wp_remote_post($this->url_update_fw, $post_args);
+		return $theme_info;
+	}
+
+	function ping_check_theme_update($data) {
+
+		$theme_info = $this->get_theme_info('theme');
+
+		$response_json = wp_remote_post($this->url_update_fw, $theme_info['post_args']);
 		$response_data = json_decode($response_json['body'], true);
 
-		if($theme_type == 'child' && isset($response_data['success']) && $response_data['success'] && $response_data['result']['has_update']) {
+		if($theme_info['type'] == 'child' && isset($response_data['success']) && $response_data['success'] && $response_data['result']['has_update']) {
 			$update = array();
 			$update['theme'] = 'runway-framework';
 			$update['new_version'] = $response_data['result']['version'];
-			$update['url']         = str_replace("Github Theme URI: ", "", $gtu);
+			$update['url']         = str_replace("Github Theme URI: ", "", $theme_info['post_args']['body']['github']);
 			$update['package']     = $response_data['result']['link'];
 			$data->response['runway-framework'] = $update;		
+
 		}
 		return $data;
 	}
 
 	function ping_check_extensions_update( $data ) {
 
-		global $shortname, $wp_version, $auth_manager_admin;
+		$theme_info = $this->get_theme_info('extensions');
 
-		$theme = wp_get_theme();
-		$template_name = $theme->get('Template');
-		$rf = wp_get_theme('runway-framework');
+ 		$response = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $theme_info['post_args']);
 
-		if(empty($template_name))
-			$theme_type = 'standalone';
-		elseif (IS_CHILD) {
-			$theme_type = (get_template() == 'runway-framework')? 'child' : 'child_of_standalone';
-		}
-
-		require_once __DIR__.'/../extensions-manager/settings-object.php';
-		$extm = new Extm_Admin( array('option_key' => $shortname.'auth-manager') );
-
-		$postdata = array(
-			'login' => $auth_manager_admin->login,
-			'psw' => $auth_manager_admin->psw,
-			'extensions' => $extm->extensions_List
-		);
-
-		$post_args = array(
-			'method' => 'POST',
-			'timeout' => 10,
-			'body' => $postdata
-		    );
-
- 		$response = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
-		if($response['response']['code'] != '200' || $theme_type != 'child')
+		if($response['response']['code'] != '200' || $theme_info['type'] != 'child')
 			return $data;
 		
 		$response_json = json_decode($response['body']);
 		if(is_array($response_json) && !empty($response_json)) {
-			foreach($extm->extensions_List as $key => $current_extension) {
+			foreach($theme_info['post_args']['body']['extensions'] as $key => $current_extension) {
 				foreach($response_json as $response_extension) {
 					if($current_extension['Name'] == $response_extension->Name && $current_extension['Version'] != $response_extension->Version) {
 												
@@ -241,7 +234,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function need_framework_updates() {
-		if( wp_get_theme()->get('Name') != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
+		if( (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
 			return true;
 		else
 			return false;
