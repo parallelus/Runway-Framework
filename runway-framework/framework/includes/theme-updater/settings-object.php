@@ -16,7 +16,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$this->url_update_fw = 'http://update.runwaywp.com/index.php';
 //		$this->url_update_fw = 'http://wptest.loc/upd/index.php';
 		$this->url_update_exts = 'http://runwaywp.com/sites/main';
-//		$this->url_update_exts = 'http://wordpresstest.dev';
+		//$this->url_update_exts = 'http://wordpresstest.dev';
 
 		$this->theme_updater_options = get_option($this->option_key);
 
@@ -32,6 +32,10 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_fs' ), 10 );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_extensions' ), 20, 2 );
 		add_action( 'save_last_request', array( $this, 'save_options' ) );
+		
+		add_action( 'update-core-custom_do-runway-extension-upgrade', array( $this, 'upgrader_custom_extension_function' ) );
+		add_action( 'update-custom_do-extension-custom-upgrade', array( $this, 'do_extension_custom_upgrade' ) );
+		add_action( 'core_upgrade_preamble', array( $this, 'update_extensions_block' ) );
 	}
 
 	function upgrader_process_complete_fs() {
@@ -74,8 +78,8 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		if(!is_dir($themes_dir.$current_extension_name))
 			return false;
 		
-		if(is_array($option) && isset($option['data']['response']) && is_array($option['data']['response'])) {
-			foreach($option['data']['response'] as $key => $response) {
+		if(is_array($option) && isset($option['data']['extensions']) && is_array($option['data']['extensions'])) {
+			foreach($option['data']['extensions'] as $key => $response) {
 				//find extensions in updater
 				if($key == $current_extension_name && isset($response['rw_extension']) && $response['rw_extension'] == true) {
 					
@@ -83,7 +87,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 					copy_dir($themes_dir.$current_extension_name, $extension_path);
 					$wp_filesystem->delete($themes_dir.$current_extension_name, true);
 					
-					unset($option['data']['response'][$key]);
+					unset($option['data']['extensions'][$key]);
 					update_option($this->option_key, $option);
 					break;
 				}
@@ -172,6 +176,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	function ping_check_extensions_update( $data ) {
 
 		$theme_info = $this->get_theme_info('extensions');
+		$theme = wp_get_theme();
 
  		$response = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $theme_info['post_args']);
 
@@ -190,17 +195,16 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 							break;
 						}
 						
-						$name = $response_extension->Name;
-						if(!strstr($name, "Extension") && !strstr($name, "extension"))
-							$name .= " Extension";
-						
 						$update = array();
 						$update['theme'] = $response_extension->Name;
+						$update['name'] = $response_extension->Name;
 						$update['rw_extension'] = true;
 						$update['rw_extension_core'] = $key;
+						$update['screenshot'] = isset($response_extension->Screenshot) ? $response_extension->Screenshot : esc_url( $theme->get_screenshot() );
 						$update['new_version'] = $response_extension->Version;
+						$update['old_version'] = $current_extension['Version'];
 						$update['package']     = $package;
-						$data->response[$name] = $update;	
+						$data->extensions[$response_extension->Name] = $update;	
 					}
 				}
 			}
@@ -234,7 +238,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function need_framework_updates() {
-		if( (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
+		if( wp_get_theme()->get('Name') != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
 			return true;
 		else
 			return false;
@@ -296,8 +300,8 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		else
 			return false;
 		
-		if(is_array($option) && isset($option['data']['response']) && is_array($option['data']['response'])) {
-			foreach($option['data']['response'] as $key => $response) {
+		if(is_array($option) && isset($option['data']['extensions']) && is_array($option['data']['extensions'])) {
+			foreach($option['data']['extensions'] as $key => $response) {
 				//find extensions in updater
 				if($key == $current_theme_name && isset($response['rw_extension']) && $response['rw_extension'] == true) {
 					
@@ -325,6 +329,117 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		}
 		
 		return false;
+	}
+
+	function upgrader_custom_extension_function() {
+		if ( ! current_user_can( 'update_themes' ) )
+			wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+
+		check_admin_referer('upgrade-core');
+
+		if ( isset( $_GET['extensions'] ) ) {
+			$extensions = explode( ',', $_GET['extensions'] );
+		} elseif ( isset( $_POST['checked'] ) ) {
+			$extensions = (array) $_POST['checked'];
+		} else {
+			wp_redirect( admin_url('update-core.php') );
+			exit;
+		}
+
+		$url = 'update.php?action=do-extension-custom-upgrade&extensions=' . urlencode(implode(',', $extensions));
+		$url = wp_nonce_url($url, 'bulk-update-themes');
+
+		$title = __('Update Extension', 'framework');
+
+		require_once(ABSPATH . 'wp-admin/admin-header.php');
+		echo '<div class="wrap">';
+		echo '<h2>' . esc_html__('Update Extensions', 'framework') . '</h2>';
+		echo "<iframe src='$url' style='width: 100%; height: 100%; min-height: 750px;' frameborder='0'></iframe>";
+		echo '</div>';
+		include(ABSPATH . 'wp-admin/admin-footer.php');
+	}
+	
+	function do_extension_custom_upgrade() {
+		
+		if ( ! current_user_can( 'update_themes' ) )
+			wp_die( __( 'You do not have sufficient permissions to update extensions for this site.' ) );
+
+		check_admin_referer( 'bulk-update-themes' );
+
+		if ( isset( $_GET['extensions'] ) )
+			$extensions = explode( ',', stripslashes($_GET['extensions']) );
+		elseif ( isset( $_POST['checked'] ) )
+			$extensions = (array) $_POST['checked'];
+		else
+			$extensions = array();
+
+		$extensions = array_map('urldecode', $extensions);
+		
+		require_once 'extension_upgrader.php';
+
+		$url = 'update.php?action=update-selected-extensions&amp;extensions=' . urlencode(implode(',', $extensions));
+		$nonce = 'bulk-update-themes';
+
+		wp_enqueue_script('jquery');
+		iframe_header();
+
+		$upgrader = new Extension_Upgrader(new Bulk_Extension_Upgrader_Skin( compact( 'nonce', 'url' ) ));
+		$upgrader->bulk_upgrade( $extensions );
+		
+		iframe_footer();
+	}
+	
+	function update_extensions_block() {
+		$option = get_option($this->option_key);
+
+		$extensions_to_update = isset($option['data']['extensions']) ? $option['data']['extensions'] : array();
+
+		if(empty($extensions_to_update)) {
+			echo '<h3>' . __( 'Runway Extensions', 'framework' ) . '</h3>';
+			echo '<p>' . __( 'Your extensions are all up to date.', 'framework' ) . '</p>';
+			return;
+		}
+
+		$form_action = 'update-core.php?action=do-runway-extension-upgrade';
+		?>
+
+		<h3><?php _e( 'Extensions', 'framework' ); ?></h3>
+		<p><?php _e( 'The following extensdions have new versions available. Check the ones you want to update and then click &#8220;Update Extensions&#8221;.', 'framework' ); ?></p>
+		<p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to extension files will be lost.', 'framework' ) ); ?></p>
+
+		<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-extensions" class="upgrade">
+		<?php wp_nonce_field('upgrade-core'); ?>
+			<p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
+			<table class="widefat" cellspacing="0" id="update-themes-table">
+				<thead>
+				<tr>
+					<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all" /></th>
+					<th scope="col" class="manage-column"><label for="extensions-select-all"><?php _e('Select All', 'framework'); ?></label></th>
+				</tr>
+				</thead>
+
+				<tfoot>
+				<tr>
+					<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all-2" /></th>
+					<th scope="col" class="manage-column"><label for="extensions-select-all-2"><?php _e('Select All', 'framework'); ?></label></th>
+				</tr>
+				</tfoot>
+				<tbody class="plugins">
+				<?php
+					foreach ( $extensions_to_update as $stylesheet => $extension ) {
+						echo "
+					<tr>
+						<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
+						<td class='plugin-title'><img src='" . $extension['screenshot'] . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $extension['name'] . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.', 'framework' ), $extension['old_version'], $extension['new_version'] ) . "</td>
+					</tr>";
+					}
+				?>
+				</tbody>
+			</table>
+			<p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
+		</form>
+
+	<?php
 	}
 
 	/*
