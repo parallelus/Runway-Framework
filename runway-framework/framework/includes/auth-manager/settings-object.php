@@ -16,10 +16,10 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 			$this->login = $options['login'];
 			$this->psw = $options['psw'];
 		}
-		
-		if(!$this->auth){
-			$this->auth_user();
-		}
+
+		// if($this->auth == 'false'){
+		// 	$this->auth_user_login();
+		// }
 	}
 
 	// Add hooks & crooks
@@ -51,6 +51,8 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 
 	public function set_user_credentials($login, $psw){
 		if(isset($login, $psw)){
+			$this->login = $login;
+			$this->psw = $psw;
 			update_option($this->option_key, array(
 				'auth' => false,
 				'login' => $login,
@@ -60,7 +62,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 		else return false;
 	}
 
-	public function auth_user(){
+	public function auth_user_login(){
 		if(isset($this->login, $this->psw)){		
 			// build post
 			$postdata = array(
@@ -77,7 +79,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 			$request_url = $this->runwaywp_url . 'wp-admin/admin-ajax.php?action=auth_user';
 
 			$response = wp_remote_post($request_url, $post_args);
-		
+
 			if($response['body']){
 				$this->auth = true;
 			}
@@ -87,7 +89,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 			update_option($this->option_key, array(
 				'auth' => $this->auth,
 				'login' => $this->login,
-				'psw' => $this->psw,
+				'psw' => $this->psw
 			)); 			
 			return $this->auth;
 		}

@@ -67,9 +67,8 @@ default: {
 		$response = $response_pre;
 		unset($response->extensions);
 
-		if(isset($response_exts) && is_array($response_exts)) {
+		if(isset($response_exts)) {
 			foreach($response_exts as $key => $resp_ext) {
-
 				foreach($this->extensions_Paid as $exts) {
 					if($resp_ext->Name == trim($exts->Name) && $resp_ext->Version != $exts->Version) {
 						$response->extensions[$key] = $resp_ext;
