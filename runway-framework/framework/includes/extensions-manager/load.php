@@ -21,7 +21,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => 'Extensions',
+	'name' => __('Extensions', 'framework'),
 	'option_key' => $shortname.'extensions-manager',
 	'fields' => $fields,
 	'default' => $default,
@@ -37,6 +37,8 @@ $Extm_Settings = new ExtmSettingsObject( $settings );
 
 // Load admin components
 if ( is_admin() ) {
+	global $extm;
+
 	include_once 'settings-object.php';
 	$extm = new Extm_Admin( $settings );
 }else {
@@ -62,16 +64,16 @@ function extensions_manager_report( $reports_object ) {
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_exists',
 			'path' => $extensions_dir,
-			'success_message' => 'Extensions directory ('.$extensions_dir.') exists.',
-			'fail_message' => 'Extensions directory ('.$extensions_dir.') does not exist.',
+			'success_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'exists', 'framework' ).'.',
+			'fail_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'does not exist', 'framework' ).'.',			
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_writable',
 			'path' => $extensions_dir,
-			'success_message' => 'Extensions directory ('.$extensions_dir.') is writable.',
-			'fail_message' => 'Extensions directory ('.$extensions_dir.') is not writable.',
+			'success_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'is writable', 'framework' ).'.',
+			'fail_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'is not writable', 'framework' ).'.',				
 		), 'IS_WRITABLE' );
 }
 

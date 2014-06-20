@@ -17,19 +17,20 @@ class Text_editor extends Data_Type {
         $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
         ob_start();
 
-        wp_editor( htmlspecialchars_decode( is_string( $value )? $value : '' ), $this->field->alias, array() );
+        wp_editor( htmlspecialchars_decode( is_string( $value )? $value : '' ), $this->field->alias, array(
+            'data-section' => isset( $this->page->section ) ? $this->page->section : ''
+        ) );
         $this->link();
         $html = ob_get_contents();
         ob_end_clean();
 
         echo $html; ?>
         <script type="text/javascript">
-        (function($){
-            $(function(){
+            jQuery(document).ready(function($){
                 $('textarea.wp-editor-area').addClass('custom-data-type');
-                $('textarea.wp-editor-area').data('section', <?php echo $section; ?> );
-            });
-        })(jQuery);
+                $('textarea.wp-editor-area').attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>' );
+                $('textarea.wp-editor-area').attr('data-type', 'texteditor-type' );
+            })
         </script>
         <?php
 
@@ -79,7 +80,7 @@ class Text_editor extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            Values:
+            <?php echo __('Values', 'framework'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -94,7 +95,7 @@ class Text_editor extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            Required:
+            <?php echo __('Required', 'framework'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -105,35 +106,17 @@ class Text_editor extends Data_Type {
                 {{else}}
                 <input data-set="required" name="required" value="true" type="checkbox">
                 {{/if}}
-                Yes
+                <?php echo __('Yes', 'framework'); ?>
             </label>
 
-            <br><span class="settings-field-caption">Is this a required field.</span><br>
+            <br><span class="settings-field-caption"><?php echo __('Is this a required field', 'framework'); ?>.</span><br>
 
             <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-            <br><span class="settings-field-caption">Optional. Enter a custom error message.</span>
+            <br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
 
         </div>
 
-    </div><div class="clear"></div>
-
-    <!-- Repeating settings -->
-    <div class="settings-container">
-        <label class="settings-title">
-            Repeating:                  
-        </label>
-        <div class="settings-in">
-            <label class="settings-title"> 
-                {{if repeating == 'Yes'}}
-                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
-                {{else}}
-                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
-                {{/if}}
-                Yes
-            </label>
-            <br><span class="settings-title-caption">Can this field repeat with multiple values.</span>
-        </div>
     </div><div class="clear"></div>
 
     <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
@@ -160,7 +143,7 @@ class Text_editor extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-                    name: 'Text editor',
+                    name: '<?php echo __('Text editor', 'framework'); ?>',
                     separate: 'none',
                     alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'

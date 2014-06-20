@@ -11,6 +11,10 @@
     Network:
     Site Wide Only:
 */
+if(!function_exists('WP_Filesystem'))
+	require_once(ABSPATH . 'wp-admin/includes/file.php');
+WP_Filesystem();
+global $wp_filesystem;	
 global $libraries, $page_options;
 $form_builder = $libraries['FormsBuilder'];
 $page_options = array();
@@ -25,7 +29,8 @@ if ( is_dir( $pages_dir ) ) {
 $pages = array();
 foreach ( $page_files as $page_file ) {
 	if ( $page_file != '.' && $page_file != '..' ) {
-		$json = file_get_contents( $pages_dir . $page_file );
+		//$json = file_get_contents( $pages_dir . $page_file );
+		$json = $wp_filesystem->get_contents( $pages_dir . $page_file );
 		$pages[] = json_decode( $json );
 	}
 }
@@ -50,7 +55,10 @@ if ( !empty( $pages ) ) {
 			${$page_options[$alias]['admin_object']}->dir = plugin_dir_path( __FILE__ );
 		}
 
-		$form_builder->add_page_to_pages_list( $page );
+		$formsbilder_option = get_option($form_builder->option_key);
+		if(!isset($formsbilder_option) || $formsbilder_option == false) {
+			$form_builder->add_page_to_pages_list( $page );
+		}
 
 		do_action( 'options_page_render_is_load' );
 	}
@@ -79,7 +87,7 @@ if ( !empty( $pages ) ) {
 				// Toggle Developer Info
 				$title .= ' <a href="#" title="'. __( 'Show or hide the developer information.', 'framework' ) .'" class="add-new-h2" id="ToggleDevMode">'. __( 'Toggle Developer Info', 'framework' ) .'</a>';
 				// Add a pointer describing the function of the developer toggle
-				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => 'Developer Functions', 'body' => '<p>Show PHP references used to output options in theme files.</p>' ), 'edge: "top", align: "left"' );
+				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => __( 'Developer Functions', 'framework' ), 'body' => '<p>'.__('Show PHP references used to output options in theme files', 'framework').'.</p>' ), 'edge: "top", align: "left"' );
 
 			}
 

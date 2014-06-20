@@ -19,7 +19,7 @@
         $('#add-tab').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-tab new-element',
+                class:  'accept-tab new-element'
             });
             $('.elements-list.page-layer.accept-tab.tabIn').append(replaceMarker);
             uiObject.onAddTab();
@@ -30,7 +30,7 @@
         $('#add-container').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-container new-element scrollTo',
+                class:  'accept-container new-element scrollTo'
             });
             $('.inside.accept-container:last').append(replaceMarker);
             uiObject.onAddContainer();       
@@ -42,13 +42,18 @@
         $('#add-field').click(function(){
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
-                class:  'accept-field new-element',
+                class:  'accept-field new-element'
             });
             $('.inside.accept-field:last').append(replaceMarker);
             uiObject.onAddField();
             var element = $('.fieldbox:last').addClass('scrollTo');
             if (!uiObject.isPageEmpty())
                 new_item_added_event(element);
+        });
+        
+        $('body').on('click', '.customize-control-content', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
         });
     });
 })(jQuery);
@@ -67,69 +72,255 @@ function save_custom_options(alias, custom_alias, section){
         custom_alias = null;
     }
 
-        // console.log($.find('.custom-data-type'));
+    //variables for save repeating checkbox list & radio groups
+    var currentIndexInGroup = 0;
+    var nextIndexInGroup = 0;
+    
     $('body').find('.custom-data-type').each(function(index, el){
-        types[$(el).attr('name')] = $(el).data('type');
+        
+        
+        //check if input is repeating - is array
+        var isInputArray = false;
+        var isDoubleArray = false;
+        var element_name = $(el).attr('name');
+        if(/\[\d*\]$/.test(element_name))
+        {
+            isInputArray = true;
+            element_name = element_name.replace(/\[\d*\]$/, "");
+        }
+        
+        types[element_name] = $(el).data('type');
         
         if($(el).data('section') == section){
+            
             switch($(el).data('type')){
                 case "checkbox-bool-type":{
-                    if($(el).prop("checked")){
-                        values[$(el).attr('name')] = $(el).prop("checked");            
-                    }
-                    else{
-                        values[$(el).attr('name')] = 'false';
-                    }
+                        if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                            values[element_name] = [];
+                            values[element_name].push($(el).prop("checked") ? $(el).prop("checked") : 'false');
+                        }
+                        else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                            values[element_name].push($(el).prop("checked") ? $(el).prop("checked") : 'false');
+                        }
+                        else {
+                            if($(el).prop("checked")){
+                                values[element_name] = $(el).prop("checked");            
+                            }
+                            else{
+                                values[element_name] = 'false';
+                            }
+                        }
                 } break;
                 
                 case "checkbox-type":{
-                    var el_index = $(el).attr('name').replace('[]', '');        
-                    var all_checks = $("input[name='"+$(el).attr('name')+"']:checked");
-                    var result = [];
-
-                    all_checks.each(function(i, checkbox){
-                        result.push($(checkbox).val());
-                    });
-
-                    values[el_index] = result;
+                            
+                        if(/\[(\d*)\]/.test(element_name)) {
+                            var matched = element_name.match(/\[(\d*)\]/);
+                            element_name = element_name.replace(/\[\d*\]$/, "");
+                            isDoubleArray = true;
+                            
+                            if(matched[1] !== "undefined")
+                            {
+                                if(currentIndexInGroup !== parseInt(matched[1], 10))
+                                {
+                                    nextIndexInGroup ++;
+                                    currentIndexInGroup = parseInt(matched[1], 10);
+                                }
+                                
+                                if(nextIndexInGroup > 0 && typeof values[element_name] === "undefined") {
+                                    nextIndexInGroup = 0;
+                                }
+                            }
+                        }
+                        else {
+                            isDoubleArray = false;
+                            currentIndexInGroup = 0;
+                            nextIndexInGroup = 0;
+                        }
+                        
+                        if(typeof values[element_name] === "undefined")
+                            values[element_name] = [];
+                        
+                        if(isDoubleArray === true) {
+                            if(typeof values[element_name][nextIndexInGroup] === "undefined")
+                                values[element_name][nextIndexInGroup] = [];
+                            
+                            if($(el).prop("checked"))
+                                values[element_name][nextIndexInGroup].push($(el).val());
+                            if( $("input[name='"+$(el).attr('name')+"']:checked").length === 0)
+                            {
+                                values[element_name][nextIndexInGroup] = [];
+                                values[element_name][nextIndexInGroup].push('');
+                            }
+                        }
+                        else {
+                            if($(el).prop("checked"))
+                                values[element_name].push($(el).val());
+                        }
                 } break;
                             
                 case "multi-select-type":{
-                    var el_index = $(el).attr('name').replace('[]', '');        
-                    var all_selects = $("select[name='"+$(el).attr('name')+"'] option:selected");
-                    var result = [];
-
-                    all_selects.each(function(i, select){
-                        result.push($(select).val());
-                    });
-
-                    values[el_index] = result;
+                        
+                        if(/\[(\d*)\]/.test(element_name)) {
+                            var matched = element_name.match(/\[(\d*)\]/);
+                            element_name = element_name.replace(/\[\d*\]$/, "");
+                            isDoubleArray = true;
+                        }
+                        else {
+                            isDoubleArray = false;
+                        }
+                        
+                        if(typeof values[element_name] === "undefined")
+                            values[element_name] = [];
+                        
+                        var iterator = values[element_name].length;
+                        if(typeof values[element_name][iterator] === "undefined" && isDoubleArray === true)
+                            values[element_name][iterator] = [];
+                        
+                        $(el).children("option:selected").each(function(){
+                            if(isDoubleArray === true)
+                                values[element_name][iterator].push($(this).val());
+                            else
+                                values[element_name].push($(this).val());
+                        });
+                        			
+                        if(isDoubleArray === true && values[element_name][iterator].length == 0)
+                            values[element_name][iterator].push('no');
+                        
                 } break;
                
                 case "radio-buttons-image":{
-                    if($(el).prop('checked')){
-                        values[$(el).attr('name')] = $(el).val();
+                        
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        nextIndexInGroup = 0;
+                        currentIndexInGroup = 0;
+                        
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);  
+                        if(matched[1] !== "undefined")
+                            currentIndexInGroup = matched[1];
+                        
+                        values[element_name][nextIndexInGroup] = '';
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);
+                        if(matched[1] !== "undefined")
+                        {
+                            if(currentIndexInGroup != matched[1])
+                            {
+                                nextIndexInGroup ++;
+                                currentIndexInGroup = matched[1];
+                            }
+                        }
+                        
+                        if(typeof values[element_name][nextIndexInGroup] === 'undefined')
+                            values[element_name][nextIndexInGroup] = '';
+                        
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }   
+                    else {
+                        if($(el).prop('checked')){
+                            values[element_name] = $(el).val();
+                        }
+                        
+                        if($("input[name='"+$(el).attr('name')+"']:checked").length === 0) {
+                            values[element_name] = '';
+                        }
+                            
                     }
                 } break;
                 
                 case "radio-buttons":{
-                    if($(el).prop('checked')){
-                        values[$(el).attr('name')] = $(el).val();
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        nextIndexInGroup = 0;
+                        currentIndexInGroup = 0;
+                        
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);  
+                        if(matched[1] !== "undefined")
+                            currentIndexInGroup = matched[1];
+                        
+                        values[element_name][nextIndexInGroup] = '';
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
                     }
-                } break;                    
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        var matched = $(el).attr('name').match(/\[(\d*)\]/);
+                        if(matched[1] !== "undefined")
+                        {
+                            if(currentIndexInGroup != matched[1])
+                            {
+                                nextIndexInGroup ++;
+                                currentIndexInGroup = matched[1];
+                            }
+                        }
+                        
+                        if(typeof values[element_name][nextIndexInGroup] === 'undefined')
+                            values[element_name][nextIndexInGroup] = '';
+                        
+                        if($(el).prop('checked')){
+                            values[element_name][nextIndexInGroup] = $(el).val();
+                        }
+                    }   
+                    else {
+                        if($(el).prop('checked')){
+                            values[element_name] = $(el).val();
+                        }
+                        
+                        if($("input[name='"+$(el).attr('name')+"']:checked").length === 0) {
+                            values[element_name] = '';
+                        }
+                    }
+                } break;      
+            
+                case "texteditor-type": {
+                        var element_id = $(el).attr('id');
+                        var content;
+                        var editor = tinyMCE.get(element_id);
+                        if (editor) {
+                            // Ok, the active tab is Visual
+                            content = editor.getContent();
+                        } else {
+                            // The active tab is HTML, so just query the textarea
+                            content = $('#'+element_id).val();
+                        }
+                        values[element_name] = content;
+                } break;
+		
+		case "code-editor": {
+			if($(el).hasClass('ace_editor')) {
+				values[element_name] = $(el).val();	
+			}
+		} break;
                 
                 // case "text-editor":{
                 // TODO: text editor data saving
                 // } break;
                
                 default:{
-                    values[$(el).attr('name')] = $(el).val();
+                        
+                    if(typeof values[element_name] === "undefined" && isInputArray === true) {
+                        values[element_name] = [];
+                        values[element_name].push($(el).val());
+                    }
+                    else if(typeof values[element_name] !== "undefined" && isInputArray === true) {
+                        values[element_name].push($(el).val());
+                    }
+                    else {
+                        values[element_name] = $(el).val();
+                    }
                 }
                 break;
             }        
         }
-    });    
-    // console.log(values);
+    });   
+    
     if(!isEmpty(values) && !isEmpty(types)){
         if($('#layout_alias').val())
             layout_alias = $('#layout_alias').val();
@@ -138,6 +329,7 @@ function save_custom_options(alias, custom_alias, section){
         $.ajax({
             async: false,
             url: ajaxurl,
+            method: "POST",
             data:{
                 action: 'save_custom_options',
                 form_key: alias,
@@ -219,23 +411,23 @@ var pageObject = {};
 var uiObject = {};
 
 var settings_fields_names_definition = {
-    index: "Field id: ",
-    title: "Field title: ",
-    titleCaption: "Field title caption: ",
-    alias: "Field alias: ",
-    type: "Field type: ",
-    fieldCaption: "Field caption: ",
-    values: "Field values: ",
-    required: "Required: ",
-    validation: 'Validation: ',
-    validationMessage: 'Validation message: ',
-    requiredMessage: "Field required message: ",
-    cssClass: "Field custom css class: ",
-    changeMonth: 'Month changer enabled',
-    changeYear: 'Year changer enabled',
-    format: 'Date format',
-    image_size: 'Radio button image size:',
-    repeating: 'Repeating'
+    index: translations_js.field_id,
+    title: translations_js.field_title,
+    titleCaption: translations_js.field_title_caption,
+    alias: translations_js.field_alias,
+    type: translations_js.field_type,
+    fieldCaption: translations_js.field_caption,
+    values: translations_js.field_values,
+    required: translations_js.required,
+    validation: translations_js.validation,
+    validationMessage: translations_js.validation_message,
+    requiredMessage: translations_js.field_required_message,
+    cssClass: translations_js.field_css_class,
+    changeMonth: translations_js.change_month_enabled,
+    changeYear: translations_js.change_year_enabled,
+    format: translations_js.date_format,
+    image_size: translations_js.radio_image_size,
+    repeating: translations_js.repeating
 };
 
 var system_vars_definition = ['template', 'index'];
@@ -258,13 +450,13 @@ var system_vars_definition = ['template', 'index'];
 
                 switch(type) {
                     case 'tab': {
-                            options.title = 'New Tab';
+                            options.title = translations_js.new_tab;
 
                     } break;
 
                     case 'field': {
 
-                            options.title = 'New Field';
+                            options.title = translations_js.new_field;
                             options.type = 'input-text';
                             options.alias = 'field-' + options.index; /*options.requiredMessage = '%field_name% is required.';*/
 
@@ -273,7 +465,7 @@ var system_vars_definition = ['template', 'index'];
                     case 'container': {
 
                             options.type = 'invisible';
-                            options.title = 'New Container';
+                            options.title = translations_js.new_container;
                             options.display_on_customization_page = false;
 
                     } break;
@@ -520,7 +712,7 @@ var system_vars_definition = ['template', 'index'];
                 
                 var options = pageObject.addNew("container");
 
-                options.title = "New Container | " + options.type.replace("-type", " field");
+                options.title = translations_js.new_container+" | " + options.type.replace("-type", " field");
 
                 var repl = godObj.template.build(options);
 
@@ -544,7 +736,7 @@ var system_vars_definition = ['template', 'index'];
 
                 var options = pageObject.addNew("field");
 
-                options.title = "New Field | " + options.type.replace("-type", " field");
+                options.title = translations_js.new_field+" | " + options.type.replace("-type", " field");
 
                 var repl = godObj.template.build(options);
 
@@ -641,7 +833,7 @@ var system_vars_definition = ['template', 'index'];
 
                 if($.inArray(options.type, datatypes_with_default) > -1) {
                     if($.trim(options.values).length === 0) {
-                        answer = confirm('Default values ' + default_value + ' will be added');
+                        answer = confirm(translations_js.default_values+' ' + default_value + ' '+translations_js.will_be_added);
                         if(answer)
                             options.values = default_value;
                         else
@@ -705,8 +897,8 @@ var system_vars_definition = ['template', 'index'];
 
             fillSettingsDialog: function(options) {
 
-                if(options.title.search("Default .* field") == 0) {
-                    options.title = "Default " + options.type.replace("-type", " field");
+                if(options.title.search(translations_js.default+" .* field") == 0) {
+                    options.title = translations_js.default+" " + options.type.replace("-type", " field");
                 }
 
                 // load settings form basis
@@ -727,20 +919,27 @@ var system_vars_definition = ['template', 'index'];
                     else{
                         var cookie_arr = Array();
                     }
-                    var index = $(this).parent().parent().data('index').toString();
+		    
+		    if($(this).parent().parent().data('index') != undefined) {
+			var index = $(this).parent().parent().data('index').toString();
 
-                    if($.inArray(index, cookie_arr) == -1){
-                        cookie_arr.push(index)
-                        $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
-                        $(this).parent().find('.inside').hide();
-                    }
-                    else{
-                        cookie_arr.splice( $.inArray(index, cookie_arr), 1 );
-                        $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
-                        $(this).parent().find('.inside').show();
-                    }
-                    hide_from_cookie();
-
+			if($.inArray(index, cookie_arr) == -1){
+			    cookie_arr.push(index)
+			    $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
+			    $(this).parent().find('.inside').hide();
+			}
+			else{
+			    cookie_arr.splice( $.inArray(index, cookie_arr), 1 );
+			    $.cookie('options-page-'+pageObject.getStructure().settings.alias, cookie_arr, { expires: 14});
+			    $(this).parent().find('.inside').show();
+			}
+			hide_from_cookie();
+		    }
+		    else {
+			var p = $(this).parent('.postbox'), id = p.attr('id');
+			p.toggleClass('closed');
+			event.preventDefault();
+		    }
                 });
 
                 function hide_from_cookie(){
@@ -777,7 +976,7 @@ var system_vars_definition = ['template', 'index'];
                         $this.remove();
                     });
 
-                    $('div#message').html('<p>Item deleted. <a href="#" id="undo-delete">Undo</a></p>');
+                    $('div#message').html('<p>'+translations_js.item_deleted+'. <a href="#" id="undo-delete">'+translations_js.undo+'</a></p>');
                     $('div#message').each( function(i){
                         if( !i ) this.remove();
                     })
@@ -803,12 +1002,12 @@ var system_vars_definition = ['template', 'index'];
                         $(removeItem.item[0]).fadeIn(1000);
                         $('div.page-layer.accept-tab').append('<div class="clear"></div>');                        
                     }
-                    $('div#message').html('<p>Item restored</p>');
+                    $('div#message').html('<p>'+translations_js.item_restored+'</p>');
                 });
 
                 $('.settings-dialog').dialog({
                     autoOpen: false,                    
-                    title: '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Field</h2>',
+                    title: '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_field+'</h2>',
                     modal: true,
                     width: 600,
                     draggable: false,
@@ -858,19 +1057,19 @@ var system_vars_definition = ['template', 'index'];
                     switch(options.template) {
                         case "field":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Field</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_field+'</h2>');
                         }
                         break;
 
                         case "container":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Container</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_container+'</h2>');
                         }
                         break;
 
                         case "tab":
                         {
-                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>Edit Tab</h2>');
+                            settings_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_tab+'</h2>');
                         }
                         break;
 
@@ -885,7 +1084,7 @@ var system_vars_definition = ['template', 'index'];
                             $('#adminmenuwrap').css({'z-index':0});
                         },
                         close: function(event, ui) {
-                            $('#adminmenuwrap').css({'z-index':'auto'});
+                            $('#adminmenuwrap').css({'z-index':'99'});
                         },
                         autoOpen:false,
                         modal: true,
@@ -1147,7 +1346,7 @@ var system_vars_definition = ['template', 'index'];
         },
         availableTypes: {},
         registerDataType: function(type) {
-            if(builder.availableTypes[type.alias] !== undefined) return this.out("Type with this alias " + options.alias + " already exists.");
+            if(builder.availableTypes[type.alias] !== undefined) return this.out(translations_js.type_with_this_alias+" " + options.alias + " "+translations_js.already_exists+".");
             else this.availableTypes[type.alias] = type;
         }
     };

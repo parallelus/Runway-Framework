@@ -1,17 +1,17 @@
-<?php if(!$this->auth) : ?>
+<?php //if(!$this->auth) : ?>
 <form name="loginform" id="loginform" action="<?php echo $this->self_url('auth'); ?>" method="post">
 	<p>
-		<label for="user_login">Username<br>
-		<input type="text" name="log" id="user_login" class="input" value="" size="20"></label>
+		<label for="user_login"><?php echo __('Username', 'framework'); ?><br>
+		<input type="text" name="log" id="user_login" class="input" value="<?php echo $this->login; ?>" size="20"></label>
 	</p>
 	<p>
-		<label for="user_pass">Password<br>
-		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20"></label>
+		<label for="user_pass"><?php echo __('Password', 'framework'); ?><br>
+		<input type="password" name="pwd" id="user_pass" class="input" value="<?php echo $this->psw; ?>" size="20"></label>
 	</p>		
 	<p class="submit">
-		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Log In">				
+		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php echo __('Log In', 'framework'); ?>">				
 	</p>
 </form>
-<?php else: ?>
+<?php //else: ?>
 <!-- TODO: user logged in -->
-<?php endif; ?>
+<?php //endif; ?>

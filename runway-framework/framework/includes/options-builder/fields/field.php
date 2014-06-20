@@ -4,7 +4,7 @@
 global $fields_classes_loaded;
 
 if ( !$fields_classes_loaded ) {
-	foreach ( glob( TEMPLATEPATH . '/framework/options-builder/fields/classes/*.php' ) as $filename ) {
+	foreach ( glob( get_template_directory() . '/framework/options-builder/fields/classes/*.php' ) as $filename ) {
 		require_once $filename;
 	}
 

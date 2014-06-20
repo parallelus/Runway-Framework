@@ -23,7 +23,7 @@ $default = array();
 global $settingshortname;
 
 $settings = array(
-	'name' => 'Runway Themes',
+	'name' => __('Runway Themes', 'framework'),
 	'alias' => 'themes',
 	'option_key' => $settingshortname.'developer-tools',
 	'fields' => $fields,
@@ -33,6 +33,7 @@ $settings = array(
 	'file' => __FILE__,
 	'js' => array(
 		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
+		FRAMEWORK_URL.'framework/includes/themes-manager/js/package-tags.js',
 	),
 	'css' => array(
 		FRAMEWORK_URL.'framework/includes/themes-manager/css/style.css',
@@ -57,7 +58,7 @@ do_action( 'themes_manager_is_load' );
 // Setup a custom button in the title
 function title_button_themes( $title ) {
 	if ( $_GET['page'] == 'themes' ) {
-		$title .= ' <a href="admin.php?page=themes&navigation=new-theme" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. get_bloginfo( 'url' ) .'/wp-admin/theme-install.php?tab=upload" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
+		$title .= ' <a href="admin.php?page=themes&navigation=new-theme" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. home_url() .'/wp-admin/theme-install.php?tab=upload" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
 	}
 	return $title;
 }

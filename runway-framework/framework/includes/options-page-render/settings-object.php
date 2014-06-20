@@ -21,13 +21,13 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		$message_template = null;
 
 		$default_errors_messages = array(
-			'url' => '%field_name% may be url',
-			'email' => '%field_name% may be email',
-			'alpha_only' => '%field_name% may be only letters',
-			'alpha_num_only' => '%field_name% may be only letters or digits',
-			'num_only' => '%field_name% may be only digits',
+			'url' => '%field_name% ' . __('may be url', 'framework'),
+			'email' => '%field_name% ' . __('may be email', 'framework'),
+			'alpha_only' => '%field_name% ' . __('may be only letters', 'framework'),
+			'alpha_num_only' => '%field_name% ' . __('may be only letters or digits', 'framework'),
+			'num_only' => '%field_name% ' . __('may be only digits', 'framework'),
 		);
-		$default_required_messages = 'is required';
+		$default_required_messages = __('is required', 'framework');
 
 		if ( !$message_template ) {
 			if ( isset( $field_information->validation ) && !empty( $field_information->validation ) && !empty( $field_information->validationMessage ) ) {
@@ -37,12 +37,40 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 			}
 		}
 
-		if ( empty( $field_information->value ) && in_array( $field_information->required, array( 'true', 'Yes' ) ) ) {
-			$br = empty( $message_template )? '' : '<br>';
-			if ( ! empty( $field_information->requiredMessage ) )
-				$message_template = $field_information->title . ': '. $field_information->requiredMessage . $br .$message_template;
-			else
-				$message_template = $field_information->title . ' ' . $default_required_messages . $br .$message_template;
+		if(isset($field_information->repeating) && $field_information->repeating === 'Yes' && is_array($field_information->value)) {
+			$hasEmpty = false;
+			
+			foreach($field_information->value as $tmp_key => $tmp_val) {
+				if($field_information->type === 'checkbox-type') {
+					if(is_array($tmp_val)) {
+						foreach($tmp_val as $tmp_checkbox_sub_key => $tmp_checkbox_sub_value) {
+							if(empty($tmp_checkbox_sub_value)) { 
+								$hasEmpty = true;
+							}
+						}
+					}
+				} else {
+					if(empty($tmp_val)) { 
+						$hasEmpty = true;
+					}
+				}
+			}
+			
+			if($hasEmpty) {
+				$br = empty( $message_template )? '' : '<br>';
+				if ( ! empty( $field_information->requiredMessage ) )
+					$message_template = $field_information->title . ': '. $field_information->requiredMessage . $br .$message_template;
+				else
+					$message_template = $field_information->title . ' ' . $default_required_messages . $br .$message_template;
+			}
+		} else {
+			if ( empty( $field_information->value ) && in_array( $field_information->required, array( 'true', 'Yes' ) ) ) {
+				$br = empty( $message_template )? '' : '<br>';
+				if ( ! empty( $field_information->requiredMessage ) )
+					$message_template = $field_information->title . ': '. $field_information->requiredMessage . $br .$message_template;
+				else
+					$message_template = $field_information->title . ' ' . $default_required_messages . $br .$message_template;
+			}
 		}
 
 		$vars = array(
@@ -106,6 +134,23 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 				if ( isset( $_POST[$key] ) ) {
 					$value = $_POST[$key];
 					$field_settings->value = $_POST[$key];
+				} else {
+					$value = null;
+					$field_settings->value = $value;
+				}
+				
+				if(is_object($value)) {
+					$value = '';
+					$field_settings->value = '';
+				}
+				
+				if($field_settings->type === 'checkbox-type') {
+					$value = $this->updateRepeatingCheckbox($value);
+					$field_settings->value = $value;
+				}
+				if(($field_settings->type === 'radio-buttons' || $field_settings->type === 'radio-buttons-image')) {
+					$value = $this->updateRepeatingRadio($value);
+					$field_settings->value = $value;
 				}
 
 				// apply validation
@@ -115,17 +160,50 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 				if ( has_filter( "{$field_settings->type}_validation" ) ) {
 					$is_valid = do_action( "{$field_settings->type}_validation", $this, $field_settings );
 				}
-
-				if ( isset( $field_settings->validation ) && isset( $validation_rules[$field_settings->validation] ) &&
-					!preg_match( $validation_rules[$field_settings->validation], $value ) ) {
-					$is_valid = false;
-				}
-
-				if ( empty( $value ) ) {
-					if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
+				
+				if(isset($field_settings->repeating) && $field_settings->repeating === 'Yes' && is_array($value)) {
+					if(isset( $field_settings->validation ) && isset( $validation_rules[$field_settings->validation] )) {
+						foreach($value as $tmp_key => $tmp_val) {
+							if(is_string($tmp_val) && !preg_match( $validation_rules[$field_settings->validation], $tmp_val )) {
+								$is_valid = false;
+							}
+						}
+					}
+					foreach($value as $tmp_key => $tmp_val) {
+						if($field_settings->type === 'checkbox-type') {
+							if(is_array($tmp_val)) {
+								foreach($tmp_val as $tmp_checkbox_sub_key => $tmp_checkbox_sub_value) {
+									if(empty($tmp_checkbox_sub_value)) { 
+										if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
+											$is_valid = false;
+										} else {
+											$is_valid = ( $is_valid == false )? false : true;
+										}
+									}
+								}
+							}
+						} else {
+							if(empty($tmp_val)) { 
+								if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
+									$is_valid = false;
+								} else {
+									$is_valid = ( $is_valid == false )? false : true;
+								}
+							}
+						}
+					}
+				} else {
+					if ( isset( $field_settings->validation ) && isset( $validation_rules[$field_settings->validation] ) &&
+						!preg_match( $validation_rules[$field_settings->validation], $value ) ) {
 						$is_valid = false;
-					} else {
-						$is_valid = ( $is_valid == false )? false : true;
+					}
+
+					if ( empty( $value ) ) {
+						if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
+							$is_valid = false;
+						} else {
+							$is_valid = ( $is_valid == false )? false : true;
+						}
 					}
 				}
 
@@ -154,6 +232,74 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		// If all is OK
 		return true;
 
+	}
+        
+	function save_data( $data = array() ) {
+        
+		if (empty($data))
+			$data = $this->data['_framework'];
+		if ($this->dynamic && isset($data[$this->option_key]))
+			$data = $data[$this->option_key];
+		
+		if (is_array($data) && isset($data['field_types'])) {
+			foreach ($data['field_types'] as $field_type_key => $field_type_value) {
+				switch ($field_type_value) {
+					case "checkbox-type":
+						if (isset($data[$field_type_key])) {
+							$data[$field_type_key] = $this->updateRepeatingCheckbox($data[$field_type_key]);
+						}
+						break;
+
+					case "radio-buttons-image":
+					case "radio-buttons":
+						if (isset($data[$field_type_key])) {
+							$data[$field_type_key] = $this->updateRepeatingRadio($data[$field_type_key]);
+						}
+						break;
+				}
+			}
+		}
+
+		update_option( $this->option_key, $data );
+	}
+	
+	//function for correct saving repeated checkboxes
+	private function updateRepeatingCheckbox($field_values) {
+		if(is_array($field_values)) {
+			foreach($field_values as $checkbox_type_key => $checkbox_type_value) {
+				if(is_array($checkbox_type_value)) {
+					foreach($field_values[$checkbox_type_key] as $sub_checkbox_type_key => $sub_checkbox_type_value) {
+						if($sub_checkbox_type_value === 'false') {
+						    unset($field_values[$checkbox_type_key][$sub_checkbox_type_key]);
+						}
+					}
+					if(count($field_values[$checkbox_type_key]) == 0) {
+						$field_values[$checkbox_type_key][0] = '';
+					}
+				}
+			}
+		} else {
+			if(is_string($field_values) && $field_values === 'false') {
+				$field_values = null;
+			}
+		}
+		return $field_values;
+	}
+	
+	//function for correct saving repeated radiobuttons
+	private function updateRepeatingRadio($field_values) {
+		if(is_array($field_values)) {
+			foreach($field_values as $radio_type_key => $radio_type_value) {
+				if ($radio_type_value === 'false') {
+					$field_values[$radio_type_key] = "";
+				}
+			}
+		} else {
+			if(is_string($field_values) && $field_values === 'false') {
+				$field_values = null;
+			}
+		}
+		return $field_values;
 	}
 
 	// Setup the data reference for this page/area

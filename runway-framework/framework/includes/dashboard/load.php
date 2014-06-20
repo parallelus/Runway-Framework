@@ -26,7 +26,7 @@ $default = array();
 global $settingshortname;
 
 $settings = array(
-    'name' => 'Dashboard',
+    'name' => __('Dashboard', 'framework'),
     'option_key' => $settingshortname.'dashboard',
     'fields' => $fields,
     'default' => $default,

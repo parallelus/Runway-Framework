@@ -4,7 +4,7 @@ global $developer_tools, $Themes_Manager;
 $popup_message = '<h2>'. __( 'Activate new theme?', 'framework' ) .'</h2>';
 
 $themesActivate = home_url().'/wp-admin/themes.php';
-$httpReferer = str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] );
+$httpReferer = isset( $_SERVER['HTTP_REFERER'] )? str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] ) : '';
 
 if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activate' && ($httpReferer == $themesActivate || strstr($httpReferer, 'action=upload-theme') ) ) {
 	$popup_message = '<a href="#" class="screenshot"><img src="../wp-content/themes/runway-framework/framework/images/screenshot-transparent.png" width="265" height="199"></a>';
@@ -113,9 +113,9 @@ if ( isset( $options ) ) {
 		<p><?php _e( 'Loading ...', 'framework' ); ?></p>
 		<img src="<?php
 if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
-	echo get_bloginfo( 'url' ) . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
+	echo home_url() . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
 } else {
-	echo get_bloginfo( 'url' ) . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
+	echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
 }
 ?>" />
 
@@ -240,7 +240,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 	</script>
 
 	<p>
-		A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active.
+		<?php echo __( 'A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active', 'framework' ); ?>.
 	</p>
 
 	<h3><?php _e( 'Current Theme', 'framework' ); ?></h3>
@@ -366,7 +366,7 @@ unset( $themes_list[$current_theme['Folder']] );
 							<?php } 
 										}
 										else{
-											echo "Please wait until an administrator activates theme for the network</li>";
+											echo __('Please wait until an administrator activates theme for the network', 'framework') . '</li>';
 										}
 									}
 								?>							

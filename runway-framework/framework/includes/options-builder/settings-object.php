@@ -48,11 +48,15 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	public function save_option_page() {
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem;
+				
 		$json_page = $_REQUEST['json_form'];
 		// $new_page_id = $_REQUEST['page_id'];
 		$pages_dir = $this->pages_dir;
 		$message = '';
-		// echo "save_option_page\n";
 
 		if ( isset( $json_page ) && $json_page != '' ) {
 			// out($_POST['page']);
@@ -93,11 +97,9 @@ class Apm_Admin extends Runway_Admin_Object {
 					foreach ( $matches as $alias ) {
 						$tmp = array();
 						if ( ( preg_match( '/(.+)-[0-9+]/', $alias, $tmp ) && $tmp[1] == $page['settings']['alias'] ) || $alias == $page['settings']['alias'] ) {
-							// if(isset($tmp[0])){
 							$num = preg_replace( '/(.+)-/', '', @$tmp[0] ); // capture the number at end of string
 							$numbers[] = $num; // gives the number found at the end of the match
 							$total++;   // keeps count of the number of matches
-							// }
 						}
 					}
 					// Total previous uses of same alias
@@ -107,8 +109,10 @@ class Apm_Admin extends Runway_Admin_Object {
 					}
 				}
 
-				if ( file_exists( "{$pages_dir}{$page_id}.json" ) )
-					$old = file_get_contents( "{$pages_dir}{$page_id}.json" );
+				if ( file_exists( "{$pages_dir}{$page_id}.json" ) ) {
+					//$old = file_get_contents( "{$pages_dir}{$page_id}.json" );
+					$old = $wp_filesystem->get_contents( "{$pages_dir}{$page_id}.json" );
+				}
 				else
 					$old = '';
 
@@ -122,8 +126,7 @@ class Apm_Admin extends Runway_Admin_Object {
 					if ( $element_key != 'none' && ( isset( $element_values['alias'] ) && $element_values['alias'] != $old_elements[$element_key]['alias'] ||
 							isset( $element_values['type'] ) && $element_values['type'] != $old_elements[$element_key]['type'] ) ) {
 						$diff = array_diff( $element_values, $old_elements[$element_key] );
-						// out($element_values);
-						// echo "\n\n";
+						
 						if ( !empty( $diff ) ) {
 							$changed[] = ( isset( $element_values['alias'] ) ) ? $element_values['alias'] : '';
 						}
@@ -132,7 +135,6 @@ class Apm_Admin extends Runway_Admin_Object {
 
 				$page = $this->inputs_encode( $page );
 				$new = str_replace( '\r\n', '\\r\\n', json_encode( $page ) );
-				//    $new = str_replace( '\\r\\n', '\\\\r\\\\n', json_encode( $page ) );
 
 				// check is have changes in page conf
 				if ( md5( $old ) != md5( $new ) ) {
@@ -142,7 +144,7 @@ class Apm_Admin extends Runway_Admin_Object {
 							$icons_dir = THEME_DIR . 'data/icons';
 
 							if ( !file_exists( $icons_dir ) && !mkdir( $icons_dir, 2775, true ) ) {
-								$message =  '<div id="message" class="updated below-h2"><p>I can not save icon</div>';
+								$message =  '<div id="message" class="updated below-h2"><p>'. __('I can not save icon', 'framework').'</div>';
 							}
 
 							$file_extension = pathinfo( $_FILES['icon_url']['name'], PATHINFO_EXTENSION );
@@ -161,7 +163,7 @@ class Apm_Admin extends Runway_Admin_Object {
 										$src = imagecreatefromgif( $uploadedfile );
 									} break;
 								default: {
-										wp_die( 'Unsupported file type.' );
+										wp_die( __('Unsupported file type', 'framework').'.' );
 									} break;
 								}
 
@@ -174,16 +176,17 @@ class Apm_Admin extends Runway_Admin_Object {
 								imagejpeg( $tmp, $icons_dir . "/{$page_icon_file_name}", 100 );
 
 								$page['settings']['icon_file'] = $page_icon_file_name;
-								//$new = str_replace( '\\r\\n', '\\\\r\\\\n', json_encode( $page ) );
 								$new = str_replace( '\r\n', '\\r\\n', json_encode( $page ) );
 							}
 						}
-
-						file_put_contents( "{$pages_dir}{$page_id}.json", $new );
+						if( IS_CHILD && get_template() == 'runway-framework') {
+							$wp_filesystem->put_contents("{$pages_dir}{$page_id}.json", $new, FS_CHMOD_FILE);
+							//file_put_contents( "{$pages_dir}{$page_id}.json", $new );
+						}
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'framework' ) .'</div>';
 					} else {
-						$message = '<p>Saving error: '.$pages_dir.' most be a writable directory.</p>';
+						$message = '<p>'.__( 'Saving error', 'framework' ).': '.$pages_dir.' '.__( 'most be a writable directory', 'framework' ).'.</p>';
 					}
 
 					// reset page data if it have changes
@@ -194,7 +197,7 @@ class Apm_Admin extends Runway_Admin_Object {
 					$tmp = get_option( $option_key );
 					$to_write = array();
 
-					if ( count( $tmp ) ) {
+					if ( count( $tmp ) && is_array($tmp)) {
 						foreach ( $tmp as $key => $value ) {
 							if ( !in_array( $key, $changed ) ) {
 								$to_write[$key] = $value;
@@ -255,8 +258,13 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	function get_pages_list() {
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem;
+				
 		$error_flag = true;
-		$error_message = '<b>Error:</b> The child theme folder "data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme.';
+		$error_message = '<b>'. __( 'Error', 'framework' ) .':</b> '. __( '"data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme', 'framework' ).' .';
 		if ( !file_exists( $this->data_dir ) && !file_exists( $this->pages_dir ) ) {
 			if ( mkdir( $this->data_dir, 0777, true ) && mkdir( $this->pages_dir, 0777, true ) ) {
 				$error_flag = true;
@@ -285,7 +293,8 @@ class Apm_Admin extends Runway_Admin_Object {
 
 		foreach ( $page_files as $page_file ) {
 			if ( $page_file != '.' && $page_file != '..' ) {
-				$json = file_get_contents( $this->pages_dir . $page_file );
+				//$json = file_get_contents( $this->pages_dir . $page_file );
+				$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
 				$pages[] = json_decode( $json );
 			}
 		}

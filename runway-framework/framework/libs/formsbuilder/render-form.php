@@ -68,13 +68,13 @@ if ( !empty( $containers ) ) :
 		echo '<a name="'. sanitize_title( $elements->$container->title ) .'"></a>';
 
 	if ( $elements->$container->type == 'invisible' ) {
-		echo '<h3 class="container-title">'. __( $elements->$container->title, 'framework' ) .'</h3>';
+		echo '<h3 class="container-title">'. rf__($elements->$container->title) .'</h3>';
 	}
 
 if ( $elements->$container->type == 'visible' ) {
 	echo '<div class="meta-box-not-sortables metabox-holder">';
 	echo '<div class="postbox">';
-	echo '<h3 class="no-move"><span>'. __( $elements->$container->title, 'framework' ) .'</span></h3>';
+	echo '<h3 class="no-move"><span>'. rf__($elements->$container->title) .'</span></h3>';
 	echo '<div class="inside">';
 }
 
@@ -82,7 +82,7 @@ if ( $elements->$container->type == 'show-hide' ) {
 	// echo '<a name="'. $elements->$container->title .'"></a>';
 	echo '<div class="meta-box-sortables metabox-holder">';
 	echo '<div class="postbox">';
-	echo '<div class="handlediv" title="'.__( 'Click to toggle', 'framework' ).'"><br></div><h3 class="hndle"><span>'.__( $elements->$container->title, 'framework' ).'</span></h3>';
+	echo '<div class="handlediv" title="'.__( 'Click to toggle', 'framework' ).'"><br></div><h3 class="hndle"><span>'.rf__($elements->$container->title).'</span></h3>';
 	echo '<div class="inside" style="display: none;">';
 }
 

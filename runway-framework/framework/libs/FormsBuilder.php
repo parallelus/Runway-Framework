@@ -147,9 +147,10 @@ class FormsBuilder {
 											$wp_customize->add_section( $container->index, array(
 													'title' => $container->title, //Visible title of section
 													'description' => '',
-													'priority' => $container->priority,
+													'priority' => isset($container->priority)? $container->priority : ''
 												) );
-
+											
+											$priority_level = 0;
 											foreach ( $container_fields as $field_id ) {
 												if ( $field_id != 'none' ) {
 													$field = $_this->builder_page->elements->$field_id;
@@ -171,8 +172,10 @@ class FormsBuilder {
 																'label' => $field->title,
 																'section' => $container->index,
 																'settings' => $field->alias,
+																'priority' => $priority_level
 															)
 														);
+														$priority_level++;
 
 														add_action( 'customize_save_' .$field->alias, array( $option_field, 'save' ) );
 														add_filter( 'customize_value_' . $field->alias, array( $option_field, 'get_value' ) );
@@ -231,6 +234,9 @@ class FormsBuilder {
 						$search_function_preg = '/get_values_from=\"(?P<functions>\w+)\"/';
 
 						if ( isset( $element->values ) && !empty( $element->values ) ) {
+							if(is_array($element->values)) {
+								$element->values = implode("=>", $element->values);
+							}
 							$value = html_entity_decode( $element->values );
 							preg_match_all( $search_function_preg, $value, $result );
 						}
@@ -254,7 +260,8 @@ class FormsBuilder {
 			$page_options['name'] = $page->settings->title;
 			$page_options['option_key'] = $shortname.$page->settings->alias;
 			$page_options['parent_menu'] = $page->settings->adminMenuTopItem;
-			$page_options['menu_permissions'] = $page->settings->access;
+			$page_options['menu_permissions'] = (isset($page->settings->access)) ? $page->settings->access : 'edit_theme_options';
+			// wp_die($page->settings->access);
 
 
 			$page_options['object'] = 'object_'.$id;
@@ -285,6 +292,7 @@ class FormsBuilder {
 			'js' => array(
 				'jquery',
 				'wp-color-picker',
+				'ace',
 				FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
 				FRAMEWORK_URL.'framework/js/jquery.cookie.js',
 				FRAMEWORK_URL.'framework/includes/options-page-render/js/scripts.js',
@@ -308,7 +316,15 @@ class FormsBuilder {
 		elseif ( $json != '' ) {
 			// TODO: save as form
 			$form = json_decode( $json );
-			file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
+			if( IS_CHILD && get_template() == 'runway-framework') {
+				
+				if(!function_exists('WP_Filesystem'))
+					require_once(ABSPATH . 'wp-admin/includes/file.php');
+				WP_Filesystem();
+				global $wp_filesystem;
+				$wp_filesystem->put_contents($this->forms_path.$form->page_id.'.json', $json, FS_CHMOD_FILE);
+				//file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
+			}
 		}
 	}
 
@@ -327,9 +343,6 @@ class FormsBuilder {
 		}
 
 		if ( !empty( $options['form_key'] ) && !empty( $options['vals'] ) ) {
-			// if($options['form_key'] == 'other_options')
-			//  $options['form_key'] = $custom_alias;
-
 			$save = array();
 
 			foreach ( $options['types'] as $key => $value ) {
@@ -469,6 +482,11 @@ class FormsBuilder {
 				'jquery-cookie',
 			)
 		);
+		
+		wp_register_script('ace', FRAMEWORK_URL.'framework/js/ace/src-noconflict/ace.js');
+		
+		global $translation_array;
+		wp_localize_script( 'formsbuilder', 'translations_js', $translation_array );
 	}
 }
 

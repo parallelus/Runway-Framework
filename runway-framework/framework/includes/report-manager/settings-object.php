@@ -79,11 +79,11 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 		$settings = array(
 			'source' => 'Runway System',
 			'report_key' => 'runway_min_php_version_compare',
-			'success_message' => 'Your PHP version is good! You are running version '. $min_version_display,
-			'fail_message' => 'Your PHP version is: '.PHP_VERSION.'. You must have PHP version '. $min_version_display .' or later.',
+			'success_message' => __('Your PHP version is good! You are running version', 'framework').' '. $min_version_display,
+			'fail_message' => __('Your PHP version is', 'framework').': '.PHP_VERSION.'. '.__('Your PHP version id is', 'framework').': '.PHP_VERSION_ID.'. '.__('You must have PHP version', 'framework').' '. $min_version_display .' '.__('or later', 'framework').'.',
 			'type' => 'SYSTEM',
 		);
-		if ( $min_php_version <= PHP_VERSION_ID ) {
+		if ( $min_php_version <= runway_php_version(true) ) {
 			$this->set_success( $settings );
 		}
 		else {
@@ -117,7 +117,12 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 
 			case 'FILE_EXISTS':{
 					if ( !file_exists( $report['path'] ) ) {
-						file_put_contents( $report['path'], '' );
+						if(!function_exists('WP_Filesystem'))
+							require_once(ABSPATH . 'wp-admin/includes/file.php');
+						WP_Filesystem();
+						global $wp_filesystem;
+						$wp_filesystem->put_contents($report['path'], '', FS_CHMOD_FILE);
+						//file_put_contents( $report['path'], '' );
 						chmod( $report['path'], 0755 );
 						return file_exists( $report['path'] );
 					}

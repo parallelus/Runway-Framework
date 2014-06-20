@@ -21,7 +21,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => 'Reports',
+	'name' => __('Reports', 'framework'),
 	'option_key' => $shortname.'report-manager',
 	'fields' => $fields,
 	'default' => $default,

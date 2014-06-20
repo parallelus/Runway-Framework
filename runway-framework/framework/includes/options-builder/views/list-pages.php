@@ -19,7 +19,7 @@
 
 <?php if ( $pages ) { ?>
 
-	<table class="wp-list-table widefat plugins" style="margin-top: 15px;">
+	<table class="wp-list-table widefat" style="margin-top: 15px;">
 	<thead>
 	<tr>
 		<!-- <th scope="col" id="cb" class="manage-column column-cb check-column" style="width: 0px;"><input type="checkbox" name="ext_chk[]" value=""></th> -->
@@ -58,7 +58,7 @@
 							href="admin.php?page=options-builder&navigation=reset-fields-page&page_id=<?php echo $page->settings->page_id ?>"
 							title="<?php _e( 'Reset default field values. This will clear any data added while testing the page.', 'framework' ); ?>"><?php _e( 'Reset Defaults', 'framework' ); ?></a> | </span>
 					<span class="trash"><a class="submitdelete" title="<?php _e( 'Delete this item', 'framework' ); ?>"
-										   href="admin.php?page=options-builder&navigation=remove-page&page_id=<?php echo $page->settings->page_id ?>"><?php _e( 'Delete', 'framework' ); ?></a></span>
+										   href="admin.php?page=options-builder&navigation=confirm-remove-page&page_id=<?php echo $page->settings->page_id ?>"><?php _e( 'Delete', 'framework' ); ?></a></span>
 				</div>
 			</td>
 			<td class="column-alias">

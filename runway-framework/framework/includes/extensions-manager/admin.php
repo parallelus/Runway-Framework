@@ -10,8 +10,8 @@ $link = home_url().'/wp-admin/admin.php?page=extensions';
 $redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 
 if ( !is_writable( $extm->extensions_dir ) && !is_writable( $extm->data_dir ) ) {
-	$info_message = '<b>NOTIFICATION</b>: You must have write permissions for ' . $extm->extensions_dir.
-		'. All your actions not be saved';
+	$info_message = '<b>'.__('NOTIFICATION', 'framework').'</b>: '.__('You must have write permissions for', 'framework').' '. $extm->extensions_dir.
+		'. '.__('All your actions not be saved', 'framework');
 	$no_writable = TRUE;
 }
 
@@ -41,8 +41,8 @@ case 'extension-activate':{ // Activate extension
 			}
 		}
 		else {
-			$info_message = '<b>ERROR</b>: You must have write permissions for ' . $extm->extensions_dir.
-				'. All your actions not be saved';
+			$info_message = '<b>'.__('ERROR', 'framework').'</b>: '.__('You must have write permissions for', 'framework').' '. $extm->extensions_dir.
+				'. '.__('All your actions not be saved', 'framework');		
 		}
 		echo $redirect;
 	} break;
@@ -54,8 +54,8 @@ case 'extension-deactivate':{ // Deactivate extension
 			}
 		}
 		else {
-			$info_message = '<b>ERROR</b>: You must have write permissions for ' . $extm->extensions_dir.
-				'. All your actions not be saved';
+			$info_message = '<b>'.__('ERROR', 'framework').'</b>: '.__('You must have write permissions for', 'framework').' '. $extm->extensions_dir.
+				'. '.__('All your actions not be saved', 'framework');		
 		}
 		echo $redirect;
 
@@ -67,12 +67,12 @@ case 'add-extension':{
 				include_once 'views/add-extension.php';
 			}
 			else {
-				echo 'Extension dir must be writable to add new extension';
+				echo __('Extension dir must be writable to add new extension', 'framework');
 			}
 		}
 		else {
 			if ( empty( $_POST ) || !wp_verify_nonce( $_POST['extension-upload-field'], 'extension-upload-action' ) ) {
-				print 'Sorry, your nonce did not verify.';
+				print __('Sorry, your nonce did not verify', 'framework').'.';
 				exit;
 			}
 			else {
@@ -84,12 +84,12 @@ case 'add-extension':{
 						include_once 'views/admin-home.php';
 					}
 					else {
-						$info_message = 'File must have <b>.zip</b> extension Please choose another file.';
+						$info_message = __('File must have', 'framework').' <b>.zip</b> '.__('extension Please choose another file', 'framework').'.';
 						include_once 'views/add-extension.php';
 					}
 				}
 				else {
-					$info_message = 'Select a file';
+					$info_message = __('Select a file', 'framework');
 					include_once 'views/add-extension.php';
 				}
 			}
@@ -106,8 +106,8 @@ case 'del-extension':{
 			}
 		}
 		else {
-			$info_message = '<b>ERROR</b>: You must have write permissions for ' . $extm->extensions_dir.
-				'. All your actions not be saved';
+			$info_message = '<b>'.__('ERROR', 'framework').'</b>: '.__('You must have write permissions for', 'framework').' '. $extm->extensions_dir.
+				'. '.__('All your actions not be saved', 'framework');
 		}
 		echo $redirect;
 	} break;
@@ -150,7 +150,7 @@ case 'bulk-actions':{
 						}
 
 						if ( !empty( $dep_exts ) ) {
-							$deps_list = '<b>'.implode( ', ', $deps_names ).'</b> - extensions not activate. To activate this extension you must activate next extensions:<ul>';
+							$deps_list = '<b>'.implode( ', ', $deps_names ).'</b> - '.__('extensions not activate. To activate this extension you must activate next extensions', 'framework').':<ul>';
 
 							foreach ( $dep_exts as $dep_ext ) {
 								$dep_info = $extm->get_extension_data( $extm->extensions_dir.$dep_ext );
@@ -159,7 +159,7 @@ case 'bulk-actions':{
 
 							$dep_exts = array_merge( $dep_exts, $to_active_list );
 							$deps_list .= '</ul>';
-							$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts ).'">Activate dependencies and selected extensions</a></b>';
+							$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts ).'">'.__('Activate dependencies and selected extensions', 'framework').'</a></b>';
 							$info_message = $deps_list;
 						}
 					} break;
@@ -184,13 +184,13 @@ case 'bulk-actions':{
 						}
 					} break;
 				default: {
-						$info_message = 'Please, select the action';
+						$info_message = __('Please, select the action', 'framework');
 					}
 				}
 			}
 			else {
-				$info_message = '<b>ERROR</b>: You must have write permissions for ' . $extm->extensions_dir.
-					'. All your actions not be saved';
+				$info_message = '<b>'.__('ERROR', 'framework').'</b>: '.__('You must have write permissions for', 'framework').' '. $extm->extensions_dir.
+					'. '.__('All your actions not be saved', 'framework');
 			}
 		}
 		echo $redirect;

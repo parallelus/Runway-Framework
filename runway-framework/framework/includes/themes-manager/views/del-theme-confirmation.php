@@ -1,9 +1,9 @@
-<p>You are about to remove the following theme:</p>
+<p><?php echo __('You are about to remove the following theme', 'framework'); ?>:</p>
 
 <ul class="ul-disc">
-    <li><strong><?php echo $del_theme_info['Name']; ?></strong> by <em><?php echo ( $del_theme_info['Author'] != '' ) ? $del_theme_info['Author'] : 'Runway Framewok'; ?></em></li>
+    <li><strong><?php echo $del_theme_info['Name']; ?></strong> by <em><?php echo ( $del_theme_info['Author'] != '' ) ? $del_theme_info['Author'] : 'Runway Framework'; ?></em></li>
 </ul>
 
-<p>Are you sure you wish to delete these files?</p>
-<a href="admin.php?page=themes&navigation=delete-theme&name=<?php echo $del_theme_info['Folder']; ?>&confirm=true" class = "button-secondary">Yes, Delete these files</a>
-<a href="admin.php?page=themes" class = "button-secondary">No, Return me to the theme list</a>
+<p><?php echo __('Are you sure you wish to delete these files', 'framework'); ?>?</p>
+<a href="admin.php?page=themes&navigation=delete-theme&name=<?php echo $del_theme_info['Folder']; ?>&confirm=true" class = "button-secondary"><?php echo __('Yes, Delete these files', 'framework'); ?></a>
+<a href="admin.php?page=themes" class = "button-secondary"><?php echo __('No, Return me to the theme list', 'framework'); ?></a>

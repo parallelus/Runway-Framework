@@ -34,18 +34,18 @@ if ( !defined( $runway_framework_admin ) ) {
 				$this->admin_layout = $settings['wp_containers'];
 			}
 
-			//set extension or page name
-			$this->name = $settings['name'];
+			// Set extension or page name
+			$this->name = (isset($settings['name'])) ? $settings['name'] : __('Options', 'framework');
 
 			// if dynamic page set slug as alias else create slug from title
-			$this->slug = isset( $settings['alias'] ) ? sanitize_title( $settings['alias'] ) : sanitize_title( $settings['name'] );
+			$this->slug = isset( $settings['alias'] ) ? sanitize_title( $settings['alias'] ) : sanitize_title( $this->name );
 
 			$this->pref = '';
 
 			if(isset($this->builder_page)) {						
 				$this->pref = $this->get_menu_adapt($this->builder_page->settings->adminMenuTopItem);								
 			} else {
-				$this->pref = $this->pref . strtolower(THEME_NAME);
+				$this->pref = $this->pref . strtolower('framework');
 			}
 
 			$this->page_hook = $this->pref . "_page_" . $this->slug;			
@@ -57,10 +57,10 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->settings_file = isset( $settings['settings_file'] ) ? $settings['settings_file'] : 'admin.php';
 
 			// set extension dir
-			$this->dir = plugin_dir_path( $settings['file'] );
+			$this->dir = (isset($settings['file'])) ? plugin_dir_path( $settings['file'] ) : '';
 
 			// broken or deprecated
-			$this->url = plugin_dir_url( $settings['file'] );
+			$this->url = (isset($settings['file'])) ? plugin_dir_url( $settings['file'] ) : '';
 
 			// set access permissions
 			$this->menu_permissions = isset( $settings['menu_permissions'] ) ? $settings['menu_permissions'] : 'manage_options';
@@ -83,7 +83,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->settings_url = $this->options_url;
 
 			// set database option key
-			$this->option_key = $settings['option_key'];
+			$this->option_key = (isset($settings['option_key'])) ? $settings['option_key'] : uniqid();
 
 			// set default values
 			$this->default = isset($settings['default']) ? $settings['default'] : array();
@@ -147,7 +147,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
 			<input type="hidden" name='action' value='save' />
 			<p class="submit">
-				<input type="submit" class='<?php echo $class; ?>' value='<?php _e( $text, THEME_NAME ); ?>' />
+				<input type="submit" class='<?php echo $class; ?>' value='<?php rf_e($text); ?>' />
 			</p>
 			</form>
 
@@ -200,8 +200,14 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			if ( isset( $slugs[$url] ) )
 				return $slugs[$url];
-			else
-				return strtolower(THEME_NAME);
+			else {
+				global $shortname;
+				
+				if(isset($shortname) && $shortname != "")
+					return preg_replace('/_$/', "", $shortname);
+				else
+					return preg_replace('/\s/', '-', strtolower(THEME_NAME));
+			}
 
 		}
 
@@ -345,15 +351,22 @@ if ( !defined( $runway_framework_admin ) ) {
 		 * Including js files to extension
 		 */
 		function include_extension_js() {
-
+			global $translation_array;
+		
 			if ( isset( $this->js ) && !empty( $this->js ) ) {
 				foreach ( $this->js as $js ) {
 					if ( preg_match( '|(.+)/(.+).js|', $js ) ) {
 						$explodeJS = explode( '/', $js );
 						$js_name = array_pop( $explodeJS );
+						if (!wp_script_is( $js_name, 'registered' ))
+							wp_register_script($js_name, $js);
+						wp_localize_script( $js_name, 'translations_js', $translation_array );
 						wp_enqueue_script( $js_name, $js );
 					}
 					else {
+						if (!wp_script_is( $js, 'registered' ))
+							wp_register_script($js, $js);
+						wp_localize_script( $js, 'translations_js', $translation_array );
 						wp_enqueue_script( $js );
 					}
 				}
@@ -520,7 +533,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				$data = $this->get_data( $action_keys );
 
 				if ( empty( $data ) )
-					return $this->error( __( 'Someting has gone awry. Sorry.', THEME_NAME ) );
+					return $this->error( __( 'Someting has gone awry. Sorry.', 'framework' ) );
 
 				// Which element is being moved?
 				$row = esc_attr( $_GET['row'] );
@@ -535,7 +548,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			if ( $this->action == 'save' ) {
-				$arr = $this->extract_submission();				
+				$arr = $this->extract_submission();
 
 				// The $_POST['index'] needs to be set externally, this is
 				// last index of the data to be saved
@@ -572,8 +585,7 @@ if ( !defined( $runway_framework_admin ) ) {
 						if ( is_array( $value ) ) {
 							$keys[$key] = $value[0];
 						}
-					}
-
+					}					
 					$this->set_data( $arr, $keys );
 					$this->save_data();
 					$this->message = __( 'Saved!', 'more_plugins' );
@@ -583,7 +595,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			if ( $this->action == 'delete' ) {
 				$data = $this->unset_data( $this->action_keys );
 				$this->save_data();
-				$this->message = __( 'Deleted!', THEME_NAME );
+				$this->message = __( 'Deleted!', 'framework' );
 			}
 
 			if ( count( $this->keys ) && $this->action == 'add' ) {
@@ -917,14 +929,14 @@ if ( !defined( $runway_framework_admin ) ) {
 
 							// Right Column Box ?>
 							<div class="dpostbox theme-framework-box">
-								<h3 class="hndle"><span><?php _e('Title', THEME_NAME); ?></span></h3>
+								<h3 class="hndle"><span><?php _e('Title', 'framework'); ?></span></h3>
 								<div class="inside">
 									<ul class="action-links">
 
 										<li>
 											<dl>
-												<dt><a href="#"><?php _e('A Title', THEME_NAME); ?></a></dt>
-												<dd><?php _e('Description', THEME_NAME); ?></dd>
+												<dt><a href="#"><?php _e('A Title', 'framework'); ?></a></dt>
+												<dd><?php _e('Description', 'framework'); ?></dd>
 											</dl>
 										</li>
 
@@ -1005,7 +1017,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			return $action;
 		}	
 
-		function get_val( $name, $k = array() ) {			
+		function get_val( $name, $k = array() ) {		
 
 			if ( empty( $k ) ) 
 				$k = $this->keys;
@@ -1130,7 +1142,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<?php
 			for ( $i = 0; $i < count( $levels ); $i++ ) {
 				$selected = ( $i == count( $levels ) - 1 ) ? ' selected="selected"' : '';
-				echo '<li ' . $selected . '">' . $levels[$i] . '</li>';
+				echo '<li ' . $selected . '>' . $levels[$i] . '</li>';
 			}
 			?></ul><?php
 
@@ -1146,7 +1158,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			//<![CDATA[
 				jQuery(document).ready(function($){
 					$("a.common-delete, a.more-common-delete").click(function(){
-						return confirm("<?php _e( 'Are you sure you want to delete?', THEME_NAME ); ?>");
+						return confirm("<?php _e( 'Are you sure you want to delete?', 'framework' ); ?>");
 					});
 					$("#post-body-content .postbox").each( function(){
 							var handle = jQuery(this).children('.hndle, .handlediv');
