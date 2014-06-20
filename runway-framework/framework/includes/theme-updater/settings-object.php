@@ -395,56 +395,60 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 	
 	function update_extensions_block() {
-		$option = get_option($this->option_key);
 
-		$extensions_to_update = isset($option['data']['extensions']) ? $option['data']['extensions'] : array();
+		$theme_info = $this->get_theme_info();
+		if($theme_info['type'] == 'child') {
 
-		if(empty($extensions_to_update)) {
-			echo '<h3>' . __( 'Runway Extensions', 'framework' ) . '</h3>';
-			echo '<p>' . __( 'Your extensions are all up to date.', 'framework' ) . '</p>';
-			return;
-		}
+			$option = get_option($this->option_key);
 
-		$form_action = 'update-core.php?action=do-runway-extension-upgrade';
-		?>
+			$extensions_to_update = isset($option['data']['extensions']) ? $option['data']['extensions'] : array();
 
-		<h3><?php _e( 'Extensions', 'framework' ); ?></h3>
-		<p><?php _e( 'The following extensdions have new versions available. Check the ones you want to update and then click &#8220;Update Extensions&#8221;.', 'framework' ); ?></p>
-		<p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to extension files will be lost.', 'framework' ) ); ?></p>
+			if(empty($extensions_to_update)) {
+				echo '<h3>' . __( 'Runway Extensions', 'framework' ) . '</h3>';
+				echo '<p>' . __( 'Your extensions are all up to date.', 'framework' ) . '</p>';
+				return;
+			}
 
-		<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-extensions" class="upgrade">
-		<?php wp_nonce_field('upgrade-core'); ?>
-			<p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
-			<table class="widefat" cellspacing="0" id="update-themes-table">
-				<thead>
-				<tr>
-					<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all" /></th>
-					<th scope="col" class="manage-column"><label for="extensions-select-all"><?php _e('Select All', 'framework'); ?></label></th>
-				</tr>
-				</thead>
+			$form_action = 'update-core.php?action=do-runway-extension-upgrade';
+			?>
 
-				<tfoot>
-				<tr>
-					<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all-2" /></th>
-					<th scope="col" class="manage-column"><label for="extensions-select-all-2"><?php _e('Select All', 'framework'); ?></label></th>
-				</tr>
-				</tfoot>
-				<tbody class="plugins">
-				<?php
-					foreach ( $extensions_to_update as $stylesheet => $extension ) {
-						echo "
+			<h3><?php _e( 'Extensions', 'framework' ); ?></h3>
+			<p><?php _e( 'The following extensdions have new versions available. Check the ones you want to update and then click &#8220;Update Extensions&#8221;.', 'framework' ); ?></p>
+			<p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to extension files will be lost.', 'framework' ) ); ?></p>
+
+			<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-extensions" class="upgrade">
+			<?php wp_nonce_field('upgrade-core'); ?>
+				<p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
+				<table class="widefat" cellspacing="0" id="update-themes-table">
+					<thead>
 					<tr>
-						<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
-						<td class='plugin-title'><img src='" . $extension['screenshot'] . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $extension['name'] . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.', 'framework' ), $extension['old_version'], $extension['new_version'] ) . "</td>
-					</tr>";
-					}
-				?>
-				</tbody>
-			</table>
-			<p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
-		</form>
+						<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all" /></th>
+						<th scope="col" class="manage-column"><label for="extensions-select-all"><?php _e('Select All', 'framework'); ?></label></th>
+					</tr>
+					</thead>
 
-	<?php
+					<tfoot>
+					<tr>
+						<th scope="col" class="manage-column check-column"><input type="checkbox" id="extensions-select-all-2" /></th>
+						<th scope="col" class="manage-column"><label for="extensions-select-all-2"><?php _e('Select All', 'framework'); ?></label></th>
+					</tr>
+					</tfoot>
+					<tbody class="plugins">
+					<?php
+						foreach ( $extensions_to_update as $stylesheet => $extension ) {
+							echo "
+						<tr>
+							<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
+							<td class='plugin-title'><img src='" . $extension['screenshot'] . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $extension['name'] . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.', 'framework' ), $extension['old_version'], $extension['new_version'] ) . "</td>
+						</tr>";
+						}
+					?>
+					</tbody>
+				</table>
+				<p><input id="upgrade-themes-2" class="button" type="submit" value="<?php esc_attr_e('Update Extensions', 'framework'); ?>" name="upgrade" /></p>
+			</form>
+
+	<?php }
 	}
 
 	/*
