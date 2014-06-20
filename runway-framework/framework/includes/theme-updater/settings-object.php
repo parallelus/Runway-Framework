@@ -4,7 +4,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 	public $theme_update_notise;
 	public $option_key, $theme_updater_options;
-	public $interval;
+	public $interval, $loaded;
 	public $url_update_fw, $url_update_exts;
 
 	public function __construct($settings) {
@@ -14,11 +14,10 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$this->interval = $settings['interval'];
 		$this->option_key = $settings['option_key'];
 		$this->url_update_fw = 'http://update.runwaywp.com/index.php';
-//		$this->url_update_fw = 'http://wptest.loc/upd/index.php';
 		$this->url_update_exts = 'http://runwaywp.com/sites/main';
-		//$this->url_update_exts = 'http://wordpresstest.dev';
 
 		$this->theme_updater_options = get_option($this->option_key);
+		$this->loaded = false;
 
 		// register the custom stylesheet header
 		add_filter('upgrader_source_selection', array( $this, 'upgrader_source_selection_filter'), 10, 3);
@@ -40,7 +39,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 	function upgrader_process_complete_fs() {
 		global $wp_filesystem;
-		
+
 		$dir = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
 		if (is_dir($dir)) {
 
@@ -61,11 +60,13 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$wp_filesystem->delete($dir, true);
 			$wp_filesystem->delete(FRAMEWORK_DIR.'runway-framework', true);
 		}
+		unset($this->theme_updater_options['data']['response']['runway-framework']);
+		update_option($this->option_key, $this->theme_updater_options);
 	}
 	
 	function upgrader_process_complete_extensions($upgrader, $current_theme) {
 		global $wp_filesystem;
-				
+
 		$option = get_option($this->option_key);
 		$current_extension_name = "";
 		if(isset($upgrader->skin->theme_info))
@@ -170,6 +171,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$data->response['runway-framework'] = $update;		
 
 		}
+
 		return $data;
 	}
 
@@ -182,7 +184,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 		if($response['response']['code'] != '200' || $theme_info['type'] != 'child')
 			return $data;
-		
+
 		$response_json = json_decode($response['body']);
 		if(is_array($response_json) && !empty($response_json)) {
 			foreach($theme_info['post_args']['body']['extensions'] as $key => $current_extension) {
@@ -209,15 +211,18 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 				}
 			}
 		}
-		
+	
 		return $data;
 	}
 
 	function save_options($data) {
-		$this->theme_updater_options['data'] = (array)$data;
-		$this->theme_updater_options['last_request'] = time();
-		
-		update_option( $this->option_key, $this->theme_updater_options );
+		if(!$this->loaded) {
+			$this->theme_updater_options['data'] = (array)$data;
+			$this->theme_updater_options['last_request'] = time();
+			$this->loaded = true;
+
+			update_option( $this->option_key, $this->theme_updater_options );
+		}
 	}
 
 	function check_theme_update($data) {
@@ -225,7 +230,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		if ( $check_for_updates ) {
 			$new_data = $this->ping_check_theme_update($data);
 			$new_data = $this->ping_check_extensions_update($new_data);
-			
+
 			do_action("save_last_request", $new_data);
 			return $new_data;
 		}
@@ -238,7 +243,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function need_framework_updates() {
-		if( wp_get_theme()->get('Name') != "Runway Axiom" && (empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) ) )
+		if( empty($this->theme_updater_options) || ((time() - $this->theme_updater_options['last_request']) > $this->interval) )
 			return true;
 		else
 			return false;
