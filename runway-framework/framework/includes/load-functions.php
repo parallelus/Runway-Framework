@@ -878,7 +878,7 @@ if ( !function_exists( 'runway_base_decode' ) ) {
 	$i = 0;
 	$ac = 0;
 	$dec = '';
-	$tmp_arr = [];
+	$tmp_arr = array();
 
 	if (!$data) {
 		return $data;
