@@ -6,7 +6,7 @@ $info_message = '';
 $exts = array();
 $no_writable = FALSE;
 
-$link = home_url().'/wp-admin/admin.php?page=extensions';
+$link = admin_url('admin.php?page=extensions');
 $redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 
 if ( !is_writable( $extm->extensions_dir ) && !is_writable( $extm->data_dir ) ) {

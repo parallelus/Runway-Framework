@@ -836,7 +836,7 @@ function check_theme_ID( $folder = false ) {
 
 		if( isset($settings['Name']) && $theme_name_stylecss != $settings['Name'] ) {
 
-			$link = home_url().'/wp-admin/admin.php?page=themes';
+			$link = admin_url('admin.php?page=themes');
 			//$link = home_url().$_SERVER['REQUEST_URI'];
 
 			if(isset($_GET['create-theme-id'])) {

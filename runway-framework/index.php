@@ -25,7 +25,7 @@ if ( __FILE__ == $_SERVER['SCRIPT_FILENAME'] ) {
 	  $theme_current = wp_get_theme();
 	  if( ! IS_CHILD): ?>
 		<div class="content">
-			<h3><?php printf( __( 'Please activate a Runway %1$schild theme%2$s.', 'framework' ), '<a href="wp-admin/admin.php?page=themes">', '</a>' ); ?></h3>
+			<h3><?php printf( __( 'Please activate a Runway %1$schild theme%2$s.', 'framework' ), '<a href="'.admin_url('admin.php?page=themes').'">', '</a>' ); ?></h3>
 		</div>
 <?php elseif($theme_name == $theme_current->Name): ?>
 		<div class="content">

@@ -3,7 +3,7 @@ global $developer_tools, $Themes_Manager;
 
 $popup_message = '<h2>'. __( 'Activate new theme?', 'framework' ) .'</h2>';
 
-$themesActivate = home_url().'/wp-admin/themes.php';
+$themesActivate = admin_url('themes.php');
 $httpReferer = isset( $_SERVER['HTTP_REFERER'] )? str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] ) : '';
 
 if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activate' && ($httpReferer == $themesActivate || strstr($httpReferer, 'action=upload-theme') ) ) {
@@ -20,7 +20,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 	if(is_multisite() && is_admin() && isset($options)){		
 		$url = 'themes.php?';
 		$s = '';
-		$ms_enable_theme_link = get_site_url(1).'/wp-admin/network/'.esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $options['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $options['Folder'] ));		
+		$ms_enable_theme_link = admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $options['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $options['Folder'] ));		
 		?>
 			<script type="text/javascript">
 				(function ($) {
@@ -320,7 +320,7 @@ unset( $themes_list[$current_theme['Folder']] );
 	if(is_multisite() && is_admin()){		
 		$url = 'themes.php?';
 		$s = '';
-		$ms_enable_theme_link = get_site_url(1).'/wp-admin/network/'.esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
+		$ms_enable_theme_link = admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
 	}
 	// class="activate-theme"
 	?>
