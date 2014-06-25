@@ -204,7 +204,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 							if(in_array(new_name, themes_list)) {
 								alert("<?php _e( 'This theme folder name is already in use. Please choose a different name.', 'framework' ); ?>");
 							} else {
-								var url = "admin.php?page=themes&navigation=duplicate-theme&name=" + name + "&new_name=" + new_name;
+								var url = "<?php echo admin_url('admin.php?page=themes&navigation=duplicate-theme&name='); ?>" + name + "&new_name=" + new_name;
 								document.location = url;
 							}
 						}
@@ -231,8 +231,8 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 
 					popup_loader();
 					$.ajax({url: $(this).attr("href"), success: function (responce) {
-						document.location = "admin.php?page=themes";
-					}})
+						document.location = "<?php echo admin_url('admin.php?page=themes'); ?>";
+					}});
 					return false;
 				});
 			});

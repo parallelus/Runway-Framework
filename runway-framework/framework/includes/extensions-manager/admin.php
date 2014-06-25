@@ -159,7 +159,7 @@ case 'bulk-actions':{
 
 							$dep_exts = array_merge( $dep_exts, $to_active_list );
 							$deps_list .= '</ul>';
-							$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts ).'">'.__('Activate dependencies and selected extensions', 'framework').'</a></b>';
+							$deps_list .= '<b><a href="'.admin_url('admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts )).'">'.__('Activate dependencies and selected extensions', 'framework').'</a></b>';
 							$info_message = $deps_list;
 						}
 					} break;

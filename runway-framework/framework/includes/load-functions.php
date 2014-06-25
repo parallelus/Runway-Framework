@@ -493,7 +493,7 @@ function activate_default_child_theme() {
 	global $pagenow;
 	$theme = rw_get_theme_data();
 	if ( is_admin() && $pagenow != 'admin.php' && $pagenow == 'themes.php' && isset( $_GET['activated'] ) && $theme['Folder'] == 'runway-framework' ) {
-		wp_redirect( 'admin.php?page=themes&activate-default=activate' );
+		wp_redirect( admin_url('admin.php?page=themes&activate-default=activate') );
 	}
 }
 add_action( 'after_setup_theme', 'activate_default_child_theme' );

@@ -75,7 +75,7 @@ do_action( 'options_builder_is_load' );
 // Setup a custom button in the title
 function title_button_add( $title ) {
 	if ( $_GET['page'] == 'options-builder' ) {
-		$title .= ' <a href="admin.php?page=options-builder&navigation=new-page" class="add-new-h2">'. __( 'New Admin Page', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=options-builder&navigation=new-page').'" class="add-new-h2">'. __( 'New Admin Page', 'framework' ) .'</a>';
 	}
 	return $title;
 }
