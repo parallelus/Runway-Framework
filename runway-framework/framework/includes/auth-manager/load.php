@@ -25,21 +25,42 @@ $settings = array(
     'option_key' => $shortname.'auth-manager',
     'fields' => $fields,
     'default' => $default,
-    'parent_menu' => 'framework-options', // managed by framework
+   	'parent_menu' => 'hidden', #### TEMPORARY ####
+    // 'parent_menu' => 'framework-options', // managed by framework
     'menu_permissions' => 'administrator',
     'file' => __FILE__,    
 );
 
-global $auth_manager, $auth_manager_admin;
+####################### TEMPORARY SECURITY PATCH #######################
+#
+# This code will remove any existing data from a user's install related 
+# to the authorization manager and hide the feature temporarily.
+#
+########################################################################
 
-// Required components
-include 'object.php';
-
-$auth_manager = new Auth_Manager_Object( $settings );
-
-// Load admin components
-if ( is_admin() ) {
-    include 'settings-object.php';
-    $auth_manager_admin = new Auth_Manager_Admin( $settings );
+$options = get_option($settings['option_key']);
+if ($options) { 
+	delete_option($settings['option_key']);
+	unset($options);
 }
+
+########################################################################
+
+
+/* DISABLED TEMPORARILY 
+
+	global $auth_manager, $auth_manager_admin;
+
+	// Required components
+	include 'object.php';
+
+	$auth_manager = new Auth_Manager_Object( $settings );
+
+	// Load admin components
+	if ( is_admin() ) {
+	    include 'settings-object.php';
+	    $auth_manager_admin = new Auth_Manager_Admin( $settings );
+	}
+
+*/
 ?>
