@@ -211,7 +211,7 @@ class Apm_Admin extends Runway_Admin_Object {
 					$message = '<p>'. __( 'The page has not changed.', 'framework' ) .'</p>';
 				}
 
-				$link = admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page_id);
+				$link = home_url().'/wp-admin/admin.php?page=options-builder&navigation=edit-page&page_id='.$page_id;
 
 				$return = array(
 					'message' => $message,

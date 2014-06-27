@@ -1,12 +1,12 @@
 <?php 
 	switch ($this->navigation) {		
 		case 'auth':{
-			if(isset($_POST['log'], $_POST['pwd'])){
+			if(isset($_POST['log'], $_POST['pwd'])){out($_POST);
 				$this->set_user_credentials(strip_tags($_POST['log']), strip_tags($_POST['pwd']));
 				if($this->auth_user_login())
-				    $link = admin_url('admin.php?page=accounts&navigation=success');
+				    $link = admin_url().'/admin.php?page=accounts&navigation=success';
     			else 
-    				$link = admin_url('admin.php?page=accounts&navigation=error');
+    				$link = admin_url().'/admin.php?page=accounts&navigation=error';
     			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 				echo $redirect;
 			}

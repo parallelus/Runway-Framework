@@ -6,7 +6,7 @@ $info_message = '';
 $exts = array();
 $no_writable = FALSE;
 
-$link = admin_url('admin.php?page=extensions');
+$link = home_url().'/wp-admin/admin.php?page=extensions';
 $redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 
 if ( !is_writable( $extm->extensions_dir ) && !is_writable( $extm->data_dir ) ) {
@@ -159,7 +159,7 @@ case 'bulk-actions':{
 
 							$dep_exts = array_merge( $dep_exts, $to_active_list );
 							$deps_list .= '</ul>';
-							$deps_list .= '<b><a href="'.admin_url('admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts )).'">'.__('Activate dependencies and selected extensions', 'framework').'</a></b>';
+							$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts='.implode( ',', $dep_exts ).'">'.__('Activate dependencies and selected extensions', 'framework').'</a></b>';
 							$info_message = $deps_list;
 						}
 					} break;

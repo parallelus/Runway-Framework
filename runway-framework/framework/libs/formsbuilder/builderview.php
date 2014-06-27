@@ -56,7 +56,7 @@
 			</p>
 		</div><?php else: ?>
 		<div id="message2" class="updated below-h2" style="display: none;"></div><?php endif; ?>
-		<form class="save-page" method="post" action="<?php echo admin_url('admin.php?page=options-builder&amp;navigation=save-page'); ?>" enctype="multipart/form-data" style="display: none;">
+		<form class="save-page" method="post" action="admin.php?page=options-builder&amp;navigation=save-page" enctype="multipart/form-data" style="display: none;">
 			<input type="hidden" name="action" value="save"> <input type="hidden" class="page" name="page" value="">
 		</form>
 		<div class="settings-dialog">
