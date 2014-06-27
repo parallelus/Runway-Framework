@@ -22,6 +22,7 @@ $post_args = array(
     );
 
 $response_json = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+
 $this->extensions_Paid = array();
 if(!empty($response_json)) {
 	$this->extensions_Paid = json_decode($response_json['body']);
@@ -37,7 +38,7 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
 
 	$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
-	chmod( $extension_zip_file_name, 0777 );
+	chmod( $extension_zip_file_name, 0755 );
 
 	echo $extm->load_new_extension( $extension_zip_file_name );
 }
@@ -69,7 +70,11 @@ default: {
 
 		if(isset($response_exts)) {
 			foreach($response_exts as $key => $resp_ext) {
+				// From Directory/Download Server
+				$response->extensions[$key] = $resp_ext;
+				$response->extensions[$key]->Version = $resp_ext->Version;
 				foreach($this->extensions_Paid as $exts) {
+					// Overwrite if also exists as product entery.
 					if($resp_ext->Name == trim($exts->Name) && $resp_ext->Version != $exts->Version) {
 						$response->extensions[$key] = $resp_ext;
 						$response->extensions[$key]->Version = $exts->Version;
