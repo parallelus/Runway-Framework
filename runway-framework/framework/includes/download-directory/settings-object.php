@@ -7,7 +7,7 @@ class Directory_Admin extends Runway_Admin_Object {
 	// Add hooks & crooks
 	function add_actions() {
 		$upload_dir = wp_upload_dir( );
-		$this->downloads_dir = $upload_dir['basedir'].'/download_dir/';
+		$this->downloads_dir = $upload_dir['basedir'].'/downloads-directory/';
 		$this->extensions_server_url = 'http://runwaywp.com/sites/main/wp-admin/admin-ajax.php?action=';
 
 		add_action( 'init', array( $this, 'init' ) );
@@ -78,7 +78,7 @@ class Directory_Admin extends Runway_Admin_Object {
 
 		if ( isset( $item ) ) {
 	//			$extension_file_name = "{$this->downloads_dir}{$item}.zip";
-			$extension_file_name = $_REQUEST['zip']."/{$item}.zip";
+			$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
 			if ( file_exists( $extension_file_name ) ) {							
 				if(!function_exists('WP_Filesystem'))
 					require_once(ABSPATH . 'wp-admin/includes/file.php');
