@@ -181,7 +181,10 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		$theme = wp_get_theme();
 
  		$response = wp_remote_post($this->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $theme_info['post_args']);
-
+		
+		if(is_a($response, 'WP_Error'))
+			return $data;
+		
 		if($response['response']['code'] != '200' || $theme_info['type'] != 'child')
 			return $data;
 

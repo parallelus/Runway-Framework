@@ -493,7 +493,7 @@ function activate_default_child_theme() {
 	global $pagenow;
 	$theme = rw_get_theme_data();
 	if ( is_admin() && $pagenow != 'admin.php' && $pagenow == 'themes.php' && isset( $_GET['activated'] ) && $theme['Folder'] == 'runway-framework' ) {
-		wp_redirect( 'admin.php?page=themes&activate-default=activate' );
+		wp_redirect( admin_url('admin.php?page=themes&activate-default=activate') );
 	}
 }
 add_action( 'after_setup_theme', 'activate_default_child_theme' );
@@ -836,7 +836,7 @@ function check_theme_ID( $folder = false ) {
 
 		if( isset($settings['Name']) && $theme_name_stylecss != $settings['Name'] ) {
 
-			$link = home_url().'/wp-admin/admin.php?page=themes';
+			$link = admin_url('admin.php?page=themes');
 			//$link = home_url().$_SERVER['REQUEST_URI'];
 
 			if(isset($_GET['create-theme-id'])) {
@@ -878,7 +878,7 @@ if ( !function_exists( 'runway_base_decode' ) ) {
 	$i = 0;
 	$ac = 0;
 	$dec = '';
-	$tmp_arr = [];
+	$tmp_arr = array();
 
 	if (!$data) {
 		return $data;
