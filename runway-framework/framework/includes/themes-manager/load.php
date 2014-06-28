@@ -58,7 +58,7 @@ do_action( 'themes_manager_is_load' );
 // Setup a custom button in the title
 function title_button_themes( $title ) {
 	if ( $_GET['page'] == 'themes' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. admin_url('theme-install.php?tab=upload').'" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
+		$title .= ' <a href="'.network_admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. network_admin_url('theme-install.php?tab=upload').'" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
 	}
 	return $title;
 }

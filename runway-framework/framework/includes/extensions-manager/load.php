@@ -49,7 +49,7 @@ do_action( 'extension_manager_is_load' );
 // Setup a custom button in the title
 function title_button_new_extension( $title ) {
 	if ( $_GET['page'] == 'extensions' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=extensions&navigation=add-extension').'" class="add-new-h2">'. __( 'Upload New', 'framework' ) .'</a> <a href="'.admin_url('admin.php?page=directory').'" class="add-new-h2">'. __( 'Search Directory', 'framework' ) .'</a>';
+		$title .= ' <a href="'.network_admin_url('admin.php?page=extensions&navigation=add-extension').'" class="add-new-h2">'. __( 'Upload New', 'framework' ) .'</a> <a href="'.network_admin_url('admin.php?page=directory').'" class="add-new-h2">'. __( 'Search Directory', 'framework' ) .'</a>';
 	}
 	return $title;
 }

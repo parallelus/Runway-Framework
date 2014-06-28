@@ -12,8 +12,8 @@
 			<tr>
 				<td class="name column-name"><strong><?php echo $extension->name ?></strong>
 					<div class="action-links">
-						<a href="<?php echo admin_url('admin.php?page=directory&amp;tab=item-information&amp;item=the-item-name&amp;TB_iframe=true&amp;width=600&amp;height=550'); ?>" class="thickbox" title="More information">Details</a> |
-						<a class="install-now" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item=the-item-name&amp;_wpnonce='); ?>" title="Install">
+						<a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=item-information&amp;item=the-item-name&amp;TB_iframe=true&amp;width=600&amp;height=550'); ?>" class="thickbox" title="More information">Details</a> |
+						<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item=the-item-name&amp;_wpnonce='); ?>" title="Install">
 							<?php echo ($extm->is_install($token)) ? "Reinstall" : "Install Now"; ?>
 						</a>
 					</div>

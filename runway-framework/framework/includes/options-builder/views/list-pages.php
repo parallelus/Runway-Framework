@@ -43,22 +43,22 @@
 		<tr class="<?php echo $trClass; ?>">
 			<td class="plugin-title">
 				<strong><a
-						href="<?php echo admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"><?php echo $page->settings->title ?></a></strong>
+						href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"><?php echo $page->settings->title ?></a></strong>
 
 				<div class="row-actions">
 					<span class="edit"><a
-							href="<?php echo admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"
+							href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"
 							title="<?php _e( 'Edit this item', 'framework' ); ?>"><?php _e( 'Edit', 'framework' ); ?></a> | </span>
-					<span class="view"><a href="<?php echo admin_url('admin.php?page='.$alias); ?>"
+					<span class="view"><a href="<?php echo network_admin_url('admin.php?page='.$alias); ?>"
 										  title="<?php _e( 'View this page', 'framework' ); ?>" 
 										  rel="permalink"><?php _e( 'View', 'framework' ); ?></a> | </span>
 					<span class="edit"><a class="submitdelete" title="<?php _e( 'Duplicate this item', 'framework' ); ?>"
-										   href="<?php echo admin_url('admin.php?page=options-builder&navigation=duplicate-page&page_id='.$page->settings->page_id); ?>"><?php _e( 'Duplicate', 'framework' ); ?></a> | </span>
+										   href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=duplicate-page&page_id='.$page->settings->page_id); ?>"><?php _e( 'Duplicate', 'framework' ); ?></a> | </span>
 					<span class="edit"><a
-							href="<?php echo admin_url('admin.php?page=options-builder&navigation=reset-fields-page&page_id='.$page->settings->page_id); ?>"
+							href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=reset-fields-page&page_id='.$page->settings->page_id); ?>"
 							title="<?php _e( 'Reset default field values. This will clear any data added while testing the page.', 'framework' ); ?>"><?php _e( 'Reset Defaults', 'framework' ); ?></a> | </span>
 					<span class="trash"><a class="submitdelete" title="<?php _e( 'Delete this item', 'framework' ); ?>"
-										   href="<?php echo admin_url('admin.php?page=options-builder&navigation=confirm-remove-page&page_id='.$page->settings->page_id); ?>"><?php _e( 'Delete', 'framework' ); ?></a></span>
+										   href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=confirm-remove-page&page_id='.$page->settings->page_id); ?>"><?php _e( 'Delete', 'framework' ); ?></a></span>
 				</div>
 			</td>
 			<td class="column-alias">
@@ -88,7 +88,7 @@
 		<h3><?php _e( 'No pages have been created.', 'framework' ); ?></h3>
 
 		<p>
-			<a class="button" href="<?php echo admin_url('admin.php?page=options-builder&navigation=new-page'); ?>"><?php _e( 'Create new admin page', 'framework' ); ?></a>
+			<a class="button" href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=new-page'); ?>"><?php _e( 'Create new admin page', 'framework' ); ?></a>
 		</p>
 		</div>
 	<?php } ?>

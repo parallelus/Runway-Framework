@@ -23,8 +23,8 @@ class Bulk_Extension_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
-			'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
-			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
+			'themes_page' => '<a href="' . self_network_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page') . '" target="_parent">' . __('Return to Themes page') . '</a>',
+			'updates_page' => '<a href="' . self_network_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page') . '" target="_parent">' . __('Return to WordPress Updates') . '</a>'
 		);
 		if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
 			unset( $update_actions['themes_page'] );

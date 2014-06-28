@@ -349,7 +349,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		} elseif ( isset( $_POST['checked'] ) ) {
 			$extensions = (array) $_POST['checked'];
 		} else {
-			wp_redirect( admin_url('update-core.php') );
+			wp_redirect( network_admin_url('update-core.php') );
 			exit;
 		}
 
