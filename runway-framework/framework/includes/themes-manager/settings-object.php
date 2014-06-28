@@ -54,7 +54,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		$packages_dir = THEME_DIR.'data/packages';
 		if (!is_dir($packages_dir))
-		    mkdir($packages_dir, 0777, true);
+		    mkdir($packages_dir, 0755, true);
 
 		$tags_file = $packages_dir.'/package_'.$id;
 		if(file_exists($tags_file)) {
@@ -90,7 +90,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		$packages_dir = THEME_DIR.'data/packages';
 		if (!is_dir($packages_dir))
-		    mkdir($packages_dir, 0777, true);
+		    mkdir($packages_dir, 0755, true);
 
 		$tags_file = $packages_dir.'/package_'.$tags['id'];
 		
@@ -265,7 +265,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		else {
 			if ( !file_exists( $this->themes_path . '/' . $theme_folder . '/data' ) ) {
 				if ( is_writable( $this->themes_path . '/' . $theme_folder . '/data' ) ) {
-					if ( mkdir( $this->themes_path . '/' . $theme_folder . '/data', 0777, true ) ) {
+					if ( mkdir( $this->themes_path . '/' . $theme_folder . '/data', 0755, true ) ) {
 						//fopen( $settings_file, 'a' );
 						$wp_filesystem->put_contents($settings_file, '', FS_CHMOD_FILE);
 					}
