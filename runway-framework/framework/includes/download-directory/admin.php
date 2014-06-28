@@ -9,9 +9,12 @@ global $wp_filesystem;
 	
 $tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
 
+$response_pre = $wp_filesystem->get_contents( $directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
+$response_pre = json_decode( $response_pre );
+
 $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
-	'extensions' => $extm->extensions_List
+	'extensions' => $response_pre->extensions
 );
 
 $post_args = array(
@@ -55,9 +58,6 @@ default: {
 
 		$page = $current_page - 1;
 		$search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
-
-		$response_pre = $wp_filesystem->get_contents( $directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
-		$response_pre = json_decode( $response_pre );
 
 		if ( $response_pre->on_page == 0 ) {
 			$response_pre->on_page = 1;
