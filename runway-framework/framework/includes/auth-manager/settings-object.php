@@ -1,7 +1,7 @@
 <?php
 
 class Auth_Manager_Admin extends Runway_Admin_Object {
-	public $auth, $login, $psw, $runwaywp_url;
+	public $auth, $runwaywp_url, $token;
 
 	public function __construct($settings){
 		parent::__construct($settings);
@@ -10,17 +10,23 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 
 		// get settings
 		$options = get_option($this->option_key);
+		
 		if($options){
-			$this->auth = $options['auth'];
-			$this->login = $options['login'];
-			$this->psw = $options['psw'];
+			$this->auth = true;
+			$this->token = $options;
 		}
-
-		// if($this->auth == 'false'){
-		// 	$this->auth_user_login();
-		// }
+		else {
+			$this->auth = false;
+		}
+		
+		add_action('init', array($this, 'remove_old_options'));
 	}
 
+	function remove_old_options() {
+		global $wpdb;
+		$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '%auth-manager%'");
+	}
+	
 	// Add hooks & crooks
 	function add_actions() {
 
@@ -48,25 +54,18 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 		return $this->data;
 	}
 
-	public function set_user_credentials($login, $psw){
-		if(isset($login, $psw)){
-			$this->login = $login;
-			$this->psw = $psw;
-			update_option($this->option_key, array(
-				'auth' => false,
-				'login' => $login,
-				'psw' => $psw,
-			));
-		}
-		else return false;
-	}
-
-	public function auth_user_login(){
+	public function auth_user_login($login, $psw){
+		
+		$this->login = $login;
+		$this->psw = $psw;
+		
 		if(isset($this->login, $this->psw)){		
 			// build post
+			
 			$postdata = array(
 				'login' => $this->login,
 				'psw' => $this->psw,
+				'site_url' => site_url()
 			);
 
 			$post_args = array(
@@ -77,21 +76,28 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 
 			$request_url = $this->runwaywp_url . 'wp-admin/admin-ajax.php?action=auth_user';
 
+			$this->auth = false;
 			$response = wp_remote_post($request_url, $post_args);
+			if(is_a($response, 'WP_Error'))
+				return $this->auth;
+			
+			$response_string = json_decode($response['body']);
+			
+			if($response['response']['code'] != '404' && json_last_error() === 0) {
+				if($response_string->success === true) {
+					$this->auth = true;
+					update_option($this->option_key, $response_string->userToken);
+				}
+			}
 
-			if($response['body']){
-				$this->auth = true;
-			}
-			else {
-				$this->auth = false;
-			}
-			update_option($this->option_key, array(
-				'auth' => $this->auth,
-				'login' => $this->login,
-				'psw' => $this->psw
-			)); 			
 			return $this->auth;
 		}
+	}
+	
+	public function auth_user_signout() {
+		delete_option($this->option_key);
+		$this->auth = false;
+		return $this->auth;
 	}
 
 }

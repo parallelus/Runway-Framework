@@ -22,7 +22,7 @@ $default = array();
 
 $settings = array(
     'name' => __('Accounts', 'framework'),
-    'option_key' => $shortname.'auth-manager',
+    'option_key' => 'runway_authorization_token',
     'fields' => $fields,
     'default' => $default,
     'parent_menu' => 'framework-options', // managed by framework

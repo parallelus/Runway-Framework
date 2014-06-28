@@ -9,27 +9,23 @@ global $wp_filesystem;
 	
 $tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
 
-if (isset($auth_manager_admin->login) && !empty($auth_manager_admin->login)) {
-	$postdata = array(
-		'login' => $auth_manager_admin->login,
-		'psw' => $auth_manager_admin->psw,
-		'extensions' => $extm->extensions_List
-	);
+$postdata = array(
+	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
+	'extensions' => $extm->extensions_List
+);
 
-	$post_args = array(
-		'method' => 'POST',
-		'timeout' => 10,
-		'body' => $postdata
-	    );
+$post_args = array(
+	'method' => 'POST',
+	'timeout' => 10,
+	'body' => $postdata
+    );
 
-	$response_json = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+$response_json = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
 
-	$this->extensions_Paid = array();
-	if(!empty($response_json)) {
-		$this->extensions_Paid = json_decode($response_json['body']);
-	}
+$this->extensions_Paid = array();
+if(!empty($response_json)) {
+	$this->extensions_Paid = json_decode($response_json['body']);
 }
-
 
 if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 	$item = $_GET['item'];
@@ -74,8 +70,8 @@ default: {
 		if(isset($response_exts)) {
 			foreach($response_exts as $key => $resp_ext) {
 				// From Directory/Download Server
-				$response->extensions[$key] = $resp_ext;
-				$response->extensions[$key]->Version = $resp_ext->Version;
+				// $response->extensions[$key] = $resp_ext;
+				// $response->extensions[$key]->Version = $resp_ext->Version;
 				if (isset($this->extensions_Paid) && !empty($this->extensions_Paid)) {	
 					foreach($this->extensions_Paid as $exts) {
 						// Overwrite if also exists as product entery.

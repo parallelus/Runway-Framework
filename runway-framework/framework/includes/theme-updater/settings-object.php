@@ -139,11 +139,10 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		else {
 			global $extm, $auth_manager_admin;
 
-			$postdata = array(
-				'login' => $auth_manager_admin->login,
-				'psw' => $auth_manager_admin->psw,
-				'extensions' => $extm->extensions_List
-			);			
+			$postdata = array();
+			$postdata['extensions'] = $extm->extensions_List;
+			if(isset($auth_manager_admin->token))
+				$postdata['runway_token'] = $auth_manager_admin->token;
 		}
 		
 		$theme_info['post_args'] = array(
