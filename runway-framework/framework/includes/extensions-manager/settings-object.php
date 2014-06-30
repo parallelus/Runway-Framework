@@ -443,7 +443,7 @@ class Extm_Admin extends Runway_Admin_Object {
 
 		$del_ext = explode( '/', $ext );
 		if ( is_dir( $this->extensions_dir . $del_ext[0] ) ) {
-			rrmdir( $this->extensions_dir . $del_ext[0] );
+			rmdir( $this->extensions_dir . $del_ext[0] );
 		} elseif ( is_file( $this->extensions_dir . $del_ext[0] ) ) {
 			unlink( $this->extensions_dir . $del_ext[0] );
 		}
