@@ -69,9 +69,6 @@ default: {
 
 		if(isset($response_exts)) {
 			foreach($response_exts as $key => $resp_ext) {
-				// From Directory/Download Server
-				// $response->extensions[$key] = $resp_ext;
-				// $response->extensions[$key]->Version = $resp_ext->Version;
 				if (isset($this->extensions_Paid) && !empty($this->extensions_Paid)) {	
 					foreach($this->extensions_Paid as $exts) {
 						// Overwrite if also exists as product entery.
@@ -80,6 +77,10 @@ default: {
 							$response->extensions[$key]->Version = $exts->Version;
 						}
 					}
+				} else {
+					// From Directory/Download Server
+					$response->extensions[$key] = $resp_ext;
+					$response->extensions[$key]->Version = $resp_ext->Version;
 				}
 			}
 		}
