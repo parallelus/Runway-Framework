@@ -1185,7 +1185,34 @@ if ( !defined( $runway_framework_admin ) ) {
 			if ( file_exists( THEME_DIR . 'data-types/' . $field->type . '.php' ) ) {
 				$template_path = THEME_DIR . 'data-types/' . $field->type . '.php';
 			} else {
-				$template_path = get_theme_root().'/'.$theme_data['Template'].'/data-types/'.$field->type.'.php';
+				$found_in_theme_dirs = false;
+				if(is_dir( THEME_DIR . 'data-types')) {
+					foreach ( array_diff( scandir( THEME_DIR . 'data-types' ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+						if(is_dir( THEME_DIR . 'data-types/' . $name) && file_exists(THEME_DIR . 'data-types/' . $name . "/" . $field->type . '.php'))
+						{
+							$template_path = THEME_DIR . 'data-types/' . $name . "/" . $field->type . '.php';
+							$found_in_theme_dirs = true;
+							break;
+						}
+					}
+				}
+				
+				$found_in_framework_dirs = false;
+				if(!$found_in_theme_dirs) {
+					foreach ( array_diff( scandir( get_theme_root().'/'.$theme_data['Template'] . '/data-types' ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+						if(is_dir( get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name) && 
+							file_exists(get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name . "/" . $field->type . '.php'))
+						{
+							$template_path = get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name . "/" . $field->type . '.php';
+							$found_in_framework_dirs = true;
+							break;
+						}
+					}
+				}
+				
+				if(!$found_in_framework_dirs) {
+					$template_path = get_theme_root().'/'.$theme_data['Template'].'/data-types/'.$field->type.'.php';
+				}
 			}
 
 			if(file_exists($template_path)) {
@@ -1226,7 +1253,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		function dynamic_template_field( $field ) {			
 
 			// set field template file path
-			$field->template_path = $this->field_template_path($field);						
+			$field->template_path = $this->field_template_path($field);	
 			if( $field->template_path !== false) {
 
 				/* new data types loading */

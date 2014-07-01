@@ -49,12 +49,11 @@ class FormsBuilder {
 	}
 
 	public function render_form( $page_options = array(), $default_save = true, $object = null, $admin_object = null, $custom_alias = null ) {
-
-		// out($page_options);
+		
 		if ( !empty( $page_options ) ) {
 			$alias = $page_options->settings->alias;
 			$current = $this->prepare_form( $page_options );
-			// out($page_options);
+			
 			$settings = $this->make_settings( $current );
 			global ${$current['object']}, ${$current['admin_object']};
 
@@ -458,8 +457,6 @@ class FormsBuilder {
 		add_action( 'admin_print_styles', array( $this, 'include_styles' ) );
 		add_action( 'admin_print_scripts', array( $this, 'include_scripts' ) );
 		
-		add_action( 'customize_register', array( $this, 'include_ace' ) );
-		
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
 	}
 
@@ -486,14 +483,8 @@ class FormsBuilder {
 			)
 		);
 		
-		wp_register_script('ace', FRAMEWORK_URL.'framework/js/ace/src-noconflict/ace.js');
-		
 		global $translation_array;
 		wp_localize_script( 'formsbuilder', 'translations_js', $translation_array );
-	}
-	
-	public function include_ace() {
-		wp_register_script('ace', FRAMEWORK_URL.'framework/js/ace/src-noconflict/ace.js');
 	}
 }
 

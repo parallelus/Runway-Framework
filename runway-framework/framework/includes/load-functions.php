@@ -24,23 +24,41 @@ if ( !function_exists( 'load_data_types' ) ) :
 		} else {
 			include_once $data_types_base;
 
-			foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $filename ) {
-				include_once "$data_types_path/$filename";
+			foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+				if(is_dir("$data_types_path/$name")) {
+					foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
+						if(is_dir("$data_types_path/$name/$filename"))
+							continue;
+						
+						include_once "$data_types_path/$name/$filename";
 
-				$data_type_slug = basename( "$data_types_path/$filename", '.php' );
+						$data_type_slug = basename( "$data_types_path/$name/$filename", '.php' );
 
-				$data_types_list[$data_type_slug] = array(
-					'filename' => $filename,
-					'classname' => ucfirst( str_replace( '-', '_', $data_type_slug ) ),
-				);
+						$data_types_list[$data_type_slug] = array(
+							'filename' => $filename,
+							'classname' => ucfirst( str_replace( '-', '_', $data_type_slug ) ),
+						);
 
-				// Unsupported in old PHP versions
-				$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
+						// Unsupported in old PHP versions
+						$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
+					}
+				}
+				else {
+					include_once "$data_types_path/$name";
 
-				// This works in some older versions
-				// call_user_func(array($data_types_list[$data_type_slug]['classname'], "assign_actions_and_filters"));
+					$data_type_slug = basename( "$data_types_path/$name", '.php' );
 
+					$data_types_list[$data_type_slug] = array(
+						'filename' => $name,
+						'classname' => ucfirst( str_replace( '-', '_', $data_type_slug ) ),
+					);
+
+					// Unsupported in old PHP versions
+					$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
+				}
 			}
+			/*out($data_types_list);
+			die();*/
 		}
 	}
 endif;

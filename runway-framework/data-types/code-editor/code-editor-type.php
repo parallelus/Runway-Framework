@@ -21,7 +21,7 @@ class Code_editor_type extends Data_Type {
 		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
 		$customize_title = stripslashes($this->field->title);
 		?>
-
+		
 		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
 		
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
@@ -72,7 +72,22 @@ class Code_editor_type extends Data_Type {
 	}
 	
 	public static function assign_actions_and_filters() {
+		
 		add_filter( 'get_options_data_type_' . self::$type_slug,  array('Code_editor_type', 'code_editor_filter'), 5, 10 );
+		add_action( 'admin_print_scripts', array( 'Code_editor_type', 'include_ace' ) );
+		add_action( 'customize_register', array( 'Code_editor_type', 'include_ace' ) );
+	}
+	
+	public static function include_ace() {
+		
+		if(strstr(__DIR__, THEME_DIR)) {
+			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
+		}
+		else {
+			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
+		}
+		
+		wp_register_script('ace', FRAMEWORK_URL . $current_data_type_dir . '/js/ace/src-noconflict/ace.js');
 	}
 	
 	public static function code_editor_filter($val) {
