@@ -77,8 +77,8 @@ class Directory_Admin extends Runway_Admin_Object {
 		extract( $_REQUEST );
 
 		if ( isset( $item ) ) {
-	//			$extension_file_name = "{$this->downloads_dir}{$item}.zip";
 			$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
+			$extension_file_name = file_exists( $extension_file_name )? $extension_file_name : "{$this->downloads_dir}{$item}.zip";
 			if ( file_exists( $extension_file_name ) ) {							
 				if(!function_exists('WP_Filesystem'))
 					require_once(ABSPATH . 'wp-admin/includes/file.php');

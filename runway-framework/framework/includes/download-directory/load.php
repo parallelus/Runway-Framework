@@ -61,8 +61,9 @@ add_action( 'wp_ajax_test', 'test_requested' );
 add_action( 'add_report', 'download_directory_report' );
 
 function download_directory_report( $reports_object ) {
+    global $directory;
     $upload_dir = wp_upload_dir( );
-    $downloads_tmp_dir = $upload_dir['basedir'].'/download_dir/';
+    $downloads_tmp_dir = $directory->downloads_dir;
     $reports_object->assign_report( array(
             'source' => 'Download Directory',
             'report_key' => 'download_tmp_dir_exists',
