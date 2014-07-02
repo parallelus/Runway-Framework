@@ -121,10 +121,8 @@ class FormsBuilder {
 							wp_die( "Error: data types" );
 						} else {
 							include_once $data_types_base;
-
-							foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $filename ) {
-								include_once "$data_types_path/$filename";
-							}
+							
+							include_data_types($data_types_path);
 						}
 
 						$_this->data = get_option( $_this->option_key );

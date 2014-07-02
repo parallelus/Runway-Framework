@@ -19,50 +19,50 @@ if ( !function_exists( 'load_data_types' ) ) :
 		$data_types_path = FRAMEWORK_DIR .'data-types';
 		$data_types_base = $data_types_path . "/data-type.php";
 
-		if ( !file_exists( $data_types_path ) || !file_exists( $data_types_base ) ) {
-			wp_die( "Error: has no data types." );
+		if (!file_exists($data_types_path) || !file_exists($data_types_base)) {
+			wp_die("Error: has no data types.");
 		} else {
 			include_once $data_types_base;
 
-			foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
-				if(is_dir("$data_types_path/$name")) {
-					foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
-						if(is_dir("$data_types_path/$name/$filename"))
-							continue;
-						
-						include_once "$data_types_path/$name/$filename";
+			$data_types_array = include_data_types($data_types_path);
 
-						$data_type_slug = basename( "$data_types_path/$name/$filename", '.php' );
+			foreach ($data_types_array as $name => $path) {
+				$data_type_slug = basename($path, '.php');
 
-						$data_types_list[$data_type_slug] = array(
-							'filename' => $filename,
-							'classname' => ucfirst( str_replace( '-', '_', $data_type_slug ) ),
-						);
+				$data_types_list[$data_type_slug] = array(
+				    'filename' => $name,
+				    'classname' => ucfirst(str_replace('-', '_', $data_type_slug)),
+				);
 
-						// Unsupported in old PHP versions
-						$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
-					}
-				}
-				else {
-					include_once "$data_types_path/$name";
-
-					$data_type_slug = basename( "$data_types_path/$name", '.php' );
-
-					$data_types_list[$data_type_slug] = array(
-						'filename' => $name,
-						'classname' => ucfirst( str_replace( '-', '_', $data_type_slug ) ),
-					);
-
-					// Unsupported in old PHP versions
-					$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
-				}
+				// Unsupported in old PHP versions
+				$data_types_list[$data_type_slug]['classname']::assign_actions_and_filters();
 			}
-			/*out($data_types_list);
-			die();*/
 		}
 	}
 endif;
 
+if(!function_exists('include_data_types')) {
+	function include_data_types($data_types_path) {
+		$data_types_array = [];
+		foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+			if(is_dir("$data_types_path/$name")) {
+				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
+					if(is_dir("$data_types_path/$name/$filename"))
+						continue;
+					
+					include_once "$data_types_path/$name/$filename";
+					$data_types_array[$filename] = "$data_types_path/$name/$filename";
+				}
+			}
+			else {
+				include_once "$data_types_path/$name";
+				$data_types_array[$name] = "$data_types_path/$name";
+			}
+		}
+		
+		return $data_types_array;
+	}
+}
 
 //-----------------------------------------------------------------
 // Get options from DB
