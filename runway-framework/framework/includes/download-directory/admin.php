@@ -9,8 +9,21 @@ global $wp_filesystem;
 	
 $tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '';
 
+$current_page = 1;
+
+if ( isset( $_REQUEST['current_page'] ) ) {
+	$current_page = $_REQUEST['current_page'];
+}
+
+$page = $current_page - 1;
+$search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
+
 $response_pre = $wp_filesystem->get_contents( $directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
 $response_pre = json_decode( $response_pre );
+
+if ( $response_pre->on_page == 0 ) {
+	$response_pre->on_page = 1;
+}
 
 $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
@@ -42,7 +55,9 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 
 		$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
 
-		chmod( $extension_zip_file_name, 0755 );
+		$permissions = substr(sprintf('%o', fileperms($extension_zip_file_name)), -4);
+		if($permissions < '0755')
+			chmod( $extension_zip_file_name, 0755 );
 
 		echo $extm->load_new_extension( $extension_zip_file_name );
 	}
@@ -58,19 +73,6 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 switch ( $tab ) {
 
 default: {
-
-		$current_page = 1;
-
-		if ( isset( $_REQUEST['current_page'] ) ) {
-			$current_page = $_REQUEST['current_page'];
-		}
-
-		$page = $current_page - 1;
-		$search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
-
-		if ( $response_pre->on_page == 0 ) {
-			$response_pre->on_page = 1;
-		}
 
 		$response_exts = $response_pre->extensions;
 		$response = $response_pre;

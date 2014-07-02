@@ -19,9 +19,7 @@
 
 <ul class="subsubsub">
 	<li class="plugin-install-dashboard"><a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=browse'); ?>" <?php if ( $tab != 'search' ) { 
-		echo 'class="current"'; }?>><?php _e( 'Browse', 'framework' ) ?></a> |</li>
-	<li class="plugin-install-search"><a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=search'); ?>" <?php if ( $tab == 'search' ) { 
-		echo 'class="current"'; }?>><?php _e( 'Search', 'framework' ) ?></a></li>	
+		echo 'class="current"'; }?>><?php _e( 'Browse', 'framework' ) ?></a></li>
 </ul>
 
 <br class="clear">
