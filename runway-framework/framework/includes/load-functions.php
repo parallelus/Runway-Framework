@@ -43,7 +43,7 @@ endif;
 
 if(!function_exists('include_data_types')) {
 	function include_data_types($data_types_path) {
-		$data_types_array = [];
+		$data_types_array = array();
 		foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
 			if(is_dir("$data_types_path/$name")) {
 				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
