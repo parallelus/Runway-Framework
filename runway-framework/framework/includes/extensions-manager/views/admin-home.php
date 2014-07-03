@@ -19,8 +19,8 @@ switch ( $this->navigation ) {
 }
 ?>
 <ul class="subsubsub">
-	<li class="all"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo $ext_all_status; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo $ext_all_total; ?>)</span></a> |</li>
-	<li class="inactive"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo $ext_inactive_status; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo $ext_inactive_total; ?>)</span></a></li>	
+	<li class="all"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo $ext_all_total; ?>)</span></a> |</li>
+	<li class="inactive"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo $ext_inactive_total; ?>)</span></a></li>	
 </ul>
 <form method="post" action="<?php echo network_admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
 	<p class="search-box">
