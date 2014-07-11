@@ -340,7 +340,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 	function upgrader_custom_extension_function() {
 		if ( ! current_user_can( 'update_themes' ) )
-			wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+			wp_die( __( 'You do not have sufficient permissions to update this site.', 'framework' ) );
 
 		check_admin_referer('upgrade-core');
 
@@ -369,7 +369,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	function do_extension_custom_upgrade() {
 		
 		if ( ! current_user_can( 'update_themes' ) )
-			wp_die( __( 'You do not have sufficient permissions to update extensions for this site.' ) );
+			wp_die( __( 'You do not have sufficient permissions to update extensions for this site.', 'framework' ) );
 
 		check_admin_referer( 'bulk-update-themes' );
 
