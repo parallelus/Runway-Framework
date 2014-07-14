@@ -549,7 +549,7 @@ endif;
 
 
 function db_json_sync(){
-	if(!function_exists('WP_Filesystem'))
+	if  (!function_exists('WP_Filesystem'))
 		require_once(ABSPATH . 'wp-admin/includes/file.php');
 	WP_Filesystem();
 	global $wp_filesystem;
@@ -558,48 +558,127 @@ function db_json_sync(){
 	$settings = get_settings_json();
 
 	$option_prefix = $shortname;
-	$json_prefix = isset($settings['ThemeID'])? $settings['ThemeID'] . '_' : $shortname;
+	$json_prefix = isset($settings['ThemeID']) ? $settings['ThemeID'] . '_' : $shortname;
 	$json_dir = get_stylesheet_directory() . '/data';
-	if(IS_CHILD && !is_dir($json_dir)) {
-		$json_dir = preg_replace("~\/(?!.*\/)(.*)~", '/'.get_template(), get_stylesheet_directory()) . '/data';
-		$json_prefix = apply_filters( 'shortname', sanitize_title( wp_get_theme(get_template()) . '_' ) );
+	if (IS_CHILD && !is_dir($json_dir)) {
+		$json_dir = preg_replace("~\/(?!.*\/)(.*)~", '/' . get_template(), get_stylesheet_directory()) . '/data';
+		$json_prefix = apply_filters('shortname', sanitize_title(wp_get_theme(get_template()) . '_'));
 	}
 
-    if(is_dir($json_dir)) {
-	    $ffs = scandir($json_dir);
-	    foreach($ffs as $ff){
-    	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
-    	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
-    	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
+	if (is_dir($json_dir)) {
+		$ffs = scandir($json_dir);
+		
+		add_filter('rf_do_not_syncronize', 'do_not_syncronize', 10);
 
-    	    	//if( in_array($option_key_json, array($json_prefix.'report-manager', $json_prefix.'extensions-manager')) || strstr($option_key_json, "formsbuilder_") !== false )
-    	    	if( in_array($option_key_json, array($json_prefix.'report-manager')) )
-    	    		continue;
-    	    	if( strpos($option_key_json, $json_prefix) !== false ) {
-					//$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode(file_get_contents( $json_dir . '/' . $ff )) :
-					//													  		json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
-					$json = ($option_key_json == $json_prefix.'formsbuilder_')? (array)json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff )) :
-																		  		json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff ), true);
-					$db = get_option($option_key);
-					$json_updated = $json;
+		foreach ($ffs as $ff) {
+			if ($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+				$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
+				$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-					$need_update = false;
-					$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts', 'content_types', 'taxonomies', 'fields', 'defaults');  // don't synchronize
-					split_data($json, $db, $json_updated, $need_update, $excludes);
+				if (in_array($option_key_json, array($json_prefix . 'report-manager')))
+					continue;
+				if (strpos($option_key_json, $json_prefix) !== false) {
+					
+					$json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
+						json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					$db = get_option($option_key);					
+					$params = array(
+					    'json' => $json,
+					    'db' => $db,
+					    'current_json_name' => $ff,
+					    'json_updated' => $json,
+					    'need_update' => false,
+					    'excludes' => array(
+						array('admin-menu-editor', 'body_structure'),
+						array('layouts_manager', 'layouts'),
+						array('layouts_manager', 'headers'),
+						array('layouts_manager', 'footers'),
+						array('other_options_layout', 'layouts'),
+						array('other_options_layout', 'headers'),
+						array('other_options_layout', 'footers'),
+						array('sidebar_settings', 'sidebars_list'),
+						array('layouts_manager', 'contexts'),
+						array('content_types', 'content_types'),
+						array('content_types', 'taxonomies'),
+						array('contact_fields', 'fields'),
+						array('contact_fields', 'defaults')
+					    )
+					);
+					$returned_array = apply_filters('rf_do_not_syncronize', $params);
+					$json_updated = $returned_array['json_updated'];
+					$need_update = $returned_array['need_update'];
+					
+					//old functionality
+					//$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts', 'content_types', 'taxonomies', 'fields', 'defaults');  // don't synchronize
+					//split_data($json, $db, $json_updated, $need_update, $excludes);
 
-					if( !empty($json_updated) && empty($db) ) {
+					if (!empty($json_updated) && empty($db)) {
 						update_option($option_key, $json_updated);
 					}
-					if( $need_update ) {
-					 	update_option($option_key, $json_updated);
+					if ($need_update) {
+						update_option($option_key, $json_updated);
 					}
 				}
-			}	
+			}
 		}
 	}
 }
 
+function do_not_syncronize($params) {
+	
+	if(isset($params['json'])) {
+		foreach($params['json'] as $k => $v) {
+			if(is_array($v)) {
+				$params['db'][$k] = isset($params['db'][$k]) ? $params['db'][$k] : null;
+				$founded = false;
+				
+				foreach($params['excludes'] as $ex_key => $ex_val) {
+					if(!is_array($ex_val) && $k == $ex_val) {
+						$founded = true;
+						break;
+					} else if(is_array($ex_val) && strpos($params['current_json_name'], $ex_val[0]) !== false && $k == $ex_val[1]){
+						$founded = true;
+						break;
+					}
+				}
+				
+				if($founded) {
+					if( isset($params['db'][$k]) )
+						$params['json_updated'][$k] = $params['db'][$k];
+					continue;
+				}
+				
+				$tmp_array = do_not_syncronize(array(
+				    'json' => $v,
+				    'db' => $params['db'][$k],
+				    'current_json_name' => $params['current_json_name'],
+				    'json_updated' => $params['json_updated'][$k],
+				    'need_update' => $params['need_update'],
+				    'excludes' => $params['excludes']
+				));
+				
+				$params['json_updated'][$k] = $tmp_array['json_updated'];
+				$params['need_update'] = $tmp_array['need_update'];
+			}
+			else {
+				if(isset($params['db'][$k])) {
+					$params['json_updated'][$k] = $params['db'][$k];
+				}
+				else {
+					$params['json_updated'][$k] = $v;
+					if(!empty($v))
+						$params['need_update'] = true;
+				}
+			}
+		}
+	}
+	
+	return $params;
+}
+
+//old functionality
 function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
+	
 	if(isset($json)) {
 		foreach($json as $k => $v) {
 			if(is_array($v)) {
