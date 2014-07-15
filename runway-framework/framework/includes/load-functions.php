@@ -590,6 +590,7 @@ function db_json_sync(){
 					    'need_update' => false,
 					    'excludes' => array(
 						array('admin-menu-editor', 'body_structure'),
+						array('layouts_manager', 'body_structure'),
 						array('layouts_manager', 'layouts'),
 						array('layouts_manager', 'headers'),
 						array('layouts_manager', 'footers'),
