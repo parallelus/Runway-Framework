@@ -89,16 +89,16 @@ function options_page_render_report( $reports_object ) {
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_exists',
 			'path' => $pages_dir,
-			'success_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('exists', 'framework').'.',
-			'fail_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('does not exist', 'framework').'.',
+            'success_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is exists', 'framework') . '.',     
+            'fail_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is not exists', 'framework') . '.',  			
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_writable',
 			'path' => $pages_dir,
-			'success_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('is writable', 'framework').'.',
-			'fail_message' => __('Pages dir', 'framework').' ('.$pages_dir.') '.__('is not writable', 'framework').'.',			
+            'success_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is writable', 'framework') . '.',     
+            'fail_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is not writable', 'framework') . '.',  			
 		), 'IS_WRITABLE' );
 }
 ?>

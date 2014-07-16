@@ -68,16 +68,16 @@ function download_directory_report( $reports_object ) {
             'source' => 'Download Directory',
             'report_key' => 'download_tmp_dir_exists',
             'path' => $downloads_tmp_dir,
-            'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') exists.',
-            'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') does not exist.',
+            'success_message' => __('Downlads directory', 'framework') . ' (' . $downloads_tmp_dir . ') ' . __('is exists', 'framework') . '.',     
+            'fail_message' => __('Downlads directory', 'framework') . ' (' . $downloads_tmp_dir . ') ' . __('is not exists', 'framework') . '.',                
         ), 'DIR_EXISTS' );
 
     $reports_object->assign_report( array(
             'source' => 'Download Directory',
             'report_key' => 'download_tmp_dir_writable',
             'path' => $downloads_tmp_dir,
-            'success_message' => 'Downlads directory ('.$downloads_tmp_dir.') is writable.',
-            'fail_message' => 'Downlads directory ('.$downloads_tmp_dir.') is not writable.',
+            'success_message' => __('Downlads directory', 'framework') . ' (' . $downloads_tmp_dir . ') ' . __('is writable', 'framework') . '.',     
+            'fail_message' => __('Downlads directory', 'framework') . ' (' . $downloads_tmp_dir . ') ' . __('is not writable', 'framework') . '.',            
         ), 'IS_WRITABLE' );
 }
 ?>
