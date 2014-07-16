@@ -8,7 +8,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 	function add_actions() {
 
 		//include JS for drag and drop layout manager (cutsom jquery UI)
-		add_action( 'admin_print_scripts-' . $this->parent_menu . '_page_' . $this->slug, array( &$this, 'load_admin_js' ) );
+		add_action( 'admin_print_scripts-' . $this->parent_menu . '_page_' . $this->slug, array( $this, 'load_admin_js' ) );
 
 	}
 

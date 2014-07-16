@@ -33,7 +33,7 @@ if ( !defined( $runway_framework ) ) {
 
 		function object_to_array( $data ) {
 			if ( is_object( $data ) ) $data = get_object_vars( $data );
-			return is_array( $data ) ? array_map( array( &$this, 'object_to_array' ), $data ) : $data;
+			return is_array( $data ) ? array_map( array( $this, 'object_to_array' ), $data ) : $data;
 		}
 
 		function get_objects( $keys = array() ) {

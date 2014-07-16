@@ -30,7 +30,7 @@ class WP_Screen_Tabs {
 
 	public function __construct() {
 
-		add_action( 'admin_head', array( &$this, 'apply_tabs' ) );
+		add_action( 'admin_head', array( $this, 'apply_tabs' ) );
 	}
 
 	public function apply_tabs() {

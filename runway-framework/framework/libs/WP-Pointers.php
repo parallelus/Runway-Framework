@@ -27,10 +27,10 @@ class WP_Pointers {
 	public function __construct() {
 
 		//Appearance > Menus : load additional styles and scripts
-		add_action( 'admin_init', array( &$this , 'add_styles_and_scripts' ) );
+		add_action( 'admin_init', array( $this , 'add_styles_and_scripts' ) );
 
 		// set handlers
-		add_action( 'admin_footer', array( &$this, 'render' ) );
+		add_action( 'admin_footer', array( $this, 'render' ) );
 
 		// set vars
 		$this->page = ( isset( $_GET['page'] ) ) ? $_GET['page'] : '';

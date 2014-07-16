@@ -92,8 +92,8 @@ if ( !defined( $runway_framework_admin ) ) {
 			$this->default_keys = ( $a = $this->default ) ? $a : array();
 
 			// Create Settings Menu
-			add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
-			add_action( 'admin_head', array( &$this, 'admin_head' ) );
+			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+			add_action( 'admin_head', array( $this, 'admin_head' ) );
 
 			// fix parent slugs for dynamic created pages
 			if ( isset( $settings['dynamic'] ) ) {
@@ -104,8 +104,8 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			// Handle requests
-			add_action( $this->page_hook, array( &$this, 'settings_init' ) );
-			add_action( $this->page_hook, array( &$this, 'request_handler' ) );
+			add_action( $this->page_hook, array( $this, 'settings_init' ) );
+			add_action( $this->page_hook, array( $this, 'request_handler' ) );
 
 			// Add JS & css on settings page
 			//add_action('admin_head-' . $this->parent_menu . '_page_' . $this->slug, array(&$this, 'settings_head'));
@@ -114,7 +114,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			// COMMENTED OUT BECAUSE OF ERROR MESSAGE IN WP PLUGINS ADMIN // 
 			// add_filter( 'plugin_row_meta', array( &$this, 'plugin_row_meta' ), 10, 2 );
 
-			add_action( 'init', array( &$this, 'admin_init' ), 11 );
+			add_action( 'init', array( $this, 'admin_init' ), 11 );
 
 			$this->add_actions();
 
@@ -305,13 +305,13 @@ if ( !defined( $runway_framework_admin ) ) {
 				}
 
 				if($this->menu_url != 'hidden') {
-					$this_page = add_submenu_page( $this->menu_url, $this->name, $this->name, $this->menu_permissions, $this->slug, array( &$this, 'options_page' ) );				
+					$this_page = add_submenu_page( $this->menu_url, $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );				
 				} else {
-					$this_page = add_submenu_page( 'admin.php', $this->name, $this->name, $this->menu_permissions, $this->slug, array( &$this, 'options_page' ) );				
+					$this_page = add_submenu_page( 'admin.php', $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );				
 				}
 
-				add_action('runway_page_' . $this->slug, array( &$this, 'options_page' ));
-				add_action( 'admin_head-' . $this_page, array( &$this, 'settings_head' ) );
+				add_action('runway_page_' . $this->slug, array( $this, 'options_page' ));
+				add_action( 'admin_head-' . $this_page, array( $this, 'settings_head' ) );
 
 			}
 

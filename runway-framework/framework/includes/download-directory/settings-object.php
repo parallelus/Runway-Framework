@@ -11,10 +11,10 @@ class Directory_Admin extends Runway_Admin_Object {
 		$this->extensions_server_url = 'http://runwaywp.com/sites/main/wp-admin/admin-ajax.php?action=';
 
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'wp_ajax_get_extensions', array( &$this, 'get_extensions' ) );
-		add_action( 'wp_ajax_nopriv_get_extensions', array( &$this, 'get_extensions' ) );
-		add_action( 'wp_ajax_download_extension', array( &$this, 'download_extension' ) );
-		add_action( 'wp_ajax_nopriv_download_extension', array( &$this, 'download_extension' ) );
+		add_action( 'wp_ajax_get_extensions', array( $this, 'get_extensions' ) );
+		add_action( 'wp_ajax_nopriv_get_extensions', array( $this, 'get_extensions' ) );
+		add_action( 'wp_ajax_download_extension', array( $this, 'download_extension' ) );
+		add_action( 'wp_ajax_nopriv_download_extension', array( $this, 'download_extension' ) );
 	}
 
 	function init() {
