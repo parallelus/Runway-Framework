@@ -15,7 +15,7 @@
 		case 'auth-sign-out': {
 			$this->auth_user_signout();
 			$link = network_admin_url('admin.php?page=accounts');
-    			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
+    		$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 			echo $redirect;
 			
 			break;

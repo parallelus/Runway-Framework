@@ -74,7 +74,7 @@ class Auth_Manager_Admin extends Runway_Admin_Object {
 				'body' => $postdata
 			    );			
 
-			$request_url = $this->runwaywp_url . 'wp-admin/admin-ajax.php?action=auth_user';
+			$request_url = $this->runwaywp_url . '/wp-admin/admin-ajax.php?action=auth_user';
 
 			$this->auth = false;
 			$response = wp_remote_post($request_url, $post_args);

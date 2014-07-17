@@ -103,11 +103,13 @@ class Directory_Admin extends Runway_Admin_Object {
 			$search_keys = array( 'Name', 'Description', 'Author', 'Title', 'AuthorName' );
 			$search_results = array();
 
-			foreach ( $extensions as $slug => $extension ) {
-				foreach ( $extension as $key => $option ) {
-					if ( in_array( $key, $search_keys ) ) {
-						if ( strstr( strtolower( $option ), strtolower( $search ) ) != false ) {
-							$search_results[$slug] = $extension;
+			if( isset($extensions) && !empty($extensions) ) {
+				foreach ( $extensions as $slug => $extension ) {
+					foreach ( $extension as $key => $option ) {
+						if ( in_array( $key, $search_keys ) ) {
+							if ( strstr( strtolower( $option ), strtolower( $search ) ) != false ) {
+								$search_results[$slug] = $extension;
+							}
 						}
 					}
 				}

@@ -8,20 +8,23 @@
 	</thead>
 
 	<tbody id="the-list">
-		<?php foreach ( $directory->search_request_extensions( $_POST['s'] ) as $token => $extension ) { ?>
-			<tr>
-				<td class="name column-name"><strong><?php echo $extension->name ?></strong>
-					<div class="action-links">
-						<a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=item-information&amp;item=the-item-name&amp;TB_iframe=true&amp;width=600&amp;height=550'); ?>" class="thickbox" title="More information">Details</a> |
-						<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item=the-item-name&amp;_wpnonce='); ?>" title="Install">
-							<?php echo ($extm->is_install($token)) ? "Reinstall" : "Install Now"; ?>
-						</a>
-					</div>
-				</td>
-				<td class="vers column-version"><?php echo $extension->version ?></td>
-				<td class="desc column-description"><?php echo $extension->description ?></td>
-			</tr>
-		<?php } ?>
+		<?php $search_exts = $directory->search_request_extensions( $_POST['s'] );
+			  if( isset($search_exts) && !empty($search_exts) ) {
+					foreach ( $search_exts as $token => $extension ) { ?>
+						<tr>
+							<td class="name column-name"><strong><?php echo $extension->name ?></strong>
+								<div class="action-links">
+									<a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=item-information&amp;item=the-item-name&amp;TB_iframe=true&amp;width=600&amp;height=550'); ?>" class="thickbox" title="More information">Details</a> |
+									<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item=the-item-name&amp;_wpnonce='); ?>" title="Install">
+										<?php echo ($extm->is_install($token)) ? "Reinstall" : "Install Now"; ?>
+									</a>
+								</div>
+							</td>
+							<td class="vers column-version"><?php echo $extension->version ?></td>
+							<td class="desc column-description"><?php echo $extension->description ?></td>
+						</tr>
+			  <?php } 
+		}?>
 	</tbody>
 
 	<tfoot>

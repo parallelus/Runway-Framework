@@ -83,7 +83,9 @@ default: {
 				if (isset($this->extensions_Paid) && !empty($this->extensions_Paid)) {	
 					foreach($this->extensions_Paid as $exts) {
 						// Overwrite if also exists as product entery.
-						if($resp_ext->Name == trim($exts->Name) && $resp_ext->Version != $exts->Version) {
+						$response->extensions[$key] = $resp_ext;
+						$response->extensions[$key]->Version = $resp_ext->Version;
+						if($key == sanitize_title($exts->Name) && runway_check_versions($exts->Version, $resp_ext->Version)) {
 							$response->extensions[$key] = $resp_ext;
 							$response->extensions[$key]->Version = $exts->Version;
 						}
