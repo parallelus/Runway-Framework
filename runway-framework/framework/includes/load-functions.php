@@ -1014,4 +1014,30 @@ if ( !function_exists( 'runway_base_decode' ) ) {
 }
 }
 
+
+if(!function_exists('runway_check_versions')) {
+	function runway_check_versions($new_version, $old_version) {
+		$repository_version = str_replace("v", "", $new_version);
+		$repository_version_array = explode('.', $repository_version);
+		$current_version_array = explode('.', $old_version);
+
+		$max_version_length = (count($repository_version_array) > count($current_version_array) ? count($repository_version_array) : count($current_version_array));
+		$has_update = false;
+		for($i = 0; $i < $max_version_length; $i++) {
+			if(isset($repository_version_array[$i]) && isset($current_version_array[$i])) {
+				if($repository_version_array[$i] > $current_version_array[$i]) {
+					$has_update = true;
+					break;
+				}
+			} else if(!isset($current_version_array[$i]) && isset($repository_version_array[$i])) {
+				$has_update = true;
+				break;
+			} else if(isset($current_version_array[$i]) && !isset($repository_version_array[$i])){
+				break;
+			}
+		}
+		
+		return $has_update;
+	}
+}
 ?>

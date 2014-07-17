@@ -188,11 +188,17 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			return $data;
 
 		$response_json = json_decode($response['body']);
+		
 		if(is_array($response_json) && !empty($response_json)) {
 			foreach($theme_info['post_args']['body']['extensions'] as $key => $current_extension) {
 				foreach($response_json as $response_extension) {
-					if($current_extension['Name'] == $response_extension->Name && $current_extension['Version'] != $response_extension->Version) {
-												
+					if($current_extension['Name'] == $response_extension->Name/* && $current_extension['Version'] != $response_extension->Version*/) {
+						
+						$has_update = runway_check_versions($response_extension->Version, $current_extension['Version']);
+						
+						if(!$has_update)
+							break;
+						
 						$package = "";
 						foreach($response_extension->Files as $response_package) {
 							$package = $response_package->file;
@@ -208,12 +214,12 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 						$update['new_version'] = $response_extension->Version;
 						$update['old_version'] = $current_extension['Version'];
 						$update['package']     = $package;
-						$data->extensions[$response_extension->Name] = $update;	
+						$data->extensions[$response_extension->Name] = $update;
 					}
 				}
 			}
 		}
-	
+		
 		return $data;
 	}
 
