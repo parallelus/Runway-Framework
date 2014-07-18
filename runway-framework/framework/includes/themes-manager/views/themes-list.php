@@ -42,7 +42,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 
 			<div class="enable-theme-popup themeActionsPupup">
 
-				Enable default theme for a network?
+				<?php echo __('Enable default theme for a network', 'framework'); ?>?
 
 				<p class="bottom-panel">
 					<a href="<?php echo $ms_enable_theme_link; ?>" class="enable-theme button"><?php _e( 'Enable', 'framework' ); ?></a>

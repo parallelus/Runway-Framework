@@ -91,23 +91,23 @@ if ( isset($response->extensions) && $response->extensions )
 			<tr>
 				<td class="name column-name"><strong><?php echo $extension->Name ?></strong>
 					<div class="action-links">
-						<a href="#" class="details" token="<?php echo $token; ?>" title="More information">Details</a> |
-						<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce='); ?>" title="Install">
-							<?php echo ($extm->is_install($token)) ? "Reinstall" : "Install Now"; ?>
+						<a href="#" class="details" token="<?php echo $token; ?>" title="<?php echo __('More information', 'framework'); ?>"><?php echo __('Details', 'framework'); ?></a> |
+						<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce='); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>">
+							<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>
 						</a>
 					</div>
 					<div class = "details-dialog" token="<?php echo $token; ?>" style="display:none">
-						<strong><?php echo $extension->Name ?></strong> (Version: <?php echo $extension->Version ?>)<hr>
-						<?php echo $extension->Description; ?>
+						<strong><?php echo $extension->Name ?></strong> (<?php echo __('Version', 'framework') . ': ' . $extension->Version ?>)<hr>
+						<?php rf_e($extension->Description); ?>
 					</div>
 				</td>
 				<td class="vers column-version"><?php echo $extension->Version ?></td>				
-				<td class="desc column-description"><?php echo $extension->Description ?></td>
+				<td class="desc column-description"><?php rf_e($extension->Description); ?></td>
 			</tr>
 		<?php } 
 	} 
 else { 
-	echo '<tr><td colspan="3">Extensions not found.</td></tr>'; } ?>
+	echo '<tr><td colspan="3">'.__('Extensions not found', 'framework').'</td></tr>'; } ?>
 
 	</tbody>
 

@@ -95,13 +95,13 @@ $row = array(
 $html->setting_row( $row );
 
 ?>		<tr class = 'choose-another' style="display: none;">
-			<td>Custom icon:</td>
+			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
-				<a href="#" class='choose-another-link' >Choose Another Icon</a>
+				<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
 			</td>
 		</tr>			
 		<tr class = 'custom-icon-upload' style="display: none;">
-			<td>Custom icon:</td>
+			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<input type="file" name="theme_options[CustomIcon]" value="" />
 			</td>
@@ -143,11 +143,11 @@ $html->setting_row( $row );
 ?>
 
 		<tr>
-			<th scope="row" valign="top">Screenshot:</th>
+			<th scope="row" valign="top"><?php echo __('Screenshot', 'framework'); ?>:</th>
 			<td>
 				<?php
 if ( isset( $Screenshot ) ) { ?>
-					<a href="<?php echo home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ?>">View Screenshot</a><br>
+					<a href="<?php echo home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ?>"><?php echo __('View Screenshot', 'framework'); ?></a><br>
 				<?php } ?>
 				<input type="file" name="theme_options[Screenshot]" value="<?php echo isset($_FILES['theme_options']['name']['Screenshot'])? $_FILES['theme_options']['name']['Screenshot'] : ''; ?>" />
 			</td>
@@ -158,7 +158,7 @@ if ( isset( $Screenshot ) ) { ?>
 <!--  Advanced Settings  -->
 	<div class="meta-box-sortables metabox-holder" style="width: 800px;">
 	<div class="postbox">
-		<div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle no-move"><span>Advanced</span></h3>
+		<div class="handlediv" title="Click to toggle"><br></div><h3 class="hndle no-move"><span><?php echo __('Advanced', 'framework'); ?></span></h3>
 		<div class="inside" style="display: none;">
 
 				<?php
