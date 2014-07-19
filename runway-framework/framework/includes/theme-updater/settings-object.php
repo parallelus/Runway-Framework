@@ -117,7 +117,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		}
 
 		if($item == 'theme') {
-			$info = file_get_contents( ABSPATH . 'wp-content/themes/runway-framework/style.css' );
+			$info = file_get_contents( ABSPATH . 'get_template_directory() . style.css' );
 			$start = strpos( $info, 'Github Theme URI' );
 			$gtu = '';
 			if($start > 0) {
