@@ -28,7 +28,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		add_filter('enable_framework_updates', array( $this, 'need_framework_updates'), 10, 3);
 
 		add_action( 'admin_notices', array( $this, 'show_theme_update_notise' ) );
-		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_fs' ), 10 );
+		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_fs' ), 10, 2 );
 		add_action( 'upgrader_process_complete', array( $this, 'upgrader_process_complete_extensions' ), 20, 2 );
 		add_action( 'save_last_request', array( $this, 'save_options' ) );
 		
@@ -37,9 +37,30 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		add_action( 'core_upgrade_preamble', array( $this, 'update_extensions_block' ) );
 	}
 
-	function upgrader_process_complete_fs() {
+	function upgrader_process_complete_fs($upgrader, $current_theme) {
 		global $wp_filesystem;
-
+		$theme_info = $this->get_theme_info('theme');
+		
+		if($theme_info['type'] !== 'child' || 
+			(isset($current_theme['type']) && $current_theme['type'] == 'plugin') ||
+			(isset($current_theme['theme']) && $current_theme['theme'] != 'runway-framework')) {
+			return;
+		}
+		
+		if(isset($current_theme['type']) && $current_theme['type'] == 'theme') {
+			$found = false;
+			if(isset($current_theme['themes']) && is_array($current_theme['themes'])) {
+				foreach($current_theme['themes'] as $key => $value) {
+					if($value == 'runway-framework') {
+						$found = true;
+						break;
+					}
+				}
+				if(!$found)
+					return;
+			}
+		}
+		
 		$dir = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
 		if (is_dir($dir)) {
 
