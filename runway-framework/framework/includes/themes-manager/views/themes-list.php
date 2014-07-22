@@ -168,7 +168,8 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 					$(".ui-dialog-titlebar").hide();
 
 					var currunt_theme_folder = $(this).data("theme-folder");
-					var regex = RegExp(/["+currunt_theme_folder+"-copy-\d]$/g);
+					
+					var regex = new RegExp(""+currunt_theme_folder+"-copy-\d$", "g");
 
 					var last_index = 0;
 					

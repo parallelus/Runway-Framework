@@ -169,6 +169,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		if ( file_exists( $this->themes_path . '/' . $new_name ) ) return false;
 
+		$themeInfo   	= rw_get_theme_data();
+		$themeTitle  	= trim( $themeInfo['Title'] );
+		
 		// copy source theme
 		$this->copy_r( $this->themes_path . '/' . $name, $this->themes_path . '/' . $new_name );
 
@@ -177,25 +180,19 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$settings = $wp_filesystem->get_contents($this->themes_path . '/' . $new_name . '/data/settings.json');
-		//$settings = json_decode( file_get_contents( $this->themes_path . '/' . $new_name . '/data/settings.json' ), true );
+		
+		$settings = json_decode($settings, true);
 		$settings['Folder'] = $new_name;
 		$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : apply_filters( 'shortname', sanitize_title( $themeTitle ) );
 		$settings['ThemeID'] = create_theme_ID();
 		unset($settings['isPrefixID']);
 
-		if(!function_exists('WP_Filesystem'))
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-		WP_Filesystem();
-		global $wp_filesystem;
 		if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'], $this->themes_path . '/' . $new_name . '/data' ) ) {
 			$wp_filesystem->put_contents($this->themes_path . '/' . $new_name . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
-			//file_put_contents( $this->themes_path . '/' . $new_name . '/data/settings.json', json_encode($settings) );
 		}
 
 		$theme_info = $wp_filesystem->get_contents( $this->themes_path . '/' . $new_name . '/style.css' );
-		//$theme_info = file_get_contents( $this->themes_path . '/' . $new_name . '/style.css' );
 		$theme_info = str_replace( "Theme Name:     $name", "Theme Name:     $new_name", $theme_info );
-		//file_put_contents( $this->themes_path . '/' . $new_name . '/style.css', $theme_info );
 		$wp_filesystem->put_contents($this->themes_path . '/' . $new_name . '/style.css', $theme_info, FS_CHMOD_FILE);
 
 		return $settings;
