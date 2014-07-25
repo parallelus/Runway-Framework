@@ -90,7 +90,7 @@ function save_custom_options(alias, custom_alias, section){
         }
         
         types[element_name] = $(el).data('type');
-        
+
         if($(el).data('section') == section){
             
             switch($(el).data('type')){
@@ -298,11 +298,23 @@ function save_custom_options(alias, custom_alias, section){
 				values[element_name] = $(el).val();	
 			}
 		} break;
+		
+		case "range-slider": {
+			var $name = $(el).attr('name');
+			var start_value = $('.slider-start-'+$name).text();
+			var end_value = $('.slider-end-'+$name).text();
+			
+			if(end_value == "") {
+				values[element_name] = "["+start_value+"]";
+			}
+			else {
+				values[element_name] = "["+start_value+", "+end_value+"]";
+			}
+		} break;
                 
                 // case "text-editor":{
                 // TODO: text editor data saving
                 // } break;
-               
                 default:{
                         
                     if(typeof values[element_name] === "undefined" && isInputArray === true) {

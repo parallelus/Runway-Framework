@@ -47,6 +47,7 @@ $settings = array(
 		'wp-color-picker',
 		'formsbuilder',
 		'ace',
+		'rw_nouislider',
 		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
 		FRAMEWORK_URL.'framework/js/jquery.cookie.js',
 		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.js',
@@ -54,6 +55,7 @@ $settings = array(
 	'css' => array(
 		'wp-color-picker',
 		'formsbuilder-style',
+		'rw_nouislider_css',
 		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.css',
 	),
 );
