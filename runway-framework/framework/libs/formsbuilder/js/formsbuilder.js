@@ -299,19 +299,6 @@ function save_custom_options(alias, custom_alias, section){
 			}
 		} break;
 		
-		case "range-slider": {
-			var $name = $(el).attr('name');
-			var start_value = $('.slider-start-'+$name).text();
-			var end_value = $('.slider-end-'+$name).text();
-			
-			if(end_value == "") {
-				values[element_name] = "["+start_value+"]";
-			}
-			else {
-				values[element_name] = "["+start_value+", "+end_value+"]";
-			}
-		} break;
-                
                 // case "text-editor":{
                 // TODO: text editor data saving
                 // } break;
@@ -331,7 +318,7 @@ function save_custom_options(alias, custom_alias, section){
                 break;
             }        
         }
-    });   
+    });  
     
     if(!isEmpty(values) && !isEmpty(types)){
         if($('#layout_alias').val())

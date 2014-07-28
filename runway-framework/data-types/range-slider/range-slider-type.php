@@ -19,12 +19,32 @@ class Range_slider_type extends Data_Type {
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 		
 		$start = "0";
-		if($this->field->startFirstEntry != '' && $this->field->startSecondEntry != '')
+		
+		$double = false;
+		if($this->field->startFirstEntry != '' && $this->field->startSecondEntry != '') {
+			$double = true;
+		}
+		
+		if($double)
 			$start = "[".$this->field->startFirstEntry.", ".$this->field->startSecondEntry."]";
 		else if($this->field->startFirstEntry != '')
 			$start = "[".$this->field->startFirstEntry."]";
-		if($value !== null && $value !== false && $value !== "")
+		
+		if($value !== null && $value !== false && $value !== "") {
+			
 			$start = $value;
+			if($double) {
+				$values_string = $start;
+				$values_string = preg_replace("/[\[\]\s]*/", "", $values_string);
+				$values_array = explode(",", $values_string);
+				
+				$this->field->startFirstEntry = $values_array[0];
+				$this->field->startSecondEntry = $values_array[1];
+			}
+			else {
+				$this->field->startFirstEntry = preg_replace("/\[\]\s/", "", $start);
+			}
+		}
 		
 		$connect = 'false';
 		if($this->field->connect == 'false' || $this->field->connect == 'true')
@@ -38,9 +58,12 @@ class Range_slider_type extends Data_Type {
 		<div id="<?php echo $this->field->alias; ?>" class="range-slider">
 			<div id="slider-<?php echo $this->field->alias;?>" <?php if($this->field->orientation == 'vertical') { ?>style="height: 250px;"<?php } ?>></div>
 			<div class="slider-values">
-				Slider values: <?php if($this->field->startFirstEntry != '' && $this->field->startSecondEntry != '') { ?>
+				Slider values: <?php if($double) { ?>
 					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
 					<span class="slider-end-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startSecondEntry; ?></span>
+					<?php } else { ?>
+					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
+					<?php } ?>
 					
 					<input type="hidden" 
 					       class="custom-data-type"
@@ -50,20 +73,6 @@ class Range_slider_type extends Data_Type {
 					       <?php echo $section; ?>
 					       id="hidden-<?php echo $this->field->alias; ?>"
 					       data-type="range-slider"/>
-					
-					<?php } else { ?>
-					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
-					
-					<input type="hidden" 
-					       class="custom-data-type"
-					       name="<?php echo $this->field->alias;?>" 
-					       value="" 
-					       <?php $this->link() ?>
-					       <?php echo $section; ?>
-					       id="hidden-<?php echo $this->field->alias; ?>"
-					       data-type="range-slider"/>	
-					
-					<?php } ?>
 			</div>
 			<script type="text/javascript">
 				jQuery(document).ready(function($) {
@@ -99,6 +108,7 @@ class Range_slider_type extends Data_Type {
 		</div>
 		
 		<?php
+		$this->wp_customize_js($double);
 		
 		do_action( self::$type_slug . '_after_render_content', $this );
 	}
@@ -111,12 +121,27 @@ class Range_slider_type extends Data_Type {
 	
 	public static function include_nouislider() {
 		
-		if(strstr(__DIR__, THEME_DIR)) {
+		$data_type_directory = __DIR__;
+		$theme_directory = THEME_DIR;
+		$framework_directory = FRAMEWORK_DIR;
+				
+		$data_type_directory = str_replace('\\', '/', $data_type_directory);
+		$theme_directory = str_replace('\\', '/', $theme_directory);
+		$framework_directory = str_replace('\\', '/', $framework_directory);
+		
+		if(strstr($data_type_directory, $theme_directory)) {
+			$current_data_type_dir = str_replace($theme_directory, '', $data_type_directory);
+		}
+		else {
+			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
+		}
+		
+		/*if(strstr(__DIR__, THEME_DIR)) {
 			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
 		}
 		else {
 			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
-		}
+		}*/
 		
 		wp_register_script('rw_nouislider', FRAMEWORK_URL . $current_data_type_dir . '/js/jquery.nouislider.min.js');
 		wp_register_style('rw_nouislider_css', FRAMEWORK_URL . $current_data_type_dir . '/css/jquery.nouislider.css');
@@ -265,5 +290,26 @@ class Range_slider_type extends Data_Type {
 
 		</script>
 
+	<?php }
+	
+	public function wp_customize_js($double = false) { ?>
+		<script type="text/javascript">
+			(function($){
+				$('#slider-<?php echo $this->field->alias; ?>').change(function(){
+					var hidden_elem = $('#hidden-<?php echo $this->field->alias; ?>');
+					<?php if($double) { ?>
+						hidden_elem.val("["+$(".slider-start-<?php echo $this->field->alias;?>").text()+", "+$(".slider-end-<?php echo $this->field->alias;?>").text()+"]");
+					<?php } else {?>
+						hidden_elem.val("["+$(".slider-start-<?php echo $this->field->alias;?>").text()+"]");
+					<?php } ?>
+						
+					if ( wp.customize ) {
+						var alias = "<?php echo $this->field->alias; ?>";
+						var api = wp.customize;
+						api.instance(alias).set(hidden_elem.val());
+					}
+				});
+			})(jQuery);
+		</script>
 	<?php }
 } ?>
