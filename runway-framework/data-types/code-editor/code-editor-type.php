@@ -59,7 +59,9 @@ class Code_editor_type extends Data_Type {
 					}); 
 				});
 			</script>
-		<?php } else { ?>
+		<?php 
+			$this->wp_customize_js();
+		} else { ?>
 			<textarea id="<?php echo $this->field->alias; ?>" class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 			<?php $this->link() ?>
 			name="<?php echo $this->field->alias; ?>"
@@ -80,12 +82,27 @@ class Code_editor_type extends Data_Type {
 	
 	public static function include_ace() {
 		
-		if(strstr(__DIR__, THEME_DIR)) {
+		$data_type_directory = __DIR__;
+		$theme_directory = THEME_DIR;
+		$framework_directory = FRAMEWORK_DIR;
+				
+		$data_type_directory = str_replace('\\', '/', $data_type_directory);
+		$theme_directory = str_replace('\\', '/', $theme_directory);
+		$framework_directory = str_replace('\\', '/', $framework_directory);
+		
+		if(strstr($data_type_directory, $theme_directory)) {
+			$current_data_type_dir = str_replace($theme_directory, '', $data_type_directory);
+		}
+		else {
+			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
+		}
+		
+		/*if(strstr(__DIR__, THEME_DIR)) {
 			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
 		}
 		else {
 			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
-		}
+		}*/
 		
 		wp_register_script('ace', FRAMEWORK_URL . $current_data_type_dir . '/js/ace/src-noconflict/ace.js');
 	}
@@ -269,5 +286,23 @@ class Code_editor_type extends Data_Type {
 
 		</script>
 
+	<?php }
+	
+	public function wp_customize_js() {  ?>
+		<script type="text/javascript">
+			(function($){
+				var editor = ace.edit("<?php echo $this->field->alias; ?>");
+				
+				editor.getSession().on('change', function(e) {
+					var editor = ace.edit("<?php echo $this->field->alias; ?>");
+					var code = editor.getSession().getValue();
+					if ( wp.customize ) {
+						var alias = "<?php echo $this->field->alias; ?>";
+						var api = wp.customize;
+						api.instance(alias).set($('#hidden-<?php echo $this->field->alias; ?>').val());
+					}
+				});
+			})(jQuery);
+		</script>
 	<?php }
 } ?>
