@@ -189,7 +189,7 @@ class Datepicker_type extends Data_Type {
 		                Yes
 		            </label>
 
-		            <br><span class="settings-field-caption"><?php echo __('Is this a required field', 'framework'); ?>.</span><br>
+		            <br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
@@ -258,7 +258,7 @@ class Datepicker_type extends Data_Type {
 		                {{/if}}
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
+		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
 		        </div>
 		    </div><div class="clear"></div>
 

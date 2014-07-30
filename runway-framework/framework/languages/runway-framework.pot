@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-07-30 15:14-0600\n"
-"PO-Revision-Date: 2014-07-30 15:15-0600\n"
+"POT-Creation-Date: 2014-07-30 15:56-0600\n"
+"PO-Revision-Date: 2014-07-30 15:56-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -104,7 +104,7 @@ msgstr ""
 #: ../data-types/radio-buttons-image.php:266
 #: ../data-types/radio-buttons.php:199 ../data-types/select-type.php:158
 #: ../data-types/textarea-type.php:164
-msgid "Can this field repeat with multiple values"
+msgid "Can this field repeat with multiple values?"
 msgstr ""
 
 #: ../data-types/checkbox-bool-type.php:136
@@ -154,7 +154,7 @@ msgstr ""
 #: ../data-types/radio-buttons-image.php:242
 #: ../data-types/radio-buttons.php:175 ../data-types/text-editor.php:112
 #: ../data-types/textarea-type.php:125
-msgid "Is this a required field"
+msgid "Is this a required field?"
 msgstr ""
 
 #: ../data-types/checkbox-type.php:275

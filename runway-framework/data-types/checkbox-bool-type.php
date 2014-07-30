@@ -105,7 +105,7 @@ class Checkbox_bool_type extends Data_Type {
 		                {{/if}}
 						<?php echo __('Yes', 'framework'); ?>
 	                </label>
-	                <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values', 'framework'); ?>.</span>
+	                <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
 		        </div>
 		    </div><div class="clear"></div>
 

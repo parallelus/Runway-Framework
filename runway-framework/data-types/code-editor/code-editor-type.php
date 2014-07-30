@@ -161,7 +161,7 @@ class Code_editor_type extends Data_Type {
 			    <?php echo __('Yes', 'framework'); ?>
 			</label>
 
-			<br><span class="settings-field-caption"><?php echo __('Is this a required field', 'framework'); ?>.</span><br>
+			<br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
 
 			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
