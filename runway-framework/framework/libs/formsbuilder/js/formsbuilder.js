@@ -1200,6 +1200,10 @@ var system_vars_definition = ['template', 'index'];
                             page_id : page.settings.page_id
                         }
                     }).done(function(response){
+			ajax_result = $.parseJSON(response);
+			if(ajax_result.page_alias !== "")
+				page.settings.alias = ajax_result.page_alias;
+			
                         $.ajax({
                             type: 'post',
                             url: ajaxurl, 
@@ -1208,11 +1212,11 @@ var system_vars_definition = ['template', 'index'];
                                 json_form: JSON.stringify(page),
                                 page_id : page.settings.page_id
                             }
-                        });
-                        ajax_result = $.parseJSON(response);
+                        });return false;
+                        
                         window.location = ajax_result.reload_url;
                     });
-
+		    return false;
                 });
 
                 $('.page-preview').on('click', function() {

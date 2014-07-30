@@ -83,6 +83,7 @@ class FormsBuilder {
 
 	// Add options page to pages list
 	public function add_page_to_pages_list( $page = null ) {
+		
 		if ( !empty( $_REQUEST['json_form'] ) && $page == null ) {
 			$page_options = json_decode( stripslashes( $_REQUEST['json_form'] ) );
 			$this->options_pages[$page_options->settings->alias] = $page_options;
@@ -93,6 +94,16 @@ class FormsBuilder {
 			$this->options_pages[$page->settings->alias] = $page;
 			update_option( $this->option_key, $this->options_pages );
 		}
+	}
+	
+	public function remove_page_from_pages_list($page = null) {
+		
+		if($page != null) {
+			if(isset($this->options_pages[$page->settings->alias]))
+				unset($this->options_pages[$page->settings->alias]);
+			update_option( $this->option_key, $this->options_pages );
+		}
+		
 	}
 
 	public function add_to_customize_page() {

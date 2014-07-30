@@ -52,11 +52,12 @@ class Apm_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-				
+		
 		$json_page = $_REQUEST['json_form'];
 		// $new_page_id = $_REQUEST['page_id'];
 		$pages_dir = $this->pages_dir;
 		$message = '';
+		$page = "";
 
 		if ( isset( $json_page ) && $json_page != '' ) {
 			// out($_POST['page']);
@@ -108,7 +109,7 @@ class Apm_Admin extends Runway_Admin_Object {
 						$page['settings']['alias'] = $page['settings']['alias'].'-'.$attach;
 					}
 				}
-
+				
 				if ( file_exists( "{$pages_dir}{$page_id}.json" ) ) {
 					//$old = file_get_contents( "{$pages_dir}{$page_id}.json" );
 					$old = $wp_filesystem->get_contents( "{$pages_dir}{$page_id}.json" );
@@ -216,6 +217,7 @@ class Apm_Admin extends Runway_Admin_Object {
 				$return = array(
 					'message' => $message,
 					'page_id' => $page_id,
+					'page_alias' => ($page != "" && isset($page['settings']['alias'])) ? $page['settings']['alias'] : "",
 					'reload_url' => $link,
 				);
 
@@ -233,8 +235,32 @@ class Apm_Admin extends Runway_Admin_Object {
 	 * @param unknown $pages_dir
 	 */
 	function del_page( $page_id, $pages_dir ) {
-
+		global $libraries, $shortname;
+		$form_builder = $libraries['FormsBuilder'];
+		
 		do_action( 'before_delete_page' );
+		
+		$pages = $this->get_pages_list();
+		foreach($pages as $key => $page) {
+			if(isset($page->settings) && isset($page->settings->page_id)) {
+				if($page->settings->page_id == $page_id) {					
+					$formsbilder_option = get_option($form_builder->option_key);
+					
+					if(isset($formsbilder_option) && $formsbilder_option != false) {
+						$form_builder->remove_page_from_pages_list( $page );
+					}
+					
+					$page_option = get_option($shortname.$page->settings->alias);
+					if(isset($page_option) && $page_option != false) {
+						delete_option($shortname.$page->settings->alias);
+					}
+					
+					unset($pages[$key]);
+					
+					break;
+				}
+			}
+		}
 		$page_path = $pages_dir.$page_id.'.json';
 
 		if ( file_exists( $page_path ) ) {
