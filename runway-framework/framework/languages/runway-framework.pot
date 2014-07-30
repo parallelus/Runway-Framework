@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-07-30 17:05-0600\n"
-"PO-Revision-Date: 2014-07-30 17:06-0600\n"
+"POT-Creation-Date: 2014-07-30 17:35-0600\n"
+"PO-Revision-Date: 2014-07-30 17:35-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -876,7 +876,7 @@ msgstr ""
 #: includes/download-directory/load.php:72
 #: includes/download-directory/load.php:79
 #: includes/download-directory/load.php:80
-msgid "Downlads directory"
+msgid "Downloads directory"
 msgstr ""
 
 #: ../framework/includes/download-directory/load.php:71
