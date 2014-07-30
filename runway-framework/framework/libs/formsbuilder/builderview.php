@@ -13,7 +13,18 @@
 				val = val.replace(/[^\sa-z-]+/gi,'');
 				val = val.trim();
 				val = val.replace(/\s+/g, '-');
-				$("#editable-post-name").text(val);
+
+                $.ajax({
+                    type: 'POST',
+                    url: ajaxurl,                        
+                    data: {
+                        action: 'check_is_options_page_alias_unique',
+                        alias: val
+                    }
+                }).done(function(response){
+                	if(!response)
+                		$("#editable-post-name").text(val);
+                });
 			});
 		});
 

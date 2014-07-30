@@ -15,6 +15,7 @@ class Apm_Admin extends Runway_Admin_Object {
 		$this->data_dir = get_stylesheet_directory() . '/data/';
 
 		add_action( 'wp_ajax_save_option_page', array( $this, 'save_option_page' ) );
+		add_action( 'wp_ajax_check_is_options_page_alias_unique', array( $this, 'check_is_options_page_alias_unique_ajax' ) );
 	}
 
 	// Add hooks & crooks
@@ -47,6 +48,25 @@ class Apm_Admin extends Runway_Admin_Object {
 		return $this->data;*/
 	}
 
+	public function check_is_options_page_alias_unique( $page_alias ) {
+
+		$pages = $this->get_pages_list();
+
+		$same_alias = FALSE;
+		foreach ( $pages as $own_page ) {
+			if ( trim( $own_page->settings->alias ) == trim( $page_alias ) && $page_alias != $own_page->settings->page_id ) {
+				$same_alias = TRUE;
+			}
+		}		
+		
+		return $same_alias;
+	}
+
+	public function check_is_options_page_alias_unique_ajax() {
+		echo $this->check_is_options_page_alias_unique( $_POST['alias'] );
+		die();
+	}
+
 	public function save_option_page() {
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -73,14 +93,9 @@ class Apm_Admin extends Runway_Admin_Object {
 				$page['settings']['alias'] = sanitize_title( $page['settings']['alias'] );
 
 				// Find out if this alias already exists
-				$matches = array(); $same_alias = FALSE;
+				$matches = array();
 				// check the same alias
-				foreach ( $pages as $own_page ) {
-					if ( trim( $own_page->settings->alias ) == trim( $page['settings']['alias'] ) &&
-						$page['settings']['page_id'] != $own_page->settings->page_id ) {
-						$same_alias = TRUE;
-					}
-				}
+				$same_alias = $this->check_is_options_page_alias_unique( $page['settings']['alias'] );
 
 				// if no same alias
 				if ( $same_alias ) {
