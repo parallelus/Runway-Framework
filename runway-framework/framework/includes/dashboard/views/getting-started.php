@@ -52,7 +52,7 @@
 				<li><?php echo __('Radio buttons', 'framework'); ?></li>
 				<li><?php echo __('Select drop down and multi-select', 'framework'); ?></li>
 				<li><?php echo __('Upload', 'framework'); ?></li>
-				<li><?php echo __('Date piker', 'framework'); ?></li>
+				<li><?php echo __('Date picker', 'framework'); ?></li>
 				<li><?php echo __('Color picker', 'framework'); ?></li>
 			</ul>
 			<h4><?php echo __('Custom Inputs', 'framework'); ?></h4>

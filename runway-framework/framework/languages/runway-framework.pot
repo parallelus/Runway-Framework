@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-07-30 16:25-0600\n"
-"PO-Revision-Date: 2014-07-30 16:25-0600\n"
+"POT-Creation-Date: 2014-07-30 17:05-0600\n"
+"PO-Revision-Date: 2014-07-30 17:06-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -624,7 +624,7 @@ msgstr ""
 #: ../framework/includes/dashboard/views/getting-started.php:21
 #: includes/dashboard/views/getting-started.php:21
 msgid ""
-"Distribute your thems as child or standalone installs. Child themes require "
+"Distribute your themes as child or standalone installs. Child themes require "
 "Runway, standalone themes don't and install directly on WordPress"
 msgstr ""
 
@@ -693,7 +693,7 @@ msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:55
 #: includes/dashboard/views/getting-started.php:55
-msgid "Date piker"
+msgid "Date picker"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:56
