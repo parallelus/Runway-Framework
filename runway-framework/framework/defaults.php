@@ -41,7 +41,7 @@ define( 'FRAMEWORK_URL', $frameworkUrl );   // URL of framework folder
 define( 'FRAMEWORK_DIR', $frameworkDir );   // Server path to framework folder
 define( 'FRAMEWORK_TEXT', $frameworkText ); // (deprecated) The text domain for translation functions
 define( 'IS_CHILD', (!file_exists(get_stylesheet_directory().'/framework/'))? true : false);     // Sets a constant if this is a child (not standalone) theme
-define( 'MIN_PHP_VERSION', '5.3.10' );		// Min PHP version
+define( 'MIN_PHP_VERSION', '5.3.1' );		// Min PHP version
 define('LIBS_DIR', $libsDir);
 
 //-----------------------------------------------------------------

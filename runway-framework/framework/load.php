@@ -5,22 +5,23 @@ function out( $what ) {
 	echo '<br><br>' . $bt[0]['file'] . '[' . $bt[0]['line'] . ']: <br><pre>' . print_r( $what, true ) . '</pre><br>';
 }
 
+define('MIN_PHP_VERSION_ID', 50301);
+
 function runway_php_version( $version = false ) {
-	$min_php_version = 50310;
-	
 	if (!defined ('PHP_VERSION_ID'))
 	{
 		$ver = array_map ('intval', explode ('.', PHP_VERSION, 3));
 		$ver[0] *= 10000;
 		$ver[1] *= 100;
 		define ('PHP_VERSION_ID', array_sum ($ver));
+		
 		unset ($ver);
 	}
 
 	if($version == true)
 		return PHP_VERSION_ID;
 	else {
-		if(PHP_VERSION_ID >= $min_php_version)
+		if(PHP_VERSION_ID >= MIN_PHP_VERSION_ID)
 			return true;
 		else
 			return false;
@@ -28,7 +29,7 @@ function runway_php_version( $version = false ) {
 }
 
 // Test the PHP version before we continue
-if ( runway_php_version(true) >= 50301 ) {
+if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 
 	// We're good! This at least v5.3.1
 
