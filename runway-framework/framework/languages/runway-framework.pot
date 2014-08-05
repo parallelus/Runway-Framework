@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-07-30 17:35-0600\n"
-"PO-Revision-Date: 2014-07-30 17:35-0600\n"
+"POT-Creation-Date: 2014-08-05 11:53-0600\n"
+"PO-Revision-Date: 2014-08-05 11:53-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -458,8 +458,7 @@ msgid "Your login is successful"
 msgstr ""
 
 #: ../framework/includes/auth-manager/load.php:24
-#: ../framework/includes/theme-updater/admin.php:10
-#: includes/auth-manager/load.php:24 includes/theme-updater/admin.php:10
+#: includes/auth-manager/load.php:24
 msgid "Accounts"
 msgstr ""
 
@@ -1671,44 +1670,41 @@ msgid ""
 "from the <a href=\""
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:82
-#: includes/report-manager/settings-object.php:82
+#: ../framework/includes/report-manager/settings-object.php:83
+#: includes/report-manager/settings-object.php:83
 msgid "Your PHP version is good! You are running version"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:83
-#: includes/report-manager/settings-object.php:83
+#: ../framework/includes/report-manager/settings-object.php:84
+#: includes/report-manager/settings-object.php:84
 msgid "Your PHP version is"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:83
-#: includes/report-manager/settings-object.php:83
+#: ../framework/includes/report-manager/settings-object.php:84
+#: includes/report-manager/settings-object.php:84
 msgid "Your PHP version id is"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:83
-#: includes/report-manager/settings-object.php:83
+#: ../framework/includes/report-manager/settings-object.php:84
+#: includes/report-manager/settings-object.php:84
 msgid "You must have PHP version"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:83
-#: includes/report-manager/settings-object.php:83
+#: ../framework/includes/report-manager/settings-object.php:84
+#: includes/report-manager/settings-object.php:84
 msgid "or later"
 msgstr ""
 
 #: ../framework/includes/theme-updater/admin.php:10
 #: includes/theme-updater/admin.php:10
-msgid "Please sign in with "
+#, php-format
+msgid "Please sign in to your %sParallelus Account%s."
 msgstr ""
 
 #: ../framework/includes/theme-updater/admin.php:13
 #: includes/theme-updater/admin.php:13
-msgid "You can get updates in "
-msgstr ""
-
-#: ../framework/includes/theme-updater/admin.php:13
-#: includes/theme-updater/admin.php:13
-msgid "Update core"
+#, php-format
+msgid "You can check for new versions from the %sUpdates%s area of your admin."
 msgstr ""
 
 #: ../framework/includes/theme-updater/extension_upgrader.php:12
