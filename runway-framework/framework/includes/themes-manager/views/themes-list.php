@@ -10,9 +10,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 	$popup_message = '<a href="#" class="screenshot"><img src="../wp-content/themes/runway-framework/framework/images/screenshot-transparent.png" width="265" height="199"></a>';
 	$popup_message .= '<h2>'. __( 'Welcome to Runway!', 'framework' ). '</h2><p>'. __( 'We recommend using Runway with an active child theme. Would you like to automatically activate the default child theme?', 'framework' ) .'</p>';
 	if ( !file_exists( $developer_tools->themes_path.'/liftoff' ) ) {
-		$zip = new ZipArchive();
-		$zip->open( $developer_tools->default_theme_package_path );
-		$zip->extractTo( $developer_tools->themes_path );
+		unzip_file($developer_tools->default_theme_package_path, $developer_tools->themes_path);
 	}
 	$options = array();
 	$options['Folder'] = 'liftoff';

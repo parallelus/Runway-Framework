@@ -62,7 +62,7 @@ case 'extension-deactivate':{ // Deactivate extension
 	} break;
 	// Add new extension
 case 'add-extension':{
-		if ( !$_POST['ext-submit'] ) {
+		if ( !isset($_POST['ext-submit']) ) {
 			if ( is_writable( $extm->extensions_dir ) ) {
 				include_once 'views/add-extension.php';
 			}
@@ -77,7 +77,8 @@ case 'add-extension':{
 			}
 			else {
 				if ( isset( $_FILES['extzip']['name'] ) && $_FILES['extzip']['name'] != '' ) {
-					$file_ext = array_pop( explode( '.', $_FILES['extzip']['name'] ) );
+					$exploded = explode( '.', $_FILES['extzip']['name'] );
+					$file_ext = array_pop( $exploded );
 					if ( $file_ext == 'zip' ) {
 						$info_message = $extm->load_new_extension( $_FILES['extzip'] );
 						$exts = $extm->get_extensions_list( $extm->extensions_dir );

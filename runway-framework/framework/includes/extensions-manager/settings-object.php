@@ -499,12 +499,11 @@ class Extm_Admin extends Runway_Admin_Object {
 	function load_new_extension( $file ) {
 
 		do_action( 'before_load_extension' );
-		$zip = new ZipArchive();
+		$upload_dir = wp_upload_dir();
 
-		if ( file_exists( $file ) ) {
+		if ( $upload_dir['path'].'/'.file_exists( $file ) ) {
 			if ( is_writable( $this->extensions_dir ) ) {
-				$zip->open( $file );
-				if ( !$zip->extractTo( $this->extensions_dir ) ) {
+				if(unzip_file($file, $this->extensions_dir) !== true) {
 					return __( 'Install error', 'framework' ).': '.$zip->getStatusString();
 				}
 				else {
@@ -532,21 +531,18 @@ class Extm_Admin extends Runway_Admin_Object {
 		}
 		else {
 			if ( is_writable( $this->extensions_dir ) ) {
-
-				$zip->open( $ext_file['file'] );
-				$ext = explode( '/', $zip->getNameIndex( 0 ) );
-				// out($ext_file);
-				unlink( $ext_file['file'] );
-				$ext = $ext[0].'/load.php';
-				// out($ext);
+				$exploded = $exploded = explode( '.', $file['name'] );
+				$ext = $exploded[0].'/load.php';
+				
 				if ( !file_exists( $this->extensions_dir.$ext ) ) {
-					$zip->extractTo( $this->extensions_dir );
-					// out($zip);
+					unzip_file($ext_file['file'], $this->extensions_dir);
 					$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
-					$zip->close();
-					// out($ext_info);
+					unlink( $ext_file['file'] );
 				}
-				else return __( 'Extension has already installed', 'framework' );
+				else {
+					unlink( $ext_file['file'] );
+					return __( 'Extension has already installed', 'framework' );
+				}
 
 				if ( $zip->status == 0 ) {
 					do_action( 'after_load_extension' );
