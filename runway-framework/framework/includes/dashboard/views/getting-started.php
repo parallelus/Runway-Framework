@@ -18,7 +18,7 @@
 			<!-- <p class="more"><a href="#options_builder">Options Builder Details &raquo;</a></p> -->
 
 			<h4><?php echo __('Download and Distribute', 'framework'); ?></h4>
-			<p><?php echo __('Distribute your themes as child or standalone installs. Child themes require Runway, standalone themes don\'t and install directly on WordPress', 'framework'); ?>.</p>
+			<p><?php echo __('Distribute your thems as child or standalone installs. Child themes require Runway, standalone themes don\'t and install directly on WordPress', 'framework'); ?>.</p>
 			<!-- <p class="more"><a href="#theme_packages">Theme Package Information &raquo;</a></p> -->
 		</div>
 	</div>
