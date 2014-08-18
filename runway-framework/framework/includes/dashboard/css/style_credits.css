@@ -1,0 +1,79 @@
+.tablenav-pages .current-page {
+	width: 50px;
+}
+
+.tablenav-pages button {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+	border: none;
+	color: #0074a2;
+	cursor: pointer;
+	padding: 0 10px 3px;
+}
+
+.tablenav-pages button:hover {
+	background-color: #2ea2cc;
+	color: #ffffff;
+}
+
+.credits {
+    border-bottom: 1px solid #e8e7e6;
+    clear: both;
+    margin: 0 0 2em;
+    padding: 1em 0 0;
+}
+
+.credits-row {
+    border-top: 1px solid #e8e7e6;
+    padding: 10px 0;
+}
+
+.credits-column {
+    display: block;
+    vertical-align: top;
+}
+
+.credits-column {
+    display: table-cell;
+    padding: 0 10px;
+}
+
+.credits-user {
+    height: 60px;
+    max-width: 100%;
+    width: 250px;
+}
+
+.credits-user .avatar {
+    float: left;
+    height: 60px;
+    margin: 0 15px 0 0;
+    width: 60px;
+}
+
+.credits-user .user-name {
+    display: inline-block;
+    font-size: 12px;
+}
+
+.credits-user .user, .credits-user .name {
+    display: block;
+}
+
+.credits-user .name {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 24px;
+    padding-top: 8px;
+}
+
+.credits-user .user {
+    line-height: 1.25;
+}
+
+.credits-column.achievements {
+}
+
+.credits .badge {
+    display: inline-block;
+    margin: 10px 5px 0 0;
+}

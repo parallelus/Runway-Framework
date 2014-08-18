@@ -2,8 +2,6 @@
 		<h3><?php echo __('Credits', 'framework'); ?></h3>
 
 		<?php
-		wp_enqueue_script('sort_credits-js', get_template_directory() . '/framework/includes/dashboard/js/sort_credits.js');
-		//out($Dashboard_Admin->credits);
 		if($Dashboard_Admin->credits['success']) { ?>
 			<form id="credits_sort_form" method="post">
 				<div class="pull-right tablenav">
@@ -20,93 +18,41 @@
 					
 					<div class="tablenav-pages">
 						<span class="displaying-num"><?php echo $Dashboard_Admin->credits['totalResults'];?> <?php echo __('items', 'framework'); ?></span>
-						<button class="first-page disabled pagination">&laquo;</button>
-						<button class="next-page disabled pagination">&lt;</button>
+						<button class="first-page disabled pagination" name="first_page">&laquo;</button>
+						<button class="prev-page disabled pagination" name="prev_page">‹</button>
 						<span class="paging-input">
-							<input type="text" class="current-page" value="1"/>
-							<?php echo __('of', 'framework'); ?> <span class="total-pages">2</span>
+							<input type="text" class="current-page" value="<?php echo $Dashboard_Admin->currentPage; ?>"/>
+							<?php echo __('of', 'framework'); ?> <span class="total-pages"><?php echo ceil($Dashboard_Admin->credits['totalResults']/$Dashboard_Admin->perPage); ?></span>
 						</span>
-						<button class="prev-page disabled pagination">&gt;</button>
-						<button class="last-page disabled pagination">&raquo;</button>
+						<button class="next-page disabled pagination" name="next_page">›</button>
+						<button class="last-page disabled pagination" name="last_page">&raquo;</button>
 					</div>
 				</div>
-		
-				<table class="wp-list-table widefat fixed">
-					<thead>
-						<tr>
-							<th class="manage-column">
-								<?php echo __('Avatar', 'framework'); ?>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Username', 'framework'); ?>
-								</a>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Display name', 'framework'); ?>
-								</a>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Achievements', 'framework'); ?>
-								</a>
-							</th>
-						</tr>
-					</thead>
-
-					<tbody>
-				<?php foreach($Dashboard_Admin->credits['result'] as $key => $credit) { ?>
-						<tr>
-							<td><img src="<?php echo $credit['avatar_url'];?>"/></td>
-							<td><?php echo $credit['user_name'];?></td>
-							<td><?php echo $credit['displayname'];?></td>
-							<td>
-								<?php foreach($credit['achievements'] as $achievement) { ?>
-								<img src="<?php echo $achievement['achievement_image']; ?>" />
-								<?php } ?>
-							</td>
-						</tr>
-				<?php } ?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th class="manage-column">
-								<?php echo __('Avatar', 'framework'); ?>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Username', 'framework'); ?>
-								</a>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Display name', 'framework'); ?>
-								</a>
-							</th>
-							<th id="title" class="manage-column" style="" scope="col">
-								<a href="http://runway.dev/wp-admin/edit.php?orderby=title&order=asc">
-									<?php echo __('Achievements', 'framework'); ?>
-								</a>
-							</th>
-						</tr>
-					</tfoot>
-				</table>
+				
+				<div class="credits">
+					<?php foreach($Dashboard_Admin->credits['result'] as $key => $credit) { ?>
+					<div class="credits-row">
+						<div class="credits-column">
+							<div class="credits-user">
+								<span class="avatar">
+									<img src="<?php echo $credit['avatar_url'];?>" width="60" height="60" alt="<?php echo $credit['displayname'];?>"/>
+								</span>
+								<span class="user-name">
+									<span class="name"><?php echo $credit['displayname'];?></span>
+									<span class="user"><?php echo $credit['username'];?></span>
+								</span>
+							</div>
+						</div>
+						<div class="credits-column achievements">
+							<?php foreach($credit['achievements'] as $achievement) { ?>
+							<span class="badge">
+								<img src="<?php echo $achievement['achievement_image']; ?>" width="40" height="40" alt="<?php echo $achievement['achievement_name']; ?>"/>
+							</span>
+							<?php } ?>
+						</div>
+					</div>
+					<?php } ?>
+				</div>
 			</form>
-		<?php }
-		/*if($Dashboard_Admin->credits['success']): ?>
-			<div class="pull-right">
-				<form id="credits_sort_form" method="post">
-					<select class="credits-sort" name="sort" id="credits_sort">
-						<option value="achievements_count" <?php echo ($Dashboard_Admin->sort == 'achievements_count')? 'selected' : ''; ?>><?php _e( 'Achievement count', 'framework' ) ?></option>
-						<option value="username" <?php echo ($Dashboard_Admin->sort == 'username')? 'selected' : ''; ?>><?php _e( 'Name', 'framework' ) ?></option>
-					</select>
-					<input name="request" type="hidden" value="<?php echo $Dashboard_Admin->request; ?>">
-					<input name="token" type="hidden" value="<?php echo $Dashboard_Admin->token; ?>">
-				</form>
-			</div>
-			<div class="credits">
-				<?php echo $Dashboard_Admin->credits['result']; ?>
-			</div>
-		<?php endif;*/ ?>	
+		<?php } ?>	
 	</div>
