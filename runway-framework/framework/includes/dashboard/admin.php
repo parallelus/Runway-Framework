@@ -71,7 +71,7 @@
 </script>
 
 <?php
-if(isset($_POST['request']) && $_POST['request'] == 'get_achievements') { out($this->url); ?>
+if(isset($_POST['request']) && $_POST['request'] == 'get_achievements') { ?>
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			jQuery('.tab-controlls a[href=#credits]').trigger("click");
