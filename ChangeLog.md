@@ -1,3 +1,8 @@
+## v1.1.1 (June 24th 2014)
+
+* Fix for '[]' instead of 'array()' reference in code.
+
+
 ## v1.1 (June 20th 2014)
 
 * Fixed notice: Constant DS already defined in framework/includes/themes-manager/object.php
@@ -65,3 +70,25 @@
 * The enhancement “Add custom base64_decode function” is fixed
 * Moved Theme Updater extension to core
 * Updated Theme Updater extension
+
+
+## v1.0.1 (January 9th 2014)
+
+* Fix for #6, local data for Layout Manager fields.
+* Fixed missing image in Forms Builder.
+* Added the checking for 'DS' constant #5.
+* Added the message about successful settings save #10.
+* Update develop branch to the latest version of the framework
+* Add extensions dir
+* Fixed bug in report-manager
+* Change extensions server source
+* Add new extensions "Auth Manager" structure
+* Inputs not showing in correct order - issue #12 is fixed
+* Changes in auth manager
+* Local JSON data file for Reports Manager
+* Fix for edit/delete buttons in Forms Builder on WP 3.8 new interface.
+
+
+## v1.0 (November 5th 2013)
+
+* Initial release of version 1.0
