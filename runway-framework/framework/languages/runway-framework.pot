@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-08-05 11:53-0600\n"
-"PO-Revision-Date: 2014-08-05 11:53-0600\n"
+"POT-Creation-Date: 2014-08-20 15:01-0600\n"
+"PO-Revision-Date: 2014-08-20 15:01-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Generator: Poedit 1.6.8\n"
 "X-Poedit-Basepath: ../\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
@@ -244,6 +244,8 @@ msgstr ""
 
 #: ../data-types/datepicker-type.php:148 ../data-types/datepicker-type.php:296
 #: ../data-types/datepicker-type.php:302
+#: ../framework/includes/dashboard/views/credits.php:25
+#: includes/dashboard/views/credits.php:25
 msgid "of"
 msgstr ""
 
@@ -336,8 +338,8 @@ msgid "INSERT LINK TO IMAGE"
 msgstr ""
 
 #: ../data-types/radio-buttons.php:226
-#: ../framework/includes/dashboard/views/getting-started.php:52
-#: includes/dashboard/views/getting-started.php:52
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
 msgid "Radio buttons"
 msgstr ""
 
@@ -420,8 +422,8 @@ msgid "Text editor"
 msgstr ""
 
 #: ../data-types/textarea-type.php:180
-#: ../framework/includes/dashboard/views/getting-started.php:49
-#: includes/dashboard/views/getting-started.php:49
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
 msgid "Textarea"
 msgstr ""
 
@@ -515,116 +517,142 @@ msgstr ""
 
 #: ../framework/includes/dashboard/admin.php:24
 #: includes/dashboard/admin.php:24
-msgid "Contribute"
+msgid "Credits"
 msgstr ""
 
 #: ../framework/includes/dashboard/load.php:29 includes/dashboard/load.php:29
 msgid "Dashboard"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/contribute.php:3
-#: includes/dashboard/views/contribute.php:3
-msgid "Runway is an open source project"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/contribute.php:17
-#: includes/dashboard/views/contribute.php:17
+#: ../framework/includes/dashboard/views/credits.php:2
+#: includes/dashboard/views/credits.php:2
 msgid ""
-"Be a part of the community and help contribute with your ideas and feedback"
+"Runway wouldn't be possible without the support of the community. We value "
+"that community and believe in recognizing all those who help make it one of "
+"the best additions to the WordPress ecosystem."
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:5
-#: includes/dashboard/views/getting-started.php:5
+#: ../framework/includes/dashboard/views/credits.php:9
+#: includes/dashboard/views/credits.php:9
+msgid "Achievement count (from hight to low)"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/credits.php:10
+#: includes/dashboard/views/credits.php:10
+msgid "Achievement count (from low to hight)"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/credits.php:11
+#: includes/dashboard/views/credits.php:11
+msgid "Name (A-Z)"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/credits.php:12
+#: includes/dashboard/views/credits.php:12
+msgid "Name (Z-A)"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/credits.php:20
+#: ../framework/includes/download-directory/views/browse.php:36
+#: ../framework/includes/download-directory/views/browse.php:126
+#: includes/dashboard/views/credits.php:20
+#: includes/download-directory/views/browse.php:36
+#: includes/download-directory/views/browse.php:126
+msgid "items"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:6
+#: includes/dashboard/views/getting-started.php:6
 msgid "Creating a Theme"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:9
-#: includes/dashboard/views/getting-started.php:9
-msgid "Make a New Child Theme"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:10
 #: includes/dashboard/views/getting-started.php:10
+msgid "1. Make a New Child Theme"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:11
+#: includes/dashboard/views/getting-started.php:11
 msgid ""
 "Runway was built for creating WordPress themes. The first step is a new "
 "child theme. Go to"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:10
+#: ../framework/includes/dashboard/views/getting-started.php:11
 #: ../framework/includes/options-builder/admin.php:7
 #: ../framework/includes/themes-manager/load.php:26
-#: includes/dashboard/views/getting-started.php:10
+#: includes/dashboard/views/getting-started.php:11
 #: includes/options-builder/admin.php:7 includes/themes-manager/load.php:26
 msgid "Runway Themes"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:10
-#: includes/dashboard/views/getting-started.php:10
+#: ../framework/includes/dashboard/views/getting-started.php:11
+#: includes/dashboard/views/getting-started.php:11
 msgid "and click"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:10
+#: ../framework/includes/dashboard/views/getting-started.php:11
 #: ../framework/includes/themes-manager/load.php:61
-#: includes/dashboard/views/getting-started.php:10
+#: includes/dashboard/views/getting-started.php:11
 #: includes/themes-manager/load.php:61
 msgid "New Theme"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:10
-#: includes/dashboard/views/getting-started.php:10
+#: ../framework/includes/dashboard/views/getting-started.php:11
+#: includes/dashboard/views/getting-started.php:11
 msgid "Fill in the details and Runway will create the new child theme"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:12
+#: includes/dashboard/views/getting-started.php:12
+msgid "2. Design Your Theme"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:13
 #: includes/dashboard/views/getting-started.php:13
-msgid "Design Your Theme"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:14
-#: includes/dashboard/views/getting-started.php:14
 msgid ""
 "You can upload files to your child theme by going to the default themes "
 "directory"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:14
-#: includes/dashboard/views/getting-started.php:14
+#: ../framework/includes/dashboard/views/getting-started.php:13
+#: includes/dashboard/views/getting-started.php:13
 msgid "in your WordPress install"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:16
-#: includes/dashboard/views/getting-started.php:16
-msgid "Create Options Pages"
+#: ../framework/includes/dashboard/views/getting-started.php:14
+#: includes/dashboard/views/getting-started.php:14
+msgid "3. Create Options Pages"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:17
-#: includes/dashboard/views/getting-started.php:17
+#: ../framework/includes/dashboard/views/getting-started.php:15
+#: includes/dashboard/views/getting-started.php:15
 msgid "Setup theme options and admin pages using the"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:17
-#: ../framework/includes/dashboard/views/getting-started.php:27
+#: ../framework/includes/dashboard/views/getting-started.php:15
+#: ../framework/includes/dashboard/views/getting-started.php:28
 #: ../framework/includes/dashboard/views/getting-started.php:31
-#: ../framework/includes/dashboard/views/getting-started.php:46
+#: ../framework/includes/dashboard/views/getting-started.php:57
 #: ../framework/includes/options-builder/load.php:39
-#: includes/dashboard/views/getting-started.php:17
-#: includes/dashboard/views/getting-started.php:27
+#: includes/dashboard/views/getting-started.php:15
+#: includes/dashboard/views/getting-started.php:28
 #: includes/dashboard/views/getting-started.php:31
-#: includes/dashboard/views/getting-started.php:46
+#: includes/dashboard/views/getting-started.php:57
 #: includes/options-builder/load.php:39
 msgid "Options Builder"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:20
-#: includes/dashboard/views/getting-started.php:20
-msgid "Download and Distribute"
+#: ../framework/includes/dashboard/views/getting-started.php:16
+#: includes/dashboard/views/getting-started.php:16
+msgid "4. Download and Distribute"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:21
-#: includes/dashboard/views/getting-started.php:21
+#: ../framework/includes/dashboard/views/getting-started.php:17
+#: includes/dashboard/views/getting-started.php:17
 msgid ""
-"Distribute your themes as child or standalone installs. Child themes require "
-"Runway, standalone themes don't and install directly on WordPress"
+"Distribute as child or standalone installs. Child themes require Runway, "
+"standalone themes don't and install directly on WordPress"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:30
@@ -645,58 +673,58 @@ msgid ""
 "Builder interface"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/getting-started.php:41
-#: includes/dashboard/views/getting-started.php:41
+#: ../framework/includes/dashboard/views/getting-started.php:49
+#: includes/dashboard/views/getting-started.php:49
 msgid "Theme Options"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:45
-#: includes/dashboard/views/getting-started.php:45
-msgid "Options Pages"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:46
-#: includes/dashboard/views/getting-started.php:46
-msgid "Add theme options and custom inputs to admin pages using the"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:46
-#: includes/dashboard/views/getting-started.php:46
-msgid "Input types include"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:48
-#: includes/dashboard/views/getting-started.php:48
-msgid "Text input"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:50
-#: includes/dashboard/views/getting-started.php:50
-msgid "Rich text editor (WYSIWYG)"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:51
-#: includes/dashboard/views/getting-started.php:51
-msgid "Checkbox and multi-checkbox"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:53
-#: includes/dashboard/views/getting-started.php:53
-msgid "Select drop down and multi-select"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:54
-#: includes/dashboard/views/getting-started.php:54
-msgid "Upload"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/getting-started.php:55
-#: includes/dashboard/views/getting-started.php:55
-msgid "Date picker"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:56
 #: includes/dashboard/views/getting-started.php:56
+msgid "Options Pages"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Add theme options and custom inputs to admin pages using the"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Input types include:"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Text input"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Rich text editor (WYSIWYG)"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Checkbox and multi-checkbox"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Select drop down and multi-select"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Upload"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
+msgid "Date picker"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/getting-started.php:57
+#: includes/dashboard/views/getting-started.php:57
 msgid "Color picker"
 msgstr ""
 
@@ -734,7 +762,7 @@ msgstr ""
 #: includes/dashboard/views/introduction.php:13
 msgid ""
 "Making themes is what Runway is about. Create new child themes, custom "
-"designs or download and install a Runway child theme"
+"designs or download a Runway child theme."
 msgstr ""
 
 #: ../framework/includes/dashboard/views/introduction.php:15
@@ -760,8 +788,8 @@ msgstr ""
 #: ../framework/includes/dashboard/views/introduction.php:23
 #: includes/dashboard/views/introduction.php:23
 msgid ""
-"Extensions can quickly add features to your theme. Similar to plugins except "
-"integrated with the theme instead of WordPress for easy distribution"
+"Extensions quickly add features to your theme, like a plugin integrated with "
+"the theme for easy distribution."
 msgstr ""
 
 #: ../framework/includes/dashboard/views/introduction.php:25
@@ -787,8 +815,8 @@ msgstr ""
 #: ../framework/includes/dashboard/views/introduction.php:32
 #: includes/dashboard/views/introduction.php:32
 msgid ""
-"Create options pages, admin menus and much more. The Options Builder offers "
-"an easy user interface for creating theme options"
+"Create options pages, admin menus and much more. The Options Builder "
+"interface allows you to create theme options."
 msgstr ""
 
 #: ../framework/includes/dashboard/views/introduction.php:34
@@ -802,64 +830,100 @@ msgid "Manage admin menus"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/release-notes.php:5
+#: ../framework/includes/dashboard/views/release-notes.php:11
+#: ../framework/includes/dashboard/views/release-notes.php:17
+#: ../framework/includes/dashboard/views/release-notes.php:23
 #: includes/dashboard/views/release-notes.php:5
-msgid "Beta 1"
+#: includes/dashboard/views/release-notes.php:11
+#: includes/dashboard/views/release-notes.php:17
+#: includes/dashboard/views/release-notes.php:23
+msgid "Release"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/release-notes.php:7
-#: ../framework/includes/download-directory/views/browse.php:80
-#: ../framework/includes/download-directory/views/browse.php:100
-#: ../framework/includes/download-directory/views/browse.php:117
-#: ../framework/includes/download-directory/views/search.php:5
-#: ../framework/includes/download-directory/views/search.php:33
-#: ../framework/includes/extensions-manager/views/admin-home.php:77
-#: ../framework/includes/themes-manager/settings-object.php:907
-#: ../framework/includes/themes-manager/views/theme-conf.php:126
 #: includes/dashboard/views/release-notes.php:7
-#: includes/download-directory/views/browse.php:80
-#: includes/download-directory/views/browse.php:100
-#: includes/download-directory/views/browse.php:117
-#: includes/download-directory/views/search.php:5
-#: includes/download-directory/views/search.php:33
-#: includes/extensions-manager/views/admin-home.php:77
-#: includes/themes-manager/settings-object.php:907
-#: includes/themes-manager/views/theme-conf.php:126
-msgid "Version"
+msgid "Version 1.2"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/release-notes.php:8
-#: includes/dashboard/views/release-notes.php:8
+#: ../framework/includes/dashboard/views/release-notes.php:13
+#: includes/dashboard/views/release-notes.php:13
+msgid "Version 1.1.1"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:19
+#: includes/dashboard/views/release-notes.php:19
+msgid "Version 1.1"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:25
+#: includes/dashboard/views/release-notes.php:25
+msgid "Version 1.0.1"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:29
+#: includes/dashboard/views/release-notes.php:29
+msgid "Initial Release"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:31
+#: includes/dashboard/views/release-notes.php:31
+msgid "Version 1.0"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:32
+#: includes/dashboard/views/release-notes.php:32
+msgid "Initial release version."
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:36
+#: includes/dashboard/views/release-notes.php:36
+msgid "Beta 1"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:38
+#: includes/dashboard/views/release-notes.php:38
+msgid "Version 0.1"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/release-notes.php:39
+#: includes/dashboard/views/release-notes.php:39
 msgid "Core functionality created"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/support.php:4
-#: includes/dashboard/views/support.php:4
+#: ../framework/includes/dashboard/views/support.php:2
+#: ../framework/includes/dashboard/views/support.php:8
+#: includes/dashboard/views/support.php:2
+#: includes/dashboard/views/support.php:8
 msgid "Support Forums"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/support.php:8
-#: includes/dashboard/views/support.php:8
-msgid "Visit our"
-msgstr ""
-
-#: ../framework/includes/dashboard/views/support.php:8
-#: includes/dashboard/views/support.php:8
-msgid ""
-"Beta Feedback Forum</a> to report bugs, ask questions and share ideas for "
-"updates and new features"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/support.php:9
 #: includes/dashboard/views/support.php:9
-msgid "Coming soon"
+msgid ""
+"Active support forums are maintained on the Runway website for developers, "
+"community members and users to help each other."
 msgstr ""
 
 #: ../framework/includes/dashboard/views/support.php:10
 #: includes/dashboard/views/support.php:10
+msgid "Runway Support Forums"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/support.php:14
+#: includes/dashboard/views/support.php:14
+msgid "GitHub"
+msgstr ""
+
+#: ../framework/includes/dashboard/views/support.php:15
+#: includes/dashboard/views/support.php:15
 msgid ""
-"Community support is on the way. The next big steps in making Runway the "
-"best it can be is a great resources for sharing information and excellent "
-"great support"
+"As an open source project everyone can contribute to Runway. You can submit "
+"issues, suggest features and more from the GitHub project."
+msgstr ""
+
+#: ../framework/includes/dashboard/views/support.php:16
+#: includes/dashboard/views/support.php:16
+msgid "Runway Framework on Github"
 msgstr ""
 
 #: ../framework/includes/download-directory/load.php:28
@@ -929,13 +993,6 @@ msgstr ""
 msgid "Search Directory"
 msgstr ""
 
-#: ../framework/includes/download-directory/views/browse.php:36
-#: ../framework/includes/download-directory/views/browse.php:126
-#: includes/download-directory/views/browse.php:36
-#: includes/download-directory/views/browse.php:126
-msgid "items"
-msgstr ""
-
 #: ../framework/includes/download-directory/views/browse.php:40
 #: ../framework/includes/download-directory/views/browse.php:44
 #: ../framework/includes/download-directory/views/browse.php:130
@@ -996,6 +1053,25 @@ msgstr ""
 #: includes/download-directory/views/search.php:4
 #: includes/download-directory/views/search.php:32
 msgid "Name"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/browse.php:80
+#: ../framework/includes/download-directory/views/browse.php:100
+#: ../framework/includes/download-directory/views/browse.php:117
+#: ../framework/includes/download-directory/views/search.php:5
+#: ../framework/includes/download-directory/views/search.php:33
+#: ../framework/includes/extensions-manager/views/admin-home.php:77
+#: ../framework/includes/themes-manager/settings-object.php:907
+#: ../framework/includes/themes-manager/views/theme-conf.php:126
+#: includes/download-directory/views/browse.php:80
+#: includes/download-directory/views/browse.php:100
+#: includes/download-directory/views/browse.php:117
+#: includes/download-directory/views/search.php:5
+#: includes/download-directory/views/search.php:33
+#: includes/extensions-manager/views/admin-home.php:77
+#: includes/themes-manager/settings-object.php:907
+#: includes/themes-manager/views/theme-conf.php:126
+msgid "Version"
 msgstr ""
 
 #: ../framework/includes/download-directory/views/browse.php:81
@@ -1066,39 +1142,39 @@ msgstr ""
 #: ../framework/includes/extensions-manager/admin.php:13
 #: ../framework/includes/extensions-manager/admin.php:44
 #: ../framework/includes/extensions-manager/admin.php:57
-#: ../framework/includes/extensions-manager/admin.php:109
-#: ../framework/includes/extensions-manager/admin.php:192
+#: ../framework/includes/extensions-manager/admin.php:110
+#: ../framework/includes/extensions-manager/admin.php:193
 #: includes/extensions-manager/admin.php:13
 #: includes/extensions-manager/admin.php:44
 #: includes/extensions-manager/admin.php:57
-#: includes/extensions-manager/admin.php:109
-#: includes/extensions-manager/admin.php:192
+#: includes/extensions-manager/admin.php:110
+#: includes/extensions-manager/admin.php:193
 msgid "You must have write permissions for"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/admin.php:14
 #: ../framework/includes/extensions-manager/admin.php:45
 #: ../framework/includes/extensions-manager/admin.php:58
-#: ../framework/includes/extensions-manager/admin.php:110
-#: ../framework/includes/extensions-manager/admin.php:193
+#: ../framework/includes/extensions-manager/admin.php:111
+#: ../framework/includes/extensions-manager/admin.php:194
 #: includes/extensions-manager/admin.php:14
 #: includes/extensions-manager/admin.php:45
 #: includes/extensions-manager/admin.php:58
-#: includes/extensions-manager/admin.php:110
-#: includes/extensions-manager/admin.php:193
+#: includes/extensions-manager/admin.php:111
+#: includes/extensions-manager/admin.php:194
 msgid "All your actions not be saved"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/admin.php:44
 #: ../framework/includes/extensions-manager/admin.php:57
-#: ../framework/includes/extensions-manager/admin.php:109
-#: ../framework/includes/extensions-manager/admin.php:192
-#: ../framework/includes/extensions-manager/settings-object.php:531
+#: ../framework/includes/extensions-manager/admin.php:110
+#: ../framework/includes/extensions-manager/admin.php:193
+#: ../framework/includes/extensions-manager/settings-object.php:530
 #: includes/extensions-manager/admin.php:44
 #: includes/extensions-manager/admin.php:57
-#: includes/extensions-manager/admin.php:109
-#: includes/extensions-manager/admin.php:192
-#: includes/extensions-manager/settings-object.php:531
+#: includes/extensions-manager/admin.php:110
+#: includes/extensions-manager/admin.php:193
+#: includes/extensions-manager/settings-object.php:530
 msgid "ERROR"
 msgstr ""
 
@@ -1112,37 +1188,37 @@ msgstr ""
 msgid "Sorry, your nonce did not verify"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:87
-#: includes/extensions-manager/admin.php:87
+#: ../framework/includes/extensions-manager/admin.php:88
+#: includes/extensions-manager/admin.php:88
 msgid "File must have"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:87
-#: includes/extensions-manager/admin.php:87
+#: ../framework/includes/extensions-manager/admin.php:88
+#: includes/extensions-manager/admin.php:88
 msgid "extension Please choose another file"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:92
-#: includes/extensions-manager/admin.php:92
+#: ../framework/includes/extensions-manager/admin.php:93
+#: includes/extensions-manager/admin.php:93
 msgid "Select a file"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:153
-#: includes/extensions-manager/admin.php:153
+#: ../framework/includes/extensions-manager/admin.php:154
+#: includes/extensions-manager/admin.php:154
 msgid ""
 "extensions not activate. To activate this extension you must activate next "
 "extensions"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:162
+#: ../framework/includes/extensions-manager/admin.php:163
 #: ../framework/includes/extensions-manager/settings-object.php:322
-#: includes/extensions-manager/admin.php:162
+#: includes/extensions-manager/admin.php:163
 #: includes/extensions-manager/settings-object.php:322
 msgid "Activate dependencies and selected extensions"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/admin.php:187
-#: includes/extensions-manager/admin.php:187
+#: ../framework/includes/extensions-manager/admin.php:188
+#: includes/extensions-manager/admin.php:188
 msgid "Please, select the action"
 msgstr ""
 
@@ -1187,10 +1263,10 @@ msgid "Extension deactivated"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/settings-object.php:258
-#: ../framework/includes/extensions-manager/settings-object.php:517
+#: ../framework/includes/extensions-manager/settings-object.php:516
 #: ../framework/includes/extensions-manager/views/admin-home.php:48
 #: includes/extensions-manager/settings-object.php:258
-#: includes/extensions-manager/settings-object.php:517
+#: includes/extensions-manager/settings-object.php:516
 #: includes/extensions-manager/views/admin-home.php:48
 msgid "Extension"
 msgstr ""
@@ -1217,47 +1293,47 @@ msgstr ""
 msgid "Extension was deleted"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:508
-#: ../framework/includes/extensions-manager/settings-object.php:520
-#: ../framework/includes/extensions-manager/settings-object.php:556
-#: includes/extensions-manager/settings-object.php:508
-#: includes/extensions-manager/settings-object.php:520
-#: includes/extensions-manager/settings-object.php:556
+#: ../framework/includes/extensions-manager/settings-object.php:507
+#: ../framework/includes/extensions-manager/settings-object.php:519
+#: ../framework/includes/extensions-manager/settings-object.php:552
+#: includes/extensions-manager/settings-object.php:507
+#: includes/extensions-manager/settings-object.php:519
+#: includes/extensions-manager/settings-object.php:552
 msgid "Install error"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:517
-#: includes/extensions-manager/settings-object.php:517
+#: ../framework/includes/extensions-manager/settings-object.php:516
+#: includes/extensions-manager/settings-object.php:516
 msgid "has been installed. Do you want to activate it"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:517
-#: includes/extensions-manager/settings-object.php:517
+#: ../framework/includes/extensions-manager/settings-object.php:516
+#: includes/extensions-manager/settings-object.php:516
 msgid "activate it"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:525
-#: includes/extensions-manager/settings-object.php:525
+#: ../framework/includes/extensions-manager/settings-object.php:524
+#: includes/extensions-manager/settings-object.php:524
 msgid "Extensions directory must be writable"
+msgstr ""
+
+#: ../framework/includes/extensions-manager/settings-object.php:544
+#: includes/extensions-manager/settings-object.php:544
+msgid "Extension has already installed"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/settings-object.php:549
 #: includes/extensions-manager/settings-object.php:549
-msgid "Extension has already installed"
-msgstr ""
-
-#: ../framework/includes/extensions-manager/settings-object.php:553
-#: includes/extensions-manager/settings-object.php:553
 msgid "The extension"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:553
-#: includes/extensions-manager/settings-object.php:553
+#: ../framework/includes/extensions-manager/settings-object.php:549
+#: includes/extensions-manager/settings-object.php:549
 msgid "installed successfully. Would you like to"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:553
-#: includes/extensions-manager/settings-object.php:553
+#: ../framework/includes/extensions-manager/settings-object.php:549
+#: includes/extensions-manager/settings-object.php:549
 msgid "activate it now"
 msgstr ""
 
@@ -1273,8 +1349,8 @@ msgid ""
 "here."
 msgstr ""
 
-#: ../framework/includes/extensions-manager/views/add-extension.php:20
-#: includes/extensions-manager/views/add-extension.php:20
+#: ../framework/includes/extensions-manager/views/add-extension.php:21
+#: includes/extensions-manager/views/add-extension.php:21
 msgid "Plugin zip file"
 msgstr ""
 
@@ -1301,11 +1377,11 @@ msgstr ""
 #: ../framework/includes/extensions-manager/views/admin-home.php:36
 #: ../framework/includes/extensions-manager/views/admin-home.php:65
 #: ../framework/includes/themes-manager/settings-object.php:935
-#: ../framework/includes/themes-manager/views/themes-list.php:93
+#: ../framework/includes/themes-manager/views/themes-list.php:91
 #: includes/extensions-manager/views/admin-home.php:36
 #: includes/extensions-manager/views/admin-home.php:65
 #: includes/themes-manager/settings-object.php:935
-#: includes/themes-manager/views/themes-list.php:93
+#: includes/themes-manager/views/themes-list.php:91
 msgid "Activate"
 msgstr ""
 
@@ -2333,53 +2409,53 @@ msgid ""
 "automatically activate the default child theme?"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:45
-#: includes/themes-manager/views/themes-list.php:45
+#: ../framework/includes/themes-manager/views/themes-list.php:43
+#: includes/themes-manager/views/themes-list.php:43
 msgid "Enable default theme for a network"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:48
-#: includes/themes-manager/views/themes-list.php:48
+#: ../framework/includes/themes-manager/views/themes-list.php:46
+#: includes/themes-manager/views/themes-list.php:46
 msgid "Enable"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:49
-#: ../framework/includes/themes-manager/views/themes-list.php:94
-#: ../framework/includes/themes-manager/views/themes-list.php:107
-#: includes/themes-manager/views/themes-list.php:49
-#: includes/themes-manager/views/themes-list.php:94
-#: includes/themes-manager/views/themes-list.php:107
+#: ../framework/includes/themes-manager/views/themes-list.php:47
+#: ../framework/includes/themes-manager/views/themes-list.php:92
+#: ../framework/includes/themes-manager/views/themes-list.php:105
+#: includes/themes-manager/views/themes-list.php:47
+#: includes/themes-manager/views/themes-list.php:92
+#: includes/themes-manager/views/themes-list.php:105
 msgid "Cancel"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:103
+#: includes/themes-manager/views/themes-list.php:103
+msgid "Enter a new folder name:"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/themes-list.php:105
 #: includes/themes-manager/views/themes-list.php:105
-msgid "Enter a new folder name:"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/themes-list.php:107
-#: includes/themes-manager/views/themes-list.php:107
 msgid "Submit"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:107
-#: includes/themes-manager/views/themes-list.php:107
+#: ../framework/includes/themes-manager/views/themes-list.php:105
+#: includes/themes-manager/views/themes-list.php:105
 msgid "X"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:113
-#: includes/themes-manager/views/themes-list.php:113
+#: ../framework/includes/themes-manager/views/themes-list.php:111
+#: includes/themes-manager/views/themes-list.php:111
 msgid "Loading ..."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:206
-#: includes/themes-manager/views/themes-list.php:206
+#: ../framework/includes/themes-manager/views/themes-list.php:204
+#: includes/themes-manager/views/themes-list.php:204
 msgid ""
 "This theme folder name is already in use. Please choose a different name."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:244
-#: includes/themes-manager/views/themes-list.php:244
+#: ../framework/includes/themes-manager/views/themes-list.php:242
+#: includes/themes-manager/views/themes-list.php:242
 msgid ""
 "A child theme can be run on any WordPress install with the Runway framework "
 "active. You can use Runway to setup custom theme options, menus and many "
@@ -2388,23 +2464,23 @@ msgid ""
 "WordPress install regardless of having Runway active"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:247
-#: includes/themes-manager/views/themes-list.php:247
+#: ../framework/includes/themes-manager/views/themes-list.php:245
+#: includes/themes-manager/views/themes-list.php:245
 msgid "Current Theme"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:292
-#: includes/themes-manager/views/themes-list.php:292
+#: ../framework/includes/themes-manager/views/themes-list.php:290
+#: includes/themes-manager/views/themes-list.php:290
 msgid "Available Runway themes"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:355
-#: includes/themes-manager/views/themes-list.php:355
+#: ../framework/includes/themes-manager/views/themes-list.php:353
+#: includes/themes-manager/views/themes-list.php:353
 msgid "Network Enable"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:370
-#: includes/themes-manager/views/themes-list.php:370
+#: ../framework/includes/themes-manager/views/themes-list.php:368
+#: includes/themes-manager/views/themes-list.php:368
 msgid "Please wait until an administrator activates theme for the network"
 msgstr ""
 
