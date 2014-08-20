@@ -1,5 +1,5 @@
 	<div class="changelog">
-		<h3><?php echo __('Credits', 'framework'); ?></h3>
+		<p class="about-description"><?php _e("Runway wouldn't be possible without the support of the community. We value that community and believe in recognizing all those who help make it one of the best additions to the WordPress ecosystem.", 'framework'); ?><p>
 
 		<?php
 		if($Dashboard_Admin->credits['success']) { ?>
