@@ -1,9 +1,14 @@
+## v1.2.0 (August 20th 2014)
+
+* Changes from develop branch. Change log details need updating.
+
+
 ## v1.1.1 (June 24th 2014)
 
 * Fix for '[]' instead of 'array()' reference in code.
 
 
-## v1.1 (June 20th 2014)
+## v1.1.0 (June 20th 2014)
 
 * Fixed notice: Constant DS already defined in framework/includes/themes-manager/object.php
 * Fixed some notices if admin object is invoked with an empty settings array
