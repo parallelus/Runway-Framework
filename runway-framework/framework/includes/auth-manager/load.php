@@ -30,6 +30,22 @@ $settings = array(
     'file' => __FILE__,    
 );
 
+####################### TEMPORARY SECURITY PATCH #######################
+#
+# This code will remove any existing data from a user's install related 
+# to the authorization manager and hide the feature temporarily.
+#
+########################################################################
+
+$options = get_option($settings['option_key']);
+if ($options) { 
+	delete_option($settings['option_key']);
+	unset($options);
+}
+
+########################################################################
+
+
 global $auth_manager, $auth_manager_admin;
 
 // Required components
@@ -42,4 +58,5 @@ if ( is_admin() ) {
     include 'settings-object.php';
     $auth_manager_admin = new Auth_Manager_Admin( $settings );
 }
+
 ?>
