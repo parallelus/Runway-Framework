@@ -19,17 +19,17 @@ switch ( $this->navigation ) {
 }
 ?>
 <ul class="subsubsub">
-	<li class="all"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo $ext_all_total; ?>)</span></a> |</li>
-	<li class="inactive"><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo $ext_inactive_total; ?>)</span></a></li>	
+	<li class="all"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo $ext_all_total; ?>)</span></a> |</li>
+	<li class="inactive"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo $ext_inactive_total; ?>)</span></a></li>	
 </ul>
-<form method="post" action="<?php echo network_admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
+<form method="post" action="<?php echo admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
 	<p class="search-box">
 		<label class="screen-reader-text" for="exts-search-input"><?php echo __( 'Search Extensions', 'framework' );?>:</label>
 		<input type="search" id="exts-search-input" name="exts-search-input" value="<?php echo @$_POST['exts-search-input']; ?>">
 		<input type="submit" name="ext-search-submit" id="ext-search-submit" class="button" value="Search Extensions"></p>
 </form>
 
-<form action="<?php echo network_admin_url('admin.php?page=extensions&navigation=bulk-actions'); ?>" method="post">
+<form action="<?php echo admin_url('admin.php?page=extensions&navigation=bulk-actions'); ?>" method="post">
 	<div class="alignleft actions">
 		<select name="action">
 			<option value="-1" selected="selected"><?php echo __( 'Bulk Actions', 'framework' );?></option>
@@ -62,10 +62,10 @@ if ( !empty( $exts ) ):
 			<td class="plugin-title">
 				<strong><?php echo $ext_info['Name']; ?></strong>
 				<?php if ( $ext_cnt ): ?>
-					<br><a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=extension-activate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Activate', 'framework' );?></a> |
-					<a style="color: #BC0B0B;" href="<?php echo network_admin_url('admin.php?page=extensions&navigation=del-extension-confirm&ext='.urlencode( $ext )); ?>"><?php echo __( 'Delete', 'framework' );?></a>
+					<br><a href="<?php echo admin_url('admin.php?page=extensions&navigation=extension-activate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Activate', 'framework' );?></a> |
+					<a style="color: #BC0B0B;" href="<?php echo admin_url('admin.php?page=extensions&navigation=del-extension-confirm&ext='.urlencode( $ext )); ?>"><?php echo __( 'Delete', 'framework' );?></a>
 				<?php elseif ( !$ext_cnt ): ?>
-					<br><a class="edit" href="<?php echo network_admin_url('admin.php?page=extensions&navigation=extension-deactivate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Deactivate', 'framework' );?></a>
+					<br><a class="edit" href="<?php echo admin_url('admin.php?page=extensions&navigation=extension-deactivate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Deactivate', 'framework' );?></a>
 				<?php endif;?>
 			</td>
 			<td class="column-description desc">
