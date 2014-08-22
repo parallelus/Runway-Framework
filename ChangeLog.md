@@ -1,3 +1,43 @@
+## v1.2 (August 21st 2014)
+
+* Updated admin page links to admin_url()
+* Added license file
+* Additional fixes for Download Directory
+* Fixed Authorization manager
+* Updated admin_url() to network_admin_url()
+* The bug “#40 - Error when deleting extenions” is fixed
+* The bug “#41 - Can't remove options from WP Customizer after deselecting the option” is fixed
+* Fixed javascript error with ace-editor in customizer
+* Changed reference to download directory (new path 'download-directory' instead of 'download_dir') in reports manager
+* Modified the loading to account for logged out users and displaying extensions added from the Download Directory Server
+* The bug “#42 - Error in Download Directory” is fixed
+* The enhancement “#43 - Move code for ACE Editor from framework core to Data Type folder“ is fixed
+* The question “#44 - Standalone options builder” is solved
+* Refactoring for data-types
+* Fixed Contact Form defaults saving
+* Added missing 'framework' text domain to translation strings
+* The enhancement “#45 - Add apply_filters() to $excludes in load-functions.php“ is fixed
+* The bug “#47 - Runway updates notices showing incorrectly” is fixed
+* Updates for Download-directory, Auth-manager
+* The bug “#48 - Standalone theme deleting during plugin install or update” is fixed
+* The bug “#52 - 'Duplicate' link not working” is fixed
+* Updated settings-object.php in Theme Updater to use WP function for framework (template) directory path
+* Removed hard coded path to framework directory
+* The enchancement “#53 - New data-type: range slider” is fixed
+* The bug “#54 - Section title not displaying on Customizer” is fixed
+* The bug “#55 - Theme-Updater refers to framework directory” is fixed
+* The bug “#56 - Deleting a page doesn't delete settings” is fixed
+* The bug “#57 - Code Editor Data Type Include Broken” is fixed
+* Added checking for Options Page alias
+* Updated some translation strings to include ? at the end of a question
+* Fixed typo
+* The bug “#59 - Typo in PHP_VERSION_ID to check PHP version” is fixed
+* The enhancement “#61 - Translation: Some format issues” is fixed
+* The enhancement “#62 - Replace use of ZipArchive with core WP function unzip_file()” is fixed
+* Added Credits tab to Dashboard
+* Fixed spacing
+
+
 ## v1.1.1 (June 24th 2014)
 
 * Fix for '[]' instead of 'array()' reference in code.
