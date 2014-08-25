@@ -36,6 +36,7 @@
 * The enhancement “#62 - Replace use of ZipArchive with core WP function unzip_file()” is fixed
 * Added Credits tab to Dashboard
 * Fixed spacing
+* Fixed theme activation and creation links for new child theme management
 
 
 ## v1.1.1 (June 24th 2014)
