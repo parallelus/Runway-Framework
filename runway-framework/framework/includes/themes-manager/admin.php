@@ -56,7 +56,7 @@ case 'duplicate-theme': {
 		if ( isset( $_REQUEST['name'] ) && isset( $_REQUEST['new_name'] ) ) {
 			$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
 
-			$link = network_admin_url('admin.php?page=themes&navigation=edit-theme&name='.$_REQUEST['new_name']);
+			$link = admin_url('admin.php?page=themes&navigation=edit-theme&name='.$_REQUEST['new_name']);
 			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 			echo $redirect;
 		}
@@ -84,7 +84,7 @@ case 'edit-theme': {
 				$child_package_download_url = $developer_tools->build_child_package( $options['Folder'], $ts );
 				$developer_tools->make_package_info_from_ts( $options['Folder'], $ts );
 
-				$link = network_admin_url('admin.php?page=themes');
+				$link = admin_url('admin.php?page=themes');
     			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
     			echo $redirect;
 			}

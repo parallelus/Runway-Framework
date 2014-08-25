@@ -285,42 +285,41 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		*/
 		global $wp_filesystem;
 
-		$dst = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
-		if (!is_dir($dst)) {
-		    $wp_filesystem->mkdir($dst, FS_CHMOD_DIR);
-		    
-		    $wp_filesystem->mkdir($dst.'extensions', FS_CHMOD_DIR);
-		 	$src = FRAMEWORK_DIR.'extensions';
-		 	copy_dir($src, $dst.'extensions');
-
-		    $wp_filesystem->mkdir($dst.'data', FS_CHMOD_DIR);
-		 	$src = FRAMEWORK_DIR.'data';
-		 	copy_dir($src, $dst.'data');		 	
-		}
-			
-		$upgrader->skin->feedback(__("Executing upgrader_source_selection_filter function...", 'framework'));
 		if(isset($upgrader->skin->theme)) 
 			$correct_theme_name = $upgrader->skin->theme;
 		elseif(isset($upgrader->skin->theme_info->stylesheet))
 			$correct_theme_name = $upgrader->skin->theme_info->stylesheet;
 		elseif(isset($upgrader->skin->theme_info->template))
 			$correct_theme_name = $upgrader->skin->theme_info->template;
-		else 
-			$upgrader->skin->feedback(__('Theme name not found. Unable to rename downloaded theme.', 'framework'));
-				
-		if(isset($source, $remote_source, $correct_theme_name)){				
-			$corrected_source = $remote_source . '/' . $correct_theme_name . '/';
-			if(@rename($source, $corrected_source)){
-				$upgrader->skin->feedback(__("Renamed theme folder successfully.", 'framework'));
-				return $corrected_source;
-			} else {
-				$upgrader->skin->feedback(__("**Unable to rename downloaded theme.", 'framework'));
-				return new WP_Error();
+
+		if(isset($correct_theme_name) && $correct_theme_name == 'runway-framework') {
+			$dst = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
+			if (!is_dir($dst)) {
+			    $wp_filesystem->mkdir($dst, FS_CHMOD_DIR);
+			    
+			    $wp_filesystem->mkdir($dst.'extensions', FS_CHMOD_DIR);
+			 	$src = FRAMEWORK_DIR.'extensions';
+			 	copy_dir($src, $dst.'extensions');
+
+			    $wp_filesystem->mkdir($dst.'data', FS_CHMOD_DIR);
+			 	$src = FRAMEWORK_DIR.'data';
+			 	copy_dir($src, $dst.'data');		 	
 			}
+				
+			$upgrader->skin->feedback(__("Executing upgrader_source_selection_filter function...", 'framework'));
+			if(isset($source, $remote_source, $correct_theme_name)){				
+				$corrected_source = $remote_source . '/' . $correct_theme_name . '/';
+				if(@rename($source, $corrected_source)){
+					$upgrader->skin->feedback(__("Renamed theme folder successfully.", 'framework'));
+					return $corrected_source;
+				} else {
+					$upgrader->skin->feedback(__("**Unable to rename downloaded theme.", 'framework'));
+					return new WP_Error();
+				}
+			}
+			else
+				$upgrader->skin->feedback(__('**Source or Remote Source is unavailable.', 'framework'));
 		}
-		else
-			$upgrader->skin->feedback(__('**Source or Remote Source is unavailable.', 'framework'));
-			
 		return $source;
 	}
 
