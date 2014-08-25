@@ -319,7 +319,7 @@ unset( $themes_list[$current_theme['Folder']] );
 	if(is_multisite() && is_admin()){		
 		$url = 'themes.php?';
 		$s = '';
-		$ms_enable_theme_link = network_admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
+		$ms_enable_theme_link = network_admin_url().esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
 	}
 	// class="activate-theme"
 	?>
