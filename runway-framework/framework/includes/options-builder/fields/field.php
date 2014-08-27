@@ -43,7 +43,7 @@ class field {
 	function get_html() {
 		ob_start();
 		?>
-				<div class="empty">This is empty field</div>
+				<div class="empty"><?php echo __('This is empty field', 'framework'); ?></div>
 
 			<?php
 		$html = ob_get_contents();

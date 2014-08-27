@@ -25,7 +25,7 @@ switch ( $this->navigation ) {
 <form method="post" action="<?php echo admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
 	<p class="search-box">
 		<label class="screen-reader-text" for="exts-search-input"><?php echo __( 'Search Extensions', 'framework' );?>:</label>
-		<input type="search" id="exts-search-input" name="exts-search-input" value="<?php echo @$_POST['exts-search-input']; ?>">
+		<input type="search" id="exts-search-input" name="exts-search-input" value="<?php echo isset($_POST['exts-search-input']) ? $_POST['exts-search-input'] : ''; ?>">
 		<input type="submit" name="ext-search-submit" id="ext-search-submit" class="button" value="Search Extensions"></p>
 </form>
 
@@ -93,7 +93,7 @@ echo $info;
 ?>
 
 				<?php if ( count( $ext_info['DepsExts'] ) > 0 && isset( $ext_info['DepsExts'] ) && !empty( $ext_info['DepsExts'] ) ): ?>
-					<b><?php echo __( 'Dependences', 'framework' );?>:</b>
+					<b><?php echo __( 'Dependencies', 'framework' );?>:</b>
 					<?php
 	$deps_count = count( $ext_info['DepsExts'] ); $i = 0;
 foreach ( $ext_info['DepsExts'] as $dep_ext ):
