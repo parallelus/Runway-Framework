@@ -219,7 +219,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		if ( $is_error ) {
 			// output validation messages
-			$this->message = 'Validation error: <br>';
+			$this->message = __('Validation error', 'framework').': <br>';
 			foreach ( $errors as $error ) {
 				$this->message .= $error;
 			}

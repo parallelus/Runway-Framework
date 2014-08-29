@@ -202,7 +202,7 @@ class Apm_Admin extends Runway_Admin_Object {
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'framework' ) .'</div>';
 					} else {
-						$message = '<p>'.__( 'Saving error', 'framework' ).': '.$pages_dir.' '.__( 'most be a writable directory', 'framework' ).'.</p>';
+						$message = '<p>'.__( 'Saving error', 'framework' ).': '.$pages_dir.' '.__( 'must be a writable directory', 'framework' ).'.</p>';
 					}
 
 					// reset page data if it have changes

@@ -42,8 +42,7 @@
 
 		<tr class="<?php echo $trClass; ?>">
 			<td class="plugin-title">
-				<strong><a
-						href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"><?php echo $page->settings->title ?></a></strong>
+				<strong><a href="<?php echo network_admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id); ?>"><?php echo $page->settings->title ?></a></strong>
 
 				<div class="row-actions">
 					<span class="edit"><a

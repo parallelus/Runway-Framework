@@ -18,7 +18,7 @@
 <p><?php _e( 'You can search and install Extensions in this area. Adding new Extensions will allow you to enhance the functionality of your theme.', 'framework' ) ?></p>
 
 <ul class="subsubsub">
-	<li class="plugin-install-dashboard"><a href="<?php echo network_admin_url('admin.php?page=directory&amp;tab=browse'); ?>" <?php if ( $tab != 'search' ) { 
+	<li class="plugin-install-dashboard"><a href="<?php echo admin_url('admin.php?page=directory&amp;tab=browse'); ?>" <?php if ( $tab != 'search' ) { 
 		echo 'class="current"'; }?>><?php _e( 'Browse', 'framework' ) ?></a></li>
 </ul>
 
@@ -26,7 +26,7 @@
 
 <div class="tablenav top">
 	<div class="alignleft actions">
-		<form id="search-plugins" method="post" action="<?php echo network_admin_url('admin.php?page=directory'); ?>">
+		<form id="search-plugins" method="post" action="<?php echo admin_url('admin.php?page=directory'); ?>">
 			<input type="search" name="s" value="<?php echo isset($_REQUEST['s']) ? $_REQUEST['s'] : ''; ?>" style="width:250px">
 			<label class="screen-reader-text" for="plugin-search-input"><?php _e( 'Search Directory', 'framework' ) ?></label>
 			<input type="submit" name="plugin-search-input" id="plugin-search-input" class="button" value="Search">
@@ -41,8 +41,8 @@
 				<a class="prev-page disabled" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="#">&lsaquo;</a>
 			<?php } 
 else { ?>
-				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
-				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
+				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
+				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
 			<?php } ?>
 
 			<span class="paging-input">
@@ -58,8 +58,8 @@ else { ?>
 				<a class="last-page disabled" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="">&raquo;</a>
 			<?php } 
 else { ?>
-				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
-				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
+				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
+				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
 			<?php } ?>
 
 		</span>
@@ -92,7 +92,7 @@ if ( isset($response->extensions) && $response->extensions )
 				<td class="name column-name"><strong><?php echo $extension->Name ?></strong>
 					<div class="action-links">
 						<a href="#" class="details" token="<?php echo $token; ?>" title="<?php echo __('More information', 'framework'); ?>"><?php echo __('Details', 'framework'); ?></a> |
-						<a class="install-now" href="<?php echo network_admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce='); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>">
+						<a class="install-now" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce='); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>">
 							<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>
 						</a>
 					</div>
@@ -131,8 +131,8 @@ else {
 				<a class="prev-page disabled" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="#">&lsaquo;</a>
 			<?php } 
 else { ?>
-				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
-				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
+				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
+				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
 			<?php } ?>
 
 			<span class="paging-input">
@@ -148,8 +148,8 @@ else { ?>
 				<a class="last-page disabled" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="">&raquo;</a>
 			<?php } 
 else { ?>
-				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
-				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo network_admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
+				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
+				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
 			<?php } ?>
 
 		</span>
