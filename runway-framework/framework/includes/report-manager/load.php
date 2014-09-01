@@ -48,7 +48,7 @@ if ( is_admin() ) {
 function title_button_fix_all_issues( $title ) {
 	global $reports;
 	if ( $_GET['page'] == 'reports' && $reports->have_fails() ) {
-		$title .= ' <a href="'.network_admin_url('admin.php?page=reports&action=fix-all-issues').'" class="add-new-h2">'. __( 'Fix all issues', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=reports&action=fix-all-issues').'" class="add-new-h2">'. __( 'Fix all issues', 'framework' ) .'</a>';
 	}
 	return $title;
 }

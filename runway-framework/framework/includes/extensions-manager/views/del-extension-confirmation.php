@@ -5,5 +5,5 @@
 </ul>
 
 <p><?php echo __( 'Are you sure you wish to delete these files', 'framework' );?>?</p>
-<a href="<?php echo network_admin_url('admin.php?page=extensions&navigation=del-extension&ext='.$_GET['ext'].'&confirm=true'); ?>" class = "button-secondary"><?php echo __( 'Yes, Delete these files', 'framework' );?></a>
-<a href="<?php echo network_admin_url('admin.php?page=extensions'); ?>" class = "button-secondary"><?php echo __( 'No, Return me to the theme list', 'framework' );?></a>
+<a href="<?php echo admin_url('admin.php?page=extensions&navigation=del-extension&ext='.$_GET['ext'].'&confirm=true'); ?>" class = "button-secondary"><?php echo __( 'Yes, Delete these files', 'framework' );?></a>
+<a href="<?php echo admin_url('admin.php?page=extensions'); ?>" class = "button-secondary"><?php echo __( 'No, Return me to the theme list', 'framework' );?></a>

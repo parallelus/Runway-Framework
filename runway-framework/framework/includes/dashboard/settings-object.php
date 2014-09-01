@@ -17,7 +17,7 @@ class Dashboard_Admin extends Runway_Admin_Object {
 		}
 
 		$api_link = 'http://para.llel.us/accounts/api/index.php';
-		$this->url = network_admin_url('admin.php?page=dashboard#credits');
+		$this->url = admin_url('admin.php?page=dashboard#credits');
 		$this->request = 'get_achievements';
 		$this->token = '5d5a0dd456289d0c9e6070a86ef160b9';
 		$this->selectableSort = isset($_POST['sort'])? $_POST['sort'] : 'achievements_count';

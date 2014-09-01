@@ -4,7 +4,7 @@ global $apm, $alias_;
 $pages_dir = $apm->pages_dir;
 
 if ( get_stylesheet_directory() == get_template_directory() ) {
-	echo '<br>'. __('You must create or activate a Runway child theme to add options pages', 'framework').': <a href="'.network_admin_url('admin.php?page=themes').'">'.__('Runway Themes', 'framework').'</a>';
+	echo '<br>'. __('You must create or activate a Runway child theme to add options pages', 'framework').': <a href="'.admin_url('admin.php?page=themes').'">'.__('Runway Themes', 'framework').'</a>';
 }
 else {
 	if ( !isset( $this->navigation ) || empty( $this->navigation ) )
@@ -74,8 +74,8 @@ else {
 
 				$item_confirm = 'option page';
 				$item_title = $page['settings']['title'];
-				$action_url_yes = network_admin_url('admin.php?page=options-builder&navigation=remove-page&page_id='.$page_id);
-				$action_url_no = network_admin_url('admin.php?page=options-builder');
+				$action_url_yes = admin_url('admin.php?page=options-builder&navigation=remove-page&page_id='.$page_id);
+				$action_url_no = admin_url('admin.php?page=options-builder');
 
 				require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 			} else {
