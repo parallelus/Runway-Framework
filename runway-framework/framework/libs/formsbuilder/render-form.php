@@ -5,7 +5,7 @@ $options_object = ${$current['admin_object']};
 <input type="hidden" id="page-slug" value="<?php echo $options_object->slug;?>">
 <div class="dynamic-page-wrapper" id="<?php echo $current['builder_page']->settings->alias; ?>">
 <?php
-global $developerMode;
+global $developerMode, $contentTypeMetaBox;
 $current = apply_filters( 'before-dynamic-page-render_' . $current['builder_page']->settings->alias, $current );
 
 if ( isset( $options_object->keys ) ) {
@@ -103,12 +103,19 @@ if ( !empty( $fields ) ) :
 $titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
 $fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
 
-if ( $developerMode ) {
+if ( $developerMode && (!isset($contentTypeMetaBox) || (isset($contentTypeMetaBox) && $contentTypeMetaBox == false))) {
 	if ( $custom_alias != null ) {
 		$alias = $custom_alias;
 	}
 	$title = '<span title="get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')">'. $title .'</span>';
 	$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')</code></span>';
+}
+else if(isset($contentTypeMetaBox) && $contentTypeMetaBox == true) {
+	if ( $custom_alias != null ) {
+		$alias = $custom_alias;
+	}
+	$title = '<span title="get_options_meta(\''.$elements->$field->alias.'\')">'. $title .'</span>';
+	$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_meta(\''.$elements->$field->alias.'\')</code></span>';
 }
 
 $fieldType = 'dynamic_'.$elements->$field->type;
