@@ -469,8 +469,23 @@ class FormsBuilder {
 		add_action( 'admin_print_scripts', array( $this, 'include_scripts' ) );
 		
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
+		
+		//default filter
+		add_filter('options_data_filter', array('FormsBuilder', 'get_options_data_filter'), 20, 6);
 	}
 
+	public static function get_options_data_filter($content, $fieldCaption, $field_alias, $title, $alias, $custom_alias) {
+		
+		if ( $custom_alias != null ) {
+			$alias = $custom_alias;
+		}
+		
+		$title = '<span title="get_options_data(\''.$alias.'\', \''.$field_alias.'\')">'. $title .'</span>';
+		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$field_alias.'\')</code></span>';
+		
+		return array('title' => $title, 'fieldCaption' => $fieldCaption);
+	}
+	
 	// Include styles
 	public function include_styles() {
 		wp_register_style( 'formsbuilder-style', $this->css_path.'styles.css' );

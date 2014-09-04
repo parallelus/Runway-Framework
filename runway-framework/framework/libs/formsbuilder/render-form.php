@@ -103,19 +103,20 @@ if ( !empty( $fields ) ) :
 $titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
 $fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
 
-if ( $developerMode && (!isset($contentTypeMetaBox) || (isset($contentTypeMetaBox) && $contentTypeMetaBox == false))) {
-	if ( $custom_alias != null ) {
-		$alias = $custom_alias;
-	}
-	$title = '<span title="get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')">'. $title .'</span>';
-	$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')</code></span>';
-}
-else if(isset($contentTypeMetaBox) && $contentTypeMetaBox == true) {
-	if ( $custom_alias != null ) {
-		$alias = $custom_alias;
-	}
-	$title = '<span title="get_options_meta(\''.$elements->$field->alias.'\')">'. $title .'</span>';
-	$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_meta(\''.$elements->$field->alias.'\')</code></span>';
+if ( $developerMode ) {
+
+	$field_alias = $elements->$field->alias;
+	$returned = apply_filters('options_data_filter', '', $fieldCaption, $field_alias, $title, $alias, $custom_alias);
+	if(is_array($returned) && isset($returned['title']))
+		$title = $returned['title'];
+	else
+		$title = '';
+	
+	if(is_array($returned) && isset($returned['fieldCaption']))
+		$fieldCaption = $returned['fieldCaption'];
+	else
+		$fieldCaption = '';
+	
 }
 
 $fieldType = 'dynamic_'.$elements->$field->type;
