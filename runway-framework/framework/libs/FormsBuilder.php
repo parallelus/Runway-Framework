@@ -471,10 +471,27 @@ class FormsBuilder {
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
 		
 		//default filter
-		add_filter('options_data_filter', array('FormsBuilder', 'get_options_data_filter'), 20, 6);
+		//add_filter('options_data_filter', array('FormsBuilder', 'get_options_data_filter'), 20, 6);
+		add_filter('formsbuilder_name_attr_title', array('FormsBuilder', 'get_formsbuilder_name_attr_title'), 20, 4);
+		add_filter('formsbuilder_dev_description', array('FormsBuilder', 'get_formsbuilder_dev_description'), 20, 4);
+		
+		//formsbuilder_name_attr_title
+		//formsbuilder_dev_description
+	}
+	
+	public static function get_formsbuilder_name_attr_title($content, $field_alias, $title, $alias) {
+		$title = '<span title="get_options_data(\''.$alias.'\', \''.$field_alias.'\')">'. $title .'</span>';
+		
+		return $title;
+	}
+	
+	public static function get_formsbuilder_dev_description($content, $fieldCaption, $field_alias, $alias) {
+		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$field_alias.'\')</code></span>';
+		
+		return $fieldCaption;
 	}
 
-	public static function get_options_data_filter($content, $fieldCaption, $field_alias, $title, $alias, $custom_alias) {
+	/*public static function get_options_data_filter($content, $fieldCaption, $field_alias, $title, $alias, $custom_alias) {
 		
 		if ( $custom_alias != null ) {
 			$alias = $custom_alias;
@@ -484,7 +501,7 @@ class FormsBuilder {
 		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$field_alias.'\')</code></span>';
 		
 		return array('title' => $title, 'fieldCaption' => $fieldCaption);
-	}
+	}*/
 	
 	// Include styles
 	public function include_styles() {

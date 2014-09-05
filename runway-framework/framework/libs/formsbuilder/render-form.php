@@ -106,17 +106,11 @@ $fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $op
 if ( $developerMode ) {
 
 	$field_alias = $elements->$field->alias;
-	$returned = apply_filters('options_data_filter', '', $fieldCaption, $field_alias, $title, $alias, $custom_alias);
-	if(is_array($returned) && isset($returned['title']))
-		$title = $returned['title'];
-	else
-		$title = '';
-	
-	if(is_array($returned) && isset($returned['fieldCaption']))
-		$fieldCaption = $returned['fieldCaption'];
-	else
-		$fieldCaption = '';
-	
+	if ( $custom_alias != null ) {
+		$alias = $custom_alias;
+	}
+	$title = apply_filters('formsbuilder_name_attr_title', '', $field_alias, $title, $alias);
+	$fieldCaption = apply_filters('formsbuilder_dev_description', '', $fieldCaption, $field_alias, $alias);
 }
 
 $fieldType = 'dynamic_'.$elements->$field->type;
