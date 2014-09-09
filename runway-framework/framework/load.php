@@ -17,11 +17,21 @@ function runway_php_version( $version = false ) {
 		
 		unset ($ver);
 	}
+	
+	$tmp_version = array_map ('intval', explode ('.', PHP_VERSION, 3));
+	$tmp_version[0] *= 10000;
+	$tmp_version[1] *= 100;
+	$tmp_version_id = array_sum ($tmp_version);
+	$php_version_id = PHP_VERSION_ID;
+	
+	if($php_version_id < $tmp_version_id) {
+		$php_version_id = $tmp_version_id;
+	}
 
 	if($version == true)
-		return PHP_VERSION_ID;
+		return $php_version_id;
 	else {
-		if(PHP_VERSION_ID >= MIN_PHP_VERSION_ID)
+		if($php_version_id >= MIN_PHP_VERSION_ID)
 			return true;
 		else
 			return false;
