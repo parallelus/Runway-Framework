@@ -46,6 +46,9 @@ class Data_Type extends WP_Customize_Control {
 
 	public function save( $value = null ) {
 		
+		if(is_a($value, 'WP_Customize_Settings'))
+			$value = null;
+		
 		if(!isset($_REQUEST['customized'])) {
 			$page_options = get_option( $this->page->option_key );
 			if(is_object($value)) {
