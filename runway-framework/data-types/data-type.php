@@ -46,7 +46,7 @@ class Data_Type extends WP_Customize_Control {
 
 	public function save( $value = null ) {
 		
-		if(is_a($value, 'WP_Customize_Settings'))
+		if(is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting'))
 			$value = null;
 		
 		if(!isset($_REQUEST['customized'])) {
@@ -238,7 +238,7 @@ class SingletonSaveCusomizeData {
 	public function save_data($alias, $value, $type) {
 		self::$data[$alias] = $value;
 		self::$data['field_types'][$alias] = $type;
-		
+				
 		update_option( self::$key, self::$data );
 	}
     
