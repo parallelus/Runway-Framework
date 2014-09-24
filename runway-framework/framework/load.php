@@ -166,7 +166,20 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	}
 	add_action( 'admin_menu', 'clear_submenu', 100 );
 
+	function framework_localization() {
+		$langDir = apply_filters('rf_languages_dir', get_template_directory() . '/languages');
+		$isLoadedDir = load_theme_textdomain('framework', $langDir);
+		
+		/*if(!$isLoadedDir) {
+			add_action('admin_notices', 'framework_localization_warning_message');
+		}*/
+	}
+	add_action('after_setup_theme', 'framework_localization');
 
+	function framework_localization_warning_message() {
+		echo '<div id="message" class="error">Localization directory not exists or empty. Textdomain hasn\'t loaded.</div>';
+	}
+	
 	//-----------------------------------------------------------------
 	// WP-Pointers (temporary location)
 	//-----------------------------------------------------------------
