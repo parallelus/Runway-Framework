@@ -501,6 +501,9 @@ class Extm_Admin extends Runway_Admin_Object {
 		do_action( 'before_load_extension' );
 		$upload_dir = wp_upload_dir();
 
+		$zip = new ZipArchive();
+		$res = $zip->open($file);
+
 		if ( $upload_dir['path'].'/'.file_exists( $file ) ) {
 			if ( is_writable( $this->extensions_dir ) ) {
 				if(unzip_file($file, $this->extensions_dir) !== true) {

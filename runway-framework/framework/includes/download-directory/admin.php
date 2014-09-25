@@ -18,10 +18,18 @@ if ( isset( $_REQUEST['current_page'] ) ) {
 $page = $current_page - 1;
 $search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
-$response_pre = $wp_filesystem->get_contents( $directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false);
-$response_pre = json_decode( $response_pre );
+$opts = array(
+  'http'=>array(
+    'method'=>"GET",
+    'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
+	)
+);
+$context = stream_context_create($opts);
+$response_pre = file_get_contents($directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false, $context);
 
-if ( $response_pre->on_page == 0 ) {
+$response_pre = (isset($response_pre) && !empty($response_pre))? json_decode( $response_pre ) : (object)$response_pre;
+
+if ( !isset($response_pre->on_page) || (isset($response_pre->on_page) && $response_pre->on_page == 0) ) {
 	$response_pre->on_page = 1;
 }
 
@@ -29,17 +37,16 @@ $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
 	'extensions' => $response_pre->extensions
 );
-
 $post_args = array(
 	'method' => 'POST',
+	'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n",
 	'timeout' => 10,
 	'body' => $postdata
     );
 
 $response_json = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
-
 $this->extensions_Paid = array();
-if(!empty($response_json)) {
+if($response_json['body'] !== '[]') {
 	$this->extensions_Paid = json_decode($response_json['body']);
 }
 
@@ -48,9 +55,16 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
 	$zipPath = (isset($this->extensions_Paid[0]->Path)) ? '&zip='.$this->extensions_Paid[0]->Path : '';
 
-	$extension_zip = $wp_filesystem->get_contents( $directory->extensions_server_url . "download_extension&item={$item}".$zipPath);
+	$opts = array(
+	  'http'=>array(
+	    'method'=>"GET",
+	    'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
+		)
+	);
+	$context = stream_context_create($opts);
+	$extension_zip = file_get_contents($directory->extensions_server_url . "download_extension&item={$item}".$zipPath, false, $context);
+
 	if(strlen($extension_zip) !== 0) {
-	//	$extension_zip = base64_decode( $extension_zip );
 		$extension_zip = runway_base_decode( $extension_zip, true );
 
 		$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
