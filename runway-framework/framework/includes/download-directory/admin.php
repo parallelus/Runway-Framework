@@ -46,7 +46,7 @@ $post_args = array(
 
 $response_json = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
 $this->extensions_Paid = array();
-if($response_json['body'] !== '[]') {
+if(!is_a($response_json, 'WP_Error') && isset($response_json['body']) && $response_json['body'] !== '[]') {
 	$this->extensions_Paid = json_decode($response_json['body']);
 }
 
