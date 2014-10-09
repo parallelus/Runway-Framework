@@ -57,19 +57,19 @@
 
                 <select data-set="type" name="type" class="settings-select">
                     {{if false}}
-                        <option value="hidden" {{if type == 'hidden'}}selected="true"{{/if}}>_Hidden</option>
-                        <option value="input" {{if type == 'input'}}selected="true"{{/if}}>_Text input</option>
-                        <option value="textarea" {{if type == 'textarea'}}selected="true"{{/if}}>_Textarea</option>
-                        <option value="checkbox" {{if type == 'checkbox'}}selected="true"{{/if}}>_Checkbox</option>
-                        <option value="checkbox_boolean" {{if type == 'checkbox_boolean'}}selected="true"{{/if}}>_Checkbox boolean</option>
-                        <option value="radio" {{if type == 'radio'}}selected="true"{{/if}}>_Radio buttons</option>
-                        <option value="radioimage" {{if type == 'radioimage'}}selected="true"{{/if}}>_Image radio buttons</option>
-                        <option value="select" {{if type == 'select'}}selected="true"{{/if}}>_Select</option>
-                        <option value="multiselect" {{if type == 'multiselect'}}selected="true"{{/if}}>_Multiselect</option>
-                        <option value="file" {{if type == 'file'}}selected="true"{{/if}}>_File upload</option>
-                        <option value="colorpicker" {{if type == 'colorpicker'}}selected="true"{{/if}}>_Colorpicker</option>
-                        <option value="datepicker" {{if type == 'datepicker'}}selected="true"{{/if}}>_Datepicker</option>
-                        <option value="blogedit" {{if type == 'blogedit'}}selected="true"{{/if}}>_Blog editor</option>
+                        <option value="hidden" {{if type == 'hidden'}}selected="true"{{/if}}>_<?php echo __('Hidden', 'framework'); ?></option>
+                        <option value="input" {{if type == 'input'}}selected="true"{{/if}}>_<?php echo __('Text input', 'framework'); ?></option>
+                        <option value="textarea" {{if type == 'textarea'}}selected="true"{{/if}}>_<?php echo __('Textarea', 'framework'); ?></option>
+                        <option value="checkbox" {{if type == 'checkbox'}}selected="true"{{/if}}>_<?php echo __('Checkbox', 'framework'); ?></option>
+                        <option value="checkbox_boolean" {{if type == 'checkbox_boolean'}}selected="true"{{/if}}>_<?php echo __('Checkbox boolean', 'framework'); ?></option>
+                        <option value="radio" {{if type == 'radio'}}selected="true"{{/if}}>_<?php echo __('Radio buttons', 'framework'); ?></option>
+                        <option value="radioimage" {{if type == 'radioimage'}}selected="true"{{/if}}>_<?php echo __('Image radio buttons', 'framework'); ?></option>
+                        <option value="select" {{if type == 'select'}}selected="true"{{/if}}>_<?php echo __('Select', 'framework'); ?></option>
+                        <option value="multiselect" {{if type == 'multiselect'}}selected="true"{{/if}}>_<?php echo __('Multiselect', 'framework'); ?></option>
+                        <option value="file" {{if type == 'file'}}selected="true"{{/if}}>_<?php echo __('File upload', 'framework'); ?></option>
+                        <option value="colorpicker" {{if type == 'colorpicker'}}selected="true"{{/if}}>_<?php echo __('Colorpicker', 'framework'); ?></option>
+                        <option value="datepicker" {{if type == 'datepicker'}}selected="true"{{/if}}>_<?php echo __('Datepicker', 'framework'); ?></option>
+                        <option value="blogedit" {{if type == 'blogedit'}}selected="true"{{/if}}>_<?php echo __('Blog editor', 'framework'); ?></option>
                     {{/if}}
 
                     {{each(key, value) builder.availableTypes}}

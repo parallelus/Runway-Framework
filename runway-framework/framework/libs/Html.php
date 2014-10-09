@@ -469,7 +469,7 @@ class Html {
 
 		$html = '<select multiple class="input-select" name="' . $name . ( $_name ? "[{$_name}]" : '' ) . '[]" size="5" style="height: 103px;">';
 
-		$html .= '<option value="no">No value</option>';
+		$html .= '<option value="no">'.__('No value', 'framework').'</option>';
 
 		foreach ( $vars as $key => $val ) {
 			if ( is_array( $values ) ) {

@@ -122,7 +122,6 @@ class FormsBuilder {
 
 					$_this = ${$current['admin_object']};
 					add_action( 'customize_register' , function ( $wp_customize ) use ( $_this ) {
-						// $data_types_path = get_theme_root() . "/runway-framework/data-types";
 						$data_types_path = FRAMEWORK_DIR . 'data-types';
 						$data_types_base = $data_types_path . '/data-type.php';
 
@@ -139,8 +138,6 @@ class FormsBuilder {
 						$_this->data = get_option( $_this->option_key );
 
 						// including js and cs
-						// $_this->include_extension_css();
-						// $_this->include_extension_js();
 
 						foreach ( $_this->builder_page->sortOrder as $tab ) {
 							if ( $tab != 'none' ) {
@@ -269,7 +266,6 @@ class FormsBuilder {
 			$page_options['option_key'] = $shortname.$page->settings->alias;
 			$page_options['parent_menu'] = $page->settings->adminMenuTopItem;
 			$page_options['menu_permissions'] = (isset($page->settings->access)) ? $page->settings->access : 'edit_theme_options';
-			// wp_die($page->settings->access);
 
 
 			$page_options['object'] = 'object_'.$id;
@@ -333,7 +329,6 @@ class FormsBuilder {
 				WP_Filesystem();
 				global $wp_filesystem;
 				$wp_filesystem->put_contents($this->forms_path.$form->page_id.'.json', $json, FS_CHMOD_FILE);
-				//file_put_contents( $this->forms_path.$form->page_id.'.json', $json );
 			}
 		}
 	}
@@ -341,7 +336,6 @@ class FormsBuilder {
 	public function save_form_from_builder() {
 		$json_form = $_REQUEST['json_form'];
 		echo $json_form; die();
-		// $this->save($json_form);
 	}
 
 	public function save_custom_options( $options = null, $custom_alias = null ) {
@@ -471,12 +465,8 @@ class FormsBuilder {
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
 		
 		//default filter
-		//add_filter('options_data_filter', array('FormsBuilder', 'get_options_data_filter'), 20, 6);
 		add_filter('formsbuilder_name_attr_title', array('FormsBuilder', 'get_formsbuilder_name_attr_title'), 20, 4);
 		add_filter('formsbuilder_dev_description', array('FormsBuilder', 'get_formsbuilder_dev_description'), 20, 4);
-		
-		//formsbuilder_name_attr_title
-		//formsbuilder_dev_description
 	}
 	
 	public static function get_formsbuilder_name_attr_title($content, $field_alias, $title, $alias) {

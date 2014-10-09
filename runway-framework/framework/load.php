@@ -177,7 +177,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	add_action('after_setup_theme', 'framework_localization');
 
 	function framework_localization_warning_message() {
-		echo '<div id="message" class="error">Localization directory not exists or empty. Textdomain hasn\'t loaded.</div>';
+		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'framework').'</div>';
 	}
 	
 	//-----------------------------------------------------------------
@@ -186,7 +186,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 
 	// Dashboard "Getting Started"
 	if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] !== 'dashboard' && !isset( $_GET['activate-default'] ) ) {
-		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => 'Start Here', 'body' => '<p>Visit the dashboard and learn how Runway works to start making awesome themes today.</p>' ), 'edge: "left", align: "center"' );
+		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => __('Start Here', 'framework'), 'body' => '<p>'.__('Visit the dashboard and learn how Runway works to start making awesome themes today.', 'framework').'</p>' ), 'edge: "left", align: "center"' );
 	}
 
 } else {
@@ -198,10 +198,10 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	function php_version_warning_message() {
 		global $current_screen;
 		echo '<div id="message" class="error">',
-		'<h3><strong>You must have PHP v5.3.1 or later to use this theme.</strong></h3>',
-		'<p>You can try adding the following to the top of to your .htaccess file in the WordPress root directory:</p>',
+		'<h3><strong>'.__('You must have PHP v5.3.1 or later to use this theme.', 'framework').'</strong></h3>',
+		'<p>'.__('You can try adding the following to the top of to your .htaccess file in the WordPress root directory', 'framework').':</p>',
 		'<p><code style="font-size: 14px; font-weight: 800;">AddType application/x-httpd-php53 .php</code></p>',
-		'<p>If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.</p>',
+		'<p>.'.__('If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.', 'framework').'</p>',
 		'</div>';
 	}
 
