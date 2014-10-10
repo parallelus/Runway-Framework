@@ -291,16 +291,18 @@ class Code_editor_type extends Data_Type {
 	public function wp_customize_js() {  ?>
 		<script type="text/javascript">
 			(function($){
-				var editor = ace.edit("<?php echo $this->field->alias; ?>");
-				
-				editor.getSession().on('change', function(e) {
+				$(document).ready(function(){
 					var editor = ace.edit("<?php echo $this->field->alias; ?>");
-					var code = editor.getSession().getValue();
-					if ( wp.customize ) {
-						var alias = "<?php echo $this->field->alias; ?>";
-						var api = wp.customize;
-						api.instance(alias).set($('#hidden-<?php echo $this->field->alias; ?>').val());
-					}
+
+					editor.getSession().on('change', function(e) {
+						var editor = ace.edit("<?php echo $this->field->alias; ?>");
+						var code = editor.getSession().getValue();
+						if ( wp.customize ) {
+							var alias = "<?php echo $this->field->alias; ?>";
+							var api = wp.customize;
+							api.instance(alias).set($('#hidden-<?php echo $this->field->alias; ?>').val());
+						}
+					});
 				});
 			})(jQuery);
 		</script>

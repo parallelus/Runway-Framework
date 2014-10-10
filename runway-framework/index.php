@@ -4,7 +4,7 @@ if ( __FILE__ == $_SERVER['SCRIPT_FILENAME'] ) {
 } ?>
 <html>
 <head>
-	<title>Welcome to Runway!</title>
+	<title><?php echo __('Welcome to Runway!', 'framework'); ?></title>
 	<style type="text/css" media="screen">
 		body {
 			background: #fcfcfc;

@@ -103,7 +103,14 @@ class Datepicker_type extends Data_Type {
 							changeMonth: $(this).data('changemonth'),
 							changeYear: $(this).data('changeyear'),
 
-							onSelect: function(date) {}
+							onSelect: function(date) {
+								$("[name='<?php echo $this->field->alias; ?>']").attr('value', date).val(date);
+								if ( wp.customize ) {
+									var api = wp.customize;
+									console.log(api);
+									api.instance('<?php echo $this->field->alias; ?>').set(date);
+								}
+							}
 						});
 					});
 				})(jQuery);

@@ -1081,6 +1081,13 @@ var system_vars_definition = ['template', 'index'];
                         open: function(event, ui) {
                             $(this).css({'max-height': 500, 'overflow-y': 'auto'}); 
                             $('#adminmenuwrap').css({'z-index':0});
+			    
+			    for(var key in builder.availableTypes) {
+				if(typeof builder.availableTypes[key].onSettingsDialogOpen === 'function') {
+				    builder.availableTypes[key].onSettingsDialogOpen();
+				}
+
+			    }
                         },
                         close: function(event, ui) {
                             $('#adminmenuwrap').css({'z-index':'99'});

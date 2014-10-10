@@ -17,11 +17,21 @@ function runway_php_version( $version = false ) {
 		
 		unset ($ver);
 	}
+	
+	$tmp_version = array_map ('intval', explode ('.', PHP_VERSION, 3));
+	$tmp_version[0] *= 10000;
+	$tmp_version[1] *= 100;
+	$tmp_version_id = array_sum ($tmp_version);
+	$php_version_id = PHP_VERSION_ID;
+	
+	if($php_version_id < $tmp_version_id) {
+		$php_version_id = $tmp_version_id;
+	}
 
 	if($version == true)
-		return PHP_VERSION_ID;
+		return $php_version_id;
 	else {
-		if(PHP_VERSION_ID >= MIN_PHP_VERSION_ID)
+		if($php_version_id >= MIN_PHP_VERSION_ID)
 			return true;
 		else
 			return false;
@@ -156,14 +166,27 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	}
 	add_action( 'admin_menu', 'clear_submenu', 100 );
 
+	function framework_localization() {
+		$langDir = apply_filters('rf_languages_dir', get_template_directory() . '/languages');
+		$isLoadedDir = load_theme_textdomain('framework', $langDir);
+		
+		/*if(!$isLoadedDir) {
+			add_action('admin_notices', 'framework_localization_warning_message');
+		}*/
+	}
+	add_action('after_setup_theme', 'framework_localization');
 
+	function framework_localization_warning_message() {
+		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'framework').'</div>';
+	}
+	
 	//-----------------------------------------------------------------
 	// WP-Pointers (temporary location)
 	//-----------------------------------------------------------------
 
 	// Dashboard "Getting Started"
 	if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] !== 'dashboard' && !isset( $_GET['activate-default'] ) ) {
-		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => 'Start Here', 'body' => '<p>Visit the dashboard and learn how Runway works to start making awesome themes today.</p>' ), 'edge: "left", align: "center"' );
+		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => __('Start Here', 'framework'), 'body' => '<p>'.__('Visit the dashboard and learn how Runway works to start making awesome themes today.', 'framework').'</p>' ), 'edge: "left", align: "center"' );
 	}
 
 } else {
@@ -175,10 +198,10 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	function php_version_warning_message() {
 		global $current_screen;
 		echo '<div id="message" class="error">',
-		'<h3><strong>You must have PHP v5.3.1 or later to use this theme.</strong></h3>',
-		'<p>You can try adding the following to the top of to your .htaccess file in the WordPress root directory:</p>',
+		'<h3><strong>'.__('You must have PHP v5.3.1 or later to use this theme.', 'framework').'</strong></h3>',
+		'<p>'.__('You can try adding the following to the top of to your .htaccess file in the WordPress root directory', 'framework').':</p>',
 		'<p><code style="font-size: 14px; font-weight: 800;">AddType application/x-httpd-php53 .php</code></p>',
-		'<p>If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.</p>',
+		'<p>.'.__('If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.', 'framework').'</p>',
 		'</div>';
 	}
 

@@ -19,7 +19,7 @@ if ( isset( $page['settings']['showPageTitle'] ) && $page['settings']['showPageT
 	$checked = 'checked="checked"';
 } ?>
 								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo $checked; ?> value="true">
-								Yes
+								<?php _e('Yes', 'framework'); ?>
 							</label>
 							<em><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'framework' ); ?></em>
 						</td>

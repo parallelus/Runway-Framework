@@ -102,11 +102,10 @@ class Colorpicker_type extends Data_Type {
 					jQuery(function () {
 
 						jQuery('[name="'+name+'"]').wpColorPicker({ change: function () {
-
+							var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+							
 							setTimeout(function () {
-
-								jQuery('[name="'+name+'"]').trigger('change');
-
+								jQuery('[name="'+name+'"]').attr('value', hexcolor).val(hexcolor).trigger('change');
 							}, 50);
 
 						}});
@@ -123,9 +122,11 @@ class Colorpicker_type extends Data_Type {
 	}
 
 	public function save( $value = '' ) {
-		if ( $value == '' ) {
+		
+		if ( $value == '' || is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting')) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 			$value = $submited_value->{$this->field->alias};
+			
 		}
 		
 		if(is_string($value)) {

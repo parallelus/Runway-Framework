@@ -5,7 +5,7 @@ $options_object = ${$current['admin_object']};
 <input type="hidden" id="page-slug" value="<?php echo $options_object->slug;?>">
 <div class="dynamic-page-wrapper" id="<?php echo $current['builder_page']->settings->alias; ?>">
 <?php
-global $developerMode;
+global $developerMode, $contentTypeMetaBox;
 $current = apply_filters( 'before-dynamic-page-render_' . $current['builder_page']->settings->alias, $current );
 
 if ( isset( $options_object->keys ) ) {
@@ -104,11 +104,13 @@ $titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $op
 $fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
 
 if ( $developerMode ) {
+
+	$field_alias = $elements->$field->alias;
 	if ( $custom_alias != null ) {
 		$alias = $custom_alias;
 	}
-	$title = '<span title="get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')">'. $title .'</span>';
-	$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$elements->$field->alias.'\')</code></span>';
+	$title = apply_filters('formsbuilder_name_attr_title', '', $field_alias, $title, $alias);
+	$fieldCaption = apply_filters('formsbuilder_dev_description', '', $fieldCaption, $field_alias, $alias);
 }
 
 $fieldType = 'dynamic_'.$elements->$field->type;

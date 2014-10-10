@@ -59,7 +59,7 @@
 	</head>
 	<body>
 		<div id="new-item-added">
-			<span class="message">New element added</span>
+			<span class="message"><?php _e('New element added', 'framework'); ?></span>
 		</div><?php if ( isset( $message ) ): ?>
 		<div id="message" class="updated below-h2">
 			<p>
@@ -112,7 +112,7 @@
 											<?php _e( 'Drag or click to add elements to the page below.', 'framework' ); ?>
 										</p>
 										<p class="info">
-											<a class="expand-all" href="#">Expand all</a> / <a class="collapse-all" href="#">Collapse all</a>
+											<a class="expand-all" href="#">Expand all</a> / <a class="collapse-all" href="#"><?php _e('Collapse all', 'framework'); ?></a>
 										</p>
 									</div>
 									<div class="major-publishing-actions">

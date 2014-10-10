@@ -6,7 +6,7 @@
 
 		<div class="settings-container">
 			<label class="settings-title">
-				Tab title:<br>
+				<?php _e('Tab title', 'framework'); ?>:<br>
 				<span class="settings-title-caption"></span>
 			</label>
 			<div class="settings-in">
