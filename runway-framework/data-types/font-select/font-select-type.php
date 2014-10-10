@@ -9,6 +9,35 @@ class Font_select_type extends Data_Type {
 	public function __construct($page, $field, $wp_customize = null, $alias = null, $params = null) {
 		parent::__construct($page, $field, $wp_customize, $alias, $params);
 	}
+	
+	private function wp_get_google_webfonts_list($key = '', $sort = 'alpha') {
+		/*
+		  $key = Web Fonts Developer API
+		  $sort=
+		  alpha: Sort the list alphabetically
+		  date: Sort the list by date added (most recent font added or updated first)
+		  popularity: Sort the list by popularity (most popular family first)
+		  style: Sort the list by number of styles available (family with most styles first)
+		  trending: Sort the list by families seeing growth in usage (family seeing the most growth first)
+		 */
+
+		$http = (!empty($_SERVER['HTTPS'])) ? "https" : "http";
+
+		$google_api_url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key . '&sort=' . $sort;
+		//lets fetch it
+		$response = wp_remote_retrieve_body(wp_remote_get($google_api_url, array('sslverify' => false)));
+		if (is_wp_error($response)) {
+			
+		} else {
+			$data = json_decode($response, true);
+			$items = $data['items'];
+			foreach ($items as $item) {
+				$font_list[] .= $item['family'];
+			}
+		}
+		//Return the saved lit of Google Web Fonts
+		return $font_list;
+	}
 
 	public function render_content( $vals = null ) {
 		$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
@@ -18,6 +47,8 @@ class Font_select_type extends Data_Type {
 		$font_style = ($this->field->style != '') ? $this->field->style: 'normal';
 		$font_color = ($this->field->color != '') ? $this->field->color : '#000000';
 		$previewText = $this->field->previewText;
+		
+		$google_fonts = $this->wp_get_google_webfonts_list('AIzaSyDeMKW1tSr8k_I9bkyJYtz0V_Dh8hwPdIw');
 		
 		if(is_array($input_value)) {
 			if(isset($input_value['family']))
@@ -41,7 +72,7 @@ class Font_select_type extends Data_Type {
 					font-style: <?php echo $font_style;?>; 
 					font-weight: <?php echo $font_weight;?>;
 					size: <?php echo $font_size;?>; 
-					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $this->field->family));?></div>
+					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?></div>
 					
 			<div class="toogle-font-select-container">
 				<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
@@ -62,7 +93,13 @@ class Font_select_type extends Data_Type {
 						</label>
 						<div class="settings-in">
 							<select data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" class="settings-select">
+								<?php if(is_array($google_fonts) && !empty($google_fonts)) { ?>
+								<?php foreach($google_fonts as $font) { ?>
+								<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo $font; ?>"><?php echo $font; ?></option>
+								<?php } ?>
+								<?php } else { ?>
 								<option selected="true" value="open sans"><?php echo __('Open Sans', 'framework'); ?></option>
+								<?php } ?>
 							</select>
 						</div>
 					</div><div class="clear"></div>
