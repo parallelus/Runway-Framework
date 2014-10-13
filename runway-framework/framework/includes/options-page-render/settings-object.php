@@ -233,7 +233,16 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		return true;
 
 	}
-        
+    
+    /**
+     * The save function called from an options page using the Options Builder such as a
+     * custom theme options page.
+     * 
+     * @param  array  $data The data being passed to the update_option function.
+     * @return        no return value.
+     *
+     * @uses do_action() Calls 'rf_save_data' hook before updating the option.
+     */
 	function save_data( $data = array() ) {
         
 		if (empty($data))
@@ -259,6 +268,8 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 				}
 			}
 		}
+
+		do_action( "rf_save_data", $this->option_key, $data );
 
 		update_option( $this->option_key, $data );
 	}
