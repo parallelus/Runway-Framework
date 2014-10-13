@@ -184,6 +184,11 @@ $comment = $html->format_comment( $comment );
 $row = array( __( 'License URI', 'framework' ), $html->settings_input( 'theme_options[LicenseURI]', isset( $LicenseURI ) ? $LicenseURI : '' ) . $comment );
 $html->setting_row( $row );
 
+$comment = __( 'Google Web Fonts Developer API Key', 'framework' );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Google API Key', 'framework' ), $html->settings_input( 'theme_options[WebFontAPIKey]', isset( $WebFontAPIKey ) ? $WebFontAPIKey : '' ) . $comment );
+$html->setting_row( $row );
+
 ?>
 				</table>
 			</div>

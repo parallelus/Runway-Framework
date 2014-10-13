@@ -21,20 +21,30 @@ class Font_select_type extends Data_Type {
 		  trending: Sort the list by families seeing growth in usage (family seeing the most growth first)
 		 */
 
-		$http = (!empty($_SERVER['HTTPS'])) ? "https" : "http";
-
+		global $wp_filesystem;
+		$font_list = array();
+		
 		$google_api_url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key . '&sort=' . $sort;
 		//lets fetch it
 		$response = wp_remote_retrieve_body(wp_remote_get($google_api_url, array('sslverify' => false)));
 		if (is_wp_error($response)) {
-			
-		} else {
+			$response = $wp_filesystem->get_contents(__DIR__.'/data/web_fonts.json');
+		}
+		
+		if($response !== false) {
 			$data = json_decode($response, true);
-			$items = $data['items'];
-			foreach ($items as $item) {
-				$font_list[] .= $item['family'];
+			if(!isset($data['items'])) {
+				$response = $wp_filesystem->get_contents(__DIR__.'/data/web_fonts.json');
+				$data = json_decode($response, true);
+			}
+			if($response !== false) {
+				$items = $data['items'];
+				foreach ($items as $item) {
+					$font_list[] .= $item['family'];
+				}
 			}
 		}
+		
 		//Return the saved lit of Google Web Fonts
 		return $font_list;
 	}
@@ -48,7 +58,12 @@ class Font_select_type extends Data_Type {
 		$font_color = ($this->field->color != '') ? $this->field->color : '#000000';
 		$previewText = $this->field->previewText;
 		
-		$google_fonts = $this->wp_get_google_webfonts_list('AIzaSyDeMKW1tSr8k_I9bkyJYtz0V_Dh8hwPdIw');
+		global $developer_tools;
+		$current_theme = rw_get_theme_data();
+		$t = runway_admin_themes_list_prepare( $current_theme );
+		$options = $developer_tools->load_settings( $t['folder'] );
+		
+		$google_fonts = $this->wp_get_google_webfonts_list(isset($options['WebFontAPIKey']) ? $options['WebFontAPIKey'] : '');
 		
 		if(is_array($input_value)) {
 			if(isset($input_value['family']))
