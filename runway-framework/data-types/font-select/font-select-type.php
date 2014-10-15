@@ -170,7 +170,7 @@ class Font_select_type extends Data_Type {
 			<script type="text/javascript">
 				var alias = '<?php echo $this->field->alias; ?>';
 				jQuery(document).ready(function($){
-					jQuery('.color-picker-hex').wpColorPicker({ change: function () {
+					jQuery('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').wpColorPicker({ change: function () {
 							var hexcolor = jQuery( this ).wpColorPicker( 'color' );
 							
 							setTimeout(function () {
