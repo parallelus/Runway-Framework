@@ -41,9 +41,15 @@ class Data_Type extends WP_Customize_Control {
 	}
 
 	public static function assign_actions_and_filters() {
-
+		add_filter('data_type_transport', array("Data_Type", 'data_type_filter'), 10, 3);
 	}
-
+	
+	public static function data_type_filter($type, $field_type, $field_alias) {
+		$type = "postMessage";
+		
+		return $type;
+	}
+	
 	public function save( $value = null ) {
 		
 		if(is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting'))

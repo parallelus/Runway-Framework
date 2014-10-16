@@ -165,7 +165,8 @@ class FormsBuilder {
 													if ( class_exists( $class_Name ) ) {
 														$wp_customize->add_setting( $field->alias, array(
 																'default' => '',
-																'type' => 'customize'
+																'type' => 'customize',
+																'transport' => apply_filters('data_type_transport', 'refresh', $field->type, $field->alias)
 															) );
 
 														$option_field = new $class_Name(
