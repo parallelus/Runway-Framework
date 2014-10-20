@@ -24,5 +24,5 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'fix-all-issues' ) {
 	</tbody>
 </table>
 <?php else: ?>
-	<div id="message" class="updated"><p>No assigned reports!</p></div>
+	<div id="message" class="updated"><p><?php echo __('No assigned reports!', 'framework'); ?></p></div>
 <?php endif; ?>

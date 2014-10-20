@@ -41,7 +41,6 @@ else {
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				//$page_json = file_get_contents( $pages_dir.$page_id.'.json' );
 				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
 				$page = json_decode( $page_json, true );
 
@@ -68,7 +67,6 @@ else {
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				//$page_json = file_get_contents( $pages_dir.$page_id.'.json' );
 				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
 				$page = json_decode( $page_json, true );
 
@@ -99,7 +97,6 @@ else {
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				//$page_json = file_get_contents( $pages_dir.$page_id.'.json' );
 				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
 				$page = json_decode( $page_json );
 
@@ -112,7 +109,6 @@ else {
 
 				$page_json = json_encode( $page );
 				$wp_filesystem->put_contents($pages_dir.$page->settings->page_id.'.json', $page_json, FS_CHMOD_FILE);
-				//file_put_contents( $pages_dir.$page->settings->page_id.'.json', $page_json );
 
 				$pages = $apm->get_pages_list();
 				include_once 'views/list-pages.php';
@@ -129,7 +125,6 @@ else {
 			WP_Filesystem();
 			global $wp_filesystem;
 
-			//$page = json_decode( file_get_contents( $pages_dir.$_GET['page_id'].'.json' ) );
 			$page = json_decode( $wp_filesystem->get_contents( $pages_dir.$_GET['page_id'].'.json' ) );
 			$theme = rw_get_theme_data();
 			delete_option( $theme['Folder'].'_'.$page->settings->alias );

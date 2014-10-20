@@ -80,7 +80,7 @@ class Apm_Admin extends Runway_Admin_Object {
 		$page = "";
 
 		if ( isset( $json_page ) && $json_page != '' ) {
-			// out($_POST['page']);
+			
 			$page_post = $this->inputs_decode( json_decode( stripslashes( $json_page ), true ) );
 			$page_id = $page_post['settings']['page_id'];
 			if ( $page_id ) {
@@ -126,7 +126,6 @@ class Apm_Admin extends Runway_Admin_Object {
 				}
 				
 				if ( file_exists( "{$pages_dir}{$page_id}.json" ) ) {
-					//$old = file_get_contents( "{$pages_dir}{$page_id}.json" );
 					$old = $wp_filesystem->get_contents( "{$pages_dir}{$page_id}.json" );
 				}
 				else
@@ -197,7 +196,6 @@ class Apm_Admin extends Runway_Admin_Object {
 						}
 						if( IS_CHILD && get_template() == 'runway-framework') {
 							$wp_filesystem->put_contents("{$pages_dir}{$page_id}.json", $new, FS_CHMOD_FILE);
-							//file_put_contents( "{$pages_dir}{$page_id}.json", $new );
 						}
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'framework' ) .'</div>';

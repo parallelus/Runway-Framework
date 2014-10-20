@@ -29,7 +29,6 @@ if ( is_dir( $pages_dir ) ) {
 $pages = array();
 foreach ( $page_files as $page_file ) {
 	if ( $page_file != '.' && $page_file != '..' ) {
-		//$json = file_get_contents( $pages_dir . $page_file );
 		$json = $wp_filesystem->get_contents( $pages_dir . $page_file );
 		$pages[] = json_decode( $json );
 	}

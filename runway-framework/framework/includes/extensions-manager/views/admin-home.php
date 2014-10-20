@@ -76,9 +76,9 @@ $description = '<div class="plugin-description"><p>'. $ext_info['Description'] .
 $class = ( $ext_cnt ) ? 'inactive' : 'active' ;
 $version = ( $ext_info['Version'] ) ? __( 'Version', 'framework' ).': '.$ext_info['Version'] : '';
 if ( $ext_info['Author'] ) {
-	$author = ' | By '. $ext_info['Author'];
+	$author = ' | '. __('By', 'framework') .' '. $ext_info['Author'];
 	if ( $ext_info['AuthorURI'] ) {
-		$author = ' | By <a href="'. $ext_info['AuthorURI'] .'" title="' . __( 'Visit author homepage', 'framework' ) .'">'. $ext_info['Author'] .'</a>';
+		$author = ' | '.__('By', 'framework').' <a href="'. $ext_info['AuthorURI'] .'" title="' . __( 'Visit author homepage', 'framework' ) .'">'. $ext_info['Author'] .'</a>';
 	}
 }
 else {
