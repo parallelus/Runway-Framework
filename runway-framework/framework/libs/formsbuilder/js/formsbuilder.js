@@ -1097,7 +1097,7 @@ var system_vars_definition = ['template', 'index'];
                         resizable: false,
                         draggable: false,
                         closeOnEscape: true,
-                        position: ['center',150]
+                        position: ['center', 80]
                     });
 
                     // open field settings dialog                    
