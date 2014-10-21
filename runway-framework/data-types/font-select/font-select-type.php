@@ -7,6 +7,7 @@ class Font_select_type extends Data_Type {
 	public $label = 'Font select';
 	
 	public function __construct($page, $field, $wp_customize = null, $alias = null, $params = null) {
+		
 		parent::__construct($page, $field, $wp_customize, $alias, $params);
 	}
 	
@@ -412,4 +413,3 @@ class Font_select_type extends Data_Type {
 
 	<?php }
 } ?>
-
