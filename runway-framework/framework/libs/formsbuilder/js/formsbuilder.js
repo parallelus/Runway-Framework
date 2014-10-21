@@ -1079,7 +1079,7 @@ var system_vars_definition = ['template', 'index'];
 
                     $('.settings-dialog').dialog({
                         open: function(event, ui) {
-                            $(this).css({'max-height': 500, 'overflow-y': 'auto'}); 
+                            $(this).css({'max-height': 525, 'overflow-y': 'auto'}); 
                             $('#adminmenuwrap').css({'z-index':0});
 			    
 			    for(var key in builder.availableTypes) {
