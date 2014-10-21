@@ -1,0 +1,33 @@
+#icons {
+	border: 1px solid #ccc;
+	margin: 10px 0 0 0;
+	padding: 20px 0px 20px 20px;
+	width: 95%;
+	max-width: 765px;
+}
+
+#iconlist div {
+	padding: 9px 9px 9px 9px;
+	font-size: 18px;
+	line-height: 1;
+}
+
+#iconlist div.active {
+	cursor: pointer;
+	color: #fff;
+	background: black;
+}
+
+#iconlist div:hover {
+	cursor: pointer;
+	color: #000;
+	background: #ccc;
+}
+
+#iconList:before {
+content: "\f105";
+display: inline-block;
+-webkit-font-smoothing: antialiased;
+font: normal 18px/1 'dashicons';
+vertical-align: top;
+}

@@ -1,6 +1,6 @@
 <?php
 
-global $developer_tools, $Themes_Manager;
+global $developer_tools, $Themes_Manager, $wp_version;
 // Look up theme data
 if ( isset( $_REQUEST['name'] ) && !isset( $options ) ) {
 	$options = $developer_tools->load_settings( $_REQUEST['name'] );
@@ -9,6 +9,17 @@ if ( isset( $_REQUEST['name'] ) && !isset( $options ) ) {
 if ( isset( $options ) ) {
 	extract( $options );
 }
+
+$exploded_version = explode('.', $wp_version);
+
+if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_version[1] < 8)) {
+	wp_enqueue_style('dashicons_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/dashicons.css');
+}
+wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css');
+wp_enqueue_script('dashicons', FRAMEWORK_URL.'framework/includes/themes-manager/js/dashicons.js');
+
+$custom_icon_src = file_exists(get_stylesheet_directory() . '/custom-icon.png')? get_stylesheet_directory_uri() . '/custom-icon.png' : '';
+
 
 // A few defaults and error checking
 $Name = (isset($Name)) ? $Name : '';
@@ -30,22 +41,37 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 		$(document).ready(function(){
 			$('.input-select').click(function(){
 				if($(this).val() == 'custom-icon'){
-					$('.custom-icon-upload').css('display', '');
+					$('.custom-icon-upload').show();
 				}
 				else{
-					$('.custom-icon-upload').css('display', 'none');	
+					$('.custom-icon-upload').hide();	
 				}
 			});
 			
+			if($('.input-select').val() == 'default-wordpress-icon'){
+				$('.choose-default-wordpress').show();
+			}			
 			if($('.input-select').val() == 'custom-icon'){
-				$('.choose-another').css('display', '');
+				$('.choose-another').show();
 			}
 
-			$('.choose-another-link').click(function(){
-				$('.choose-another').css('display', 'none');
-				$('.custom-icon-upload').css('display', '');
+			$('.input-select').click(function(){
+				if($('.input-select').val() == 'default-wordpress-icon')
+					$('.choose-another').hide();
+				else
+					$('.choose-another').show();
+				$('.custom-icon-upload').hide();
+				$('.choose-default-wordpress').toggle();
+			});
 
-			});			
+			$('.choose-another-link').click(function(e){
+				e.preventDefault();
+				$('.choose-another').hide();
+				$('.custom-icon-upload').show();
+
+			});
+
+			$("#menu_icon").val('menu-icon-page').attr('selected',true);						
 		});
 	})(jQuery);
 </script>
@@ -69,34 +95,38 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 	<table class="form-table">
 
 		<?php
-$row = array( __( 'Title', 'framework' ) . $required, $html->settings_input( 'theme_options[Name]', isset( $Name ) ? $Name : '' ) );
-$html->setting_row( $row );
+		$row = array( __( 'Title', 'framework' ) . $required, $html->settings_input( 'theme_options[Name]', isset( $Name ) ? $Name : '' ) );
+		$html->setting_row( $row );
 
-$row = array( 
-	__( 'Menu icon', 'framework' ) . $required, 
-		$html->settings_select( 'theme_options[Icon]', 
-			array(
-			'' => __( 'Default Generic icon', 'framework' ),
-			'menu-icon-dashboard' => __( 'Dashboard icon', 'framework' ),
-			'menu-icon-post' => __( 'Posts icon', 'framework' ),
-			'menu-icon-media' => __( 'Media icon', 'framework' ),
-			'menu-icon-links' => __( 'Links icon', 'framework' ),
-			'menu-icon-page' => __( 'Page icon', 'framework' ),
-			'menu-icon-comments' => __( 'Comments icon', 'framework' ),
-			'menu-icon-appearance' => __( 'Appearance icon', 'framework' ),
-			'menu-icon-plugins' => __( 'Plugins icon', 'framework' ),
-			'menu-icon-users' => __( 'Users icon', 'framework' ),
-			'menu-icon-tools' => __( 'Tools icon', 'framework' ),
-			'menu-icon-settings' => __( 'Settings icon', 'framework' ),
-			'custom-icon' => __( 'Custom icon', 'framework' ),
-		),
-	isset( $Icon ) ? $Icon : null ), 
-);
-$html->setting_row( $row );
+		$row = array( 
+			__( 'Menu icon', 'framework' ) . $required, 
 
-?>		<tr class = 'choose-another' style="display: none;">
+				$html->settings_select( 'theme_options[Icon]', 
+					array(
+					'default-wordpress-icon' => __( 'Default WordPress Icon', 'framework' ),
+					'custom-icon' => __( 'Custom icon', 'framework' ),
+				),
+			isset( $Icon ) ? $Icon : null ), 
+		);
+
+		$html->setting_row( $row );
+		?>
+
+		<tr class = 'choose-default-wordpress' style="display: none;">
+			<td>
+				<input class='dashicon-code-selected' name="theme_options[default-wordpress-icon-code]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-code'])? $options['default-wordpress-icon-code'] : '';?> >
+				<input class='dashicon-class-selected' name="theme_options[default-wordpress-icon-class]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-class'])? $options['default-wordpress-icon-class'] : '';?> >
+			</td>
+			<td>
+				<?php require_once(get_template_directory().'/framework/templates/dashicons.php'); ?>
+			</td>
+		</tr>
+		<tr class = 'choose-another' style="display: none;">
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
+				<div>
+					<img src="<?php echo $custom_icon_src; ?>"/>
+				</div>
 				<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
 			</td>
 		</tr>			
