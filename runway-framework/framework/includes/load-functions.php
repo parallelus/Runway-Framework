@@ -527,7 +527,7 @@ function custom_theme_menu_icon() {
 			if ( $options['Icon'] == 'custom-icon' && file_exists( THEME_DIR.'custom-icon.png' ) ) {
 				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
 			} else {
-				$menu[$themeKey][6] = $options['default-wordpress-icon-class'];
+				$menu[$themeKey][6] = isset($options['default-wordpress-icon-class'])? $options['default-wordpress-icon-class'] : '';
 			}
 		}
 	}
