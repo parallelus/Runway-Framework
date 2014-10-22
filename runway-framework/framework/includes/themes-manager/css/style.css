@@ -76,3 +76,143 @@
 #theme-framework .nav-bar-trail li:nth-child(2) {
     z-index: -1;
 }
+
+.theme-browser .runway-theme-actions {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transition: opacity 0.1s ease-in-out 0s;
+	height: 47px;
+}
+
+.theme-browser .runway-theme-actions .dashicons-container {
+	width: 47px;
+	text-align: center;
+	padding-top: 14px;
+	float: left;
+	height: 32px;
+}
+
+.theme-browser .runway-theme-actions .dashicons {
+	
+}
+
+.theme-browser .runway-theme-actions a {
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	text-indent: -99999px;
+	top: -20px;
+	width: 20px;
+}
+
+.theme-browser .runway-theme-actions .dashicons-admin-page,
+.theme-browser .runway-theme-actions .dashicons-edit{
+	display: none;
+	color: #777777;
+}
+
+.theme-browser .runway-theme-actions .dashicons-download {
+	color: #2ea2cc;
+}
+
+.theme-browser .theme.active:focus .runway-theme-actions .dashicons-admin-page,
+.theme-browser .theme.active:focus .runway-theme-actions .dashicons-edit,
+.theme-browser .theme.active:hover .runway-theme-actions .dashicons-admin-page,
+.theme-browser .theme.active:hover .runway-theme-actions .dashicons-edit {
+	display: inline-block;
+}
+
+.theme-browser .runway-theme-actions .dashicons-container-edit:hover,
+.theme-browser .runway-theme-actions .dashicons-container-duplicate:hover {
+	background-color: #424242;
+}
+.theme-browser .runway-theme-actions .dashicons-container-edit:hover .dashicons,
+.theme-browser .runway-theme-actions .dashicons-container-duplicate:hover .dashicons,
+.theme-browser .runway-theme-actions .dashicons-container-download:hover .dashicons{
+	color: #ffffff;
+}
+
+.theme-browser .runway-theme-actions .dashicons-container-download:hover {
+	background-color: #2ea2cc;
+}
+
+.theme-browser .runway-theme-notactive-actions {
+	display: none;
+}
+
+.theme-browser .theme:focus .runway-theme-notactive-actions,
+.theme-browser .theme:hover .runway-theme-notactive-actions {
+	display: block;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions {
+	bottom: 0px;
+}
+
+.theme-browser .runway-theme-actions-bottom {
+	border: 1px solid #dedede;
+	height: 34px;
+	position: absolute;
+	width: 100%;
+}
+
+.theme-browser .runway-theme-actions-bottom .dashicons-container {
+	float: left;
+	width: 25%;
+	text-align: center;
+	height: 27px;
+	padding-top: 7px;
+}
+
+.theme-browser .runway-theme-actions-bottom a {
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	text-indent: -99999px;
+	top: -20px;
+	width: 20px;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons {
+	color: #777777;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons-container:hover {
+	background-color: #1e8cbe;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons-container:hover .dashicons {
+	color: #ffffff;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download {
+	background-color: #2ea2cc;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download .dashicons {
+	color: #ffffff;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-edit:hover,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-duplicate:hover {
+	background-color: #777777;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-edit:hover .dashicons,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-duplicate:hover .dashicons{
+	color: #eeeeee;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-no:hover {
+	background-color: #d54e21;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-no:hover .dashicons{
+	color: #eeeeee;
+}
+
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download:hover {
+	background-color: #1e8cbe;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download:hover .dashicons{
+	color: #eeeeee;
+}

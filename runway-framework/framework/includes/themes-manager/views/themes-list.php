@@ -242,6 +242,133 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 		<?php echo __( 'A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active', 'framework' ); ?>.
 	</p>
 
+	<?php
+	
+		$themes_list = $developer_tools->search_themes();
+		$current_theme = rw_get_theme_data();
+		
+		// Set the variables
+		$t = runway_admin_themes_list_prepare( $current_theme );
+		unset( $themes_list[$current_theme['Folder']] );
+	?>
+	
+	<div class="theme-browser rendered">
+		<div class="themes">
+			<div class="theme active" tabindex="0">
+				<div class="theme-screenshot">
+					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+				</div>
+				<span id="liftoff-action" class="more-details"><?php echo __('Theme Details', 'framework'); ?></span>
+				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $current_theme['AuthorName']; ?></div>
+				<h3 id="liftoff-name" class="theme-name">
+					<span><?php echo __('Active', 'framework'); ?>:</span> <?php echo $t['name']; ?>
+				</h3>
+				<div class="runway-theme-actions">
+					<?php if ( strtolower( $t['name'] ) != 'runway' ) { ?>
+					<div class="dashicons-container dashicons-container-edit">
+						<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
+					</div>
+					<div class="dashicons-container dashicons-container-duplicate">
+						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
+					</div>
+					<div class="dashicons-container dashicons-container-download">
+						<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
+					</div>
+					<?php } ?>
+				</div>
+			</div>
+			
+			<?php foreach ( $themes_list as $theme ) { ?>
+			<?php 
+				$t = runway_admin_themes_list_prepare( $theme ); 
+				if ( !isset( $theme['Template'] ) || empty( $theme['Template'] ) ) {
+					$theme['Template'] = strtolower( $theme['Folder'] );
+				}
+				
+				$theme_obj = wp_get_theme($theme['Folder']);
+				$allowed = $theme_obj->is_allowed( 'network' );
+				
+				if(is_multisite() && is_admin()){		
+					$url = 'themes.php?';
+					$s = '';
+					$ms_enable_theme_link = network_admin_url().esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
+				}
+			?>
+			<div class="theme" tabindex="0">
+				<div class="theme-screenshot">
+					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+				</div>
+				<span id="liftoff-action" class="more-details"><?php echo __('Theme Details', 'framework'); ?></span>
+				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $theme['AuthorName']; ?></div>
+				<h3 id="liftoff-name" class="theme-name">
+					<?php echo $t['name']; ?>
+				</h3>
+				<div class="runway-theme-notactive-actions">
+					<div class="runway-theme-actions">
+						<?php if($allowed){ ?>
+						<div class="dashicons-container dashicons-container-yes">
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $t['activateLink']; ?></div>
+						</div>
+						<?php } else { ?>
+						<?php
+							if(is_admin()) {
+								$link = '<a '; 
+								if(SUBDOMAIN_INSTALL != true){
+									$link .= 'class="activate-theme" ';
+								}
+								$link .= 'href="'. $ms_enable_theme_link .'">'. __( 'Network Enable', 'framework' ) .'</a>';
+						?>
+						<div class="dashicons-container dashicons-container-yes">
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $link; ?></div>
+						</div>
+						<?php	} ?>
+						<?php } ?>
+						
+						<?php if($allowed || (!$allowed && is_admin())) { ?>
+						<div class="dashicons-container dashicons-container-visibility">
+							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo $t['previewLink']; ?></div>
+						</div>
+						<?php } ?>
+					</div>
+					<?php if($allowed || (!$allowed && is_admin())) { ?>
+					<?php	if(strtolower( $theme['Name'] ) != 'runway') { ?>
+					<div class="runway-theme-actions-bottom">
+						<div class="dashicons-container dashicons-container-edit">
+							<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
+						</div>
+						<div class="dashicons-container dashicons-container-duplicate">
+							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
+						</div>
+						<div class="dashicons-container dashicons-container-no">
+							<div class="dashicons dashicons-no" data-code="f158"><?php echo $t['deleteLink']; ?></div>
+						</div>
+						<div class="dashicons-container dashicons-container-download">
+							<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
+						</div>
+					</div>
+					<?php	} ?>
+					<?php } ?>
+				</div>
+			</div>
+			<?php } ?>
+		</div>
+		<div class="theme add-new-theme">
+			<a href="<?php echo admin_url('admin.php?page=themes&navigation=new-theme'); ?>">
+				<div class="theme-screenshot"><span></span></div>
+				<h3 class="theme-name"><?php echo __('Create New Theme', 'framework'); ?></h3>
+			</a>
+		</div>
+		<br class="clear">
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<?php /* !!!Old script... It'll be deleted later!!!!
 	<h3><?php _e( 'Current Theme', 'framework' ); ?></h3>
 
 	<div class="active-runway-theme">
@@ -353,16 +480,16 @@ unset( $themes_list[$current_theme['Folder']] );
 											$link .= 'href="'. $ms_enable_theme_link .'">'. __( 'Network Enable', 'framework' ) .'</a>';
 											echo $link;
 											?>
-							</li>
-							<li><?php echo $t['previewLink']; ?></li>
-							<?php 
-								if ( strtolower( $theme['Name'] ) != 'runway' ) { 
-							?>
-								<li><?php echo $t['editLink']; ?></li>
-								<li><?php echo $t['duplicateLink']; ?></li>
-								<li><?php echo $t['deleteLink']; ?></li>
-								<li><?php echo $t['downloadLink']; ?></li>
-							<?php } 
+											</li>
+											<li><?php echo $t['previewLink']; ?></li>
+											<?php 
+												if ( strtolower( $theme['Name'] ) != 'runway' ) { 
+											?>
+												<li><?php echo $t['editLink']; ?></li>
+												<li><?php echo $t['duplicateLink']; ?></li>
+												<li><?php echo $t['deleteLink']; ?></li>
+												<li><?php echo $t['downloadLink']; ?></li>
+											<?php } 
 										}
 										else{
 											echo __('Please wait until an administrator activates theme for the network', 'framework') . '</li>';
@@ -380,4 +507,6 @@ unset( $themes_list[$current_theme['Folder']] );
 
 		<?php } ?>
 	</div> <!-- / .avalible-runway-themes -->
+	
+	*/?>
 </div>
