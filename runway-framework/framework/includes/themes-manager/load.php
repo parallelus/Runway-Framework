@@ -32,7 +32,9 @@ $settings = array(
 	'menu_permissions' => 'administrator',
 	'file' => __FILE__,
 	'js' => array(
+		//'theme',
 		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
+		FRAMEWORK_URL.'framework/js/jquery.tmpl.min.js',
 		FRAMEWORK_URL.'framework/includes/themes-manager/js/package-tags.js',
 	),
 	'css' => array(
