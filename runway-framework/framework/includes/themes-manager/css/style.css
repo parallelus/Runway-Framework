@@ -5,7 +5,11 @@
 	text-align: center; }
 .bottom-panel { 
 	margin: 0; padding: 1em 0; }
-.activate-theme-popup a.screenshot { outline: 0; } /* no dotted outline in popup screen shot */
+.activate-theme-popup a.screenshot,
+.activate-theme-popup a.screenshot:focus { 
+	outline: 0; /* no dotted outline in popup screen shot */
+	-webkit-box-shadow: none;
+	box-shadow: none; } 
 
 /* Themes List View */
 .runway-theme a.screenshot,.runway-theme a.screenshot img,#current-theme img { 
