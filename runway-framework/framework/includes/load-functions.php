@@ -629,7 +629,8 @@ function db_json_sync(){
 						array('content_types', 'content_types'),
 						array('content_types', 'taxonomies'),
 						array('contact_fields', 'fields'),
-						array('contact_fields', 'defaults')
+						array('contact_fields', 'defaults'),
+						'theme_updater'
 					    )
 					);
 					$returned_array = apply_filters('rf_do_not_syncronize', $params);

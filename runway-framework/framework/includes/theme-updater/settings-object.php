@@ -47,8 +47,8 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			return;
 		}
 		
+		$found = false;
 		if(isset($current_theme['type']) && $current_theme['type'] == 'theme') {
-			$found = false;
 			if(isset($current_theme['themes']) && is_array($current_theme['themes'])) {
 				foreach($current_theme['themes'] as $key => $value) {
 					if($value == 'runway-framework') {
@@ -56,32 +56,41 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 						break;
 					}
 				}
-				if(!$found)
-					return;
+				//if(!$found)
+				//	return;
 			}
 		}
 		
-		$dir = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
-		if (is_dir($dir)) {
+		if($found) {
+			$dir = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
+			if (is_dir($dir)) {
 
-			$dir_dt = FRAMEWORK_DIR.'data-types';
-			$dir_fw = FRAMEWORK_DIR.'framework';
-			$dir_ext = FRAMEWORK_DIR.'extensions';
-			$dir_data = FRAMEWORK_DIR.'data';
+				$dir_dt = FRAMEWORK_DIR.'data-types';
+				$dir_fw = FRAMEWORK_DIR.'framework';
+				$dir_ext = FRAMEWORK_DIR.'extensions';
+				$dir_data = FRAMEWORK_DIR.'data';
 
-			$wp_filesystem->mkdir($dir_dt, FS_CHMOD_DIR);
-			$wp_filesystem->mkdir($dir_fw, FS_CHMOD_DIR);
-			$wp_filesystem->mkdir($dir_ext, FS_CHMOD_DIR);
-			$wp_filesystem->mkdir($dir_data, FS_CHMOD_DIR);
+				$wp_filesystem->mkdir($dir_dt, FS_CHMOD_DIR);
+				$wp_filesystem->mkdir($dir_fw, FS_CHMOD_DIR);
+				$wp_filesystem->mkdir($dir_ext, FS_CHMOD_DIR);
+				$wp_filesystem->mkdir($dir_data, FS_CHMOD_DIR);
 
-			copy_dir(FRAMEWORK_DIR.'runway-framework', FRAMEWORK_DIR, array('extensions', 'data'));
-			copy_dir($dir.'extensions', $dir_ext);
-			copy_dir($dir.'data', $dir_data);
+				copy_dir(FRAMEWORK_DIR.'runway-framework', FRAMEWORK_DIR, array('extensions', 'data'));
+				copy_dir($dir.'extensions', $dir_ext);
+				copy_dir($dir.'data', $dir_data);
 
-			$wp_filesystem->delete($dir, true);
-			$wp_filesystem->delete(FRAMEWORK_DIR.'runway-framework', true);
+				$wp_filesystem->delete($dir, true);
+				$wp_filesystem->delete(FRAMEWORK_DIR.'runway-framework', true);
+			}
+			unset($this->theme_updater_options['data']['response']['runway-framework']);
 		}
-		unset($this->theme_updater_options['data']['response']['runway-framework']);
+		else {
+			if(isset($current_theme['themes']) && is_array($current_theme['themes'])) {
+				foreach($current_theme['themes'] as $key => $value) {
+					unset($this->theme_updater_options['data']['response'][$value]);
+				}
+			}
+		}
 		update_option($this->option_key, $this->theme_updater_options);
 	}
 	
@@ -249,7 +258,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$this->theme_updater_options['data'] = (array)$data;
 			$this->theme_updater_options['last_request'] = time();
 			$this->loaded = true;
-
+			
 			update_option( $this->option_key, $this->theme_updater_options );
 		}
 	}
@@ -264,10 +273,44 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			return $new_data;
 		}
 		else {
+			
 			if(empty($this->theme_updater_options))
+			{
+				$this->theme_updater_options['data'] = $data;
+				$this->theme_updater_options['last_request'] = time();
+			}
+			else {
+				if(isset($data->response) && is_array($data->response)) {
+					if(!isset($this->theme_updater_options['data']['response']) || (isset($this->theme_updater_options['data']['response']) && !is_array($this->theme_updater_options['data']['response']))) {
+						$not_equals = true;
+						$this->theme_updater_options['data']['response'] = array();
+					}
+					else {
+						foreach($data->response as $key => $value) {
+							if(!isset($this->theme_updater_options['data']['response'][$key]))
+								$this->theme_updater_options['data']['response'][$key] = $value;
+						}
+					}
+				}
+			}
+			
+			update_option( $this->option_key, $this->theme_updater_options );
+			
+			if(is_array($this->theme_updater_options['data'])) {
+				$returned = new stdClass();
+				$returned->last_checked = $this->theme_updater_options['data']['last_checked'];
+				$returned->checked = $this->theme_updater_options['data']['checked'];
+				$returned->response = $this->theme_updater_options['data']['response'];
+				$returned->translations = $this->theme_updater_options['data']['translations'];
+				return $returned;
+			}
+			else
+				return $this->theme_updater_options['data'];
+			
+			/*if(empty($this->theme_updater_options))
 				return $data;
 			else
-				return (object)$this->theme_updater_options['data'];
+				return (object)$this->theme_updater_options['data'];*/
 		}
 	}
 
