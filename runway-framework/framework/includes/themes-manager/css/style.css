@@ -95,6 +95,7 @@
 	padding-top: 14px;
 	float: left;
 	height: 32px;
+	position: relative;
 }
 
 .theme-browser .runway-theme-actions .dashicons {
@@ -103,11 +104,12 @@
 
 .theme-browser .runway-theme-actions a {
 	display: inline-block;
-	height: 20px;
-	position: relative;
+	height: 100%;
+	position: absolute;
 	text-indent: -99999px;
-	top: -20px;
-	width: 20px;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 
 .theme-browser .runway-theme-actions .dashicons-admin-page,
@@ -167,15 +169,17 @@
 	text-align: center;
 	height: 27px;
 	padding-top: 7px;
+	position: relative;
 }
 
 .theme-browser .runway-theme-actions-bottom a {
 	display: inline-block;
-	height: 20px;
-	position: relative;
+	height: 100%;
+	left: 0;
+	position: absolute;
 	text-indent: -99999px;
-	top: -20px;
-	width: 20px;
+	top: 0;
+	width: 100%;
 }
 
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
@@ -192,6 +196,7 @@
 
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download {
 	background-color: #2ea2cc;
+	position: relative;
 }
 
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download .dashicons {
