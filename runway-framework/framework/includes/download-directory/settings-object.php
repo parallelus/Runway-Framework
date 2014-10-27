@@ -8,6 +8,7 @@ class Directory_Admin extends Runway_Admin_Object {
 	function add_actions() {
 		$upload_dir = wp_upload_dir( );
 		$this->downloads_dir = $upload_dir['basedir'].'/downloads-directory/';
+		$this->edd_dir = $upload_dir['basedir'].'/edd/'; 
 		$this->extensions_server_url = 'http://runwaywp.com/sites/main/wp-admin/admin-ajax.php?action=';
 
 		add_action( 'init', array( $this, 'init' ) );
@@ -77,8 +78,9 @@ class Directory_Admin extends Runway_Admin_Object {
 		extract( $_REQUEST );
 
 		if ( isset( $item ) ) {
-			$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
-			$extension_file_name = file_exists( $extension_file_name )? $extension_file_name : "{$this->downloads_dir}{$item}.zip";
+			//$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
+			$extension_file_name = $this->edd_dir."{$item}.zip";    			
+			//$extension_file_name = file_exists( $extension_file_name )? $extension_file_name : "{$this->downloads_dir}{$item}.zip";
 			if ( file_exists( $extension_file_name ) ) {							
 				if(!function_exists('WP_Filesystem'))
 					require_once(ABSPATH . 'wp-admin/includes/file.php');
