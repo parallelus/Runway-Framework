@@ -25,8 +25,8 @@ $opts = array(
 	)
 );
 $context = stream_context_create($opts);
-$response_pre = file_get_contents($directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false, $context);
-
+// $response_pre = file_get_contents($directory->extensions_server_url . "get_extensions&search={$search}&page={$page}", false, $context);
+$response_pre = file_get_contents($directory->extensions_server_url . "get_extensions", false, $context);
 $response_pre = (isset($response_pre) && !empty($response_pre))? json_decode( $response_pre ) : (object)$response_pre;
 
 if ( !isset($response_pre->on_page) || (isset($response_pre->on_page) && $response_pre->on_page == 0) ) {
@@ -49,7 +49,6 @@ $this->extensions_Paid = array();
 if(!is_a($response_json, 'WP_Error') && isset($response_json['body']) && $response_json['body'] !== '[]') {
 	$this->extensions_Paid = json_decode($response_json['body']);
 }
-$total_count = count((array)$this->extensions_Paid);
 
 // foreach($this->extensions_Paid as $item_shop) {
 // 	$item_name = str_replace('-', '_', sanitize_key($item_shop->Files[0]->name));

@@ -1,21 +1,34 @@
+<?php
+$extensions_Paid_search = array();
+foreach($this->extensions_Paid as $key => $item) {
+	if( isset($search) && !empty($search) && strstr(strtolower($item->Name), strtolower($search)) === false )
+			continue;
+	$extensions_Paid_search[$key] = $item;
+}
+$total_count = count($extensions_Paid_search);
+?>
+
 <div class="wp-filter">
 	<div class="filter-count">
 		<span class="count theme-count"><?php echo $total_count; ?></span>
 		<ul class="filter-links">
 			<li><a href="#" data-sort="themes">Themes</a></li>
-			<li><a href="#" data-sort="extensions" class="current">Extensions</a></li>
+			<li><a href="<?php echo admin_url('admin.php?page=directory'); ?> data-sort="extensions" class="current">Extensions</a></li>
 			<li><a href="#" data-sort="plugins">Plugins</a></li>
 			<li class="add-ones-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
 		</ul>
 	</div>
 	<div class="search-form">
-		<label class="screen-reader-text" for="wp-filter-search-input">Search Themes</label>
-		<input placeholder="Search extensions..." type="search" id="wp-filter-search-rf-input" class="wp-filter-search-rf">
+		<form id="search-plugins" method="post" action="<?php echo admin_url('admin.php?page=directory'); ?>">
+			<label class="screen-reader-text" for="wp-filter-search-input">Search Themes</label>
+			<input placeholder="<?php echo __('Search extensions...', 'framework'); ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? $_REQUEST['s'] : ''; ?>" class="wp-filter-search-rf">
+			<input class="button button-primary" type="submit" name="plugin-search-input" id="plugin-search-input" value="Search">
+		</form>		
 	</div>
 </div>
 
 <div class="theme-browser content-filterable rendered">
-	<?php foreach($this->extensions_Paid as $item_shop) {
+	<?php foreach($extensions_Paid_search as $item_shop) {
 		$item_name = str_replace('-', '_', sanitize_key($item_shop->Files[0]->name)); ?>
 	
 	<div class="theme" tabindex="0" aria-describedby="<?php echo $item_name; ?>-action <?php echo $item_name; ?>-name">	

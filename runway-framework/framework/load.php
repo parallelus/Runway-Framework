@@ -129,7 +129,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 			// Runway menu
 			add_menu_page( 'Runway', 'Runway', 'administrator', 'framework-options', 'do_nothing', FRAMEWORK_URL.'framework/images/menu-runway.png' );
 			// Downloads menu
-			add_menu_page( 'Downloads', 'Downloads', 'administrator', 'downloads', 'do_nothing', FRAMEWORK_URL.'framework/images/menu-downloads.png' );
+			//add_menu_page( 'Downloads', 'Downloads', 'administrator', 'downloads', 'do_nothing', FRAMEWORK_URL.'framework/images/menu-downloads.png' );
 		}
 		// Custom theme menu
 		$currentThemeName = ( trim( THEME_NAME ) == trim( 'Runway' ) ) ? 'Child Theme' : THEME_NAME;
@@ -146,6 +146,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 		// Runway sub-menu
 		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Dashboard', 'administrator', 'dashboard' );
 		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Add-ons', 'administrator', 'directory' );
+		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Add-ons Server', 'administrator', 'server' );
 		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Themes', 'administrator', 'themes' );
 		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Extensions', 'administrator', 'extensions' );
 		add_submenu_page( 'framework-options', 'Runway Development Sandbox', 'Options Builder', 'administrator', 'options-builder' );
