@@ -37,11 +37,11 @@ $settings = array(
 #
 ########################################################################
 
-$options = get_option($settings['option_key']);
+/*$options = get_option($settings['option_key']);
 if ($options) { 
 	delete_option($settings['option_key']);
 	unset($options);
-}
+}*/
 
 ########################################################################
 
