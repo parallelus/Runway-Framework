@@ -299,9 +299,9 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			if(is_array($this->theme_updater_options['data'])) {
 				$returned = new stdClass();
 				$returned->last_checked = $this->theme_updater_options['data']['last_checked'];
-				$returned->checked = $this->theme_updater_options['data']['checked'];
+				$returned->checked = isset($this->theme_updater_options['data']['checked'])? $this->theme_updater_options['data']['checked'] : array();
 				$returned->response = $this->theme_updater_options['data']['response'];
-				$returned->translations = $this->theme_updater_options['data']['translations'];
+				$returned->translations = isset($this->theme_updater_options['data']['translations'])? $this->theme_updater_options['data']['translations'] : array();
 				return $returned;
 			}
 			else

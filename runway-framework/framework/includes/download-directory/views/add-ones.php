@@ -13,7 +13,7 @@ $total_count = count($extensions_Paid_search);
 		<span class="count theme-count"><?php echo $total_count; ?></span>
 		<ul class="filter-links">
 			<li><a href="#" data-sort="themes">Themes</a></li>
-			<li><a href="<?php echo admin_url('admin.php?page=directory'); ?> data-sort="extensions" class="current">Extensions</a></li>
+			<li><a href="<?php echo admin_url('admin.php?page=directory'); ?>" data-sort="extensions" class="current">Extensions</a></li>
 			<li><a href="#" data-sort="plugins">Plugins</a></li>
 			<li class="add-ones-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
 		</ul>
