@@ -33,9 +33,12 @@ if ( !isset($response_pre->on_page) || (isset($response_pre->on_page) && $respon
 	$response_pre->on_page = 1;
 }
 
+$addons_type = isset($_GET['addons'])? $_GET['addons'] : 'Extensions';
+
 $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
-	'extensions' => $response_pre->extensions
+	'extensions' => $response_pre->extensions,
+	'type' => $addons_type
 );
 $post_args = array(
 	'method' => 'POST',
