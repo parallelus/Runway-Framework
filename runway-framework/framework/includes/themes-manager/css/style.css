@@ -225,3 +225,6 @@
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download:hover .dashicons{
 	color: #eeeeee;
 }
+
+
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot img {width: 100%; height: 100%;}
