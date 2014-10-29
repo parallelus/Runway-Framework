@@ -373,12 +373,45 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 				</div>
 			</div>
 			<?php } ?>
+			<div class="theme add-new-theme">
+				<a href="<?php echo admin_url('admin.php?page=themes&navigation=new-theme'); ?>">
+					<div class="theme-screenshot"><span></span></div>
+					<h3 class="theme-name"><?php echo __('Create New Theme', 'framework'); ?></h3>
+				</a>
+			</div>
 		</div>
-		<div class="theme add-new-theme">
-			<a href="<?php echo admin_url('admin.php?page=themes&navigation=new-theme'); ?>">
-				<div class="theme-screenshot"><span></span></div>
-				<h3 class="theme-name"><?php echo __('Create New Theme', 'framework'); ?></h3>
-			</a>
+		<br class="clear">
+	</div>
+	
+	<h2 class="adminTitle"><?php echo __('Other Runway Themes', 'framework'); ?> <a class="add-new-h2" href="<?php echo admin_url('admin.php?page=directory'); ?>">More Themes</a></h2>
+	<?php
+		$other_themes = $Themes_Manager->get_other_runway_themes();
+	?>
+	
+	<div class="theme-browser rendered">
+		<div class="themes">
+			<?php $i = 0; foreach ( $other_themes as $theme ) { ?>
+			<div class="theme runway-theme-other" tabindex="0">
+				<div class="theme-screenshot">
+					<img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+				</div>
+				<h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name">
+					<?php echo $theme->Name; ?>
+				</h3>
+				<div class="runway-theme-other-actions">
+				</div>
+			</div>
+			<?php 
+				$i++;
+				if($i >= 3) break;
+			} 
+			?>
+			<div class="theme add-new-theme">
+				<a href="<?php echo admin_url('admin.php?page=directory'); ?>">
+					<div class="theme-screenshot"><span></span></div>
+					<h3 class="theme-name"><?php echo __('Find More Themes', 'framework'); ?></h3>
+				</a>
+			</div>
 		</div>
 		<br class="clear">
 	</div>

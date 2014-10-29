@@ -863,6 +863,27 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 
 	}
+	
+	function get_other_runway_themes() {
+		global $directory, $theme_updater_admin, $auth_manager_admin;
+		
+		$postdata = array(
+			'extensions' => '',
+			'type' => 'Themes',
+			'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
+		);
+
+		$post_args = array(
+			'method' => 'POST',
+			'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n",
+			'timeout' => 10,
+			'body' => $postdata
+		);
+		
+		$response = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+		
+		return json_decode($response['body']);
+	}
 
 }
 
