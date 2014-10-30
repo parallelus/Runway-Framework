@@ -1080,6 +1080,9 @@ var system_vars_definition = ['template', 'index'];
                     $('.settings-dialog').dialog({
                         open: function(event, ui) {
                             $(this).css({'max-height': 525, 'overflow-y': 'auto'}); 
+			    
+			    $('body').addClass('modal-open');
+			    $('.ui-dialog').css({'top': '80px'});
                             $('#adminmenuwrap').css({'z-index':0});
 			    
 			    for(var key in builder.availableTypes) {
@@ -1091,12 +1094,14 @@ var system_vars_definition = ['template', 'index'];
                         },
                         close: function(event, ui) {
                             $('#adminmenuwrap').css({'z-index':'99'});
+			    $('body').removeClass('modal-open');
                         },
                         autoOpen:false,
                         modal: true,
                         resizable: false,
                         draggable: false,
                         closeOnEscape: true,
+			dialogClass: "settings-dialog-modal",
                         position: ['center', 80]
                     });
 
