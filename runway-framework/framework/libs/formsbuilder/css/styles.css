@@ -457,3 +457,16 @@ button {
 .wp-picker-input-wrap .color-picker {
 	width: 80px !important;
 }
+
+.settings-dialog-modal {
+	bottom: 40px;
+	max-height: 608px;
+}
+
+.settings-dialog-modal .settings-dialog {
+	bottom: 20px;
+	left: 20px;
+	position: absolute;
+	right: 10px;
+	top: 67px;
+}
