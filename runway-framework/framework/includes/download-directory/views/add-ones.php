@@ -13,16 +13,16 @@ $total_count = isset($extensions_Paid_search)? count($extensions_Paid_search) : 
 	<div class="filter-count">
 		<span class="count theme-count"><?php echo $total_count; ?></span>
 		<ul class="filter-links">
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'Themes')? 'current' : ''; ?>">Themes</a></li>
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'Extensions')? 'current' : ''; ?>">Extensions</a></li>
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'Plugins')? 'current' : ''; ?>">Plugins</a></li>
+			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'Themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
+			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'Extensions')? 'current' : ''; ?>"><?php echo __('Extensions', 'framework'); ?></a></li>
+			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'Plugins')? 'current' : ''; ?>"><?php echo __('Plugins', 'framework'); ?></a></li>
 			<li class="add-ones-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
 		</ul>
 	</div>
 	<div class="search-form">
 		<?php $url = 'admin.php?page=directory&addons='.$addons_type; ?>
 		<form id="search-plugins" method="post" action="<?php echo admin_url($url); ?>">
-			<input placeholder="<?php echo __('Search ', 'framework') . strtolower($addons_type) . '...'; ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? $_REQUEST['s'] : ''; ?>" class="wp-filter-search-rf">
+			<input placeholder="<?php echo __('Search ', 'framework') . strtolower(rf__($addons_type)) . '...'; ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? $_REQUEST['s'] : ''; ?>" class="wp-filter-search-rf">
 			<input class="button button-primary" type="submit" name="plugin-search-input" id="plugin-search-input" value="Search">
 		</form>		
 	</div>
