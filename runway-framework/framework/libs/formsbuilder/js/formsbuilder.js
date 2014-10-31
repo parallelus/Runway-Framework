@@ -50,7 +50,42 @@
             if (!uiObject.isPageEmpty())
                 new_item_added_event(element);
         });
-        
+
+        $('body').on('click', '.page-element-controls .duplicate[data-type="container"]', function(e) {
+            e.stopPropagation();
+            e.preventDefault();                    
+
+            var container_duplicate = $(this).parent().parent().parent().clone(true);
+            
+            var replaceMarker = $('<div/>', {
+                id:     'new-element',
+                class:  'accept-container new-element scrollTo'
+            });
+            $('.inside.accept-container:last').append(replaceMarker);
+            uiObject.onCloneContainer(container_duplicate);       
+            var element = $('.containerbox:last').addClass('scrollTo');
+            if (!uiObject.isPageEmpty())
+                new_item_added_event(element);
+        });
+
+        $('body').on('click', '.page-element-controls .duplicate[data-type="field"]', function(e) {
+            e.stopPropagation();
+            e.preventDefault();                    
+
+            var field_duplicate = $(this).parent().parent().parent().clone(true);
+
+
+            var replaceMarker = $('<div/>', {
+                id:     'new-element',
+                class:  'accept-field new-element'
+            });
+            $('.inside.accept-field:last').append(replaceMarker);
+            uiObject.onCloneField(field_duplicate);
+            var element = $('.fieldbox:last').addClass('scrollTo');
+            if (!uiObject.isPageEmpty())
+                new_item_added_event(element);        
+        });
+
         $('body').on('click', '.customize-control-content', function(e) {
             e.stopPropagation();
             e.preventDefault();
@@ -478,6 +513,58 @@ var system_vars_definition = ['template', 'index'];
 
             },
 
+            cloneItem: function(options_origin) {
+
+                var options = {
+                    index: make_ID(),
+                    template: options_origin.template
+                };
+
+                switch(options_origin.template) {
+                    case 'tab': {
+
+                    } break;
+
+                    case 'field': {
+                            var options_new = {};
+
+                            for(var key in options_origin) {
+                                switch(key) {
+                                    case 'index': {} break;
+
+                                    case 'title': {
+                                            options.title = options_origin.title + ' - ' + translations_js.duplicate;
+                                    } break;
+
+                                    case 'alias': {
+                                            options.alias = options_origin.alias + ' - ' + translations_js.duplicate;
+                                    } break;
+
+                                    default: {
+                                        options[key] = options_origin[key];
+                                    } break;
+                                }                                    
+                            }
+
+                    } break;
+
+                    case 'container': {
+
+                            options.type = options_origin.type;
+                            options.title = options_origin.title + ' - ' + translations_js.duplicate;
+                            options.display_on_customization_page = options_origin.display_on_customization_page;
+
+                    } break;
+
+                    default: {} break;
+                }
+
+                page_elements_list[options.index] = options;
+
+                return options;
+
+            },
+
             getElement: function(index) {
                 return page_elements_list[index];
             },
@@ -767,6 +854,66 @@ var system_vars_definition = ['template', 'index'];
                 if(!empty(repl)) repl.find(".inside").append($("<div>").addClass("new-element"));
                 uiObject.onAddContainer();
 
+
+                return repl;
+
+            },
+
+            onCloneContainer: function(container_duplicate) {
+
+                var replaceMarker = $(".accept-field").find(".new-element");
+
+                if(!replaceMarker.length) {
+                    replaceMarker = $(".accept-tab .accept-container").find(".new-element");
+                }
+
+                if(!replaceMarker.length) {
+                    replaceMarker = $(".page-layer").find(".new-element");
+                }
+
+                var type = replaceMarker.data('type');
+                
+                var index_origin_container = container_duplicate.attr('data-index');
+                var options_origin_container = pageObject.getElement(index_origin_container);
+                var options_new_container = pageObject.cloneItem(options_origin_container);
+
+                var repl = godObj.template.build(options_new_container);
+
+                $(replaceMarker).replaceWith(repl);
+
+                $('.page-layer').find(".new-element").remove();
+
+                godObj.init();
+
+                var field_new, index_new, options_new;
+                var field_clone, index_clone, options_clone;
+
+                container_duplicate.find('.page-field').each(function(index, el){
+                    
+                    if(!empty(repl)) repl.find(".inside.accept-field").append($("<div>").addClass("new-element"));
+                    uiObject.onCloneField($(this));
+                });
+
+                return repl;
+
+            },
+
+            onCloneField: function(field_duplicate) {
+                var replaceMarker = $(".accept-field").find(".new-element");
+
+                var type = $(replaceMarker).data('type');
+
+                index_origin_field = field_duplicate.attr('data-index');
+                options_origin_field = pageObject.getElement(index_origin_field);
+                var options = pageObject.cloneItem(options_origin_field);
+                var repl = godObj.template.build(options);
+
+                $(replaceMarker).replaceWith(repl);
+                uiObject.settingsPreview(options);
+
+                $(".page-layer").find(".new-element").remove();
+
+                godObj.init();
 
                 return repl;
 
@@ -1161,7 +1308,7 @@ var system_vars_definition = ['template', 'index'];
                 $('body').on('click', '.save-button', function() {
 
                     var settings = $('.page-settings-form').serializeArray();
-                  
+
                     settings.push({
                         name: "title",
                         value: $('#titlewrap #title').val()
@@ -1199,7 +1346,7 @@ var system_vars_definition = ['template', 'index'];
                         }
                     }
                     $(".save-page input.page").val(JSON.stringify(page));
-                    
+                
                     $(".save-page").append($(".file-upload input"));
                     $(".save-page").append($('.tab-settings'));
 

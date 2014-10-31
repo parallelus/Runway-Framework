@@ -49,7 +49,7 @@ class FormsBuilder {
 	}
 
 	public function render_form( $page_options = array(), $default_save = true, $object = null, $admin_object = null, $custom_alias = null ) {
-		
+
 		if ( !empty( $page_options ) ) {
 			$alias = $page_options->settings->alias;
 			$current = $this->prepare_form( $page_options );

@@ -46,5 +46,6 @@ $translation_array = array(	'edit_field'			=> __( 'Edit Field', 'framework' ),
 							'add_ct'				=> __( 'Add', 'framework'),
 							'edit_ct'				=> __( 'Edit', 'framework'),
 							'update_ct'				=> __( 'Update', 'framework'),
-							'parent_ct'				=> __( 'Parent', 'framework')
+							'parent_ct'				=> __( 'Parent', 'framework'),
+							'duplicate'				=> __( 'Duplicate', 'framework')
 );
