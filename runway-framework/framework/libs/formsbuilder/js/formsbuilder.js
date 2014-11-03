@@ -15,6 +15,16 @@
         element.removeClass('scrollTo');
     }    
 
+    function new_item_duplicated_event(element){
+        $('#new-item-duplicated').fadeIn(1000);
+        $('#new-item-duplicated').fadeOut(800);
+
+        $('html, body').animate({
+             scrollTop: element.offset().top
+         }, 1000);
+        element.removeClass('scrollTo');
+    } 
+
     $(function(){
         $('#add-tab').click(function(){
             var replaceMarker = $('<div/>', {
@@ -65,25 +75,28 @@
             uiObject.onCloneContainer(container_duplicate);       
             var element = $('.containerbox:last').addClass('scrollTo');
             if (!uiObject.isPageEmpty())
-                new_item_added_event(element);
+                new_item_duplicated_event(element);
         });
 
         $('body').on('click', '.page-element-controls .duplicate[data-type="field"]', function(e) {
             e.stopPropagation();
             e.preventDefault();                    
 
-            var field_duplicate = $(this).parent().parent().parent().clone(true);
-
+            var field_origin = $(this).parent().parent().parent();
+            var container_origin = field_origin.parent().parent();
+            var field_duplicate = field_origin.clone(true);
 
             var replaceMarker = $('<div/>', {
                 id:     'new-element',
                 class:  'accept-field new-element'
             });
-            $('.inside.accept-field:last').append(replaceMarker);
+
+            container_origin.find('.inside.accept-field:last').append(replaceMarker);
             uiObject.onCloneField(field_duplicate);
-            var element = $('.fieldbox:last').addClass('scrollTo');
+            var element = container_origin.find('.fieldbox:last').addClass('scrollTo');
+
             if (!uiObject.isPageEmpty())
-                new_item_added_event(element);        
+                new_item_duplicated_event(element);        
         });
 
         $('body').on('click', '.customize-control-content', function(e) {

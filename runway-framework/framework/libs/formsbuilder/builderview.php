@@ -35,7 +35,7 @@
 		var SAVE_ACTION = '<?php echo $this->save_action ?>';   
 		</script>
 		<style type="text/css">
-			#new-item-added{
+			#new-item-added, #new-item-duplicated{
 				position:fixed;
 				top:70px;
 				left:30%;
