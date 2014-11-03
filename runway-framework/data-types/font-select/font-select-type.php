@@ -229,6 +229,11 @@ class Font_select_type extends Data_Type {
 	
 	public static function include_scripts_styles() {
 		$data_type_directory = __DIR__;
+		$framework_dir = basename(FRAMEWORK_DIR);
+		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
+		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
+		
+		/*
 		$theme_directory = THEME_DIR;
 		$framework_directory = FRAMEWORK_DIR;
 				
@@ -242,6 +247,7 @@ class Font_select_type extends Data_Type {
 		else {
 			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
 		}
+		*/
 		
 		wp_register_style('font_select_type_css', FRAMEWORK_URL . $current_data_type_dir . '/css/font-select-type.css');
 		wp_enqueue_style('font_select_type_css');

@@ -83,6 +83,11 @@ class Code_editor_type extends Data_Type {
 	public static function include_ace() {
 		
 		$data_type_directory = __DIR__;
+		$framework_dir = basename(FRAMEWORK_DIR);
+		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
+		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
+
+		/*
 		$theme_directory = THEME_DIR;
 		$framework_directory = FRAMEWORK_DIR;
 				
@@ -96,6 +101,7 @@ class Code_editor_type extends Data_Type {
 		else {
 			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
 		}
+		*/
 		
 		/*if(strstr(__DIR__, THEME_DIR)) {
 			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
