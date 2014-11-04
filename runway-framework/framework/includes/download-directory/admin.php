@@ -122,7 +122,7 @@ default: {
 		}
 
 		//include_once 'views/browse.php';
-		include_once 'views/add-ones.php';
+		include_once 'views/add-ons.php';
 
 	} break;
 }
