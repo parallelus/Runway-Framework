@@ -12,13 +12,13 @@ $total_count = isset($extensions_Paid_search)? count($extensions_Paid_search) : 
 <div class="wp-filter">
 	<div class="filter-count">
 		<span class="count theme-count"><?php echo $total_count; ?></span>
-		<ul class="filter-links">
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'Themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'Extensions')? 'current' : ''; ?>"><?php echo __('Extensions', 'framework'); ?></a></li>
-			<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'Plugins')? 'current' : ''; ?>"><?php echo __('Plugins', 'framework'); ?></a></li>
-			<li class="add-ons-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
-		</ul>
 	</div>
+	<ul class="filter-links">
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'Themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'Extensions')? 'current' : ''; ?>"><?php echo __('Extensions', 'framework'); ?></a></li>
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'Plugins')? 'current' : ''; ?>"><?php echo __('Plugins', 'framework'); ?></a></li>
+		<li class="add-ons-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
+	</ul>
 	<div class="search-form">
 		<?php $url = 'admin.php?page=directory&addons='.$addons_type; ?>
 		<form id="search-plugins" method="post" action="<?php echo admin_url($url); ?>">
@@ -34,10 +34,14 @@ $total_count = isset($extensions_Paid_search)? count($extensions_Paid_search) : 
 	
 	<div class="theme" tabindex="0" aria-describedby="<?php echo $item_name; ?>-action <?php echo $item_name; ?>-name">	
 		<div class="theme-screenshot">
-			<img src="<?php echo $item_shop->Screenshot; ?>" alt="<?php echo $item_shop->Name; ?>">
+			<?php if (isset($item_shop->Screenshot) && !empty($item_shop->Screenshot)) : ?>
+				<img src="<?php echo $item_shop->Screenshot; ?>" alt="<?php echo $item_shop->Name; ?>">
+			<?php else : ?>
+				<img src="http://runwaywp.com/sites/main/wp-content/uploads/item-placeholder-preview-1-2197-640x316.png" alt="<?php echo $item_shop->Name; ?>">
+			<?php endif; ?>
+			<div class="more-details-rf white-gradient"><p><?php echo $item_shop->content; ?></p></div>
 		</div>
 		
-		<div class="more-details-rf white-gradient"><?php echo $item_shop->content; ?></div>
 		<h3 class="theme-name-rf white-gradient-left-right"><?php echo $item_shop->Name; ?></h3>
 		<div class="theme-actions add-ons-init">
 			<?php if( (isset($item_shop->isFree) && $item_shop->isFree) || (isset($item_shop->isPaid) && $item_shop->isPaid) ): ?>

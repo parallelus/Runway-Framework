@@ -28,7 +28,7 @@ class Directory_Admin extends Runway_Admin_Object {
 
 	function validate_sumbission() {
 
-		// If all is OKq
+		// If all is OK
 		return true;
 
 	}
