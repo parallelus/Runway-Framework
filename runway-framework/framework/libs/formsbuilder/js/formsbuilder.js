@@ -1442,22 +1442,58 @@ var system_vars_definition = ['template', 'index'];
 
                     $('.slug-editor-save').click(function() {
 
+                        var newAlias = $('.slug-editor-input').val();
+
                         $.ajax({
                             type: 'POST',
                             url: ajaxurl,                        
                             data: {
                                 action: 'check_is_options_page_alias_unique',
-                                alias: $('.slug-editor-input').val()
+                                alias: newAlias
                             }
                         }).done(function(response){
                             if(!response)
-                                $("#editable-post-name").text($('.slug-editor-input').val());
+                                $("#editable-post-name").text(newAlias);
                         });
 
                         $('#slug-editor').hide();
                         $('#slug-static').show();
                     });
+                    $('.slug-editor-cancel').on('click', function(){
+                        $('#slug-editor').hide();
+                        $('#slug-static').show();
+                    });
 
+                });
+
+                // Click function to make slug from page title
+                $('.make-from-title').click(function(){
+                    var val = $('#title').val();
+                    val = val.toLowerCase();
+                    val = val.trim();
+                    val = val.replace(/[^\sa-z-]+/gi,'');
+                    val = val.trim();
+                    val = val.replace(/\s+/g, '-');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                            action: 'check_is_options_page_alias_unique',
+                            alias: val
+                        }
+                    }).done(function(response){
+                        if(!response){
+                            $("#editable-post-name").text(val);
+                            $('#slug-editor').hide();
+                            $('#slug-static').show();
+                        }
+                    });
+                });
+
+                // Click function to get primary page slug
+                $('.get-primary-slug').on('click', function(){
+                    $("#editable-post-name").text($('input[name="primary-page-slug"]').val());
                 });
 
                 // preload page settings
