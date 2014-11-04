@@ -391,16 +391,18 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 	<div class="theme-browser rendered">
 		<div class="themes">
 			<?php $i = 0; foreach ( $other_themes as $theme ) { ?>
-			<div class="theme runway-theme-other" tabindex="0">
-				<div class="theme-screenshot">
-					<img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
-				</div>
-				<h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name">
-					<?php echo $theme->Name; ?>
-				</h3>
-				<div class="runway-theme-other-actions">
-				</div>
-			</div>
+                <a href="<?php echo $theme->itemLink; ?>" target="_blank">
+                    <div class="theme runway-theme-other" tabindex="0">
+                        <div class="theme-screenshot">
+                            <img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+                        </div>
+                        <h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name">
+                            <?php echo $theme->Name; ?>
+                        </h3>
+                        <div class="runway-theme-other-actions">
+                        </div>
+                    </div>
+                </a>
 			<?php 
 				$i++;
 				if($i >= 3) break;
