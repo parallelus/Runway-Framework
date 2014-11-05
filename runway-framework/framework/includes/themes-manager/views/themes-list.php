@@ -294,7 +294,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 					<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'framework'); ?>">
 						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
 					</div>
-					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone theme', 'framework'); ?>">
+					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'framework'); ?>">
 						<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
 					</div>
 					<?php } ?>
@@ -365,7 +365,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 						<div class="dashicons-container dashicons-container-no" data-action-text="<?php _e('Delete', 'framework'); ?>">
 							<div class="dashicons dashicons-no" data-code="f158"><?php echo $t['deleteLink']; ?></div>
 						</div>
-						<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone theme', 'framework'); ?>">
+						<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'framework'); ?>">
 							<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
 						</div>
 					</div>
