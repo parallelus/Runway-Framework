@@ -460,8 +460,8 @@ class FormsBuilder {
 			add_action( 'wp_ajax_save_custom_options', array( $this, 'save_custom_options' ) );
 		}
 
-		add_action( 'admin_print_styles', array( $this, 'include_styles' ) );
-		add_action( 'admin_print_scripts', array( $this, 'include_scripts' ) );
+		add_action( 'admin_init', array( $this, 'include_styles' ) );
+		add_action( 'admin_init', array( $this, 'include_scripts' ) );
 		
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
 		

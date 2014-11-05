@@ -48,8 +48,6 @@ $settings = array(
 		'formsbuilder',
 		'ace',
 		'rw_nouislider',
-		FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
-		FRAMEWORK_URL.'framework/js/jquery.cookie.js',
 		FRAMEWORK_URL.'framework/js/farbtastic/farbtastic.js',
 	),
 	'css' => array(
