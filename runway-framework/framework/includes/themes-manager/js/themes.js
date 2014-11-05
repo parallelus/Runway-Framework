@@ -62,5 +62,26 @@ $('body').on('click', '.theme-overlay .theme-header .left', function(){
 		}
 	}
 });
+    $('.theme').on('mouseover',function(){
+
+        var _this = $(this);
+
+        _this.find('div[class*=dashicons-container-]').on('mouseover', function(){
+
+            var actionText = $(this).data('action-text');
+
+            if(actionText){
+                _this.find('.more-details .primary-text').hide();
+                _this.find('.more-details .action-text').text($(this).data('action-text')).show();
+            }
+
+        }).on('mouseout', function(){
+
+            _this.find('.more-details .action-text').hide();
+            _this.find('.more-details .primary-text').show();
+
+        });
+
+    });
 
 })( jQuery );

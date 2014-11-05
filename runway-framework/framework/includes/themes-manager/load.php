@@ -59,8 +59,15 @@ do_action( 'themes_manager_is_load' );
 
 // Setup a custom button in the title
 function title_button_themes( $title ) {
+
+    if(get_bloginfo('version') >= 4){
+        $install_url = 'theme-install.php?upload';
+    }else{
+        $install_url = 'theme-install.php?tab=upload';
+    }
+
 	if ( $_GET['page'] == 'themes' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. admin_url('theme-install.php?tab=upload').'" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. admin_url($install_url).'" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
 	}
 	return $title;
 }

@@ -281,20 +281,20 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 				<div class="theme-screenshot">
 					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
 				</div>
-				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><?php echo __('Theme Details', 'framework'); ?></span>
+				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
 				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $current_theme['AuthorName']; ?></div>
 				<h3 id="<?php echo strtolower( $t['name'] );?>-name" class="theme-name">
 					<span><?php echo __('Active', 'framework'); ?>:</span> <?php echo $t['name']; ?>
 				</h3>
 				<div class="runway-theme-actions">
 					<?php if ( strtolower( $t['name'] ) != 'runway' ) { ?>
-					<div class="dashicons-container dashicons-container-edit">
+					<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'framework'); ?>">
 						<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
 					</div>
-					<div class="dashicons-container dashicons-container-duplicate">
+					<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'framework'); ?>">
 						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
 					</div>
-					<div class="dashicons-container dashicons-container-download">
+					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone theme', 'framework'); ?>">
 						<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
 					</div>
 					<?php } ?>
@@ -321,7 +321,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 				<div class="theme-screenshot">
 					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
 				</div>
-				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><?php echo __('Theme Details', 'framework'); ?></span>
+				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
 				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $theme['AuthorName']; ?></div>
 				<h3 id="<?php echo strtolower( $t['name'] );?>-name" class="theme-name">
 					<?php echo $t['name']; ?>
@@ -329,7 +329,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 				<div class="runway-theme-notactive-actions">
 					<div class="runway-theme-actions">
 						<?php if($allowed){ ?>
-						<div class="dashicons-container dashicons-container-yes">
+						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'framework'); ?>">
 							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $t['activateLink']; ?></div>
 						</div>
 						<?php } else { ?>
@@ -341,14 +341,14 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 								}
 								$link .= 'href="'. $ms_enable_theme_link .'">'. __( 'Network Enable', 'framework' ) .'</a>';
 						?>
-						<div class="dashicons-container dashicons-container-yes">
+						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'framework'); ?>">
 							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $link; ?></div>
 						</div>
 						<?php	} ?>
 						<?php } ?>
 						
 						<?php if($allowed || (!$allowed && is_admin())) { ?>
-						<div class="dashicons-container dashicons-container-visibility">
+						<div class="dashicons-container dashicons-container-visibility" data-action-text="<?php _e('Preview', 'framework'); ?>">
 							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo $t['previewLink']; ?></div>
 						</div>
 						<?php } ?>
@@ -356,16 +356,16 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 					<?php if($allowed || (!$allowed && is_admin())) { ?>
 					<?php	if(strtolower( $theme['Name'] ) != 'runway') { ?>
 					<div class="runway-theme-actions-bottom">
-						<div class="dashicons-container dashicons-container-edit">
+						<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'framework'); ?>">
 							<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
 						</div>
-						<div class="dashicons-container dashicons-container-duplicate">
+						<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'framework'); ?>">
 							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
 						</div>
-						<div class="dashicons-container dashicons-container-no">
+						<div class="dashicons-container dashicons-container-no" data-action-text="<?php _e('Delete', 'framework'); ?>">
 							<div class="dashicons dashicons-no" data-code="f158"><?php echo $t['deleteLink']; ?></div>
 						</div>
-						<div class="dashicons-container dashicons-container-download">
+						<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone theme', 'framework'); ?>">
 							<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
 						</div>
 					</div>

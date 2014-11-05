@@ -1494,6 +1494,8 @@ var system_vars_definition = ['template', 'index'];
                 // Click function to get primary page slug
                 $('.get-primary-slug').on('click', function(){
                     $("#editable-post-name").text($('input[name="primary-page-slug"]').val());
+                    $('#slug-editor').hide();
+                    $('#slug-static').show();
                 });
 
                 // preload page settings
