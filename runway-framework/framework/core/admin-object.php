@@ -310,8 +310,9 @@ if ( !defined( $runway_framework_admin ) ) {
 					$this_page = add_submenu_page( 'admin.php', $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );				
 				}
 
-				add_action('runway_page_' . $this->slug, array( $this, 'options_page' ));
+				add_action( 'runway_page_' . $this->slug, array( $this, 'options_page' ));
 				add_action( 'admin_head-' . $this_page, array( $this, 'settings_head' ) );
+				add_action( 'admin_print_styles-' . $this_page, array( $this, 'include_extension_css' ), 11 ); // add CSS specific to this page
 
 			}
 
@@ -381,8 +382,9 @@ if ( !defined( $runway_framework_admin ) ) {
 		function options_page() {
 
 			// including js and cs
-			$this->include_extension_css();
 			$this->include_extension_js();
+			// !!! --- MOVED CSS include to admin_menu enqueue for easier reference and proper hooking in header --- !!! ///
+			// $this->include_extension_css();
 
 			$this->options_page_wrapper_header();
 
