@@ -14,9 +14,9 @@ $total_count = isset($extensions_Paid_search)? count($extensions_Paid_search) : 
 		<span class="count theme-count"><?php echo $total_count; ?></span>
 	</div>
 	<ul class="filter-links">
-		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'Themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
-		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'Extensions')? 'current' : ''; ?>"><?php echo __('Extensions', 'framework'); ?></a></li>
-		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=Plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'Plugins')? 'current' : ''; ?>"><?php echo __('Plugins', 'framework'); ?></a></li>
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=extensions'); ?>" data-sort="extensions" class="<?php echo ($addons_type == 'extensions')? 'current' : ''; ?>"><?php echo __('Extensions', 'framework'); ?></a></li>
+		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=plugins'); ?>" data-sort="plugins" class="<?php echo ($addons_type == 'plugins')? 'current' : ''; ?>"><?php echo __('Plugins', 'framework'); ?></a></li>
 		<li class="add-ons-item-hidden"><a href="#" data-sort="fields">Fields</a></li>
 	</ul>
 	<div class="search-form">
