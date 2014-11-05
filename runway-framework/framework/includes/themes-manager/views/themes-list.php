@@ -241,6 +241,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 	<p>
 		<?php echo __( 'A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active', 'framework' ); ?>.
 	</p>
+	<br>
 
 	<?php
 	
@@ -382,34 +383,36 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 		</div>
 		<br class="clear">
 	</div>
-	
-	<h2 class="adminTitle"><?php echo __('Other Runway Themes', 'framework'); ?> <a class="add-new-h2" href="<?php echo admin_url('admin.php?page=directory'); ?>">More Themes</a></h2>
+
+	<hr>
+	<br>
+
+	<h3 class="adminTitle"><?php _e('Other Runway Themes', 'framework'); ?> &nbsp; <a class="add-new-h2" href="<?php echo admin_url('admin.php?page=directory'); ?>"><?php _e('More Themes', 'framework'); ?></a></h3>
 	<?php
 		$other_themes = $Themes_Manager->get_other_runway_themes();
 	?>
+
+	<br>
 	
 	<div class="theme-browser rendered">
 		<div class="themes">
 			<?php $i = 0; foreach ( $other_themes as $theme ) { ?>
-                <a href="<?php echo $theme->itemLink; ?>" target="_blank">
-                    <div class="theme runway-theme-other" tabindex="0">
-                        <div class="theme-screenshot">
-                            <img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
-                        </div>
-                        <h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name">
-                            <?php echo $theme->Name; ?>
-                        </h3>
-                        <div class="runway-theme-other-actions">
-                        </div>
-                    </div>
-                </a>
+				<div class="theme runway-theme-other" tabindex="0">
+					<a href="<?php echo $theme->itemLink; ?>" target="_blank">
+						<div class="theme-screenshot">
+							<img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+						</div>
+						<h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name"><?php echo $theme->Name; ?></h3>
+						<div class="runway-theme-other-actions"></div>
+					</a>
+				</div>
 			<?php 
 				$i++;
 				if($i >= 3) break;
 			} 
 			?>
-			<div class="theme add-new-theme">
-				<a href="<?php echo admin_url('admin.php?page=directory'); ?>">
+			<div class="theme add-new-theme runway-find-more-themes">
+				<a href="<?php echo admin_url('admin.php?page=directory&addons=themes'); ?>">
 					<div class="theme-screenshot"><span></span></div>
 					<h3 class="theme-name"><?php echo __('Find More Themes', 'framework'); ?></h3>
 				</a>

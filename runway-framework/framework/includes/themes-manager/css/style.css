@@ -92,10 +92,11 @@
 .theme-browser .runway-theme-actions .dashicons-container {
 	width: 47px;
 	text-align: center;
-	padding-top: 14px;
+	padding-top: 10px;
 	float: left;
-	height: 32px;
+	height: 38px;
 	position: relative;
+	top: -1px;
 }
 
 .theme-browser .runway-theme-actions .dashicons {
@@ -161,6 +162,10 @@
 	height: 34px;
 	position: absolute;
 	width: 100%;
+	margin: 0 -1px;
+	background: #F1F1F1;
+	-webkit-box-shadow: 0 1px 1px -1px rgba(0,0,0,.1);
+	        box-shadow: 0 1px 1px -1px rgba(0,0,0,.1);
 }
 
 .theme-browser .runway-theme-actions-bottom .dashicons-container {
@@ -181,6 +186,15 @@
 	top: 0;
 	width: 100%;
 }
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
+.theme-browser .runway-theme-actions .dashicons-edit,
+.theme-browser .runway-theme-actions .dashicons-admin-page,
+.theme-browser .runway-theme-actions .dashicons-download {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	line-height: 28px;
+}
 
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons {
@@ -195,6 +209,7 @@
 }
 
 .theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download {
+	color: #fff;
 	background-color: #2ea2cc;
 	position: relative;
 }
@@ -226,5 +241,14 @@
 	color: #eeeeee;
 }
 
+/* Other Themes */
+.theme-browser .themes .theme.runway-theme-other a { text-decoration: none; }
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot { background: #333; }
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot:after,
+.theme-browser .theme.runway-find-more-themes .theme-screenshot:after { padding-top: 49% !important; }
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot img { width: 100%; height: 100%; }
 
-.theme-browser .themes .theme.runway-theme-other .theme-screenshot img {width: 100%; height: 100%;}
+/* Find other themes */
+.theme-browser .theme.runway-find-more-themes .theme-screenshot:after { padding-top: 49% !important; }
+.theme-browser .theme.runway-find-more-themes span:after { top: 25%; content: '\f179'; text-indent: 0; line-height: 100px; }
+.theme-browser .theme.runway-find-more-themes .theme-name { margin-top: -5%; margin-bottom: 5%; }
