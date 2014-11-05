@@ -47,8 +47,8 @@ class Dashboard_Admin extends Runway_Admin_Object {
 		}
 
 		//wp_enqueue_script('sort_credits-js', get_theme_root_uri() . '/ra/assets/js/sort_credits.js');
-		wp_enqueue_script('sort_credits-js', FRAMEWORK_URL.'framework/includes/dashboard/js/sort_credits.js');
-		wp_enqueue_style('sort_credits-css', FRAMEWORK_URL.'framework/includes/dashboard/css/style_credits.css');
+		// wp_enqueue_script('sort_credits-js', FRAMEWORK_URL.'framework/includes/dashboard/js/sort_credits.js');
+		// wp_enqueue_style('sort_credits-css', FRAMEWORK_URL.'framework/includes/dashboard/css/style_credits.css');
 
 		$postdata = http_build_query(
 		    array(
