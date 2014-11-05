@@ -45,7 +45,7 @@
 /* Controls (edit, delete) */
 .page-element-controls {
 	float: right;
-	margin-top: 9px;
+	margin-top: 19px;
 	padding: 2px 8px 2px 15px;
 }
 .page-element-controls a {
@@ -162,8 +162,9 @@
 .page-layer .postbox-title {
 	line-height: 1em;
 	font-size: 14px;
-	padding: 12px 14px;
+	padding: 20px 14px 12px;
 	color: #333;
+	border-bottom: 0;
 }
 .page-layer .postbox-title:hover {
 	color: #000;
@@ -184,9 +185,18 @@
 .page-layer .tabbox {
 	padding: 0 10px 10px;
 }
+.page-layer .tabbox > .handlediv {
+	margin-top: 9px;
+}
 .page-layer .containerbox {
 	background: #F5F5F5;
 	border: 1px solid #e9e9e9;
+}
+.page-layer .containerbox .postbox-title {
+	padding-top: 12px;
+}
+.page-layer .containerbox .page-element-controls {
+	margin-top: 9px;
 }
 
 /* Field Elements */
@@ -215,7 +225,7 @@
 	margin-top: 10px;
 }
 .page-layer .fieldbox .handlediv {
-	margin: 3px 5px 0 3px;
+	margin: 0 0 0 3px;
 }
 .page-global-settings-wrapper {
 	margin: 0;
