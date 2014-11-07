@@ -62,6 +62,11 @@ $('body').on('click', '.theme-overlay .theme-header .left', function(){
 		}
 	}
 });
+    $('.themes .theme').on('click', '.dashicons',function(event){
+
+        event.stopPropagation();
+
+    });
     $('.theme').on('mouseover',function(){
 
         var _this = $(this);

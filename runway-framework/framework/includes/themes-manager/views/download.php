@@ -71,8 +71,8 @@ if ( $current_package['a_hash'] ) {
 				<?php 
 			} 
 else { 
-	?>
-	Not found<?php 
+
+	_e('Not found', 'framework');
 } ?>
 			</td>
 			<td>
