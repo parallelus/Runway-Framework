@@ -39,7 +39,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 <script type="text/javascript">
 	(function($){
 		$(document).ready(function(){
-			$('.input-select').click(function(){
+			$('.input-select').change(function(){
 				if($(this).val() == 'custom-icon'){
 					$('.custom-icon-upload').show();
 				}
@@ -55,7 +55,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 				$('.choose-another').show();
 			}
 
-			$('.input-select').click(function(){
+			$('.input-select').change(function(){
 				if($('.input-select').val() == 'default-wordpress-icon')
 					$('.choose-another').hide();
 				else
@@ -125,7 +125,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<div>
-					<img src="<?php echo $custom_icon_src; ?>"/>
+					<img src="<?php echo $custom_icon_src; ?>" width="16" height="16" />
 				</div>
 				<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
 			</td>
@@ -134,6 +134,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<input type="file" name="theme_options[CustomIcon]" value="" />
+				<p class="description"><?php echo __('Recommended size 32x32px for HiDPI screens. Icon isplayed at 16x16px.', 'framework'); ?></p>
 			</td>
 		</tr>
 <?php
