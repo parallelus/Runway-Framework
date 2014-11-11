@@ -485,6 +485,14 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 			$theme_type = 'runway-framework';
 		}
 
+		$info = file_get_contents( $theme_dir.'/style.css' );
+		$start = strpos( $info, 'Icon' );
+		$icon = '';
+		if($start > 0) {
+			$end = strpos( $info, PHP_EOL, $start );
+			$icon = trim(str_replace('Icon:', '', substr($info, $start, $end - $start)));
+		}
+
 		return array(
 			'Name' => $theme->get( 'Name' ),
 			'URI' => $theme->get( 'ThemeURI' ),
@@ -502,6 +510,7 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 			'StylesheetFiles' => $stylesheet_files,
 			'TemplateFiles' => $template_files,
 			'Folder' => $stylesheet,
+			'Icon' => $icon,	
 		);
 	}
 
@@ -510,25 +519,41 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 function custom_theme_menu_icon() {
 	global $menu, $submenu, $Themes_Manager; $theme = rw_get_theme_data();
 
-	if ( isset( $menu, $Themes_Manager, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
-		unset( $submenu['current-theme']['current-theme'] ); // Delete duplicate of theme name
-		$options = $Themes_Manager->load_settings( $theme['Folder'] );
-		$themeKey = null;
-		foreach ( $menu as $key => $values ) {
-			if ( $menu[$key][0] == $theme['Title'] ) {
-				$themeKey = $key;
+	$themeKey = null;
+	foreach ( $menu as $key => $values ) {
+		if ( $menu[$key][0] == $theme['Title'] ) {
+			$themeKey = $key;
+		}
+	}
+
+	if(IS_CHILD) {
+		if ( isset( $menu, $Themes_Manager, $submenu ) && $theme['Folder'] != 'runway-framework' ) {
+			unset( $submenu['current-theme']['current-theme'] ); // Delete duplicate of theme name
+			$options = $Themes_Manager->load_settings( $theme['Folder'] );
+
+			if ( isset( $options['Icon'] ) && $options['Icon'] != '' && $themeKey != null ) {
+				$menu[$themeKey][3] = $options['Name'];  // Icon class
+				$menu[$themeKey][4] = str_replace( 'menu-icon-generic', '', $menu[$themeKey][4] );
+				$menu[$themeKey][4] .= ' '.$options['Icon'];  // Icon class
+
+				if ( $options['Icon'] == 'custom-icon' && file_exists( THEME_DIR.'custom-icon.png' ) ) {
+					$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
+				} else {
+					$menu[$themeKey][6] = isset($options['default-wordpress-icon-class'])? $options['default-wordpress-icon-class'] : '';
+				}
 			}
 		}
-		if ( isset( $options['Icon'] ) && $options['Icon'] != '' && $themeKey != null ) {
-			$menu[$themeKey][3] = $options['Name'];  // Icon class
-			$menu[$themeKey][4] = str_replace( 'menu-icon-generic', '', $menu[$themeKey][4] );
-			$menu[$themeKey][4] .= ' '.$options['Icon'];  // Icon class
+	} else {
 
-			if ( $options['Icon'] == 'custom-icon' && file_exists( THEME_DIR.'custom-icon.png' ) ) {
-				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
-			} else {
-				$menu[$themeKey][6] = isset($options['default-wordpress-icon-class'])? $options['default-wordpress-icon-class'] : '';
-			}
+		$theme_info = rw_get_theme_data();
+		if ( $theme_info['Icon'] == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
+			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
+		} else {
+
+			global $wp_filesystem;
+	
+			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
+			$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
 		}
 	}
 }

@@ -346,6 +346,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 				$this->themes_path . '/' . $options['Folder'] . '/custom-icon.png'
 			);
 
+	        $image = wp_get_image_editor($_FILES['theme_options']['tmp_name']['CustomIcon']);
+
+        	if(!is_wp_error($image)){
+	             $image->resize(16, 16);
+    	         $image->save($this->themes_path . '/' . $options['Folder'] . '/custom-icon.png');
+	        }
+
 			// $image = $this->themes_path . '/' . $options['Folder'] . '/tmp.png';
 			// $new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
 

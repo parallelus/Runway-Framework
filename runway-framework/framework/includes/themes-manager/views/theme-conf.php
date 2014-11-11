@@ -134,7 +134,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<input type="file" name="theme_options[CustomIcon]" value="" />
-				<p class="description"><?php echo __('Recommended size 32x32px for HiDPI screens. Icon isplayed at 16x16px.', 'framework'); ?></p>
+				<p class="description"><?php echo __('Recommended size 32x32px for HiDPI screens. Icon displayed at 16x16px.', 'framework'); ?></p>
 			</td>
 		</tr>
 <?php

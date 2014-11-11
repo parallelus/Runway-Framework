@@ -9,11 +9,13 @@ themes = wp.themes = wp.themes || {};
 
 // Store the theme data and settings for organized and quick access
 // themes.data.settings, themes.data.themes, themes.data.l10n
-themes.data = _wpThemeSettings;
-l10n = themes.data.l10n;
+if ((typeof _wpThemeSettings) !== 'undefined') {
+	themes.data = _wpThemeSettings;
+	l10n = themes.data.l10n;
 
-var current_index = -1;
-var max_index = themes.data.themes.length;
+	var current_index = -1;
+	var max_index = themes.data.themes.length;
+}
 
 $('body').on('click', '.theme-browser .themes .theme', function() {
 	current_index = $('.theme-browser .themes .theme').index($(this));
@@ -62,31 +64,33 @@ $('body').on('click', '.theme-overlay .theme-header .left', function(){
 		}
 	}
 });
-    $('.themes .theme').on('click', '.dashicons',function(event){
 
-        event.stopPropagation();
+$('.themes .theme').on('click', '.dashicons',function(event){
+
+    event.stopPropagation();
+
+});
+
+$('.theme').on('mouseover',function(){
+
+    var _this = $(this);
+
+    _this.find('div[class*=dashicons-container-]').on('mouseover', function(){
+
+        var actionText = $(this).data('action-text');
+
+        if(actionText){
+            _this.find('.more-details .primary-text').hide();
+            _this.find('.more-details .action-text').text($(this).data('action-text')).show();
+        }
+
+    }).on('mouseout', function(){
+
+        _this.find('.more-details .action-text').hide();
+        _this.find('.more-details .primary-text').show();
 
     });
-    $('.theme').on('mouseover',function(){
 
-        var _this = $(this);
-
-        _this.find('div[class*=dashicons-container-]').on('mouseover', function(){
-
-            var actionText = $(this).data('action-text');
-
-            if(actionText){
-                _this.find('.more-details .primary-text').hide();
-                _this.find('.more-details .action-text').text($(this).data('action-text')).show();
-            }
-
-        }).on('mouseout', function(){
-
-            _this.find('.more-details .action-text').hide();
-            _this.find('.more-details .primary-text').show();
-
-        });
-
-    });
+});
 
 })( jQuery );
