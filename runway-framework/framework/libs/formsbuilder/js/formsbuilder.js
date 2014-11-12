@@ -15,6 +15,16 @@
         element.removeClass('scrollTo');
     }    
 
+    function new_item_duplicated_event(element){
+        $('#new-item-duplicated').fadeIn(1000);
+        $('#new-item-duplicated').fadeOut(800);
+
+        $('html, body').animate({
+             scrollTop: element.offset().top
+         }, 1000);
+        element.removeClass('scrollTo');
+    } 
+
     $(function(){
         $('#add-tab').click(function(){
             var replaceMarker = $('<div/>', {
@@ -50,7 +60,45 @@
             if (!uiObject.isPageEmpty())
                 new_item_added_event(element);
         });
-        
+
+        $('body').on('click', '.page-element-controls .duplicate[data-type="container"]', function(e) {
+            e.stopPropagation();
+            e.preventDefault();                    
+
+            var container_duplicate = $(this).parent().parent().parent().clone(true);
+            
+            var replaceMarker = $('<div/>', {
+                id:     'new-element',
+                class:  'accept-container new-element scrollTo'
+            });
+            $('.inside.accept-container:last').append(replaceMarker);
+            uiObject.onCloneContainer(container_duplicate);       
+            var element = $('.containerbox:last').addClass('scrollTo');
+            if (!uiObject.isPageEmpty())
+                new_item_duplicated_event(element);
+        });
+
+        $('body').on('click', '.page-element-controls .duplicate[data-type="field"]', function(e) {
+            e.stopPropagation();
+            e.preventDefault();                    
+
+            var field_origin = $(this).parent().parent().parent();
+            var container_origin = field_origin.parent().parent();
+            var field_duplicate = field_origin.clone(true);
+
+            var replaceMarker = $('<div/>', {
+                id:     'new-element',
+                class:  'accept-field new-element'
+            });
+
+            container_origin.find('.inside.accept-field:last').append(replaceMarker);
+            uiObject.onCloneField(field_duplicate);
+            var element = container_origin.find('.fieldbox:last').addClass('scrollTo');
+
+            if (!uiObject.isPageEmpty())
+                new_item_duplicated_event(element);        
+        });
+
         $('body').on('click', '.customize-control-content', function(e) {
             e.stopPropagation();
             e.preventDefault();
@@ -478,6 +526,58 @@ var system_vars_definition = ['template', 'index'];
 
             },
 
+            cloneItem: function(options_origin) {
+
+                var options = {
+                    index: make_ID(),
+                    template: options_origin.template
+                };
+
+                switch(options_origin.template) {
+                    case 'tab': {
+
+                    } break;
+
+                    case 'field': {
+                            var options_new = {};
+
+                            for(var key in options_origin) {
+                                switch(key) {
+                                    case 'index': {} break;
+
+                                    case 'title': {
+                                            options.title = options_origin.title + ' - ' + translations_js.duplicate;
+                                    } break;
+
+                                    case 'alias': {
+                                            options.alias = options_origin.alias + ' - ' + translations_js.duplicate;
+                                    } break;
+
+                                    default: {
+                                        options[key] = options_origin[key];
+                                    } break;
+                                }                                    
+                            }
+
+                    } break;
+
+                    case 'container': {
+
+                            options.type = options_origin.type;
+                            options.title = options_origin.title + ' - ' + translations_js.duplicate;
+                            options.display_on_customization_page = options_origin.display_on_customization_page;
+
+                    } break;
+
+                    default: {} break;
+                }
+
+                page_elements_list[options.index] = options;
+
+                return options;
+
+            },
+
             getElement: function(index) {
                 return page_elements_list[index];
             },
@@ -767,6 +867,66 @@ var system_vars_definition = ['template', 'index'];
                 if(!empty(repl)) repl.find(".inside").append($("<div>").addClass("new-element"));
                 uiObject.onAddContainer();
 
+
+                return repl;
+
+            },
+
+            onCloneContainer: function(container_duplicate) {
+
+                var replaceMarker = $(".accept-field").find(".new-element");
+
+                if(!replaceMarker.length) {
+                    replaceMarker = $(".accept-tab .accept-container").find(".new-element");
+                }
+
+                if(!replaceMarker.length) {
+                    replaceMarker = $(".page-layer").find(".new-element");
+                }
+
+                var type = replaceMarker.data('type');
+                
+                var index_origin_container = container_duplicate.attr('data-index');
+                var options_origin_container = pageObject.getElement(index_origin_container);
+                var options_new_container = pageObject.cloneItem(options_origin_container);
+
+                var repl = godObj.template.build(options_new_container);
+
+                $(replaceMarker).replaceWith(repl);
+
+                $('.page-layer').find(".new-element").remove();
+
+                godObj.init();
+
+                var field_new, index_new, options_new;
+                var field_clone, index_clone, options_clone;
+
+                container_duplicate.find('.page-field').each(function(index, el){
+                    
+                    if(!empty(repl)) repl.find(".inside.accept-field").append($("<div>").addClass("new-element"));
+                    uiObject.onCloneField($(this));
+                });
+
+                return repl;
+
+            },
+
+            onCloneField: function(field_duplicate) {
+                var replaceMarker = $(".accept-field").find(".new-element");
+
+                var type = $(replaceMarker).data('type');
+
+                index_origin_field = field_duplicate.attr('data-index');
+                options_origin_field = pageObject.getElement(index_origin_field);
+                var options = pageObject.cloneItem(options_origin_field);
+                var repl = godObj.template.build(options);
+
+                $(replaceMarker).replaceWith(repl);
+                uiObject.settingsPreview(options);
+
+                $(".page-layer").find(".new-element").remove();
+
+                godObj.init();
 
                 return repl;
 
@@ -1079,7 +1239,10 @@ var system_vars_definition = ['template', 'index'];
 
                     $('.settings-dialog').dialog({
                         open: function(event, ui) {
-                            $(this).css({'max-height': 500, 'overflow-y': 'auto'}); 
+                            $(this).css({'max-height': 525, 'overflow-y': 'auto'}); 
+			    
+			    $('body').addClass('modal-open');
+			    $('.ui-dialog').css({'top': '80px'});
                             $('#adminmenuwrap').css({'z-index':0});
 			    
 			    for(var key in builder.availableTypes) {
@@ -1091,13 +1254,15 @@ var system_vars_definition = ['template', 'index'];
                         },
                         close: function(event, ui) {
                             $('#adminmenuwrap').css({'z-index':'99'});
+			    $('body').removeClass('modal-open');
                         },
                         autoOpen:false,
                         modal: true,
                         resizable: false,
                         draggable: false,
                         closeOnEscape: true,
-                        position: ['center',150]
+			dialogClass: "settings-dialog-modal",
+                        position: ['center', 80]
                     });
 
                     // open field settings dialog                    
@@ -1156,7 +1321,7 @@ var system_vars_definition = ['template', 'index'];
                 $('body').on('click', '.save-button', function() {
 
                     var settings = $('.page-settings-form').serializeArray();
-                  
+
                     settings.push({
                         name: "title",
                         value: $('#titlewrap #title').val()
@@ -1194,7 +1359,7 @@ var system_vars_definition = ['template', 'index'];
                         }
                     }
                     $(".save-page input.page").val(JSON.stringify(page));
-                    
+                
                     $(".save-page").append($(".file-upload input"));
                     $(".save-page").append($('.tab-settings'));
 
@@ -1277,22 +1442,60 @@ var system_vars_definition = ['template', 'index'];
 
                     $('.slug-editor-save').click(function() {
 
+                        var newAlias = $('.slug-editor-input').val();
+
                         $.ajax({
                             type: 'POST',
                             url: ajaxurl,                        
                             data: {
                                 action: 'check_is_options_page_alias_unique',
-                                alias: $('.slug-editor-input').val()
+                                alias: newAlias
                             }
                         }).done(function(response){
                             if(!response)
-                                $("#editable-post-name").text($('.slug-editor-input').val());
+                                $("#editable-post-name").text(newAlias);
                         });
 
                         $('#slug-editor').hide();
                         $('#slug-static').show();
                     });
+                    $('.slug-editor-cancel').on('click', function(){
+                        $('#slug-editor').hide();
+                        $('#slug-static').show();
+                    });
 
+                });
+
+                // Click function to make slug from page title
+                $('.make-from-title').click(function(){
+                    var val = $('#title').val();
+                    val = val.toLowerCase();
+                    val = val.trim();
+                    val = val.replace(/[^\sa-z-]+/gi,'');
+                    val = val.trim();
+                    val = val.replace(/\s+/g, '-');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                            action: 'check_is_options_page_alias_unique',
+                            alias: val
+                        }
+                    }).done(function(response){
+                        if(!response){
+                            $("#editable-post-name").text(val);
+                            $('#slug-editor').hide();
+                            $('#slug-static').show();
+                        }
+                    });
+                });
+
+                // Click function to get primary page slug
+                $('.get-primary-slug').on('click', function(){
+                    $("#editable-post-name").text($('input[name="primary-page-slug"]').val());
+                    $('#slug-editor').hide();
+                    $('#slug-static').show();
                 });
 
                 // preload page settings

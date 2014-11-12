@@ -47,31 +47,24 @@ class Dashboard_Admin extends Runway_Admin_Object {
 		}
 
 		//wp_enqueue_script('sort_credits-js', get_theme_root_uri() . '/ra/assets/js/sort_credits.js');
-		wp_enqueue_script('sort_credits-js', FRAMEWORK_URL.'framework/includes/dashboard/js/sort_credits.js');
-		wp_enqueue_style('sort_credits-css', FRAMEWORK_URL.'framework/includes/dashboard/css/style_credits.css');
+		// wp_enqueue_script('sort_credits-js', FRAMEWORK_URL.'framework/includes/dashboard/js/sort_credits.js');
+		// wp_enqueue_style('sort_credits-css', FRAMEWORK_URL.'framework/includes/dashboard/css/style_credits.css');
 
-		$postdata = http_build_query(
-		    array(
-				'token' => $this->token,
-				'request' => $this->request,
-				'sort' => $this->sort,
-				'sortOrder' => $this->sortDest,
-				'perPage' => $this->perPage,
-				'startPage' => $this->startPage
-			)
-		);
 
-		$opts = array('http' =>
-		    array(
-		        'method'  => 'POST',
-		        'header'  => 'Content-type: application/x-www-form-urlencoded',
-		        'content' => $postdata
-		    )
-		);
+        $args = array(
+            'header' => 'Content-type: application/x-www-form-urlencoded',
+            'body' => array(
+                'token' => $this->token,
+                'request' => $this->request,
+                'sort' => $this->sort,
+                'sortOrder' => $this->sortDest,
+                'perPage' => $this->perPage,
+                'startPage' => $this->startPage
+            )
+        );
 
-		$context  = stream_context_create($opts);
+        $this->credits = json_decode(wp_remote_post($api_link, $args)['body'], true);
 
-		$this->credits = json_decode(file_get_contents($api_link, false, $context), true);	
 		if($this->credits['success']) {
 			$this->total = $this->credits['totalResults'];
 			$this->currentPage = $this->startPage+1;

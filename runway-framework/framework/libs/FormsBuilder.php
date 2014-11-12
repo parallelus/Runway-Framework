@@ -49,7 +49,7 @@ class FormsBuilder {
 	}
 
 	public function render_form( $page_options = array(), $default_save = true, $object = null, $admin_object = null, $custom_alias = null ) {
-		
+
 		if ( !empty( $page_options ) ) {
 			$alias = $page_options->settings->alias;
 			$current = $this->prepare_form( $page_options );
@@ -165,7 +165,8 @@ class FormsBuilder {
 													if ( class_exists( $class_Name ) ) {
 														$wp_customize->add_setting( $field->alias, array(
 																'default' => '',
-																'type' => 'customize'
+																'type' => 'customize',
+																'transport' => apply_filters('data_type_transport', 'refresh', $field->type, $field->alias)
 															) );
 
 														$option_field = new $class_Name(
@@ -459,8 +460,8 @@ class FormsBuilder {
 			add_action( 'wp_ajax_save_custom_options', array( $this, 'save_custom_options' ) );
 		}
 
-		add_action( 'admin_print_styles', array( $this, 'include_styles' ) );
-		add_action( 'admin_print_scripts', array( $this, 'include_scripts' ) );
+		add_action( 'admin_init', array( $this, 'include_styles' ) );
+		add_action( 'admin_init', array( $this, 'include_scripts' ) );
 		
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
 		

@@ -63,7 +63,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			WP_Filesystem();
 			global $wp_filesystem;
 			$tags = $wp_filesystem->get_contents($tags_file);
-		 	//$tags = file_get_contents($tags_file);
 			return $tags; 	
 		}
 		
@@ -99,7 +98,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$wp_filesystem->put_contents($tags_file, json_encode($tags), FS_CHMOD_FILE);
-		//file_put_contents($tags_file, json_encode($tags));
 	}
 
 	function load_objects() {
@@ -239,7 +237,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$wp_filesystem->put_contents($this->themes_path . '/' . $theme_folder . '/data/settings.json', $json, FS_CHMOD_FILE);
-		//file_put_contents( $this->themes_path . '/' . $theme_folder . '/data/settings.json', $json );
 		do_action( 'after_save_theme_settings', $settings );
 
 	}
@@ -256,20 +253,17 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$settings_file = $this->themes_path . '/' . $theme_folder . '/data/settings.json';
 		if ( file_exists( $this->themes_path . '/' . $theme_folder . '/data/settings.json' ) ) {
 			$json = $wp_filesystem->get_contents($this->themes_path . '/' . $theme_folder . '/data/settings.json');
-			//$json = file_get_contents( $this->themes_path . '/' . $theme_folder . '/data/settings.json' );
 			$settings = json_decode( $json, true );
 		}
 		else {
 			if ( !file_exists( $this->themes_path . '/' . $theme_folder . '/data' ) ) {
 				if ( is_writable( $this->themes_path . '/' . $theme_folder . '/data' ) ) {
 					if ( mkdir( $this->themes_path . '/' . $theme_folder . '/data', 0755, true ) ) {
-						//fopen( $settings_file, 'a' );
 						$wp_filesystem->put_contents($settings_file, '', FS_CHMOD_FILE);
 					}
 				}
 			}
 			elseif ( !file_exists( $settings_file ) ) {
-				//fopen( $settings_file, 'a' );
 				$wp_filesystem->put_contents($settings_file, '', FS_CHMOD_FILE);
 			}
 		}
@@ -330,7 +324,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			imagepng(
 				imagecreatefromstring(
 					$wp_filesystem->get_contents($_FILES['theme_options']['tmp_name']['Screenshot'])
-					//file_get_contents( $_FILES['theme_options']['tmp_name']['Screenshot'] )
 				),
 				$this->themes_path . '/' . $options['Folder'] . '/screenshot.png'
 			);
@@ -338,39 +331,46 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		}
 
 		// check if have new custom icon and if true move file to theme folder
-		if ( $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ||
+		if ( $_FILES['theme_options']['name']['CustomIcon'] != '' /*||
+			 $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ||
 	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/x-png' || 
 	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/gif' || 
 	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpeg' || 
 	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpg' || 
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/pjpeg') {
+	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/pjpeg'*/ ) {
 
 			imagepng(
 				imagecreatefromstring(
 					$wp_filesystem->get_contents($_FILES['theme_options']['tmp_name']['CustomIcon'])
-					//file_get_contents( $_FILES['theme_options']['tmp_name']['CustomIcon'] )
 				),
-				$this->themes_path . '/' . $options['Folder'] . '/tmp.png'
+				$this->themes_path . '/' . $options['Folder'] . '/custom-icon.png'
 			);
 
-			$image = $this->themes_path . '/' . $options['Folder'] . '/tmp.png';
-			$new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
+	        $image = wp_get_image_editor($_FILES['theme_options']['tmp_name']['CustomIcon']);
 
-			$size = getimagesize( $image );
-			$width = 24; //*** Fix Width & Heigh (Autu caculate) ***//
-			$height = round( $width*$size[1]/$size[0] );
+        	if(!is_wp_error($image)){
+	             $image->resize(16, 16);
+    	         $image->save($this->themes_path . '/' . $options['Folder'] . '/custom-icon.png');
+	        }
 
-			$images_orig = imagecreatefrompng( $image );
-			$photoX = imagesx( $images_orig );
-			$photoY = imagesy( $images_orig );
+			// $image = $this->themes_path . '/' . $options['Folder'] . '/tmp.png';
+			// $new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
 
-			$images_fin = imagecreatetruecolor( $width, $height );
-			imagecopyresampled( $images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY );
+			// $size = getimagesize( $image );
+			// $width = 24; //*** Fix Width & Heigh (Autu caculate) ***//
+			// $height = round( $width*$size[1]/$size[0] );
 
-			imagepng( $images_fin, $new_image );
-			imagedestroy( $images_orig );
-			imagedestroy( $images_fin );
-			unlink( $image );
+			// $images_orig = imagecreatefrompng( $image );
+			// $photoX = imagesx( $images_orig );
+			// $photoY = imagesy( $images_orig );
+
+			// $images_fin = imagecreatetruecolor( $width, $height );
+			// imagecopyresampled( $images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY );
+
+			// imagepng( $images_fin, $new_image );
+			// imagedestroy( $images_orig );
+			// imagedestroy( $images_fin );
+			// unlink( $image );
 
 			$options['CustomIcon'] = true;
 		}
@@ -403,15 +403,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 				$functions = '<?php /* child theme functions */ ?>';
 			}
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/functions.php', $functions, FS_CHMOD_FILE);
-			//file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/functions.php', $functions );
+			
 			// save settings into wordpress style.css
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/style.css', $this->build_theme_css( $options ), FS_CHMOD_FILE);
-			//file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css', $this->build_theme_css( $options ) );
 		}
 		else {
 			$matches = array();
 			$css = $wp_filesystem->get_contents($this->themes_path . '/' . $options['Folder'] . '/style.css');
-			//$css = file_get_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css' );
 			
 			if(preg_match('/^\s*\/\*\*!/i', $css))
 				$is_sass = true;
@@ -422,7 +420,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			
 			// save settings into wordpress style.css
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/style.css', $new_css, FS_CHMOD_FILE);
-			//file_put_contents( $this->themes_path . '/' . $options['Folder'] . '/style.css', $new_css );
 		}
 
 		// return settings to enable activate theme popup
@@ -589,7 +586,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 						$this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip );
 					}
 					elseif ( is_file( $path.'/'.$file ) ) {
-						//$zip->addFromString( $path_in_zip.$file, file_get_contents( $path.'/'.$file ) );
 						$zip->addFromString( $path_in_zip.$file, $wp_filesystem->get_contents( $path.'/'.$file ) );
 					}
 				}
@@ -651,14 +647,12 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 							}
 						}
 						else if ( is_file( $file ) === true ) {
-							//$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), file_get_contents( $file ) );
 							$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), $wp_filesystem->get_contents( $file ) );
 						}
 					}
 				}
 			}
 			else if ( is_file( $source ) === true ) {
-				//$zip->addFromString( basename( $source ), file_get_contents( $source ) );
 				$zip->addFromString( basename( $source ), $wp_filesystem->get_contents( $source ) );
 			}
 
@@ -737,10 +731,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 				}
 			}
 			// merge functions.php
-			//$functions = ( file_exists( $source.'/functions.php' ) ) ? file_get_contents( $source.'/functions.php' ) : '';
 			$functions = ( file_exists( $source.'/functions.php' ) ) ? $wp_filesystem->get_contents( $source.'/functions.php' ) : '';
 			if ( file_exists( "{$this->themes_path}/{$theme_name}/functions.php" ) ) {
-				//$functions .= file_get_contents( "{$this->themes_path}/{$theme_name}/functions.php" );
 				$functions .= $wp_filesystem->get_contents( "{$this->themes_path}/{$theme_name}/functions.php" );
 			}
 			$zip->addFromString( $theme_name.'/functions.php', $functions );
@@ -751,7 +743,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$css = $this->build_theme_css( $theme_data, true );
 
 			// merge style.css
-			//$css_ext = ( file_exists( "{$this->themes_path}/{$theme_name}/style.css" ) ) ? file_get_contents( "{$this->themes_path}/{$theme_name}/style.css" ) : '';
 			$css_ext = ( file_exists( "{$this->themes_path}/{$theme_name}/style.css" ) ) ? $wp_filesystem->get_contents( "{$this->themes_path}/{$theme_name}/style.css" ) : '';
 			$css_ext = $this->remove_plugin_header( $css_ext, $theme_data['Name'] );
 			$css_ext = $css . $css_ext;
@@ -879,6 +870,27 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		}
 
 
+	}
+	
+	function get_other_runway_themes() {
+		global $directory, $theme_updater_admin, $auth_manager_admin;
+		
+		$postdata = array(
+			'extensions' => '',
+			'type' => 'Themes',
+			'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
+		);
+
+		$post_args = array(
+			'method' => 'POST',
+			'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n",
+			'timeout' => 10,
+			'body' => $postdata
+		);
+		
+		$response = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
+		
+		return json_decode($response['body']);
 	}
 
 }

@@ -71,8 +71,8 @@ if ( $current_package['a_hash'] ) {
 				<?php 
 			} 
 else { 
-	?>
-	Not found<?php 
+
+	_e('Not found', 'framework');
 } ?>
 			</td>
 			<td>
@@ -148,7 +148,7 @@ if ( $history ) { ?>
 				<tr>
 					<th colspan="3">
 
-						<div style="text-align: center;">Have no packages to download</div>
+						<div style="text-align: center;"><?php _e('Have no packages to download', 'framework'); ?></div>
 
 					</th>
 				</tr>

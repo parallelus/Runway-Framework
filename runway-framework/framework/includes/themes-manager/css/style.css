@@ -1,78 +1,321 @@
 /* Lightbox */
-.duplicate-theme-popup,.activate-theme-popup { 
-	display: none; }
-.themeActionsPupup { 
-	text-align: center; }
-.bottom-panel { 
-	margin: 0; padding: 1em 0; }
-.activate-theme-popup a.screenshot { outline: 0; } /* no dotted outline in popup screen shot */
+.duplicate-theme-popup,
+.activate-theme-popup {
+	display: none;
+}
+.themeActionsPupup {
+	text-align: center;
+}
+.bottom-panel {
+	margin: 0;
+	padding: 1em 0;
+}
+.activate-theme-popup a.screenshot,
+.activate-theme-popup a.screenshot:focus {
+	outline: 0; /* no dotted outline in popup screen shot */
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
 
 /* Themes List View */
-.runway-theme a.screenshot,.runway-theme a.screenshot img,#current-theme img { 
-	display: inline-block; float: left; margin: 0 20px 0 0; width: 240px; height: 180px; }
-.runway-theme a.screenshot img { 
-	float: none; margin: 0; }
-.runway-theme { 
-	display: block; width: auto; margin: 0 0 30px; padding: 0 0 20px; border-bottom: 1px solid #dfdfdf; }
-.runway-theme:last-child { 
-	border-bottom: 0; }
-.runway-theme h4,.runway-theme h3 { 
-	margin: 3px 0 16px; font-size: 20px; }
-.runway-theme h3 { 
-	font-size: 16px; }
-#current-theme { 
-	padding: 10px; margin-bottom: 30px; }
-#current-theme h4, { 
-	margin: 3px 0 16px; font-size: 20px; }
-.theme-inside { 
-	/*position: relative;
-    float: right;
-    max-width: 500px;
-    height: 100%;
-    overflow: hidden;*/
-    margin-left: 262px; }
-.theme-info { 
-	margin: 1em 0; overflow: hidden; }
-.theme-info li { 
-	float: left; padding-right: 10px; margin-right: 10px; border-right: 1px solid #dfdfdf; }
-.theme-info li:last-child { 
-	padding-right: 0; margin-right: 0; border-right: 0; }
-#current-theme .theme-description,.runway-theme .theme-description { 
-	margin-top: 5px; max-width: 600px; line-height: 1.6em; }
-.theme-options { 
-	margin-bottom: 0; }
-.theme-controlls { 
-	/*position: ition: absolute;
-    bottom: 10px;*/
-    padding-bottom: 0; }
-.theme-controlls ul { 
-	padding-top: 8px; }
-.theme-controlls span { 
-	display: inline-block; background-color: #257ea8; border-radius: 3px; padding: 4px 10px; margin-top: -6px; /*margin-left: 10px;*/ }
-.theme-controlls span a { 
-	color: #fff; text-decoration: none; }
-.links-separator { 
-	display: inline-block; border-left: solid 1px graytext; border-right: solid 1px #fff; height: 12px; margin-left: 3px; margin-bottom: -2px; width: 0; opacity: .5; }
-.links-position .shadow-box { 
-	float: left; background-color: #f1f1f1; padding: 3px 8px; margin: 3px; border-radius: 5px; }
-.loader { 
-	min-height: 72px!important; }
-.loader img { 
-	display: block; margin: 0 auto; width: 92%; }
+.runway-theme a.screenshot,
+.runway-theme a.screenshot img,
+#current-theme img {
+	display: inline-block;
+	float: left;
+	margin: 0 20px 0 0;
+	width: 240px;
+	height: 180px;
+}
+.runway-theme a.screenshot img {
+	float: none;
+	margin: 0;
+}
+.runway-theme {
+	display: block;
+	width: auto;
+	margin: 0 0 30px;
+	padding: 0 0 20px;
+	border-bottom: 1px solid #dfdfdf;
+}
+.runway-theme:last-child {
+	border-bottom: 0;
+}
+.runway-theme h4,
+.runway-theme h3 {
+	margin: 3px 0 16px;
+	font-size: 20px;
+}
+.runway-theme h3 {
+	font-size: 16px;
+}
+#current-theme {
+	padding: 10px;
+	margin-bottom: 30px;
+}
+#current-theme h4 {
+	margin: 3px 0 16px;
+	font-size: 20px;
+}
+.theme-inside {
+	margin-left: 262px;
+}
+.theme-info {
+	margin: 1em 0;
+	overflow: hidden;
+}
+.theme-info li {
+	float: left;
+	padding-right: 10px;
+	margin-right: 10px;
+	border-right: 1px solid #dfdfdf;
+}
+.theme-info li:last-child {
+	padding-right: 0;
+	margin-right: 0;
+	border-right: 0;
+}
+#current-theme .theme-description,
+.runway-theme .theme-description {
+	margin-top: 5px;
+	max-width: 600px;
+	line-height: 1.6em;
+}
+.theme-options {
+	margin-bottom: 0;
+}
+.theme-controlls {
+	padding-bottom: 0;
+}
+.theme-controlls ul {
+	padding-top: 8px;
+}
+.theme-controlls span {
+	display: inline-block;
+	background-color: #257ea8;
+	border-radius: 3px;
+	padding: 4px 10px;
+	margin-top: -6px;
+	/* margin-left: 10px;
+	*/
+}
+.theme-controlls span a {
+	color: #fff;
+	text-decoration: none;
+}
+.links-separator {
+	display: inline-block;
+	border-left: solid 1px graytext;
+	border-right: solid 1px #fff;
+	height: 12px;
+	margin-left: 3px;
+	margin-bottom: -2px;
+	width: 0;
+	opacity: .5;
+}
+.links-position .shadow-box {
+	float: left;
+	background-color: #f1f1f1;
+	padding: 3px 8px;
+	margin: 3px;
+	border-radius: 5px;
+}
+.loader {
+	min-height: 72px !important;
+}
+.loader img {
+	display: block;
+	margin: 0 auto;
+	width: 92%;
+}
 
 /* Download Package Lists */
 .widefat td p {
-	margin: .5em 0; }
-
+	margin: .5em 0;
+}
 .ui-widget-overlay {
-    position: fixed;
-}	
-
-.tags-dialog { 
-	display: none; }
+	position: fixed;
+}
+.tags-dialog {
+	display: none;
+}
 #theme-framework .nav-bar-trail li:nth-child(1) {
-    z-index: 0;
+	z-index: 0;
 }
 #theme-framework .nav-bar-trail li:nth-child(2) {
-    z-index: -1;
+	z-index: -1;
+}
+.theme-browser .runway-theme-actions {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	transition: opacity 0.1s ease-in-out 0s;
+	height: 47px;
+}
+.theme-browser .runway-theme-actions .dashicons-container {
+	width: 47px;
+	text-align: center;
+	padding-top: 10px;
+	float: left;
+	height: 38px;
+	position: relative;
+	top: -1px;
+}
+.theme-browser .runway-theme-actions .dashicons {
+}
+.theme-browser .runway-theme-actions a {
+	display: inline-block;
+	height: 100%;
+	position: absolute;
+	text-indent: -99999px;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.theme-browser .runway-theme-actions .dashicons-admin-page,
+.theme-browser .runway-theme-actions .dashicons-edit {
+	display: none;
+	color: #777777;
+}
+.theme-browser .runway-theme-actions .dashicons-download {
+	color: #2ea2cc;
+}
+.theme-browser .theme.active:focus .runway-theme-actions .dashicons-admin-page,
+.theme-browser .theme.active:focus .runway-theme-actions .dashicons-edit,
+.theme-browser .theme.active:hover .runway-theme-actions .dashicons-admin-page,
+.theme-browser .theme.active:hover .runway-theme-actions .dashicons-edit {
+	display: inline-block;
+}
+.theme-browser .runway-theme-actions .dashicons-container-edit:hover,
+.theme-browser .runway-theme-actions .dashicons-container-duplicate:hover {
+	background-color: #424242;
+}
+.theme-browser .runway-theme-actions .dashicons-container-edit:hover .dashicons,
+.theme-browser .runway-theme-actions .dashicons-container-duplicate:hover .dashicons,
+.theme-browser .runway-theme-actions .dashicons-container-download:hover .dashicons {
+	color: #ffffff;
+}
+.theme-browser .runway-theme-actions .dashicons-container-download:hover {
+	background-color: #2ea2cc;
+}
+.theme-browser .runway-theme-notactive-actions {
+	display: none;
+}
+.theme-browser .theme:focus .runway-theme-notactive-actions,
+.theme-browser .theme:hover .runway-theme-notactive-actions {
+	display: block;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions {
+	bottom: 0px;
+}
+.theme-browser .runway-theme-actions-bottom {
+	border: 1px solid #dedede;
+	height: 34px;
+	position: absolute;
+	width: 100%;
+	margin: 0 -1px;
+	background: #E7E7E7;
+	-webkit-box-shadow: 0 1px 1px -1px rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 1px -1px rgba(0, 0, 0, .1);
+}
+.theme-browser .runway-theme-actions-bottom .dashicons-container {
+	float: left;
+	width: 25%;
+	text-align: center;
+	height: 27px;
+	padding-top: 7px;
+	position: relative;
+}
+.theme-browser .runway-theme-actions-bottom a {
+	display: inline-block;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	text-indent: -99999px;
+	top: 0;
+	width: 100%;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
+.theme-browser .runway-theme-actions .dashicons-edit,
+.theme-browser .runway-theme-actions .dashicons-admin-page,
+.theme-browser .runway-theme-actions .dashicons-download {
+	font-size: 24px;
+	width: 24px;
+	height: 24px;
+	line-height: 28px;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons {
+	color: #777777;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons-container:hover {
+	background-color: #1e8cbe;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions .dashicons-container:hover .dashicons {
+	color: #ffffff;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download {
+	color: #fff;
+	background-color: #2ea2cc;
+	position: relative;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download .dashicons {
+	color: #ffffff;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-edit:hover,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-duplicate:hover {
+	background-color: #777777;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-edit:hover .dashicons,
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-duplicate:hover .dashicons {
+	color: #eeeeee;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-no:hover {
+	background-color: #d54e21;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-no:hover .dashicons {
+	color: #eeeeee;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download:hover {
+	background-color: #1e8cbe;
+}
+.theme-browser .runway-theme-notactive-actions .runway-theme-actions-bottom .dashicons-container-download:hover .dashicons {
+	color: #eeeeee;
+}
+
+/* Other Themes */
+.theme-browser .themes .theme.runway-theme-other a {
+	text-decoration: none;
+}
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot {
+	background: #333;
+}
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot:after,
+.theme-browser .theme.runway-find-more-themes .theme-screenshot:after {
+	padding-top: 49% !important;
+}
+.theme-browser .themes .theme.runway-theme-other .theme-screenshot img {
+	width: 100%;
+	height: 100%;
+}
+
+/* Find other themes */
+.theme-browser .theme.runway-find-more-themes .theme-screenshot:after {
+	padding-top: 49% !important;
+}
+.theme-browser .theme.runway-find-more-themes span:after {
+	top: 25%;
+	content: '\f179';
+	text-indent: 0;
+	line-height: 100px;
+}
+.theme-browser .theme.runway-find-more-themes .theme-name {
+	margin-top: -5%;
+	margin-bottom: 5%;
+}
+
+@media screen and (max-width:1200px){
+	.theme-browser .theme {
+		margin-bottom: 50px;
+	}
 }

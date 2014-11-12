@@ -25,6 +25,7 @@
             <div class="handlediv" title="<?php _e( 'Click to toggle', 'framework' ); ?>"><br></div>
             <div class="page-element-controls" <?php if(!$this->resolutions['options-containers']){ echo 'style="display:none;"'; } ?>>
                 <a href="#" class="edit" data-type="container"><?php _e( 'Edit', 'framework' ); ?></a> |
+                <a href="#" class="duplicate" data-type="container"><?php _e( 'Duplicate', 'framework' ); ?></a> |
                 <span class="delete"><a href="#" class="remove submitdelete"><?php _e( 'Delete', 'framework' ); ?></a></span>
             </div>
             <div class="postbox-title hndle"><span>${title}</span></div>
@@ -44,6 +45,7 @@
             <div class="handlediv" title="<?php _e( 'Click to toggle', 'framework' ); ?>"><br></div>
             <div class="page-element-controls" <?php if(!$this->resolutions['options-fields']){ echo 'style="display:none;"'; } ?>>
                 <a href="#" class="edit" data-type="field"><?php _e( 'Edit', 'framework' ); ?></a> |
+                <a href="#" class="duplicate" data-type="field"><?php _e( 'Duplicate', 'framework' ); ?></a> |
                 <span class="delete"><a href="#" class="remove submitdelete"><?php _e( 'Delete', 'framework' ); ?></a></span>
             </div>
             <div class="postbox-title sidebar-name hndle" style="width:70%;"><span>${title}</span> (${type})</div>

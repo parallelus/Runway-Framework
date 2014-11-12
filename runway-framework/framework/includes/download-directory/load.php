@@ -25,17 +25,20 @@ global $settingshortname;
 
 
 $settings = array(
-    'name' => __('Directory', 'framework'),
+    'name' => __('Add-ons', 'framework'),
     'alias' => 'directory',
     'option_key' => $settingshortname.'download-directory',
     'fields' => $fields,
     'default' => $default,
-    'parent_menu' => 'downloads',
+    'parent_menu' => 'hidden',
     'menu_permissions' => 'administrator',
     'file' => __FILE__,
     'js' => array(
         FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
     ),
+    'css' => array(
+         FRAMEWORK_URL.'framework/includes/download-directory/css/style.css',
+     ),
 );
 
 global $directory, $Directory_Settings;

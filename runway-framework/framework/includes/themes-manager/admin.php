@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 global $developer_tools, $Themes_Manager, $extm;
 $extensions_dir = get_template_directory() . '/framework/extensions/';
@@ -9,6 +9,9 @@ $_data = $developer_tools->data;
 $themes_path = explode( '/', get_template_directory() );
 unset( $themes_path[count( $themes_path ) - 1] );
 $themes_path = implode( '/', $themes_path );
+
+wp_register_script('themes-manager-themes', FRAMEWORK_URL.'framework/includes/themes-manager/js/themes.js');
+wp_enqueue_script('themes-manager-themes');
 
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 switch ( $action ) {
