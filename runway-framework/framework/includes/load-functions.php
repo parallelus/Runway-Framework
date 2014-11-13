@@ -510,7 +510,7 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 			'StylesheetFiles' => $stylesheet_files,
 			'TemplateFiles' => $template_files,
 			'Folder' => $stylesheet,
-			'Icon' => $icon,	
+			'Icon' => $icon,
 		);
 	}
 
@@ -551,7 +551,7 @@ function custom_theme_menu_icon() {
 		} else {
 
 			global $wp_filesystem;
-	
+
 			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
 			$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
 		}
