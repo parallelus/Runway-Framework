@@ -63,9 +63,13 @@ class Dashboard_Admin extends Runway_Admin_Object {
             )
         );
 
-        $this->credits = json_decode(wp_remote_post($api_link, $args)['body'], true);
+        $credits = wp_remote_post($api_link, $args);
+		$this->credits = array();
+		if(!is_a($credits, 'WP_Error') && isset($credits['body']) && $credits['body'] !== '[]') {
+			$this->credits = json_decode($credits['body'], true);
+		}        
 
-		if($this->credits['success']) {
+		if(isset($this->credits['success']) && $this->credits['success']) {
 			$this->total = $this->credits['totalResults'];
 			$this->currentPage = $this->startPage+1;
 		}
