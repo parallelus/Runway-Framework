@@ -288,7 +288,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-		
+
 		// extract tags from string
 		$options['Tags'] = explode( ' ', $options['Tags'] );
 
@@ -417,7 +417,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 				$is_sass = false;			
 			$css = preg_replace( '/\/\*\*?!?([^\*]*)\*?\*\//i', '', $css );
 			$new_css = $this->build_theme_css( $options, false, $is_sass ).$css;
-			
+
 			// save settings into wordpress style.css
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/style.css', $new_css, FS_CHMOD_FILE);
 		}
@@ -740,6 +740,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			// build plugin header
 			$theme_data = rw_get_theme_data( get_theme_root().'/'.$theme_name );
 			$theme_data['Tags'] = implode( ' ', $theme_data['Tags'] );
+			$theme_data['Icon'] = rw_get_custom_theme_data('Icon', get_theme_root().'/'.$theme_name);
+			$theme_data['License'] = rw_get_custom_theme_data('License', get_theme_root().'/'.$theme_name);
+			$theme_data['LicenseURI'] = rw_get_custom_theme_data('License URI', get_theme_root().'/'.$theme_name);
 			$css = $this->build_theme_css( $theme_data, true );
 
 			// merge style.css
