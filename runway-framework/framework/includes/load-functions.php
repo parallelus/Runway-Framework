@@ -362,7 +362,6 @@ function theme_option_filter($pre) {
 			$extension_json_settings = THEME_DIR.'/data/'.$option_key.'.json';
 			if ( file_exists( $extension_json_settings ) ) {
 				// if have option save it into database
-				//$value = json_decode( file_get_contents( $extension_json_settings ), true );
 				$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
 
 				$result = $wpdb->insert( 
@@ -386,7 +385,6 @@ function theme_option_filter($pre) {
 					if ( file_exists( $default_settings_file ) ) {
 						// copy and rename default settings JSON into /data folder
 						copy( $default_settings_file, $extension_json_settings );
-						//$value = json_decode( file_get_contents( $extension_json_settings ), true );
 						$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
 						// save default settings into database
 						update_option( $option_key, $value );
@@ -445,11 +443,15 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 
 function rw_get_custom_theme_data( $name, $theme_dir = null ) {
+
+    WP_Filesystem();
+    global $wp_filesystem;
+
 	if ( $theme_dir == null ) {
 		$theme_dir = get_stylesheet_directory();
 	}
 
-	$info = file_get_contents( $theme_dir.'/style.css' );
+	$info = $wp_filesystem->get_contents( $theme_dir.'/style.css' );
 
 	$start = strpos( $info, $name );
 	$data = '';
@@ -807,8 +809,7 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 	    	$ffs_name[] = $option_key_json;
 	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-			//$json = json_decode(file_get_contents( $json_dir . '/' . $ff ), true);
-		$json = json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff ), true);
+    		$json = json_decode($wp_filesystem->get_contents( $json_dir . '/' . $ff ), true);
 
 			$translation_file = $translation_dir.'/'.str_replace('.json', '.php', $ff);
 
@@ -828,7 +829,6 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 					$translation_string.= "__('".$text."', 'framework');\r\n";
 				$translation_string.= "?>";
 				$wp_filesystem->put_contents($translation_file, $translation_string, FS_CHMOD_FILE);
-				//file_put_contents( $translation_file, $translation_string );
 			}
 		}	
 	}
@@ -882,7 +882,6 @@ function get_settings_json( $folder = false ) {
 
 	$settings = '';
 	if ( file_exists( $file ) ) {
-		//$json = file_get_contents( $file );
 		$json = $wp_filesystem->get_contents( $file );
 		$settings = json_decode( $json, true );
 	}
@@ -1069,7 +1068,7 @@ if ( !function_exists( 'runway_base_decode' ) ) {
 		return preg_replace('/\0+$/', '', $dec);
 	else
 		return $dec;
-}
+    }
 }
 
 
