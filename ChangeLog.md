@@ -1,3 +1,44 @@
+## v1.3 (November 12th 2014)
+
+* The bug “#63 - Error messages on plugin install screen” is fixed
+* The bug “#64 - Activating Extension on WP Network install” is fixed
+* Fix for Runway Themes screen actions where network_admin_url() was causing issues and should use admin_url() instead because the action does not change behavior on network installs.
+* The bug “#65 - Runway Themes link for ‘Network Enable’ not working” is fixed
+* Added new records to translations-js.php
+* Replaced some references to network_admin_url() with admin_url()
+* Changed references for network_admin_url() to admin_url() in cases where no network admin alternative page exists
+* Added filter for options data
+* Changed filter name
+* The bug “#67 - False positive on PHP version check for version 5.3.3-7+squeeze19“ is fixed
+* The enhancement “#68 - New data-type for font select and Google fonts” is fixed
+* The enhacement “#69 - Add textdomain function to load framework translated strings” is fixed
+* The bug “#70 - White screen and not saving on Customize view in WP 4” is fixed
+* The bug “#73 - No extensions showing up on fresh install” is fixed
+* The bug “#74 - Reports page, PHP version might not be correct” is fixed
+* Added new action for 'rf_save_data' called when saving an options page or other data generated from the options builder and displayed using options-page-render.php
+* The enhacement “#75 - Add option to Customizer for live updates” is fixed
+* Increased max height of Options Builder dialog window
+* Shift top position of Optons Builder modal window
+* The enhacement “#76 - Themes add and edit screen: Menu icon select with dashicons” is fixed
+* The enhacement “#77 - Download Directory: Redesign and updates” is fixed
+* Fixed the saving of user's token for auth through runwaywp.com
+* The enhacement “#78 - Runway Themes: Add new theme, screenshot help text” is fixed
+* The bug “#79 - Options Builder: Cut off modal window on smaller screens” is fixed
+* The enhacement “#80 - Options Builder: Add new ‘Duplicate’ link” is fixed
+* The enhacement “#81 - Child Theme Manager - Redesign and updates” is fixed
+* The bug “#82 - Updates not registering with Runway” is fixed
+* Updated code to get URL for data-type scripts/css to work better with folders included through symlinks and other virtual paths
+* The bug “#83 - Options Builder not allowing edit to alias” is fixed
+* The enhacement “#84 - Child Themes Manager - button hover labels” is fixed
+* The bug “#85 - Child Theme Manager - Install button link needs updating” is fixed
+* Style updates for new child themes manager interface
+* Updated admin CSS loading to be included in head. Some side effects of this may require us to do extended testing of extensions to ensure there are not any missing CSS files because they were never specified for an extension but were instead included by default
+* Fix for Options Builder styles related to updated admin CSS loading
+* Added new translation strings
+* The bug “#87 - Child Themes Manager - Clicking package button opens details modal” is fixed
+* Updated references to Dashboard CSS and JS files to only load in Dashboard
+* The bug #88 - Theme Manager - Custom icon issues” is fixed
+
 ## v1.2 (August 21st 2014)
 
 * Updated admin page links to admin_url()
