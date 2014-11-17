@@ -87,7 +87,7 @@ class Directory_Admin extends Runway_Admin_Object {
 				WP_Filesystem();
 				global $wp_filesystem;
 				$content = $wp_filesystem->get_contents($extension_file_name);
-				$content = base64_encode($content);
+				$content = runway_base_encode($content);
 				echo $content;
 			}
 		}

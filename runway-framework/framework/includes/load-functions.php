@@ -1071,6 +1071,48 @@ if ( !function_exists( 'runway_base_decode' ) ) {
     }
 }
 
+if ( !function_exists( 'runway_base_encode' ) ) {
+    function runway_base_encode($data){
+
+        if (!$data) {
+            return $data;
+        }
+
+        $b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+        $i = 0;
+        $enc = '';
+        $data_len = strlen($data);
+        do{
+
+            $o1 = ord($data{$i++});
+            $o2 = ord($data{$i++});
+            $o3 = ord($data{$i++});
+
+            $bits = $o1<<16 | $o2<<8 | $o3;
+
+            $h1 = $bits>>18 & 0x3f;
+            $h2 = $bits>>12 & 0x3f;
+            $h3 = $bits>>6 & 0x3f;
+            $h4 = $bits & 0x3f;
+
+            $enc .= $b64{$h1} . $b64{$h2} . $b64{$h3} . $b64{$h4};
+
+        }while($i < $data_len);
+
+        switch( $data_len % 3 ){
+            case 1:
+                $enc = substr($enc, 0, -2) . '==';
+            break;
+            case 2:
+                $enc = substr($enc, 0, -1) . '=';
+            break;
+        }
+
+        return $enc;
+
+    }
+}
 
 if(!function_exists('runway_check_versions')) {
 	function runway_check_versions($new_version, $old_version) {
