@@ -46,13 +46,9 @@ class Dashboard_Admin extends Runway_Admin_Object {
 			$this->sortDest = 'desc';
 		}
 
-		//wp_enqueue_script('sort_credits-js', get_theme_root_uri() . '/ra/assets/js/sort_credits.js');
-		// wp_enqueue_script('sort_credits-js', FRAMEWORK_URL.'framework/includes/dashboard/js/sort_credits.js');
-		// wp_enqueue_style('sort_credits-css', FRAMEWORK_URL.'framework/includes/dashboard/css/style_credits.css');
-
-
         $args = array(
             'header' => 'Content-type: application/x-www-form-urlencoded',
+            'timeout' => 10,
             'body' => array(
                 'token' => $this->token,
                 'request' => $this->request,
