@@ -165,6 +165,7 @@ class Textarea_type extends Data_Type {
 		    </div>
 		</div><div class="clear"></div>
 
+		<?php parent::render_conditional_display(); ?>		
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>

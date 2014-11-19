@@ -154,5 +154,9 @@ jQuery(function() {
             }
         });
     });
+
+    $('.custom-data-type').each(function(){
+
+    });
     
 });

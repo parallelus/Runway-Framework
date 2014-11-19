@@ -274,7 +274,8 @@ class Range_slider_type extends Data_Type {
 				</select>
 			</div>
 		</div><div class="clear"></div>
-		
+
+		<?php parent::render_conditional_display(); ?>		
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>

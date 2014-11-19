@@ -55,7 +55,7 @@
 	color: #bc0b0b;
 }
 .settings-dialog-inside {
-	max-height: 630px;
+	/*max-height: 630px;*/
 	min-height: 50px;
 }
 .ntab,

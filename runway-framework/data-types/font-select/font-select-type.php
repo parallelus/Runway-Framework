@@ -381,7 +381,8 @@ class Font_select_type extends Data_Type {
 				<input data-set="color" name="color" value="${color}" type="text" class="color-picker-hex"/>
 			</div>
 		</div><div class="clear"></div>
-		
+
+		<?php parent::render_conditional_display(); ?>		
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>
