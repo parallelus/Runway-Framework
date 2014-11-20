@@ -160,8 +160,9 @@ class Checkbox_type extends Data_Type {
 				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
 				$html .= '<label>
 						<input
-						class="input-check custom-data-type"
-						' . $section . '
+						class="input-check custom-data-type" ' .
+						parent::add_data_conditional_display($this->field) . 
+						$section . '
 						type="checkbox"
 						data-type="checkbox-type"
 						value="' . $key . '"

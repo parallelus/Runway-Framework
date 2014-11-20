@@ -64,7 +64,8 @@ class Textarea_type extends Data_Type {
 			<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
 				<textarea
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
-					<?php $this->link() ?>
+					<?php $this->link() ?> 
+					<?php echo parent::add_data_conditional_display($this->field); ?>
 					name="<?php echo $this->field->alias; ?>"
 					<?php echo $section; ?>
 					data-type='textarea-image'><?php echo is_string( $value )? $value : ''; ?></textarea><?php

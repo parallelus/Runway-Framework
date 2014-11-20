@@ -66,7 +66,8 @@ class Range_slider_type extends Data_Type {
 					<?php } ?>
 					
 					<input type="hidden" 
-					       class="custom-data-type"
+					       class="custom-data-type" 
+					       <?php echo parent::add_data_conditional_display($this->field); ?> 
 					       name="<?php echo $this->field->alias;?>" 
 					       value="" 
 					       <?php $this->link() ?>

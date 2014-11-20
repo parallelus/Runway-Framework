@@ -167,7 +167,7 @@ class Radio_buttons_image extends Data_Type {
 								<img src='" . stripslashes($val) . "' width='$image_size' height='" . $image_size . "'>
 							</dt>
 							<p>" . stripslashes($comment) . "</p>
-							<input " . $this->get_link() . " class='input-radio custom-data-type' " . $section . " data-type='radio-buttons-image' type='radio' name='" . $this->field->alias . "' value='$key' $checked style='display: none;'/>
+							<input " . $this->get_link() . " class='input-radio custom-data-type' " . parent::add_data_conditional_display($this->field). ' ' . $section . " data-type='radio-buttons-image' type='radio' name='" . $this->field->alias . "' value='$key' $checked style='display: none;'/>
 						</label>
 					</div>";
 			}

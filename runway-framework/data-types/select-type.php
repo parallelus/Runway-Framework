@@ -100,7 +100,7 @@ class Select_type extends Data_Type {
 			$this->enable_repeating($field, $key_values);
 			$this->wp_customize_js();
 		} else {
-			$html = "<select " . $this->get_link() . " class='input-select custom-data-type' $section data-type='select-type' name='{$this->field->alias}'>";
+			$html = "<select " . $this->get_link() . " class='input-select custom-data-type' " . parent::add_data_conditional_display($this->field) . " $section data-type='select-type' name='{$this->field->alias}'>";
 
 			foreach ( $key_values as $key => $val ) {
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {

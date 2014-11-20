@@ -122,6 +122,7 @@ class Datepicker_type extends Data_Type {
 				value="<?php echo $input_value ?>"
 				<?php echo $section; ?>
 				data-format="<?php echo stripslashes( $this->field->format ); ?>"
+				<?php echo parent::add_data_conditional_display($this->field); ?>
 				data-changeMonth="<?php echo stripslashes( $this->field->changeMonth ); ?>"
 				data-changeYear="<?php echo stripslashes( $this->field->changeYear ); ?>"
 				data-type="datepicker-type" />

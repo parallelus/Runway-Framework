@@ -93,7 +93,7 @@ class Colorpicker_type extends Data_Type {
 			}
 		?>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-			<input class="color-picker-hex custom-data-type" <?php echo $section; ?> data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="<?php echo $input_value; ?>" />
+			<input class="color-picker-hex custom-data-type" <?php echo $section; ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="<?php echo $input_value; ?>" />
 			<script type="text/javascript">
 				(function () {
 

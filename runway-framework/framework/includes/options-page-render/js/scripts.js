@@ -155,8 +155,103 @@ jQuery(function() {
         });
     });
 
-    $('.custom-data-type').each(function(){
+    function init_conditional_display(el, action) {
 
+            switch(action) {
+                case 'show': {console.log('++show');
+                    el.closest('tr').hide();
+                } break;
+
+                case 'hide': {console.log('++hide');
+                    el.closest('tr').show();
+                } break;
+
+                default: {} break;
+            }
+
+    }
+
+    function conditional_action(el, action, order) {
+        if( order ) {
+            switch(action) {
+                case 'show': {
+                    el.closest('tr').show();
+                } break;
+
+                case 'hide': {
+                    el.closest('tr').hide();
+                } break;
+
+                default: {} break;
+            }
+        } else {
+            switch(action) {
+                case 'show': {
+                    el.closest('tr').hide();
+                } break;
+
+                case 'hide': {
+                    el.closest('tr').show();
+                } break;
+
+                default: {} break;
+            }                    
+        }
+    }
+
+    $('.custom-data-type').each(function(){
+        var alias = $(this).attr('data-conditionalAlias');
+        var value = $(this).attr('data-conditionalValue');
+        var action = $(this).attr('data-conditionalAction');
+
+        if(typeof alias !== "undefined") {
+
+            var alias_watch_value;
+            var alias_watch = $('body').find("input[name='" + alias + "']");
+
+            alias_watch.attr('data-targetalias', $(this).attr('name'));
+            alias_watch.attr('data-targetvalue', value);
+            alias_watch.attr('data-targetaction', action);
+
+            init_conditional_display($(this), action);
+
+            switch(alias_watch.attr('data-type')) {
+                case 'radio-buttons': {
+                    alias_watch_value = $('body').find("input[name='" + alias + "']:checked").val();
+                } break;
+
+                case 'radio-buttons-image': {
+                    alias_watch_value = $('body').find("input[name='" + alias + "']:checked").val();
+                } break;
+                
+                default: {
+                    alias_watch_value = $('body').find("input[name='" + alias + "']").val();
+                } break;
+            }  
+
+            if( value == alias_watch_value ) {
+                conditional_action($(this), action, true);
+            }
+            else {
+                conditional_action($(this), action, false);                
+            }           
+
+            alias_watch.on('change', function(index, el){
+
+                var alias = $(this).attr('data-targetalias');
+                var value = $(this).attr('data-targetvalue');
+                var action = $(this).attr('data-targetaction');
+
+                var alias_target = $('body').find("input[name='" + alias + "']");
+
+                if( value == $(this).val() ) {
+                    conditional_action(alias_target, action, true);
+                }
+                else {
+                    conditional_action(alias_target, action, false);
+                }                  
+            });
+        }
     });
     
 });

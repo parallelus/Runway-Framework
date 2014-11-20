@@ -15,9 +15,6 @@ class Input_text extends Data_Type {
 		$this->get_value();
 
 		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
-		$conditional_display = array('alias' => $this->field->conditionalAlias,
-									 'value' => $this->field->conditionalValue,
-									 'action' => $this->field->conditionalAction);
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 		?>
 			<label>
@@ -87,7 +84,7 @@ class Input_text extends Data_Type {
                             
 				<div class="customize-control-content">
 					<input type="text" 
-						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php parent::add_data_conditional_display($conditional_display); ?> <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo $input_value; ?>"/>
+						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php echo parent::add_data_conditional_display($this->field); ?> <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo $input_value; ?>"/>
 				</div>
 			</label>
 			<?php

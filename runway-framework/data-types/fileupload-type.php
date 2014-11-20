@@ -125,7 +125,7 @@ class Fileupload_type extends Data_Type {
 		}
 		?>
 		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-		<input id="upload_image-<?php echo $this->field->alias; ?>" class="custom-data-type" <?php echo $section; ?> data-type="fileupload-type" type="text" size="36" name="<?php echo $this->field->alias; ?>" value="<?php echo @stripslashes( $input_value ); ?>" <?php $this->link(); ?> />
+		<input id="upload_image-<?php echo $this->field->alias; ?>" class="custom-data-type" <?php echo $section; ?> data-type="fileupload-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" size="36" name="<?php echo $this->field->alias; ?>" value="<?php echo @stripslashes( $input_value ); ?>" <?php $this->link(); ?> />
 
 		<span class="field_label">
 			<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>

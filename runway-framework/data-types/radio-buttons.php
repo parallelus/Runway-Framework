@@ -120,7 +120,7 @@ class Radio_buttons extends Data_Type {
 
 				$checked = ( is_string($set) && $key == trim($set) ) ? 'checked="checked"' : '';
 				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
-				$html .= '<label><input ' . $this->get_link() . ' class="input-radio custom-data-type" ' . $section . ' data-type="radio-buttons" type="radio" name="' . $this->field->alias . '" value="' . $key . '" ' . $checked . ' />' . stripslashes($val) . '</label>';
+				$html .= '<label><input ' . $this->get_link() . ' class="input-radio custom-data-type" ' . parent::add_data_conditional_display($this->field) . ' ' . $section . ' data-type="radio-buttons" type="radio" name="' . $this->field->alias . '" value="' . $key . '" ' . $checked . ' />' . stripslashes($val) . '</label>';
 				if ($count < $len)
 					$html .= '<br>';
 			}

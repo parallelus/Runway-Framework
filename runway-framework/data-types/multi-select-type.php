@@ -93,7 +93,7 @@ class Multi_select_type extends Data_Type {
 	}
 	else {
 		$html ='<legend class="customize-control-title"><span>'.stripslashes( $this->field->title ).'</span></legend>';
-		$html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
+		$html .= '<select multiple class="input-select custom-data-type" '.$section.' data-type="multi-select-type" ' . parent::add_data_conditional_display($this->field) . ' name="'.$this->field->alias.'[]" size="5" style="height: 103px;">';
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 
