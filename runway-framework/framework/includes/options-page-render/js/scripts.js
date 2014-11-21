@@ -171,8 +171,11 @@ jQuery(function() {
 
     }
 
-    function conditional_action(el, action, order) {
-        if( order ) {
+    function conditional_action(el, action, data_value, alias_new_value) {
+
+        var toggle = data_value == alias_new_value;
+
+        if( toggle ) {
             switch(action) {
                 case 'show': {
                     el.closest('tr').show();
@@ -204,53 +207,98 @@ jQuery(function() {
         var value = $(this).attr('data-conditionalValue');
         var action = $(this).attr('data-conditionalAction');
 
-        if(typeof alias !== "undefined") {
+        if(typeof alias !== 'undefined') {
 
             var alias_watch_value;
-            var alias_watch = $('body').find("input[name='" + alias + "']");
+            var alias_watch = $(".custom-data-type[name='" + alias + "']");
 
-            alias_watch.attr('data-targetalias', $(this).attr('name'));
-            alias_watch.attr('data-targetvalue', value);
-            alias_watch.attr('data-targetaction', action);
+            if( alias_watch.length > 0 ) {
+                alias_watch.attr('data-targetalias', $(this).attr('name'));
+                alias_watch.attr('data-targetvalue', value);
+                alias_watch.attr('data-targetaction', action);
 
-            init_conditional_display($(this), action);
-
-            switch(alias_watch.attr('data-type')) {
-                case 'radio-buttons': {
-                    alias_watch_value = $('body').find("input[name='" + alias + "']:checked").val();
-                } break;
-
-                case 'radio-buttons-image': {
-                    alias_watch_value = $('body').find("input[name='" + alias + "']:checked").val();
-                } break;
+                init_conditional_display($(this), action);
                 
-                default: {
-                    alias_watch_value = $('body').find("input[name='" + alias + "']").val();
-                } break;
-            }  
+                var dataType = alias_watch.attr('data-type');
+                switch(dataType) {
+                    case 'radio-buttons': {
+                        alias_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                    } break;
 
-            if( value == alias_watch_value ) {
-                conditional_action($(this), action, true);
+                    case 'radio-buttons-image': {console.log('sss2');
+                        alias_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                    } break;
+
+                    case 'checkbox-bool-type': {console.log('sss3');
+                        alias_watch_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
+                    } break;
+
+                    case 'checkbox-type': {console.log('sss4');
+                        alias_watch_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
+                    } break;
+
+                    // case 'datepicker-type': {console.log('sss5');
+                    //     alias_watch_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
+                    // } break;
+
+                    default: {
+                        alias_watch_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
+                        console.log(alias_watch_value);
+                    } break;
+                }  
+                conditional_action($(this), action, value, alias_watch_value);
+                
+                switch(dataType) {
+
+                    case 'datepicker-type': {
+                        alias_watch.datepicker("option", "onSelect", function(){
+                            var data_alias = $(this).attr('data-targetalias');
+                            var data_value = $(this).attr('data-targetvalue');
+                            var data_action = $(this).attr('data-targetaction');
+                            var alias_new_value;
+
+                            var alias_target = $(".custom-data-type[name='" + data_alias + "']");
+
+                            alias_new_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
+
+                            conditional_action(alias_target, data_action, data_value, alias_new_value);
+
+                        }); } break;
+
+                    default: {
+                        alias_watch.on('change', function(){
+
+                            var data_alias = $(this).attr('data-targetalias');
+                            var data_value = $(this).attr('data-targetvalue');
+                            var data_action = $(this).attr('data-targetaction');
+                            var alias_new_value;
+
+                            var alias_target = $(".custom-data-type[name='" + data_alias + "']");
+
+                            switch($(this).attr('data-type')) {
+                                case 'radio-buttons': {
+                                    alias_new_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                                } break;
+
+                                case 'radio-buttons-image': {
+                                    alias_new_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                                } break;
+
+                                case 'checkbox-bool-type': {
+                                    alias_new_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
+                                } break;
+
+                                default: {
+                                    alias_new_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
+                                } break;
+                            }  
+
+                            conditional_action(alias_target, data_action, data_value, alias_new_value);
+
+                        }); } break;
+                }  
+
             }
-            else {
-                conditional_action($(this), action, false);                
-            }           
-
-            alias_watch.on('change', function(index, el){
-
-                var alias = $(this).attr('data-targetalias');
-                var value = $(this).attr('data-targetvalue');
-                var action = $(this).attr('data-targetaction');
-
-                var alias_target = $('body').find("input[name='" + alias + "']");
-
-                if( value == $(this).val() ) {
-                    conditional_action(alias_target, action, true);
-                }
-                else {
-                    conditional_action(alias_target, action, false);
-                }                  
-            });
         }
     });
     
