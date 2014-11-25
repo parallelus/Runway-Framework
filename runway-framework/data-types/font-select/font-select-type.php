@@ -174,9 +174,9 @@ class Font_select_type extends Data_Type {
 					jQuery('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').wpColorPicker({ change: function () {
 							var hexcolor = jQuery( this ).wpColorPicker( 'color' );
 							
-							setTimeout(function () {
+							//setTimeout(function () {
 								$('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
-							}, 50);
+							//}, 50);
 
 						}});
 					

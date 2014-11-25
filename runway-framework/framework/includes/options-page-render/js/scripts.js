@@ -158,11 +158,11 @@ jQuery(function() {
     function init_conditional_display(el, action) {
 
             switch(action) {
-                case 'show': {console.log('++show');
+                case 'show': {
                     el.closest('tr').hide();
                 } break;
 
-                case 'hide': {console.log('++hide');
+                case 'hide': {
                     el.closest('tr').show();
                 } break;
 
@@ -202,6 +202,55 @@ jQuery(function() {
         }
     }
 
+    function get_watch_value( alias, el_watch ) {
+                var el_watch_value;
+                
+                switch( el_watch.attr('data-type') ) {
+                    case 'radio-buttons': {
+                        el_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                    } break;
+
+                    case 'radio-buttons-image': {
+                        el_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
+                    } break;
+
+                    case 'checkbox-bool-type': {
+                        el_watch_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
+                    } break;
+
+                    case 'checkbox-type': {
+                        var el_watch_checked = [];
+                        el_watch.each(function(){
+                            if( $(this).is(":checked") )
+                                el_watch_checked.push( $(this).val() );
+                            });
+                        el_watch_value = el_watch_checked.join(',');
+                    } break;
+
+                    case 'multi-select-type': {
+                        var el_watch_selected = el_watch.val();
+                        el_watch_value = el_watch_selected.join(',');
+                    } break;
+
+//                     case 'range-slider': {
+//                         var el_watch_range = el_watch.val();
+//                         console.log(typeof el_watch_value);
+// //console.log(el_watch_value.substring(1));
+//                         //el_watch_value = el_watch_selected.join(',');
+//                     } break;
+
+                    default: {
+                        el_watch_value = $(".custom-data-type[name^='" + alias + "']").val();
+
+//console.log(typeof el_watch_value);
+// console.log(alias);
+// console.log(el_watch_value);
+                    } break;
+                }  
+
+                return el_watch_value;
+    }
+
     $('.custom-data-type').each(function(){
         var alias = $(this).attr('data-conditionalAlias');
         var value = $(this).attr('data-conditionalValue');
@@ -209,91 +258,45 @@ jQuery(function() {
 
         if(typeof alias !== 'undefined') {
 
-            var alias_watch_value;
-            var alias_watch = $(".custom-data-type[name='" + alias + "']");
+            var el_watch = $(".custom-data-type[name^='" + alias + "']");
 
-            if( alias_watch.length > 0 ) {
-                alias_watch.attr('data-targetalias', $(this).attr('name'));
-                alias_watch.attr('data-targetvalue', value);
-                alias_watch.attr('data-targetaction', action);
+            if( el_watch.length > 0 ) {
+                el_watch.attr('data-targetalias', $(this).attr('name'));
+                el_watch.attr('data-targetvalue', value);
+                el_watch.attr('data-targetaction', action);
 
                 init_conditional_display($(this), action);
                 
-                var dataType = alias_watch.attr('data-type');
-                switch(dataType) {
-                    case 'radio-buttons': {
-                        alias_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
-                    } break;
-
-                    case 'radio-buttons-image': {console.log('sss2');
-                        alias_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
-                    } break;
-
-                    case 'checkbox-bool-type': {console.log('sss3');
-                        alias_watch_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
-                    } break;
-
-                    case 'checkbox-type': {console.log('sss4');
-                        alias_watch_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
-                    } break;
-
-                    // case 'datepicker-type': {console.log('sss5');
-                    //     alias_watch_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
-                    // } break;
-
-                    default: {
-                        alias_watch_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
-                        console.log(alias_watch_value);
-                    } break;
-                }  
+                var alias_watch_value = get_watch_value( alias, el_watch );
                 conditional_action($(this), action, value, alias_watch_value);
                 
-                switch(dataType) {
+                switch( el_watch.attr('data-type') ) {
 
                     case 'datepicker-type': {
-                        alias_watch.datepicker("option", "onSelect", function(){
+                        el_watch.datepicker("option", "onSelect", function(){
                             var data_alias = $(this).attr('data-targetalias');
                             var data_value = $(this).attr('data-targetvalue');
                             var data_action = $(this).attr('data-targetaction');
-                            var alias_new_value;
 
-                            var alias_target = $(".custom-data-type[name='" + data_alias + "']");
+                            var el_target = $(".custom-data-type[name^='" + data_alias + "']");
 
-                            alias_new_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
+                            var el_new_value = el_watch.val();
 
-                            conditional_action(alias_target, data_action, data_value, alias_new_value);
+                            conditional_action(el_target, data_action, data_value, el_new_value);
 
                         }); } break;
 
                     default: {
-                        alias_watch.on('change', function(){
+                        $(document).on("change", el_watch, function(){
 
-                            var data_alias = $(this).attr('data-targetalias');
-                            var data_value = $(this).attr('data-targetvalue');
-                            var data_action = $(this).attr('data-targetaction');
-                            var alias_new_value;
+                            var data_alias = el_watch.attr('data-targetalias');
+                            var data_value = el_watch.attr('data-targetvalue');
+                            var data_action = el_watch.attr('data-targetaction');
 
-                            var alias_target = $(".custom-data-type[name='" + data_alias + "']");
+                            var el_target = $(".custom-data-type[name^='" + data_alias + "']");
 
-                            switch($(this).attr('data-type')) {
-                                case 'radio-buttons': {
-                                    alias_new_value = $(".custom-data-type[name='" + alias + "']:checked").val();
-                                } break;
-
-                                case 'radio-buttons-image': {
-                                    alias_new_value = $(".custom-data-type[name='" + alias + "']:checked").val();
-                                } break;
-
-                                case 'checkbox-bool-type': {
-                                    alias_new_value = ($(".custom-data-type[name='" + alias + "']").is(":checked"))? 'true' : 'false';
-                                } break;
-
-                                default: {
-                                    alias_new_value = $('body').find(".custom-data-type[name='" + alias + "']").val();
-                                } break;
-                            }  
-
-                            conditional_action(alias_target, data_action, data_value, alias_new_value);
+                            var el_new_value = get_watch_value( alias, el_watch );
+                            conditional_action(el_target, data_action, data_value, el_new_value);
 
                         }); } break;
                 }  

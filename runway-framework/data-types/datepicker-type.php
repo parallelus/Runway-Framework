@@ -87,6 +87,7 @@ class Datepicker_type extends Data_Type {
 		<?php
 		} else { 
 			$input_value = ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : '';
+			//$input_value_unformatted =date_format(date_create($input_value), 'm/d/Y') );
 			if(!is_string($input_value) && !is_numeric($input_value)) {
 				if(is_array($input_value) && isset($input_value[0]))
 					$input_value = $input_value[0];

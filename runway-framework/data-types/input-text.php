@@ -42,6 +42,7 @@ class Input_text extends Data_Type {
 					class="input-text custom-data-type" 
 					<?php echo $section; ?> 
 					data-type="input-text" 
+					<?php echo parent::add_data_conditional_display($this->field); ?> 
 					<?php $this->link(); ?> 
 					name="<?php echo $this->field->alias; ?>[]" 
 					accept=""value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
@@ -60,6 +61,7 @@ class Input_text extends Data_Type {
 					'after_field' => '',
 					'value' => 'aaa'
 				);
+ 				$field = parent::add_data_conditional_display_repeating( $field, $this->field );
 				$this->enable_repeating($field);
 			}
 			?>

@@ -149,7 +149,7 @@ class Range_slider_type extends Data_Type {
 		else {
 			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
 		}*/
-		
+
 		wp_register_script('rw_nouislider', FRAMEWORK_URL . $current_data_type_dir . '/js/jquery.nouislider.min.js');
 		wp_register_style('rw_nouislider_css', FRAMEWORK_URL . $current_data_type_dir . '/css/jquery.nouislider.css');
 	}

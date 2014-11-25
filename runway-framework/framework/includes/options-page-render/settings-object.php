@@ -14,6 +14,8 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 	function after_settings_init() {
 		/* nothing */
+		wp_enqueue_script('rw_nouislider');		
+		wp_enqueue_style('rw_nouislider_css');	
 	}
 
 	function do_error_message( $field_information ) {

@@ -161,7 +161,7 @@ class Checkbox_type extends Data_Type {
 				$html .= '<label>
 						<input
 						class="input-check custom-data-type" ' .
-						parent::add_data_conditional_display($this->field) . 
+						parent::add_data_conditional_display($this->field) . ' ' .
 						$section . '
 						type="checkbox"
 						data-type="checkbox-type"

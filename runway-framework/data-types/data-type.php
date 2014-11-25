@@ -133,6 +133,19 @@ class Data_Type extends WP_Customize_Control {
 		return $data;
 	}
 
+	public static function add_data_conditional_display_repeating($data, $field) {
+
+		if( isset($field->conditionalAlias) && !empty($field->conditionalAlias) ) {
+			$data['data-conditionalAlias'] = $field->conditionalAlias;
+			if( isset($field->conditionalValue) && !empty($field->conditionalValue) )
+				$data['data-conditionalValue'] = $field->conditionalValue;
+			if( isset($field->conditionalAction) && !empty($field->conditionalAction) )
+				$data['data-conditionalAction'] = $field->conditionalAction;
+		}
+
+		return $data;
+	}
+
 	public static function render_conditional_display() { ?>
 
 		    <div class="settings-container">

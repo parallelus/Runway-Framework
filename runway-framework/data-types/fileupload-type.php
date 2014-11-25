@@ -164,7 +164,8 @@ class Fileupload_type extends Data_Type {
 						file_frame.on( 'select', function() {
 							attachment = file_frame.state().get('selection').first().toJSON();
 							attached_input.val(attachment.url);
-                                                        
+							attached_input.trigger('change');
+							
 							if ( wp.customize ) {
 								var api = wp.customize;
 								var mysetting = api.instance(attached_input.attr('name'));
