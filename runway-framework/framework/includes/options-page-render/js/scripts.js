@@ -204,7 +204,7 @@ jQuery(function() {
 
     function get_watch_value( alias, el_watch ) {
                 var el_watch_value;
-                
+            
                 switch( el_watch.attr('data-type') ) {
                     case 'radio-buttons': {
                         el_watch_value = $(".custom-data-type[name='" + alias + "']:checked").val();
@@ -232,23 +232,45 @@ jQuery(function() {
                         el_watch_value = el_watch_selected.join(',');
                     } break;
 
-//                     case 'range-slider': {
-//                         var el_watch_range = el_watch.val();
-//                         console.log(typeof el_watch_value);
-// //console.log(el_watch_value.substring(1));
-//                         //el_watch_value = el_watch_selected.join(',');
-//                     } break;
+                    case 'range-slider': {
+                        var start = $('.slider-value.slider-start-' + alias).text();
+                        var end = $('.slider-value.slider-end-' + alias).text();
+                        el_watch_value = (end == '')? Math.floor(start) : Math.floor(start) + ',' + Math.floor(end);
+                    } break;
+
+                    case 'code-editor': {
+                        el_watch_value = el_watch.val();
+                        el_watch_value = el_watch_value.replace(/(\r\n|\n|\r)/gm,"");    // remove line breaks
+                    } break;                    
+
+                    case 'font-select': {
+                        var el_watch_font = [];
+                        el_watch.each(function(){
+                            el_watch_font.push( $(this).val() );                         // family, style, weight, size, color
+                        });
+                        el_watch_value = el_watch_font.join(',');
+                    } break;  
 
                     default: {
-                        el_watch_value = $(".custom-data-type[name^='" + alias + "']").val();
-
-//console.log(typeof el_watch_value);
-// console.log(alias);
-// console.log(el_watch_value);
+                        el_watch_value = el_watch.val();
                     } break;
                 }  
 
                 return el_watch_value;
+    }
+
+    function in_array(needle, haystack, strict) {
+
+        var found = false, key, strict = !!strict;
+
+        for (key in haystack) {
+            if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
     }
 
     $('.custom-data-type').each(function(){
@@ -261,7 +283,34 @@ jQuery(function() {
             var el_watch = $(".custom-data-type[name^='" + alias + "']");
 
             if( el_watch.length > 0 ) {
-                el_watch.attr('data-targetalias', $(this).attr('name'));
+// if(el_watch.attr('data-type') == 'select-type')
+//     console.log($(this).attr('name'));
+// if($(this).is('[attribute_name]')){
+// if()
+                var targetalias = [],
+                    targetvalue = [],
+                    targetaction = [];
+
+                if( $(this).is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' )
+                    targetalias.push(el_watch.attr('data-targetalias'));
+//console.log(targetalias);
+//console.log($(this).attr('name'));
+                //if(!in_array($(this).attr('name'), targetalias))
+//                     targetalias.push($(this).attr('name'));
+//                 el_watch.attr('data-targetalias', targetalias.join(','));
+// if(el_watch.attr('data-type') == 'code-editor')
+//     console.log(targetalias);
+//                 if( $(this).is('[data-targetvalue]') )
+//                     targetvalue.push(el_watch.attr('data-targetvalue'));
+//                 targetvalue.push(value);
+//                 el_watch.attr('data-targetvalue', targetvalue.join(','));
+
+//                 if( $(this).is('[data-targetaction]') )
+//                     targetaction.push(el_watch.attr('data-targetaction'));
+//                 targetaction.push(action);
+//                 el_watch.attr('data-targetaction', targetaction.join(','));
+
+                el_watch.attr('data-targetalias', $(this).attr('name'));                
                 el_watch.attr('data-targetvalue', value);
                 el_watch.attr('data-targetaction', action);
 
@@ -288,10 +337,23 @@ jQuery(function() {
 
                     default: {
                         $(document).on("change", el_watch, function(){
-
+                            // var data_alias = el_watch.attr('data-targetalias').split(',');
+                            // var data_value = el_watch.attr('data-targetvalue').split(',');
+                            // var data_action = el_watch.attr('data-targetaction').split(',');
+                            // var el_target, el_new_value;
                             var data_alias = el_watch.attr('data-targetalias');
                             var data_value = el_watch.attr('data-targetvalue');
                             var data_action = el_watch.attr('data-targetaction');
+
+// console.log(data_alias);
+//                             for (var i = 0; i < data_alias.length; i++) {
+//                                 if( data_alias.length > 0 ) {
+//                                     el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
+
+//                                     el_new_value = get_watch_value( alias, el_watch );
+//                                     conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+//                                 }
+//                             }
 
                             var el_target = $(".custom-data-type[name^='" + data_alias + "']");
 

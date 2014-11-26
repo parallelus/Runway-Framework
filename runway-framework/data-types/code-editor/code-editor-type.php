@@ -109,7 +109,7 @@ class Code_editor_type extends Data_Type {
 		else {
 			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
 		}*/
-		
+
 		wp_register_script('ace', FRAMEWORK_URL . $current_data_type_dir . '/js/ace/src-noconflict/ace.js');
 	}
 	
@@ -309,6 +309,7 @@ class Code_editor_type extends Data_Type {
 							var api = wp.customize;
 							api.instance(alias).set($('#hidden-<?php echo $this->field->alias; ?>').val());
 						}
+						$('#hidden-<?php echo $this->field->alias; ?>').trigger('change');
 					});
 				});
 			})(jQuery);

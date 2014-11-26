@@ -108,7 +108,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Family', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<select data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" class="settings-select">
+							<select data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" data-type="font-select" class="settings-select custom-data-type">
 								<?php if(is_array($google_fonts) && !empty($google_fonts)) { ?>
 								<?php foreach($google_fonts as $font) { ?>
 								<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo $font; ?>"><?php echo $font; ?></option>
@@ -125,7 +125,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Style', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<select data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" class="settings-select">
+							<select data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" data-type="font-select" class="settings-select custom-data-type">
 								<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'framework'); ?></option>
 								<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
 							</select>
@@ -137,7 +137,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Weight', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" />
+							<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select" class="custom-data-type" />
 							<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
 						</div>
 					</div><div class="clear"></div>
@@ -147,7 +147,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Size', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" />
+							<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" class="custom-data-type" />
 							<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
 						</div>
 					</div><div class="clear"></div>
@@ -157,7 +157,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Color', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex"/>
+							<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex custom-data-type" data-type="font-select" />
 						</div>
 					</div><div class="clear"></div>
 					
@@ -184,7 +184,7 @@ class Font_select_type extends Data_Type {
 						$('.<?php echo $this->field->alias; ?> .edit-font-options-inner').slideDown();
 						$(this).css({'display': 'none'});
 					});
-					
+
 					$('input[name=<?php echo $this->field->alias;?>_save]').on('click', function(e){
 						e.preventDefault();
 						e.stopPropagation();
@@ -205,13 +205,13 @@ class Font_select_type extends Data_Type {
 							$('.<?php echo $this->field->alias; ?> .edit-font-options-inner select option:selected').each(function(){
 								var name = $(this).parent('select').attr('name').replace(alias, '').replace("[", "").replace("]", "");
 								values_array[name] = $(this).attr('value');
-								
+
 								//api.instance($(this).parent('select').attr('name')).set($(this).attr('value'));
 							});
 							var name = $('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name').replace(alias, '').replace("[", "").replace("]", "");
 							values_array[name] = $('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val();
-							
-							api.instance(alias).set(values_array);							
+
+							api.instance(alias).set(values_array);
 							//api.instance($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name')).set($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val());
 						}
 					});
@@ -382,7 +382,7 @@ class Font_select_type extends Data_Type {
 			</div>
 		</div><div class="clear"></div>
 
-		<?php parent::render_conditional_display(); ?>		
+		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>
