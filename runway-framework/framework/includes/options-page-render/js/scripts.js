@@ -259,20 +259,6 @@ jQuery(function() {
                 return el_watch_value;
     }
 
-    function in_array(needle, haystack, strict) {
-
-        var found = false, key, strict = !!strict;
-
-        for (key in haystack) {
-            if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
-                found = true;
-                break;
-            }
-        }
-
-        return found;
-    }
-
     $('.custom-data-type').each(function(){
         var alias = $(this).attr('data-conditionalAlias');
         var value = $(this).attr('data-conditionalValue');
@@ -283,36 +269,25 @@ jQuery(function() {
             var el_watch = $(".custom-data-type[name^='" + alias + "']");
 
             if( el_watch.length > 0 ) {
-// if(el_watch.attr('data-type') == 'select-type')
-//     console.log($(this).attr('name'));
-// if($(this).is('[attribute_name]')){
-// if()
                 var targetalias = [],
                     targetvalue = [],
                     targetaction = [];
 
-                if( $(this).is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' )
-                    targetalias.push(el_watch.attr('data-targetalias'));
-//console.log(targetalias);
-//console.log($(this).attr('name'));
-                //if(!in_array($(this).attr('name'), targetalias))
-//                     targetalias.push($(this).attr('name'));
-//                 el_watch.attr('data-targetalias', targetalias.join(','));
-// if(el_watch.attr('data-type') == 'code-editor')
-//     console.log(targetalias);
-//                 if( $(this).is('[data-targetvalue]') )
-//                     targetvalue.push(el_watch.attr('data-targetvalue'));
-//                 targetvalue.push(value);
-//                 el_watch.attr('data-targetvalue', targetvalue.join(','));
+                if( $(this).is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' ) {
+                    targetalias = $.parseJSON(el_watch.attr('data-targetalias'));
+                }
+                targetalias.push($(this).attr('name'));
+                el_watch.attr('data-targetalias', JSON.stringify(targetalias));
 
-//                 if( $(this).is('[data-targetaction]') )
-//                     targetaction.push(el_watch.attr('data-targetaction'));
-//                 targetaction.push(action);
-//                 el_watch.attr('data-targetaction', targetaction.join(','));
+                if( $(this).is('[data-targetvalue]') && typeof el_watch.attr('data-targetvalue') !== 'undefined' )
+                    targetvalue = $.parseJSON(el_watch.attr('data-targetvalue'));
+                targetvalue.push(value);
+                el_watch.attr('data-targetvalue', JSON.stringify(targetvalue));
 
-                el_watch.attr('data-targetalias', $(this).attr('name'));                
-                el_watch.attr('data-targetvalue', value);
-                el_watch.attr('data-targetaction', action);
+                if( $(this).is('[data-targetaction]') && typeof el_watch.attr('data-targetaction') !== 'undefined' )
+                    targetaction = $.parseJSON(el_watch.attr('data-targetaction'));
+                targetaction.push(action);
+                el_watch.attr('data-targetaction', JSON.stringify(targetaction));
 
                 init_conditional_display($(this), action);
                 
@@ -323,43 +298,34 @@ jQuery(function() {
 
                     case 'datepicker-type': {
                         el_watch.datepicker("option", "onSelect", function(){
-                            var data_alias = $(this).attr('data-targetalias');
-                            var data_value = $(this).attr('data-targetvalue');
-                            var data_action = $(this).attr('data-targetaction');
+                            var data_alias = $.parseJSON(el_watch.attr('data-targetalias'), true);
+                            var data_value = $.parseJSON(el_watch.attr('data-targetvalue'), true);
+                            var data_action = $.parseJSON(el_watch.attr('data-targetaction'), true);
+                            var el_target, el_new_value;
 
-                            var el_target = $(".custom-data-type[name^='" + data_alias + "']");
-
-                            var el_new_value = el_watch.val();
-
-                            conditional_action(el_target, data_action, data_value, el_new_value);
-
+                            for (var i = 0; i < data_alias.length; i++) {
+                                if( data_alias[i].length > 0 ) {
+                                    el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
+                                    el_new_value = get_watch_value( alias, el_watch );
+                                    conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                                }
+                            }
                         }); } break;
 
                     default: {
                         $(document).on("change", el_watch, function(){
-                            // var data_alias = el_watch.attr('data-targetalias').split(',');
-                            // var data_value = el_watch.attr('data-targetvalue').split(',');
-                            // var data_action = el_watch.attr('data-targetaction').split(',');
-                            // var el_target, el_new_value;
-                            var data_alias = el_watch.attr('data-targetalias');
-                            var data_value = el_watch.attr('data-targetvalue');
-                            var data_action = el_watch.attr('data-targetaction');
+                            var data_alias = JSON.parse(el_watch.attr('data-targetalias'), true);
+                            var data_value = JSON.parse(el_watch.attr('data-targetvalue'), true);
+                            var data_action = JSON.parse(el_watch.attr('data-targetaction'), true);
+                            var el_target, el_new_value;
 
-// console.log(data_alias);
-//                             for (var i = 0; i < data_alias.length; i++) {
-//                                 if( data_alias.length > 0 ) {
-//                                     el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
-
-//                                     el_new_value = get_watch_value( alias, el_watch );
-//                                     conditional_action(el_target, data_action[i], data_value[i], el_new_value);
-//                                 }
-//                             }
-
-                            var el_target = $(".custom-data-type[name^='" + data_alias + "']");
-
-                            var el_new_value = get_watch_value( alias, el_watch );
-                            conditional_action(el_target, data_action, data_value, el_new_value);
-
+                            for (var i = 0; i < data_alias.length; i++) {
+                                if( data_alias[i].length > 0 ) {
+                                    el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
+                                    el_new_value = get_watch_value( alias, el_watch );
+                                    conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                                }
+                            }
                         }); } break;
                 }  
 

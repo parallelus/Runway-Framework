@@ -34,7 +34,6 @@ class Code_editor_type extends Data_Type {
 			name="<?php echo $this->field->alias; ?>" 
 			<?php $this->link() ?>
 			id="hidden-<?php echo $this->field->alias; ?>"
-			name="<?php echo $this->field->alias; ?>"
 			<?php echo $section; ?>
 			value="<?php echo is_string( $value )? $value : ''; ?>"
 			data-type='code-editor'/>
@@ -66,7 +65,7 @@ class Code_editor_type extends Data_Type {
 			<?php $this->link() ?>
 			name="<?php echo $this->field->alias; ?>"
 			<?php echo $section; ?>
-			data-type='code-editor'><?php echo is_string( $value )? $value : ''; ?></textarea>
+			data-type='code-editor' <?php echo parent::add_data_conditional_display($this->field); ?> ><?php echo is_string( $value )? $value : ''; ?></textarea>
 		<?php } ?>
 		<?php
 					
