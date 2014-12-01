@@ -35,24 +35,31 @@ if(!is_a($exts_addons, 'WP_Error') && isset($exts_addons['body']) && $exts_addon
 if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 	$item = $_GET['item'];
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
-	$zipPath = (isset($this->extensions_addons->$item->Path)) ? '&zip='.$this->extensions_addons->$item->Path : '';
+//	$zipPath = (isset($this->extensions_addons->$item->Path)) ? '&zip='.$this->extensions_addons->$item->Path : '';
+	$item_file = basename($this->extensions_addons->$item->Files[0]->file);
 
-	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item}".$zipPath);
+	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item_file}");
+	//$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item}".$zipPath);
 
 	if( !empty($extension_zip['body']) ) {
-		$extension_zip = runway_base_decode( $extension_zip['body'], true );
+		$body = json_decode($extension_zip['body'], true);
+		if( isset($body['success']) && $body['success'] ) {
+			$extension_zip = runway_base_decode( $body['content'], true );
 
-		$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
+			$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
 
-		$permissions = substr(sprintf('%o', fileperms($extension_zip_file_name)), -4);
-		if($permissions < '0755')
-			chmod( $extension_zip_file_name, 0755 );
+			$permissions = substr(sprintf('%o', fileperms($extension_zip_file_name)), -4);
+			if($permissions < '0755')
+				chmod( $extension_zip_file_name, 0755 );
 
-		echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
+			echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
+		}
+		else {
+			include_once 'views/error-msg.php';
+		}		
 	}
 	else {
-		$ext_err_name = (isset($this->extensions_addons->$item->Name) && !empty($this->extensions_addons->$item->Name))? $this->extensions_addons->$item->Name : __('Unknown', 'framework');
-		echo '<div id="message" class="error"><p>' . rf__('The error upon an attempt to install '.$ext_err_name.' extension') . '</p></div>';
+		include_once 'views/error-msg.php';
 	}
 }
 

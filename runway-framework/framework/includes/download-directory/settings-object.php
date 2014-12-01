@@ -79,17 +79,27 @@ class Directory_Admin extends Runway_Admin_Object {
 
 		if ( isset( $item ) ) {
 			//$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
-			$extension_file_name = $this->edd_dir."{$item}.zip";    			
+			//$extension_file_name = $this->edd_dir."{$item}.zip";    			
+			$extension_file_name = $this->edd_dir."{$item}";    			
 			//$extension_file_name = file_exists( $extension_file_name )? $extension_file_name : "{$this->downloads_dir}{$item}.zip";
-			if ( file_exists( $extension_file_name ) ) {							
+
+			$body = array();
+			if ( file_exists( $extension_file_name ) ) {
 				if(!function_exists('WP_Filesystem'))
 					require_once(ABSPATH . 'wp-admin/includes/file.php');
 				WP_Filesystem();
 				global $wp_filesystem;
 				$content = $wp_filesystem->get_contents($extension_file_name);
 				$content = runway_base_encode($content);
-				echo $content;
+				$body['success'] = true;
+				$body['content'] = $content;
+				$body['error_message'] = '';
+			} else {
+				$body['success'] = false;
+				$body['content'] = '';
+				$body['error_message'] = __('File <b>', 'framework') . $item . '</b> ' . __('not found on server', 'framework');
 			}
+			echo json_encode($body);
 		}
 
 		die();
