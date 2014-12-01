@@ -48,7 +48,7 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 		if($permissions < '0755')
 			chmod( $extension_zip_file_name, 0755 );
 
-		echo $extm->load_new_extension( $extension_zip_file_name );
+		echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
 	}
 	else {
 		$ext_err_name = (isset($this->extensions_addons->$item->Name) && !empty($this->extensions_addons->$item->Name))? $this->extensions_addons->$item->Name : __('Unknown', 'framework');
