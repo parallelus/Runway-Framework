@@ -1,0 +1,40 @@
+
+
+.edit-font-options-inner {
+    background-color: #fafafa;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    padding: 8px 6px;
+    
+    width: 400px;
+}
+
+.toogle-font-select-container .settings-container {
+    margin: 0;
+    padding-bottom: 15px;
+}
+
+
+.toogle-font-select-container .settings-container .settings-title {
+    line-height: 25px;
+    width: 25%;
+}
+
+.toogle-font-select-container .settings-title-caption, .settings-field-caption {
+    color: silver;
+}
+
+
+.toogle-font-select-container .settings-container .settings-in {
+    display: inline-block;
+    float: right;
+    width: 70%;
+}
+
+
+.toogle-font-select-container .settings-container .settings-in input[type=text], 
+.toogle-font-select-container .settings-container .settings-in select, 
+.toogle-font-select-container .settings-container .settings-in textarea {
+    width: 100%;
+}
