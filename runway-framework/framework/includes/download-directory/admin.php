@@ -10,13 +10,12 @@ global $wp_filesystem;
 $search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 $exts_addons_server = wp_remote_get($directory->extensions_server_url . "get_extensions");
-$extensions_addons_server = (isset($exts_addons_server['body']) && !empty($exts_addons_server['body']))? json_decode( $exts_addons_server['body'] ) : (object)$exts_addons_server['body'];
+//$extensions_addons_server = (isset($exts_addons_server['body']) && !empty($exts_addons_server['body']))? json_decode( $exts_addons_server['body'] ) : (object)$exts_addons_server['body'];
 
 $addons_type = isset($_GET['addons'])? $_GET['addons'] : 'extensions';
 
 $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',
-	'extensions' => $extensions_addons_server->extensions,
 	'type' => $addons_type
 );
 $post_args = array(
