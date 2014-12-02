@@ -131,9 +131,11 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 		function popup_loader() {
 			var $dlg = jQuery(".loader").dialog({
                 open: function(event, ui) {
+                    jQuery('html,body').css('overflow', 'hidden');
                     jQuery('#adminmenuwrap').css({'z-index':0});
                 },
                 close: function(event, ui) {
+                    jQuery('html,body').css('overflow', 'auto');
                     jQuery('#adminmenuwrap').css({'z-index':'auto'});
                 },				
 				position: "center",
@@ -153,9 +155,11 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 
 					var $dlg = $(".duplicate-theme-popup").dialog({
 	                    open: function(event, ui) {
+                            $('html,body').css('overflow', 'hidden');
 	                        $('#adminmenuwrap').css({'z-index':0});
 	                    },
 	                    close: function(event, ui) {
+                            $('html,body').css('overflow', 'auto');
 	                        $('#adminmenuwrap').css({'z-index':'auto'});
 	                    },							
 						position: "center",
@@ -246,7 +250,7 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 	<?php
 	
 		$themes_list = $developer_tools->search_themes();
-		
+
 		$tmp_themes = array();
 		foreach($themes_list as $key => $theme) {
 			$tmp_themes[] = wp_get_theme($theme['Folder']);

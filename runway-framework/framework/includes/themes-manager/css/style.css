@@ -139,6 +139,10 @@
 .tags-dialog {
 	display: none;
 }
+.tags-dialog textarea{
+    width: 100%;
+    resize: none;
+}
 #theme-framework .nav-bar-trail li:nth-child(1) {
 	z-index: 0;
 }

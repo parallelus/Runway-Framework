@@ -85,7 +85,12 @@ if ( $current_package['c_hash'] ) { ?>
 else { ?>Not found<?php } ?>
 			</td>
 			<td>
-				<?php echo $current_tag; ?>
+                <span class="text-display" title="<?php  echo substr($current_tag, 0, 50); if(strlen($current_tag) > 50) echo '...'; ?>">
+                    <?php
+                    if(strlen($current_tag) > 12) echo substr($current_tag, 0, 12) . '...';
+                    else echo $current_tag;
+                    ?>
+                </span>
 			</td>
 		</tr>
 	</tbody>
@@ -110,9 +115,7 @@ $rebuild_button = $html->settings_link(__('Rebuild Download Packages', 'framewor
 
 <div class="tags-dialog">
 	<fieldset>
-	    <input type="checkbox" name="tags-show" id="tags-show" class="input-check custom-data-type">
-	    <label for="tags-show"><?php echo __('Show in the package history', 'framework'); ?></label><br><br>
-	    <label for="tags-edit"><?php echo __('Tags', 'framework'); ?></label><br>
+	    <label for="tags-edit"><?php echo __('Add tags to this package? (optional)','framework'); ?></label><br/>
 		<textarea id="tags-edit" name="tags-edit" class="settings-textarea" cols=40 rows=5></textarea>
 	    <input type="hidden" id="package-id" value='' >
 	</fieldset>
@@ -184,7 +187,12 @@ if ( $history ) { ?>
 				} ?>
 					</td>
 					<td>
-						<p><?php echo $tag;?></p>
+                        <p title="<?php echo substr($tag, 0, 50); if(strlen($tag) > 50) echo '...'; ?>">
+                            <?php
+                                if(strlen($tag) > 12) echo substr($tag, 0, 12) . '...';
+                                else echo $tag;
+                            ?>
+						</p>
 					</td>
 					<td>
 						<p><a href="<?php echo $developer_tools->self_url('edit-tags-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" class="link-tags-edit"><?php _e('Edit', 'framework'); ?></a></p>

@@ -9,21 +9,24 @@ jQuery( document ).ready(function( $ ) {
 		draggable: false,
 		closeOnEscape: true,      
 		open: function(event, ui) {
-			$(this).css({'max-height': 500, 'overflow-y': 'auto'});
+			$(this).css({'max-height': 500});
 			$('ul').css({'z-index':0}); 
 			$('#adminmenuwrap').css({'z-index':0});
+            $('html,body').css('overflow', 'hidden');
 		},
 		close: function(event, ui) {
+            $('html,body').css('overflow', 'auto');
 			$('#adminmenuwrap').css({'z-index':'auto'});
-		},
+            $(this).find('textarea').val('');
+        },
     });
 
 
     $( ".rebuild-package" ).click(function(e) {
 
       	e.preventDefault();
-      	$( ".tags-dialog" ).dialog('option', 'title', 'Add Tags');
-      	$( "#tags-save" ).text('Add Tags');
+      	$( ".tags-dialog" ).dialog('option', 'title', 'Package Options');
+      	$( "#tags-save" ).text('Create Package');
       	$( "#tags-save" ).val('add');
         $( ".tags-dialog" ).dialog( "open" );
     });
@@ -64,7 +67,7 @@ jQuery( document ).ready(function( $ ) {
 
   	function update_tags( id ) {
 
-		var tags_show = $('#tags-show').attr('checked')? true : false;
+		var tags_show =  true;
 		var tags_edit = $('#tags-edit').val();
 		var tags_mode = $( "#tags-save" ).val();
       	var redirect;

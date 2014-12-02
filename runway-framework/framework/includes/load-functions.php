@@ -444,22 +444,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 }
 
 
-function rw_get_custom_theme_data( $name, $theme_dir = null ) {
-	if ( $theme_dir == null ) {
-		$theme_dir = get_stylesheet_directory();
-	}
 
-	$info = file_get_contents( $theme_dir.'/style.css' );
-
-	$start = strpos( $info, $name );
-	$data = '';
-	if($start > 0) {
-		$end = strpos( $info, PHP_EOL, $start );
-		$data = trim(str_replace($name . ':', '', substr($info, $start, $end - $start)));
-	}
-
-	return $data;
-}
 
 function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 	if ( function_exists( 'wp_get_theme' ) ) {
@@ -500,6 +485,14 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 			$theme_type = 'runway-framework';
 		}
 
+		$info = file_get_contents( $theme_dir.'/style.css' );
+		$start = strpos( $info, 'Icon' );
+		$icon = '';
+		if($start > 0) {
+			$end = strpos( $info, PHP_EOL, $start );
+			$icon = trim(str_replace('Icon:', '', substr($info, $start, $end - $start)));
+		}
+
 		return array(
 			'Name' => $theme->get( 'Name' ),
 			'URI' => $theme->get( 'ThemeURI' ),
@@ -517,6 +510,7 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 			'StylesheetFiles' => $stylesheet_files,
 			'TemplateFiles' => $template_files,
 			'Folder' => $stylesheet,
+			'Icon' => $icon,
 		);
 	}
 
@@ -550,13 +544,14 @@ function custom_theme_menu_icon() {
 			}
 		}
 	} else {
-		$icon = rw_get_custom_theme_data('Icon');
-		if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
+
+		$theme_info = rw_get_theme_data();
+		if ( $theme_info['Icon'] == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
 		} else {
 
 			global $wp_filesystem;
-	
+
 			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
 			$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
 		}
