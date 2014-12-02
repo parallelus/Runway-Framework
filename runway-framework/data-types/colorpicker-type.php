@@ -101,15 +101,18 @@ class Colorpicker_type extends Data_Type {
 
 					jQuery(function () {
 
-						jQuery('[name="'+name+'"]').wpColorPicker({ change: function () {
-							var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+						jQuery('[name="'+name+'"]').wpColorPicker({ 
+							change: function (event, ui) {
+								var hexcolor = jQuery( this ).wpColorPicker( 'color' );
 							
-							setTimeout(function () {
+								//setTimeout(function () {
 								jQuery('[name="'+name+'"]').attr('value', hexcolor).val(hexcolor).trigger('change');
-							}, 50);
-
-						}});
-
+								//}, 50);
+							},
+							clear: function() {
+								jQuery('[name="'+name+'"]').attr('value', '');
+							}
+						});
 					});
 
 				})();

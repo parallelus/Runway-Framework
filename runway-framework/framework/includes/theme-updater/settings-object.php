@@ -132,7 +132,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function get_theme_info($item = 'theme') {
-		global $wp_version;
+		global $wp_version, $wp_filesystem;
 
 		$theme_info = array();
 
@@ -147,7 +147,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		}
 
 		if($item == 'theme') {
-			$info = file_get_contents( get_template_directory() . '/style.css' );
+            $info = $wp_filesystem->get_contents(get_template_directory() . '/style.css');
 			$start = strpos( $info, 'Github Theme URI' );
 			$gtu = '';
 			if($start > 0) {
@@ -394,10 +394,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 					
 					$fname = $wp_filesystem->wp_content_dir().basename($package);
 					
-					$file = fopen($fname, 'w+'); // Create a new file, or overwrite the existing one.
-					fwrite($file, $http_response['body']);
-					fclose($file);
-					
+					$wp_filesystem->put_contents($fname, $http_response['body'], FS_CHMOD_FILE);
 					return $fname;
 						
 				}

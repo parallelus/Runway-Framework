@@ -99,7 +99,7 @@ class Font_select_type extends Data_Type {
 							<?php echo __('Preview text', 'framework'); ?>:
 						</label>
 						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test'); ?>"/>
+							<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
 						</div>
 					</div><div class="clear"></div>
 
@@ -326,7 +326,7 @@ class Font_select_type extends Data_Type {
 				<?php echo __('Preview text', 'framework'); ?>:
 			</label>
 			<div class="settings-in">
-				<input data-set="previewText" name="previewText" value="${previewText}" type="text" placeholder="<?php echo __('Preview Test'); ?>"/>
+				<input data-set="previewText" name="previewText" value="${previewText}" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
 			</div>
 		</div><div class="clear"></div>
 		

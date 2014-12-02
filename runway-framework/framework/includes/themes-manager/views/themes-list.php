@@ -266,9 +266,9 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 				'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 			),
 			'l10n' => array(
-				'addNew' => __( 'Add New Theme' ),
-				'search'  => __( 'Search Installed Themes' ),
-				'searchPlaceholder' => __( 'Search installed themes...' ), // placeholder (no ellipsis)
+				'addNew' => __( 'Add New Theme', 'framework' ),
+				'search'  => __( 'Search Installed Themes', 'framework' ),
+				'searchPlaceholder' => __( 'Search installed themes...', 'framework'  ), // placeholder (no ellipsis)
 			),
 		) );
 		
@@ -432,9 +432,9 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 		<div class="theme-backdrop"></div>
 		<div class="theme-wrap">
 			<div class="theme-header">
-				<button class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
-				<button class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
-				<button class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close overlay' ); ?></span></button>
+				<button class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme', 'framework' ); ?></span></button>
+				<button class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme', 'framework' ); ?></span></button>
+				<button class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close overlay', 'framework' ); ?></span></button>
 			</div>
 			<div class="theme-about">
 				<div class="theme-screenshots">
@@ -447,43 +447,43 @@ if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gi
 			
 				<div class="theme-info">
 					{{if active == true }}
-						<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
+						<span class="current-label"><?php _e( 'Current Theme', 'framework' ); ?></span>
 					{{/if}}
-					<h3 class="theme-name">${name}<span class="theme-version"><?php printf( __( 'Version: %s' ), '${version}' ); ?></span></h3>
-					<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{html authorAndUri}}' ); ?></h4>
+					<h3 class="theme-name">${name}<span class="theme-version"><?php printf( __( 'Version: %s', 'framework' ), '${version}' ); ?></span></h3>
+					<h4 class="theme-author"><?php printf( __( 'By %s', 'framework' ), '{{html authorAndUri}}' ); ?></h4>
 
 					{{if hasUpdate == true}}
 					<div class="theme-update-message">
-						<h4 class="theme-update"><?php _e( 'Update Available' ); ?></h4>
+						<h4 class="theme-update"><?php _e( 'Update Available', 'framework' ); ?></h4>
 						${update}
 					</div>
 					{{/if}}
 					<p class="theme-description">{{html description}}</p>
 
 					{{if parent != null && parent != false}}
-						<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{html parent}}</strong>' ); ?></p>
+						<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.', 'framework' ), '<strong>{{html parent}}</strong>' ); ?></p>
 					{{/if}}
 
 					{{if tags != null && tags != false}}
-						<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> ${tags}</p>
+						<p class="theme-tags"><span><?php _e( 'Tags:', 'framework' ); ?></span> ${tags}</p>
 					{{/if}}
 				</div>
 			</div>
 		
 			<div class="theme-actions">
 				<div class="active-theme">
-					<a href="${actions.customize}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize' ); ?></a>
+					<a href="${actions.customize}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize', 'framework' ); ?></a>
 				</div>
 				<div class="inactive-theme">
 					{{if actions.activate != false && actions != ""}}
-						<a href="${actions.activate}" class="button button-primary activate"><?php _e( 'Activate' ); ?></a>
+						<a href="${actions.activate}" class="button button-primary activate"><?php _e( 'Activate', 'framework' ); ?></a>
 					{{/if}}
-					<a href="${actions.customize}" class="button button-secondary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
-					<a href="${actions.preview}" class="button button-secondary hide-if-customize"><?php _e( 'Preview' ); ?></a>
+					<a href="${actions.customize}" class="button button-secondary load-customize hide-if-no-customize"><?php _e( 'Live Preview', 'framework' ); ?></a>
+					<a href="${actions.preview}" class="button button-secondary hide-if-customize"><?php _e( 'Preview', 'framework' ); ?></a>
 				</div>
 
 				{{if active == false && actions.delete != false && actions.delete != "" }}
-					<a href="${actions.delete}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+					<a href="${actions.delete}" class="button button-secondary delete-theme"><?php _e( 'Delete', 'framework' ); ?></a>
 				{{/if}}
 			</div>
 		</div>
