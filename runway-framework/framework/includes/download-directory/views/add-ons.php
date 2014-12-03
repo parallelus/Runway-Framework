@@ -47,7 +47,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): ?>
 				<a class="button button-primary" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce='); ?>"><?php echo __('Install', 'framework'); ?></a>
 			<?php else: ?>
-				<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Detail', 'framework'); ?></a>
+				<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
 			<?php endif; ?>
 		</div>
 
