@@ -62,7 +62,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		}
 		
 		if($found) {
-			$dir = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
+			$dir = substr_replace ( FRAMEWORK_DIR, 'runway-framework-tmp/', strrpos(FRAMEWORK_DIR, 'runway-framework'));
 			if (is_dir($dir)) {
 
 				$dir_dt = FRAMEWORK_DIR.'data-types';
@@ -336,7 +336,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$correct_theme_name = $upgrader->skin->theme_info->template;
 
 		if(isset($correct_theme_name) && $correct_theme_name == 'runway-framework') {
-			$dst = str_replace('runway-framework', 'runway-framework-tmp', FRAMEWORK_DIR);
+			$dst = substr_replace ( FRAMEWORK_DIR, 'runway-framework-tmp/', strrpos(FRAMEWORK_DIR, 'runway-framework'));
 			if (!is_dir($dst)) {
 			    $wp_filesystem->mkdir($dst, FS_CHMOD_DIR);
 			    
