@@ -49,20 +49,21 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		
 		$found = false;
 		if(isset($current_theme['type']) && $current_theme['type'] == 'theme') {
-			if(isset($current_theme['themes']) && is_array($current_theme['themes'])) {
+			if(isset($current_theme['themes']) && is_array($current_theme['themes'])) {       			// manual update
 				foreach($current_theme['themes'] as $key => $value) {
 					if($value == 'runway-framework') {
 						$found = true;
 						break;
 					}
 				}
-				//if(!$found)
-				//	return;
+			}
+      		if(isset($current_theme['theme']) && $current_theme['theme'] == 'runway-framework') {		// auto update
+				$found = true;
 			}
 		}
 		
 		if($found) {
-			$dir = substr_replace ( FRAMEWORK_DIR, 'runway-framework-tmp/', strrpos(FRAMEWORK_DIR, 'runway-framework'));
+			$dir = str_replace('themes/runway-framework', 'themes/runway-framework-tmp', FRAMEWORK_DIR);
 			if (is_dir($dir)) {
 
 				$dir_dt = FRAMEWORK_DIR.'data-types';
@@ -80,6 +81,9 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 				copy_dir($dir.'data', $dir_data);
 
 				$wp_filesystem->delete($dir, true);
+                $wp_filesystem->delete(FRAMEWORK_DIR.'ChangeLog.md');
+				$wp_filesystem->delete(FRAMEWORK_DIR.'README.md');
+				$wp_filesystem->delete(FRAMEWORK_DIR.'LICENSE');
 				$wp_filesystem->delete(FRAMEWORK_DIR.'runway-framework', true);
 			}
 			unset($this->theme_updater_options['data']['response']['runway-framework']);
@@ -298,7 +302,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			
 			if(is_array($this->theme_updater_options['data'])) {
 				$returned = new stdClass();
-				$returned->last_checked = $this->theme_updater_options['data']['last_checked'];
+				$returned->last_checked = isset($this->theme_updater_options['data']['last_checked'])? $this->theme_updater_options['data']['last_checked'] : 0;
 				$returned->checked = isset($this->theme_updater_options['data']['checked'])? $this->theme_updater_options['data']['checked'] : array();
 				$returned->response = $this->theme_updater_options['data']['response'];
 				$returned->translations = isset($this->theme_updater_options['data']['translations'])? $this->theme_updater_options['data']['translations'] : array();
@@ -336,7 +340,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 			$correct_theme_name = $upgrader->skin->theme_info->template;
 
 		if(isset($correct_theme_name) && $correct_theme_name == 'runway-framework') {
-			$dst = substr_replace ( FRAMEWORK_DIR, 'runway-framework-tmp/', strrpos(FRAMEWORK_DIR, 'runway-framework'));
+			$dst = str_replace('themes/runway-framework', 'themes/runway-framework-tmp', FRAMEWORK_DIR);
 			if (!is_dir($dst)) {
 			    $wp_filesystem->mkdir($dst, FS_CHMOD_DIR);
 			    
