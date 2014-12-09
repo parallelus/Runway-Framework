@@ -6,13 +6,34 @@ if(!function_exists('WP_Filesystem'))
 	require_once(ABSPATH . 'wp-admin/includes/file.php');
 WP_Filesystem();
 global $wp_filesystem;
-	
+
 $search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
 $exts_addons_server = wp_remote_get($directory->extensions_server_url . "get_extensions");
 //$extensions_addons_server = (isset($exts_addons_server['body']) && !empty($exts_addons_server['body']))? json_decode( $exts_addons_server['body'] ) : (object)$exts_addons_server['body'];
 
+$items_installed = array();
 $addons_type = isset($_GET['addons'])? $_GET['addons'] : 'extensions';
+switch ($addons_type) {
+	case 'themes':
+		$themes = wp_get_themes();
+		$items_installed = (isset($themes) && !empty($themes))? array_keys($themes) : array();
+		$items_installed_link = admin_url('admin.php?page=themes');
+		break;
+
+	case 'extensions':
+		foreach($extm->extensions_List as $key => $val) {
+			$items_installed[] = substr($key, 0, strpos($key, '/'));
+		}
+		$items_installed_link = admin_url('admin.php?page=extensions');
+		break;
+
+	case 'plugins':
+		break;
+	
+	default:
+		break;
+}
 
 $postdata = array(
 	'runway_token' => (isset($auth_manager_admin->token)) ? $auth_manager_admin->token : '',

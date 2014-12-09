@@ -29,7 +29,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 </div>
 
 <div class="theme-browser content-filterable rendered">
-	<?php foreach($extensions_addons_search as $item_addons) {
+	<?php foreach($extensions_addons_search as $key => $item_addons) {
 		$item_name = isset($item_addons->Files[0]->name)? str_replace('-', '_', sanitize_key($item_addons->Files[0]->name)) : ''; ?>
 	
 	<div class="theme" tabindex="0" aria-describedby="<?php echo $item_name; ?>-action <?php echo $item_name; ?>-name">	
@@ -44,10 +44,14 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 		
 		<h3 class="theme-name-rf white-gradient-left-right"><?php echo $item_addons->Name; ?></h3>
 		<div class="theme-actions add-ons-init">
-			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): ?>
-				<a class="button button-primary" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce='); ?>"><?php echo __('Install', 'framework'); ?></a>
+			<?php if(in_array($key, $items_installed)): ?>
+				<a class="button button-secondary" href="<?php echo $items_installed_link; ?>"><?php echo __('Installed', 'framework'); ?></a>
 			<?php else: ?>
-				<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+				<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): ?>
+					<a class="button button-primary" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce='); ?>"><?php echo __('Install', 'framework'); ?></a>
+				<?php else: ?>
+					<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 
