@@ -735,7 +735,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
-			wp_die( 'You must have ZipArchive class' );
+			wp_die( __('You must have ZipArchive class', 'framework') );
 		}
 	}
 

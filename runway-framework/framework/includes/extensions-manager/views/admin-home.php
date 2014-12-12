@@ -26,7 +26,7 @@ switch ( $this->navigation ) {
 	<p class="search-box">
 		<label class="screen-reader-text" for="exts-search-input"><?php echo __( 'Search Extensions', 'framework' );?>:</label>
 		<input type="search" id="exts-search-input" name="exts-search-input" value="<?php echo isset($_POST['exts-search-input']) ? $_POST['exts-search-input'] : ''; ?>">
-		<input type="submit" name="ext-search-submit" id="ext-search-submit" class="button" value="Search Extensions"></p>
+		<input type="submit" name="ext-search-submit" id="ext-search-submit" class="button" value="<?php echo __('Search Extensions', 'framework'); ?>"></p>
 </form>
 
 <form action="<?php echo admin_url('admin.php?page=extensions&navigation=bulk-actions'); ?>" method="post">
