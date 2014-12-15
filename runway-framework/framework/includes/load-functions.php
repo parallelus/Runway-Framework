@@ -226,27 +226,31 @@ if ( !function_exists( 'options_data' ) ) {
 
 if( !function_exists( 'get_font_options_data' )) {
 	function get_font_options_data( $key, $option = false, $default = null ) {
-		
+
 		$font_options = get_options_data( $key, $option, $default );
-		
+
 		$options_str = $font_options['family'];
-		if($font_options['style'] == 'italic' || $font_options['weight'] != '') {
-			$options_str .= ':';
-			if($font_options['weight'] == 'bold' && $font_options['style'] == 'italic') {
-				$options_str .= "bolditalic";
-			}
-			else if($font_options['style'] == 'italic' && $font_options['weight'] != '' ){
-				$options_str .= 'italic'.$font_options['weight'];
-			}
-			else if($font_options['style'] == 'italic') {
-				$options_str .= 'italic';
-			}
-			else if($font_options['weight'] != '') {
-				$options_str .= $font_options['weight'];
-			}
+		if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
+			$options_str .= ':'.$font_options['weight'];
 		}
+		// if($font_options['style'] == 'italic' || $font_options['weight'] != '') {
+		// 	$options_str .= ':';
+		// 	if($font_options['weight'] == 'bold' && $font_options['style'] == 'italic') {
+		// 		$options_str .= "bolditalic";
+		// 	}
+		// 	else if($font_options['style'] == 'italic' && $font_options['weight'] != '' ){
+		// 		$options_str .= 'italic'.$font_options['weight'];
+		// 	}
+		// 	else if($font_options['style'] == 'italic') {
+		// 		$options_str .= 'italic';
+		// 	}
+		// 	else if($font_options['weight'] != '') {
+		// 		$options_str .= $font_options['weight'];
+		// 	}
+		// }
 		$query_args = array( 'family' => $options_str );
 		wp_enqueue_style( 'google-font', add_query_arg( $query_args, "//fonts.googleapis.com/css" ), array(), null );
+
 		return $font_options;
 	}
 }

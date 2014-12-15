@@ -31,7 +31,7 @@ class Font_select_type extends Data_Type {
 		if (is_wp_error($response)) {
 			$response = $wp_filesystem->get_contents(__DIR__.'/data/web_fonts.json');
 		}
-		
+
 		if($response !== false) {
 			$data = json_decode($response, true);
 			if(!isset($data['items'])) {
@@ -45,7 +45,7 @@ class Font_select_type extends Data_Type {
 				}
 			}
 		}
-		
+	
 		//Return the saved lit of Google Web Fonts
 		return $font_list;
 	}
@@ -63,9 +63,9 @@ class Font_select_type extends Data_Type {
 		$current_theme = rw_get_theme_data();
 		$t = runway_admin_themes_list_prepare( $current_theme );
 		$options = $developer_tools->load_settings( $t['folder'] );
-		
+
 		$google_fonts = $this->wp_get_google_webfonts_list(isset($options['WebFontAPIKey']) ? $options['WebFontAPIKey'] : '');
-		
+
 		if(is_array($input_value)) {
 			if(isset($input_value['family']))
 				$font_family = $input_value['family'];
@@ -87,7 +87,7 @@ class Font_select_type extends Data_Type {
 			<div style="font-family: <?php echo $font_family;?>; 
 					font-style: <?php echo $font_style;?>; 
 					font-weight: <?php echo $font_weight;?>;
-					size: <?php echo $font_size;?>; 
+					font-size: <?php echo $font_size;?>; 
 					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?></div>
 					
 			<div class="toogle-font-select-container">
