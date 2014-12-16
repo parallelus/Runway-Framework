@@ -229,10 +229,10 @@ if( !function_exists( 'get_font_options_data' )) {
 
 		$font_options = get_options_data( $key, $option, $default );
 
-		$options_str = $font_options['family'];
-		if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
-			$options_str .= ':'.$font_options['weight'];
-		}
+		$options_str = str_replace(' ', '+', trim($font_options['family']));
+		// if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
+		// 	$options_str .= ':'.$font_options['weight'];
+		// }
 		// if($font_options['style'] == 'italic' || $font_options['weight'] != '') {
 		// 	$options_str .= ':';
 		// 	if($font_options['weight'] == 'bold' && $font_options['style'] == 'italic') {

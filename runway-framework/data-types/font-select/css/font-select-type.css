@@ -38,3 +38,36 @@
 .toogle-font-select-container .settings-container .settings-in textarea {
     width: 100%;
 }
+
+.ui-dialog .ui-dialog-titlebar {
+    top: -15px;
+    margin-bottom: -20px;
+}
+.ui-dialog-title h2 {
+    font-size: 24px;
+    font-weight: 400;
+    text-shadow: 2px 2px #fff;
+}
+.ui-dialog-titlebar-close {
+    position: relative;
+    top: -50px;
+}
+.ui-dialog {
+    position: fixed;
+}
+
+.settings-dialog-inside {
+    /*max-height: 630px;*/
+    min-height: 50px;
+}
+.settings-dialog-modal {
+    bottom: 40px;
+    max-height: 400px;
+}
+.settings-dialog-modal .settings-font-options-dialog {
+    bottom: 20px;
+    left: 20px;
+    position: absolute;
+    right: 10px;
+    top: 67px;
+}

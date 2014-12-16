@@ -88,135 +88,196 @@ class Font_select_type extends Data_Type {
 					font-style: <?php echo $font_style;?>; 
 					font-weight: <?php echo $font_weight;?>;
 					font-size: <?php echo $font_size;?>; 
-					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?></div>
-					
-			<div class="toogle-font-select-container">
-				<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
-				<div class="edit-font-options-inner" style="display: none;">
-					
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Preview text', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
-						</div>
-					</div><div class="clear"></div>
-
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Family', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<select data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" data-type="font-select" class="settings-select custom-data-type">
-								<?php if(is_array($google_fonts) && !empty($google_fonts)) { ?>
-								<?php foreach($google_fonts as $font) { ?>
-								<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo $font; ?>"><?php echo $font; ?></option>
-								<?php } ?>
-								<?php } else { ?>
-								<option selected="true" value="open sans"><?php echo __('Open Sans', 'framework'); ?></option>
-								<?php } ?>
-							</select>
-						</div>
-					</div><div class="clear"></div>
-
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Style', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<select data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" data-type="font-select" class="settings-select custom-data-type">
-								<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'framework'); ?></option>
-								<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
-							</select>
-						</div>
-					</div><div class="clear"></div>
-
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Weight', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select" class="custom-data-type" />
-							<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
-						</div>
-					</div><div class="clear"></div>
-
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Size', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" class="custom-data-type" />
-							<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
-						</div>
-					</div><div class="clear"></div>
-
-					<div class="settings-container">
-						<label class="settings-title">
-							<?php echo __('Color', 'framework'); ?>:
-						</label>
-						<div class="settings-in">
-							<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex custom-data-type" data-type="font-select" />
-						</div>
-					</div><div class="clear"></div>
-					
-					<div class="settings-container">
-						<input type="button" value="<?php echo __('Save font select settings', 'framework'); ?>" name="<?php echo $this->field->alias;?>_save"/>
-					</div>
-					
-				</div>
+					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?>
 			</div>
-			
-			<script type="text/javascript">
-				var alias = '<?php echo $this->field->alias; ?>';
-				jQuery(document).ready(function($){
-					jQuery('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').wpColorPicker({ change: function () {
-							var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+
+			<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" value="<?php echo $family; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" value="<?php echo $style; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php echo $weight; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php echo $size; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $color; ?>" type="hidden"/>
+
+			<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
+			<div class="<?php echo $this->field->alias; ?>">
+				<div class="settings-font-options-dialog" title="Edit Font Options">
+					<div class="toogle-font-select-container"  style="display: none;">
 							
-							//setTimeout(function () {
-								$('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
-							//}, 50);
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Preview text', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<input data-set="<?php echo $this->field->alias;?>[_previewText]" name="<?php echo $this->field->alias;?>[_previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
+								</div>
+							</div><div class="clear"></div>
 
-						}});
-					
-					$('.<?php echo $this->field->alias; ?> a.edit-font-options-a').on('click', function(){
-						$('.<?php echo $this->field->alias; ?> .edit-font-options-inner').slideDown();
-						$(this).css({'display': 'none'});
-					});
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Family', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<select data-set="<?php echo $this->field->alias;?>[_family]" name="<?php echo $this->field->alias;?>[_family]" data-type="font-select" class="settings-select custom-data-type">
+										<?php if(is_array($google_fonts) && !empty($google_fonts)) { ?>
+										<?php foreach($google_fonts as $font) { ?>
+										<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo $font; ?>"><?php echo $font; ?></option>
+										<?php } ?>
+										<?php } else { ?>
+										<option selected="true" value="open sans"><?php echo __('Open Sans', 'framework'); ?></option>
+										<?php } ?>
+									</select>
+								</div>
+							</div><div class="clear"></div>
 
-					$('input[name=<?php echo $this->field->alias;?>_save]').on('click', function(e){
-						e.preventDefault();
-						e.stopPropagation();
-						
-						$('.<?php echo $this->field->alias; ?> .edit-font-options-inner').slideUp();
-						$('.<?php echo $this->field->alias; ?> a.edit-font-options-a').css({'display': ''});
-						
-						if ( wp.customize ) {
-							var api = wp.customize;
-							var values_array = {};
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Style', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<select data-set="<?php echo $this->field->alias;?>[_style]" name="<?php echo $this->field->alias;?>[_style]" data-type="font-select" class="settings-select custom-data-type">
+										<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'framework'); ?></option>
+										<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
+									</select>
+								</div>
+							</div><div class="clear"></div>
+
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Weight', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<input data-set="<?php echo $this->field->alias;?>[_weight]" name="<?php echo $this->field->alias;?>[_weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select" class="custom-data-type" />
+									<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
+								</div>
+							</div><div class="clear"></div>
+
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Size', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<input data-set="<?php echo $this->field->alias;?>[_size]" name="<?php echo $this->field->alias;?>[_size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" class="custom-data-type" />
+									<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
+								</div>
+							</div><div class="clear"></div>
+
+							<div class="settings-container">
+								<label class="settings-title">
+									<?php echo __('Color', 'framework'); ?>:
+								</label>
+								<div class="settings-in">
+									<input data-set="<?php echo $this->field->alias;?>[_color]" name="<?php echo $this->field->alias;?>[_color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex custom-data-type" data-type="font-select" />
+								</div>
+							</div><div class="clear"></div>
+
+							<div class="settings-container">
+								<input type="button" value="<?php echo __('Save font select settings', 'framework'); ?>" name="<?php echo $this->field->alias;?>_save"/>
+							</div>
 							
-							$('.<?php echo $this->field->alias; ?> .edit-font-options-inner input[type=text]').each(function(){
-								var name = $(this).attr('name').replace(alias, '').replace("[", "").replace("]", "");
-								
-								values_array[name] = $(this).val();
-								//api.instance($(this).attr('name')).set($(this).val());
-							});
-							$('.<?php echo $this->field->alias; ?> .edit-font-options-inner select option:selected').each(function(){
-								var name = $(this).parent('select').attr('name').replace(alias, '').replace("[", "").replace("]", "");
-								values_array[name] = $(this).attr('value');
 
-								//api.instance($(this).parent('select').attr('name')).set($(this).attr('value'));
-							});
-							var name = $('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name').replace(alias, '').replace("[", "").replace("]", "");
-							values_array[name] = $('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val();
+					</div>
+					<script type="text/javascript">
+						var alias = '<?php echo $this->field->alias; ?>';
+						jQuery(document).ready(function($){
+							jQuery('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
+									var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+									
+									//setTimeout(function () {
+										$('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
+									//}, 50);
 
-							api.instance(alias).set(values_array);
-							//api.instance($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name')).set($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val());
-						}
-					});
+								}});
+							//);
+
+							$('input[name=<?php echo $this->field->alias;?>_save]').on('click', function(e){console.log('fffffffffff');
+								e.preventDefault();
+								e.stopPropagation();
+
+								var alias = "<?php echo $this->field->alias;?>";
+
+								$('input[name="'+alias+'[previewText]"]').val($('input[name="'+alias+'[_previewText]"]').val());
+								$('input[name="'+alias+'[family]"]').val($('select[name="'+alias+'[_family]"]').val());
+								$('input[name="'+alias+'[style]"]').val($('select[name="'+alias+'[_style]"]').val());
+								$('input[name="'+alias+'[weight]"]').val($('input[name="'+alias+'[_weight]"]').val());
+								$('input[name="'+alias+'[size]"]').val($('input[name="'+alias+'[_size]"]').val());
+								$('input[name="'+alias+'[color]"]').val($('input[name="'+alias+'[_color]"]').val());
+
+								if ( wp.customize ) {
+									var api = wp.customize;
+									var values_array = {};
+									
+									$('.<?php echo $this->field->alias; ?> .settings-font-options-dialog .toogle-font-select-container input[type=text]').each(function(){
+										var name = $(this).attr('name').replace(alias, '').replace("[", "").replace("]", "");
+										
+										values_array[name] = $(this).val();
+
+										//api.instance($(this).attr('name')).set($(this).val());
+									});
+									$('.<?php echo $this->field->alias; ?> .toogle-font-select-container select option:selected').each(function(){
+										var name = $(this).parent('select').attr('name').replace(alias, '').replace("[", "").replace("]", "");
+										values_array[name] = $(this).attr('value');
+
+										//api.instance($(this).parent('select').attr('name')).set($(this).attr('value'));
+									});
+									var name = $('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').attr('name').replace(alias, '').replace("[", "").replace("]", "");
+									values_array[name] = $('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').val();
+
+									api.instance(alias).set(values_array);
+									//api.instance($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name')).set($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val());
+								}
+								$(".settings-font-options-dialog").dialog('close');
+							});
+						});
+					</script>					
+				</div>
+			</div>	
+
+		</div>
+		
+		<script type="text/javascript">
+			var alias = '<?php echo $this->field->alias; ?>';
+			jQuery(document).ready(function($){
+				jQuery('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
+						var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+						
+						//setTimeout(function () {
+							$('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
+						//}, 50);
+
+					}});
+				
+				$('.<?php echo $this->field->alias; ?> a.edit-font-options-a').on('click', function(){console.log('11111');
+
+                	var settings_font_options_dialog = $(".settings-font-options-dialog").dialog();
+                    settings_font_options_dialog.data( "uiDialog" )._title = function(title) {
+                        title.html( this.options.title );
+                    };
+					settings_font_options_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+'Edit Font Options'+'</h2>');
+
+            		$(".settings-font-options-dialog").dialog({
+
+	                    open: function(event, ui) {
+	                    },
+	                    close: function(event, ui) {
+	                    },
+
+	                    autoOpen:false,
+	                    modal: true,
+	                    //height: 300,
+	                    width: 430,
+	                    resizable: false,
+	                    draggable: false,
+	                    closeOnEscape: true,
+						dialogClass: "settings-dialog-modal",
+	                    position: ['center', 80]
+	                });
+
+					$('.settings-font-options-dialog').dialog('open');
+					$('.settings-font-options-dialog .toogle-font-select-container').css({'display': ''});
+
 				});
-			</script>
+			});
+		</script>
 		</div>
 
 		<?php
