@@ -1168,7 +1168,7 @@ var system_vars_definition = ['template', 'index'];
                     autoOpen: false,                    
                     title: '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+translations_js.edit_field+'</h2>',
                     modal: true,
-                    width: 600,
+                    width: 640,
                     draggable: false,
                     resizable: false,
                     open: function () {

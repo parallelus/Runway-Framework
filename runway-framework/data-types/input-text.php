@@ -159,14 +159,13 @@ class Input_text extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Validation error message', 'framework'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 
 		            <input type="text" name="validationMessage" value="${validationMessage}" />
 
-		            <br><span class="settings-field-caption"></span>
+		            <br><span class="settings-field-caption"><?php _e('Optional. Validation error message.', 'framework'); ?>:</span>
 
 		        </div>
 

@@ -184,7 +184,7 @@
     z-index: 30;
 }
 .ui-widget-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -268,7 +268,7 @@ div.ui-dialog-content,
     width: 24px;
     margin: -16px 0 0 0;
     padding: 3px;
-    height: 23px;
+    height: 24px;
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding-box;
     background-clip: padding-box;
@@ -357,7 +357,7 @@ div.ui-dialog-content,
     border: 1px solid #dfdfdf;
     border-width: 0;
     margin: 1px 3px 1px 1px;
-    padding: 5px;
+    padding: 10px 8px 5px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;
@@ -373,7 +373,7 @@ div.ui-dialog-content,
     border-color: #bbb
 }
 .radio-image.checked {
-    background: #efefef
+    background: #fff
 }
 .radio-image p {
     margin: 0;
