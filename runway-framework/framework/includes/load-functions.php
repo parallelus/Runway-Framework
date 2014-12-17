@@ -249,7 +249,7 @@ if( !function_exists( 'get_font_options_data' )) {
 		// 	}
 		// }
 		$query_args = array( 'family' => $options_str );
-		wp_enqueue_style( 'google-font', add_query_arg( $query_args, "//fonts.googleapis.com/css" ), array(), null );
+		wp_enqueue_style( 'google-font-'.$options_str , add_query_arg( $query_args, "//fonts.googleapis.com/css" ), array(), null );
 
 		return $font_options;
 	}

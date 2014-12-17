@@ -52,12 +52,12 @@ class Font_select_type extends Data_Type {
 
 	public function render_content( $vals = null ) {
 		$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		$font_family = $this->field->family;
+		$font_family = isset($this->field->family)? $this->field->family : 'Open Sans';
 		$font_weight = ($this->field->weight != '') ? $this->field->weight : 'normal';
 		$font_size = ($this->field->size != '') ? $this->field->size : '20px';
-		$font_style = ($this->field->style != '') ? $this->field->style: 'normal';
-		$font_color = ($this->field->color != '') ? $this->field->color : '#000000';
-		$previewText = $this->field->previewText;
+		$font_style = (isset($this->field->style) && $this->field->style != '') ? $this->field->style: 'normal';
+		$font_color = (isset($this->field->color) && $this->field->color != '') ? $this->field->color : '#000000';
+		$previewText = isset($this->field->previewText)? $this->field->previewText : '';
 		
 		global $developer_tools;
 		$current_theme = rw_get_theme_data();
@@ -84,24 +84,32 @@ class Font_select_type extends Data_Type {
 		?>
 
 		<div class="<?php echo $this->field->alias; ?>">
-			<div style="font-family: <?php echo $font_family;?>; 
-					font-style: <?php echo $font_style;?>; 
+
+			<div style="font-family: 
+					<?php echo $font_family;?>; 
+					<?php if(isset($font_style) && !empty($font_style)): ?>
+						font-style: <?php echo $font_style;?>; 
+					<?php endif; ?>
 					font-weight: <?php echo $font_weight;?>;
 					font-size: <?php echo $font_size;?>; 
-					color: <?php echo $font_color; ?>"><?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?>
+					<?php if(isset($font_color) && !empty($font_color)): ?>
+						color: <?php echo $font_color; ?>
+					<?php endif; ?>">
+					<?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?>
 			</div>
 
 			<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" value="<?php echo $family; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" value="<?php echo $style; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php echo $weight; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php echo $size; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $color; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" value="<?php echo $font_family; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" value="<?php echo $font_style; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php echo $font_weight; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php echo $font_size; ?>" type="hidden"/>
+			<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $font_color; ?>" type="hidden"/>
 
-			<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
 			<div class="<?php echo $this->field->alias; ?>">
-				<div class="settings-font-options-dialog" title="Edit Font Options">
-					<div class="toogle-font-select-container"  style="display: none;">
+				<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
+				<div class="font-options-container pop" style="display:none">
+				<div class="settings-font-options-dialog">
+					<div class="toogle-font-select-container">
 							
 							<div class="settings-container">
 								<label class="settings-title">
@@ -172,13 +180,24 @@ class Font_select_type extends Data_Type {
 
 							<div class="settings-container">
 								<input type="button" value="<?php echo __('Save font select settings', 'framework'); ?>" name="<?php echo $this->field->alias;?>_save"/>
+								<input type="button" value="<?php echo __('Cancel', 'framework'); ?>" name="<?php echo $this->field->alias;?>_cancel"/>
 							</div>
-							
 
 					</div>
 					<script type="text/javascript">
 						var alias = '<?php echo $this->field->alias; ?>';
 						jQuery(document).ready(function($){
+
+							function deselect(e) {
+							  $('.<?php echo $this->field->alias; ?> .pop').slideFadeToggle(function() {
+							    e.removeClass('font-edit');
+							  });    
+							}
+
+							$.fn.slideFadeToggle = function(easing, callback) {
+							  return this.animate({ opacity: 'toggle', height: 'toggle' }, 'fast', easing, callback);
+							};
+
 							jQuery('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
 									var hexcolor = jQuery( this ).wpColorPicker( 'color' );
 									
@@ -189,7 +208,7 @@ class Font_select_type extends Data_Type {
 								}});
 							//);
 
-							$('input[name=<?php echo $this->field->alias;?>_save]').on('click', function(e){console.log('fffffffffff');
+							$('input[name=<?php echo $this->field->alias;?>_save]').on('click', function(e){
 								e.preventDefault();
 								e.stopPropagation();
 
@@ -225,59 +244,46 @@ class Font_select_type extends Data_Type {
 									api.instance(alias).set(values_array);
 									//api.instance($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').attr('name')).set($('.<?php echo $this->field->alias; ?> .edit-font-options-inner .color-picker-hex').val());
 								}
-								$(".settings-font-options-dialog").dialog('close');
+								deselect($(this));
 							});
+
+							$('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
+								var hexcolor = jQuery( this ).wpColorPicker( 'color' );
+						
+									//setTimeout(function () {
+										$('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
+									//}, 50);
+
+							}});
+
+
+							$('.<?php echo $this->field->alias; ?> a.edit-font-options-a').on('click', function(e){console.log('11111');
+								e.preventDefault();
+								e.stopPropagation();
+ 	
+    							if($(this).hasClass('font-edit')) {
+      								deselect($(this));               
+    							} else {
+      								$(this).addClass('font-edit');
+      								$('.<?php echo $this->field->alias; ?> .pop').slideFadeToggle();
+    							}
+  							});
+
+						    $('input[name=<?php echo $this->field->alias; ?>_cancel').on('click', function(e) {
+						    	e.preventDefault();
+								e.stopPropagation();
+						    	deselect($(this));
+						    //return false;
+						  	});
 						});
 					</script>					
 				</div>
+			</div>
 			</div>	
 
 		</div>
 		
-		<script type="text/javascript">
-			var alias = '<?php echo $this->field->alias; ?>';
-			jQuery(document).ready(function($){
-				jQuery('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
-						var hexcolor = jQuery( this ).wpColorPicker( 'color' );
-						
-						//setTimeout(function () {
-							$('.<?php echo $this->field->alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
-						//}, 50);
 
-					}});
-				
-				$('.<?php echo $this->field->alias; ?> a.edit-font-options-a').on('click', function(){console.log('11111');
-
-                	var settings_font_options_dialog = $(".settings-font-options-dialog").dialog();
-                    settings_font_options_dialog.data( "uiDialog" )._title = function(title) {
-                        title.html( this.options.title );
-                    };
-					settings_font_options_dialog.dialog('option', 'title', '<div id="icon-edit-pages" class="icon32 icon32-posts-page"></div><h2>'+'Edit Font Options'+'</h2>');
-
-            		$(".settings-font-options-dialog").dialog({
-
-	                    open: function(event, ui) {
-	                    },
-	                    close: function(event, ui) {
-	                    },
-
-	                    autoOpen:false,
-	                    modal: true,
-	                    //height: 300,
-	                    width: 430,
-	                    resizable: false,
-	                    draggable: false,
-	                    closeOnEscape: true,
-						dialogClass: "settings-dialog-modal",
-	                    position: ['center', 80]
-	                });
-
-					$('.settings-font-options-dialog').dialog('open');
-					$('.settings-font-options-dialog .toogle-font-select-container').css({'display': ''});
-
-				});
-			});
-		</script>
 		</div>
 
 		<?php
@@ -384,33 +390,12 @@ class Font_select_type extends Data_Type {
 		
 		<div class="settings-container">
 			<label class="settings-title">
-				<?php echo __('Preview text', 'framework'); ?>:
-			</label>
-			<div class="settings-in">
-				<input data-set="previewText" name="previewText" value="${previewText}" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
-			</div>
-		</div><div class="clear"></div>
-		
-		<div class="settings-container">
-			<label class="settings-title">
 				<?php echo __('Family', 'framework'); ?>:
 			</label>
 			<div class="settings-in">
-				<select data-set="family" name="family" class="settings-select">
-					<option {{if family == '' || family == 'open sans'}} selected="true" {{/if}} value="open sans"><?php echo __('Open Sans', 'framework'); ?></option>
-				</select>
-			</div>
-		</div><div class="clear"></div>
-		
-		<div class="settings-container">
-			<label class="settings-title">
-				<?php echo __('Style', 'framework'); ?>:
-			</label>
-			<div class="settings-in">
-				<select data-set="style" name="style" class="settings-select">
-					<option {{if style == '' || style == 'normal'}} selected="true" {{/if}} value="normal"><?php echo __('Normal', 'framework'); ?></option>
-					<option {{if style == 'italic'}} selected="true" {{/if}} value="italic"><?php echo __('Italic', 'framework'); ?></option>
-				</select>
+
+				<input data-set="family" name="family" value="{{if family == ''}}Open Sans{{else}}${family}{{/if}}" type="text" />
+				<br><span class="settings-title-caption"></span>				
 			</div>
 		</div><div class="clear"></div>
 		
@@ -434,15 +419,6 @@ class Font_select_type extends Data_Type {
 			</div>
 		</div><div class="clear"></div>
 		
-		<div class="settings-container">
-			<label class="settings-title">
-				<?php echo __('Color', 'framework'); ?>:
-			</label>
-			<div class="settings-in">
-				<input data-set="color" name="color" value="${color}" type="text" class="color-picker-hex"/>
-			</div>
-		</div><div class="clear"></div>
-
 		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 

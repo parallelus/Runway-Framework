@@ -39,35 +39,17 @@
     width: 100%;
 }
 
-.ui-dialog .ui-dialog-titlebar {
-    top: -15px;
-    margin-bottom: -20px;
-}
-.ui-dialog-title h2 {
-    font-size: 24px;
-    font-weight: 400;
-    text-shadow: 2px 2px #fff;
-}
-.ui-dialog-titlebar-close {
-    position: relative;
-    top: -50px;
-}
-.ui-dialog {
-    position: fixed;
-}
-
-.settings-dialog-inside {
-    /*max-height: 630px;*/
-    min-height: 50px;
-}
-.settings-dialog-modal {
-    bottom: 40px;
-    max-height: 400px;
-}
-.settings-dialog-modal .settings-font-options-dialog {
-    bottom: 20px;
-    left: 20px;
-    position: absolute;
-    right: 10px;
-    top: 67px;
+.font-options-container {
+  background-color:#FFFFFF;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  
+  cursor:default;
+  display:none;
+  margin-top: 5px;
+  position:absolute;
+  text-align:left;
+  width:394px;
+  z-index:50;
+  padding: 25px 25px 20px;
 }
