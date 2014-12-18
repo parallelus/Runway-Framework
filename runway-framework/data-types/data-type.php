@@ -151,25 +151,28 @@ class Data_Type extends WP_Customize_Control {
 		    <div class="settings-container section-heading">
 		    	<p class="settings-title"><?php echo __("Conditional Display", "framework"); ?></p>
 		    	<p class="settings-field-caption"><?php echo __("Use the value of another option to conditionally show or hide this option.", "framework"); ?></p>
-		    </div><div class="clear"></div>		
+		    	<div class="clear"></div>		
+		    </div>
 
 		    <div class="settings-container">
 		    	<label class="settings-title"><?php echo __("Control alias", "framework"); ?>:
 		        </label>
 		        <div class="settings-in">
 		            <input type="text" name="conditionalAlias" value="${conditionalAlias}" />
-		            <br><span class="settings-field-caption"><?php echo __("Alias of the control option.", "framework"); ?></span>
+		            <span class="settings-field-caption"><?php echo __("Alias of the control option.", "framework"); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		    	<label class="settings-title"><?php echo __('Control value', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
 		            <input type="text" name="conditionalValue" value="${conditionalValue}" />
-		            <br><span class="settings-field-caption"><?php echo __('Value of the control option to trigger display.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Value of the control option to trigger display.', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>	
+		        <div class="clear"></div>
+		    </div>	
 
 			<div class="settings-container">
 				<label class="settings-title"><?php echo __('Display action', 'framework'); ?>:
@@ -182,9 +185,10 @@ class Data_Type extends WP_Customize_Control {
 		            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" type="radio"><?php echo __('Show', 'framework'); ?></label><br>
 		            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" checked="true" type="radio"><?php echo __('Hide', 'framework'); ?></label>
 		            {{/if}}
-		            <br><span class="settings-field-caption"><?php echo __('The action triggered by the conditional value.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('The action triggered by the conditional value.', 'framework'); ?></span>
 				</div>
-			</div><div class="clear"></div> <?php
+				<div class="clear"></div>
+			</div> <?php
 	}
 
 	public static function data_type_register() { ?>

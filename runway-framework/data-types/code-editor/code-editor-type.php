@@ -86,29 +86,6 @@ class Code_editor_type extends Data_Type {
 		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
 		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
 
-		/*
-		$theme_directory = THEME_DIR;
-		$framework_directory = FRAMEWORK_DIR;
-				
-		$data_type_directory = str_replace('\\', '/', $data_type_directory);
-		$theme_directory = str_replace('\\', '/', $theme_directory);
-		$framework_directory = str_replace('\\', '/', $framework_directory);
-		
-		if(strstr($data_type_directory, $theme_directory)) {
-			$current_data_type_dir = str_replace($theme_directory, '', $data_type_directory);
-		}
-		else {
-			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
-		}
-		*/
-		
-		/*if(strstr(__DIR__, THEME_DIR)) {
-			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
-		}
-		else {
-			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
-		}*/
-
 		wp_register_script('ace', FRAMEWORK_URL . $current_data_type_dir . '/js/ace/src-noconflict/ace.js');
 	}
 	
@@ -142,13 +119,12 @@ class Code_editor_type extends Data_Type {
 		    </label>
 		    <div class="settings-in">
 
-			<textarea data-set="values" name="values" class="settings-textarea">${values}</textarea>
-
-			<br><span class="settings-field-caption"></span>
+				<textarea data-set="values" name="values" class="settings-textarea">${values}</textarea>
 
 		    </div>
+		    <div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -157,24 +133,25 @@ class Code_editor_type extends Data_Type {
 		    </label>
 		    <div class="settings-in">
 
-			<label>
-			    {{if required == 'true'}}
-			    <input data-set="required" name="required" value="true" checked="true" type="checkbox">
-			    {{else}}
-			    <input data-set="required" name="required" value="true" type="checkbox">
-			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
-			</label>
+				<label>
+				    {{if required == 'true'}}
+				    <input data-set="required" name="required" value="true" checked="true" type="checkbox">
+				    {{else}}
+				    <input data-set="required" name="required" value="true" type="checkbox">
+				    {{/if}}
+				    <?php echo __('Yes', 'framework'); ?>
+				</label>
 
-			<br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
+				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
 
-			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+				<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-			<br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
+				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
 
 		    </div>
+		    <div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -183,13 +160,12 @@ class Code_editor_type extends Data_Type {
 		    </label>
 		    <div class="settings-in">
 
-			<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
-
-			<br><span class="settings-field-caption"></span>
+				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
 
 		    </div>
+		    <div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -200,11 +176,10 @@ class Code_editor_type extends Data_Type {
 
 			<input data-set="editorWidth" name="editorWidth" value="${editorWidth}" class="settings-input" type="text">
 
-			<br><span class="settings-field-caption"></span>
-
 		    </div>
+		    <div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -215,11 +190,10 @@ class Code_editor_type extends Data_Type {
 
 			<input data-set="editorHeight" name="editorHeight" value="${editorHeight}" class="settings-input" type="text">
 
-			<br><span class="settings-field-caption"></span>
-
 		    </div>
+		    <div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -234,7 +208,8 @@ class Code_editor_type extends Data_Type {
 			</select>
 			
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -249,7 +224,8 @@ class Code_editor_type extends Data_Type {
 			</select>
 			
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -268,7 +244,8 @@ class Code_editor_type extends Data_Type {
 			</label>
 			
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 
 		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>

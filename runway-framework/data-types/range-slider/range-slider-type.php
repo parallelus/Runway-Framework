@@ -127,29 +127,6 @@ class Range_slider_type extends Data_Type {
 		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
 		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
 
-		/*
-		$theme_directory = THEME_DIR;
-		$framework_directory = FRAMEWORK_DIR;
-				
-		$data_type_directory = str_replace('\\', '/', $data_type_directory);
-		$theme_directory = str_replace('\\', '/', $theme_directory);
-		$framework_directory = str_replace('\\', '/', $framework_directory);
-		
-		if(strstr($data_type_directory, $theme_directory)) {
-			$current_data_type_dir = str_replace($theme_directory, '', $data_type_directory);
-		}
-		else {
-			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
-		}
-		*/
-		
-		/*if(strstr(__DIR__, THEME_DIR)) {
-			$current_data_type_dir = str_replace(THEME_DIR, '', __DIR__);
-		}
-		else {
-			$current_data_type_dir = str_replace(FRAMEWORK_DIR, '', __DIR__);
-		}*/
-
 		wp_register_script('rw_nouislider', FRAMEWORK_URL . $current_data_type_dir . '/js/jquery.nouislider.min.js');
 		wp_register_style('rw_nouislider_css', FRAMEWORK_URL . $current_data_type_dir . '/css/jquery.nouislider.css');
 	}
@@ -179,12 +156,11 @@ class Range_slider_type extends Data_Type {
 			<div class="settings-in">
 
 				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
-
-				<br><span class="settings-field-caption"></span>
 			
 			</div>
+			<div class="clear"></div>
 
-		</div><div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -193,11 +169,12 @@ class Range_slider_type extends Data_Type {
 			</label>
 			<div class="settings-in">
 				<input data-set="startFirstEntry" name="startFirstEntry" value="${startFirstEntry}" type="text" />
-				<br>
+				<span class="settings-field-caption"><?php echo __('First handle start position.', 'framework'); ?></span>
 				<input data-set="startSecondEntry" name="startSecondEntry" value="${startSecondEntry}" type="text" />
-				<br><span class="settings-title-caption"><?php echo __('Set second field empty for one-handle slider', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('Second handle start position. (optional)', 'framework'); ?></span>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -207,7 +184,8 @@ class Range_slider_type extends Data_Type {
 			<div class="settings-in">
 				<input data-set="rangeMin" name="rangeMin" value="${rangeMin}" type="text" />
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -217,7 +195,8 @@ class Range_slider_type extends Data_Type {
 			<div class="settings-in">
 				<input data-set="rangeMax" name="rangeMax" value="${rangeMax}" type="text" />
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -229,7 +208,8 @@ class Range_slider_type extends Data_Type {
 					<option {{if connect == 'true'}} selected="true" {{/if}} value="true"><?php echo __('True', 'framework'); ?></option>
 				</select>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 			<label class="settings-title">
@@ -238,9 +218,10 @@ class Range_slider_type extends Data_Type {
 			</label>
 			<div class="settings-in">
 				<input data-set="margin" name="margin" value="${margin}" type="text" />
-				<br><span class="settings-title-caption"><?php echo __('When using two handles, the minimum distance between the handles can be set using the margin option', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('When using two handles, the minimum distance between the handles can be set using the margin option', 'framework'); ?></span>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 			<label class="settings-title">
@@ -250,7 +231,8 @@ class Range_slider_type extends Data_Type {
 			<div class="settings-in">
 				<input data-set="step" name="step" value="${step}" type="text" />
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -262,7 +244,8 @@ class Range_slider_type extends Data_Type {
 					<option {{if orientation == 'vertical'}} selected="true" {{/if}} value="vertical"><?php echo __('Vertical', 'framework'); ?></option>
 				</select>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -274,7 +257,8 @@ class Range_slider_type extends Data_Type {
 					<option {{if direction == 'rtl'}} selected="true" {{/if}} value="rtl"><?php echo __('Right-to-left', 'framework'); ?></option>
 				</select>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 
 		<?php parent::render_conditional_display(); ?>		
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>

@@ -202,11 +202,10 @@ class Fileupload_type extends Data_Type {
 		        <div class="settings-in">
 		            <input name="values" value="${values}" class="settings-input" type="text">
 
-		            <br><span class="settings-field-caption"></span>
-
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -224,15 +223,16 @@ class Fileupload_type extends Data_Type {
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
-		            <br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
@@ -240,7 +240,7 @@ class Fileupload_type extends Data_Type {
 		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label class="settings-title"> 
+		            <label> 
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -248,9 +248,10 @@ class Fileupload_type extends Data_Type {
 		                {{/if}}
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
 			<?php parent::render_conditional_display(); ?>
 		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
