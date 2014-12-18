@@ -21,7 +21,7 @@ if ( isset( $page['settings']['showPageTitle'] ) && $page['settings']['showPageT
 								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo $checked; ?> value="true">
 								<?php _e('Yes', 'framework'); ?>
 							</label>
-							<em><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'framework' ); ?></em>
+							<p class="description"><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'framework' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -79,7 +79,7 @@ foreach ( $capabilities as $roll => $capability ) {
 }
 ?>
 							</select>
-							<em><?php _e( 'Set the access permissions needed to view and edit the page.', 'framework' ); ?></em>
+							<p class="description"><?php _e( 'Set the access permissions needed to view and edit the page.', 'framework' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -99,7 +99,7 @@ foreach ( $menu as $key => $value ) {
 }
 ?>
 							</select>
-							<em><?php _e( 'Select the menu where this page should be added.', 'framework' ); ?></em>
+							<p class="description"><?php _e( 'Select the menu where this page should be added.', 'framework' ); ?></p>
 						</td>
 					</tr>
 					<tr>
@@ -108,7 +108,7 @@ foreach ( $menu as $key => $value ) {
 						</th>
 						<td>
 							<textarea name="pageDescription" ID="pageDescription"><?php echo isset( $page['settings']['pageDescription'] ) ? $page['settings']['pageDescription'] : ''; ?></textarea>
-							<em><?php _e( 'An optional description or help text. This will appear at the top of the page.', 'framework' ); ?></em>
+							<p class="description"><?php _e( 'An optional description or help text. This will appear at the top of the page.', 'framework' ); ?></p>
 						</td>
 					</tr>
 
