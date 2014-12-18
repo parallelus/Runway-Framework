@@ -4,7 +4,7 @@ class Font_select_type extends Data_Type {
 
 	public $type = 'font-select-type';
 	public static $type_slug = 'font-select-type';
-	public $label = 'Font select';
+	public $label = 'Font select (beta)';
 	
 	public function __construct($page, $field, $wp_customize = null, $alias = null, $params = null) {
 		
@@ -106,19 +106,23 @@ class Font_select_type extends Data_Type {
 			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $font_color; ?>" type="hidden"/>
 
 			<div class="<?php echo $this->field->alias; ?>">
-				<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
+				<a href="#" onclick="return false" class="edit-font-options-a button"><?php echo __('Edit Font Options', 'framework'); ?></a>
 				<div class="font-options-container pop" style="display:none">
 				<div class="settings-font-options-dialog">
 					<div class="toogle-font-select-container">
-							
-							<div class="settings-container">
-								<label class="settings-title">
-									<?php echo __('Preview text', 'framework'); ?>:
-								</label>
-								<div class="settings-in">
-									<input data-set="<?php echo $this->field->alias;?>[_previewText]" name="<?php echo $this->field->alias;?>[_previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
-								</div>
-							</div><div class="clear"></div>
+
+						<div class="settings-container preview-text-input">
+							<label class="settings-title">
+								<?php echo __('Preview text', 'framework'); ?>:
+							</label>
+							<div class="settings-in">
+								<input data-set="<?php echo $this->field->alias;?>[_previewText]" name="<?php echo $this->field->alias;?>[_previewText]" value="<?php echo $previewText; ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
+								<p class="settings-field-caption description"><?php echo __('Preview text.', 'framework'); ?></p>
+							</div>
+							<div class="clear"></div>
+						</div>
+
+						<div class="ui-dialog-content">
 
 							<div class="settings-container">
 								<label class="settings-title">
@@ -135,7 +139,8 @@ class Font_select_type extends Data_Type {
 										<?php } ?>
 									</select>
 								</div>
-							</div><div class="clear"></div>
+								<div class="clear"></div>
+							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
@@ -147,7 +152,8 @@ class Font_select_type extends Data_Type {
 										<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
 									</select>
 								</div>
-							</div><div class="clear"></div>
+								<div class="clear"></div>
+							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
@@ -155,9 +161,10 @@ class Font_select_type extends Data_Type {
 								</label>
 								<div class="settings-in">
 									<input data-set="<?php echo $this->field->alias;?>[_weight]" name="<?php echo $this->field->alias;?>[_weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select"  />
-									<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
+									<p class="settings-field-caption description"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></p>
 								</div>
-							</div><div class="clear"></div>
+								<div class="clear"></div>
+							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
@@ -165,9 +172,10 @@ class Font_select_type extends Data_Type {
 								</label>
 								<div class="settings-in">
 									<input data-set="<?php echo $this->field->alias;?>[_size]" name="<?php echo $this->field->alias;?>[_size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" />
-									<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
+									<p class="settings-field-caption description"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></p>
 								</div>
-							</div><div class="clear"></div>
+								<div class="clear"></div>
+							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
@@ -176,12 +184,13 @@ class Font_select_type extends Data_Type {
 								<div class="settings-in">
 									<input data-set="<?php echo $this->field->alias;?>[_color]" name="<?php echo $this->field->alias;?>[_color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex" data-type="font-select" />
 								</div>
-							</div><div class="clear"></div>
-
-							<div class="settings-container">
-								<input type="button" value="<?php echo __('Save font select settings', 'framework'); ?>" name="<?php echo $this->field->alias;?>_save"/>
-								<input type="button" value="<?php echo __('Cancel', 'framework'); ?>" name="<?php echo $this->field->alias;?>_cancel"/>
+								<div class="clear"></div>
 							</div>
+
+						</div>
+
+						<input class="button" type="button" value="<?php _e('Close', 'framework'); ?>" name="<?php echo $this->field->alias;?>_save"/>
+						<!-- <a href="#" class="<?php echo $this->field->alias;?>_cancel"><?php _e('Cancel', 'framework'); ?></a> -->
 
 					</div>
 					<script type="text/javascript">
@@ -269,12 +278,12 @@ class Font_select_type extends Data_Type {
     							}
   							});
 
-						    $('input[name=<?php echo $this->field->alias; ?>_cancel]').on('click', function(e) {
+						    /*$('.<?php echo $this->field->alias; ?>_cancel').on('click', function(e) {
 						    	e.preventDefault();
 								e.stopPropagation();
 						    	deselect($(this));
 						    //return false;
-						  	});
+						  	});*/
 						});
 					</script>					
 				</div>
@@ -299,22 +308,6 @@ class Font_select_type extends Data_Type {
 		$framework_dir = basename(FRAMEWORK_DIR);
 		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
 		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
-		
-		/*
-		$theme_directory = THEME_DIR;
-		$framework_directory = FRAMEWORK_DIR;
-				
-		$data_type_directory = str_replace('\\', '/', $data_type_directory);
-		$theme_directory = str_replace('\\', '/', $theme_directory);
-		$framework_directory = str_replace('\\', '/', $framework_directory);
-		
-		if(strstr($data_type_directory, $theme_directory)) {
-			$current_data_type_dir = str_replace($theme_directory, '', $data_type_directory);
-		}
-		else {
-			$current_data_type_dir = str_replace($framework_directory, '', $data_type_directory);
-		}
-		*/
 		
 		wp_register_style('font_select_type_css', FRAMEWORK_URL . $current_data_type_dir . '/css/font-select-type.css');
 		wp_enqueue_style('font_select_type_css');
@@ -379,25 +372,20 @@ class Font_select_type extends Data_Type {
 				<br><span class="settings-title-caption"></span>
 			</label>
 			<div class="settings-in">
-
-				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
-
-				<br><span class="settings-field-caption"></span>
-			
+				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">			
 			</div>
-
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
 				<?php echo __('Family', 'framework'); ?>:
 			</label>
 			<div class="settings-in">
-
 				<input data-set="family" name="family" value="{{if family == ''}}Open Sans{{else}}${family}{{/if}}" type="text" />
-				<br><span class="settings-title-caption"></span>				
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -405,9 +393,10 @@ class Font_select_type extends Data_Type {
 			</label>
 			<div class="settings-in">
 				<input data-set="weight" name="weight" value="{{if weight == ''}}bold{{else}}${weight}{{/if}}" type="text" />
-				<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<div class="settings-container">
 			<label class="settings-title">
@@ -415,9 +404,10 @@ class Font_select_type extends Data_Type {
 			</label>
 			<div class="settings-in">
 				<input data-set="size" name="size" value="{{if size == '' }}32px{{else}}${size}{{/if}}" type="text" />
-				<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
 			</div>
-		</div><div class="clear"></div>
+			<div class="clear"></div>
+		</div>
 		
 		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>

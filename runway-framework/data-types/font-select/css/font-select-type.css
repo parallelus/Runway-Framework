@@ -1,4 +1,4 @@
-
+a.button.edit-font-options-a { margin: 10px 0 6px; }
 
 .edit-font-options-inner {
     background-color: #fafafa;
@@ -33,23 +33,12 @@
 }
 
 
-.toogle-font-select-container .settings-container .settings-in input[type=text], 
+.toogle-font-select-container .settings-container .settings-in input[type=text]:not(.wp-color-picker), 
 .toogle-font-select-container .settings-container .settings-in select, 
 .toogle-font-select-container .settings-container .settings-in textarea {
     width: 100%;
 }
 
-.font-options-container {
-  background-color:#FFFFFF;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
-  
-  cursor:default;
-  display:none;
-  margin-top: 5px;
-  position:absolute;
-  text-align:left;
-  width:394px;
-  z-index:50;
-  padding: 25px 25px 20px;
-}
+.preview-text-input .settings-title { display: none; }
+.toogle-font-select-container .settings-container.preview-text-input .settings-in { float: none; width: 100%; }
+.toogle-font-select-container .settings-container.preview-text-input .settings-in input { font-size: 20px; }

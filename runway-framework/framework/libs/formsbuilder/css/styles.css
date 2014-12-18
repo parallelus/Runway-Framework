@@ -10,7 +10,6 @@
 	font-weight: bold; 
 	border-bottom: 1px solid #ddd;
 	padding: 0 0 10px;
-	margin-top: 30px;
 	margin-bottom: 0;
 }
 .settings-container.section-heading .settings-field-caption {
@@ -111,8 +110,7 @@
 	color: #999;
 }
 .settings-field-caption {
-	margin-bottom: 15px;
-	display: inline-block; 
+	display: block; 
 }
 #theme-framework #pageDescription {
 	width: 425px;
