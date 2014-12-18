@@ -83,7 +83,7 @@ class Font_select_type extends Data_Type {
 		}
 		?>
 
-		<div class="<?php echo $this->field->alias; ?>">
+		<div class="<?php echo $this->field->alias; ?> custom-data-type">
 
 			<div style="font-family: 
 					<?php echo $font_family;?>; 
@@ -98,12 +98,12 @@ class Font_select_type extends Data_Type {
 					<?php echo ($previewText != '') ? $previewText : ucwords(str_replace('-', ' ', $font_family));?>
 			</div>
 
-			<input data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" value="<?php echo $font_family; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" value="<?php echo $font_style; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php echo $font_weight; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php echo $font_size; ?>" type="hidden"/>
-			<input data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $font_color; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[previewText]" name="<?php echo $this->field->alias;?>[previewText]" value="<?php echo $previewText; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[family]" name="<?php echo $this->field->alias;?>[family]" value="<?php echo $font_family; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[style]" name="<?php echo $this->field->alias;?>[style]" value="<?php echo $font_style; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[weight]" name="<?php echo $this->field->alias;?>[weight]" value="<?php echo $font_weight; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[size]" name="<?php echo $this->field->alias;?>[size]" value="<?php echo $font_size; ?>" type="hidden"/>
+			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo $this->field->alias;?>[color]" name="<?php echo $this->field->alias;?>[color]" value="<?php echo $font_color; ?>" type="hidden"/>
 
 			<div class="<?php echo $this->field->alias; ?>">
 				<a href="#" onclick="return false" class="edit-font-options-a"><?php echo __('Edit Font Options', 'framework'); ?></a>
@@ -125,7 +125,7 @@ class Font_select_type extends Data_Type {
 									<?php echo __('Family', 'framework'); ?>:
 								</label>
 								<div class="settings-in">
-									<select data-set="<?php echo $this->field->alias;?>[_family]" name="<?php echo $this->field->alias;?>[_family]" data-type="font-select" class="settings-select custom-data-type">
+									<select data-set="<?php echo $this->field->alias;?>[_family]" name="<?php echo $this->field->alias;?>[_family]" data-type="font-select" class="settings-select">
 										<?php if(is_array($google_fonts) && !empty($google_fonts)) { ?>
 										<?php foreach($google_fonts as $font) { ?>
 										<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo $font; ?>"><?php echo $font; ?></option>
@@ -142,7 +142,7 @@ class Font_select_type extends Data_Type {
 									<?php echo __('Style', 'framework'); ?>:
 								</label>
 								<div class="settings-in">
-									<select data-set="<?php echo $this->field->alias;?>[_style]" name="<?php echo $this->field->alias;?>[_style]" data-type="font-select" class="settings-select custom-data-type">
+									<select data-set="<?php echo $this->field->alias;?>[_style]" name="<?php echo $this->field->alias;?>[_style]" data-type="font-select" class="settings-select">
 										<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'framework'); ?></option>
 										<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
 									</select>
@@ -154,7 +154,7 @@ class Font_select_type extends Data_Type {
 									<?php echo __('Weight', 'framework'); ?>:
 								</label>
 								<div class="settings-in">
-									<input data-set="<?php echo $this->field->alias;?>[_weight]" name="<?php echo $this->field->alias;?>[_weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select" class="custom-data-type" />
+									<input data-set="<?php echo $this->field->alias;?>[_weight]" name="<?php echo $this->field->alias;?>[_weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo $font_weight; }?>" type="text" data-type="font-select"  />
 									<br><span class="settings-title-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
 								</div>
 							</div><div class="clear"></div>
@@ -164,7 +164,7 @@ class Font_select_type extends Data_Type {
 									<?php echo __('Size', 'framework'); ?>:
 								</label>
 								<div class="settings-in">
-									<input data-set="<?php echo $this->field->alias;?>[_size]" name="<?php echo $this->field->alias;?>[_size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" class="custom-data-type" />
+									<input data-set="<?php echo $this->field->alias;?>[_size]" name="<?php echo $this->field->alias;?>[_size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo $font_size; }?>" type="text" data-type="font-select" />
 									<br><span class="settings-title-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
 								</div>
 							</div><div class="clear"></div>
@@ -174,7 +174,7 @@ class Font_select_type extends Data_Type {
 									<?php echo __('Color', 'framework'); ?>:
 								</label>
 								<div class="settings-in">
-									<input data-set="<?php echo $this->field->alias;?>[_color]" name="<?php echo $this->field->alias;?>[_color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex custom-data-type" data-type="font-select" />
+									<input data-set="<?php echo $this->field->alias;?>[_color]" name="<?php echo $this->field->alias;?>[_color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex" data-type="font-select" />
 								</div>
 							</div><div class="clear"></div>
 

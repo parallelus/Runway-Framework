@@ -273,18 +273,18 @@ jQuery(function() {
                     targetvalue = [],
                     targetaction = [];
 
-                if( $(this).is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' ) {
+                if( el_watch.is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' ) {
                     targetalias = $.parseJSON(el_watch.attr('data-targetalias'));
                 }
                 targetalias.push($(this).attr('name'));
                 el_watch.attr('data-targetalias', JSON.stringify(targetalias));
 
-                if( $(this).is('[data-targetvalue]') && typeof el_watch.attr('data-targetvalue') !== 'undefined' )
+                if( el_watch.is('[data-targetvalue]') && typeof el_watch.attr('data-targetvalue') !== 'undefined' )
                     targetvalue = $.parseJSON(el_watch.attr('data-targetvalue'));
                 targetvalue.push(value);
                 el_watch.attr('data-targetvalue', JSON.stringify(targetvalue));
 
-                if( $(this).is('[data-targetaction]') && typeof el_watch.attr('data-targetaction') !== 'undefined' )
+                if( el_watch.is('[data-targetaction]') && typeof el_watch.attr('data-targetaction') !== 'undefined' )
                     targetaction = $.parseJSON(el_watch.attr('data-targetaction'));
                 targetaction.push(action);
                 el_watch.attr('data-targetaction', JSON.stringify(targetaction));
