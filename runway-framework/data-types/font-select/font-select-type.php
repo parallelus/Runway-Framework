@@ -269,7 +269,7 @@ class Font_select_type extends Data_Type {
     							}
   							});
 
-						    $('input[name=<?php echo $this->field->alias; ?>_cancel').on('click', function(e) {
+						    $('input[name=<?php echo $this->field->alias; ?>_cancel]').on('click', function(e) {
 						    	e.preventDefault();
 								e.stopPropagation();
 						    	deselect($(this));
