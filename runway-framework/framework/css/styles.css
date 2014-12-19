@@ -168,10 +168,15 @@
     height: 320px;
 }
 
-/* Development Helpers */
+/* Development Helpers (code snippets) */
 .data-function {
-    background: #eaf6fb;
-    border: 1px solid #dff2fb;
+    background: #EFFAFF;
+    border: 1px solid #C8DBE3;
+    color: #517584;
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin: 3px 0;
+    display: inline-block;
 }
 
 /* Popup and Dialog Defaults
