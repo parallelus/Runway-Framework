@@ -13,7 +13,20 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 	}
 
 	function after_settings_init() {
+		global $shortname;
 		/* nothing */
+
+		wp_enqueue_script('rw_nouislider');		
+		wp_enqueue_style('rw_nouislider_css');	
+		$option_key = $shortname.$this->slug;
+		$options = get_option($option_key);
+
+		if(isset($options['field_types']) && !empty($options['field_types'])) {
+			foreach($options['field_types'] as $key => $value) {
+				if($value == 'font-select-type')
+					$fonts = get_font_options_data($this->slug, $key);
+			}
+		}
 	}
 
 	function do_error_message( $field_information ) {

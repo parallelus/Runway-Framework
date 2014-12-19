@@ -93,7 +93,7 @@ class Colorpicker_type extends Data_Type {
 			}
 		?>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-			<input class="color-picker-hex custom-data-type" <?php echo $section; ?> data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="<?php echo $input_value; ?>" />
+			<input class="color-picker-hex custom-data-type" <?php echo $section; ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="<?php echo $input_value; ?>" />
 			<script type="text/javascript">
 				(function () {
 
@@ -181,9 +181,9 @@ class Colorpicker_type extends Data_Type {
 		    </label>
 		    <div class="settings-in">
 			<input name="values" value="${values}" class="settings-input color-picker" type="text" maxlength="7">
-			<br><span class="settings-field-caption"></span>
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 
 		<div class="settings-container">
 		    <label class="settings-title">
@@ -192,22 +192,23 @@ class Colorpicker_type extends Data_Type {
 		    </label>
 		    <div class="settings-in">
 
-			<label>
-			    {{if required == 'Yes'}}
-			    <input data-set="required" name="required" value="Yes" checked="true" type="checkbox">
-			    {{else}}
-			    <input data-set="required" name="required" value="Yes" type="checkbox">
-			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
-			</label>
+				<label>
+				    {{if required == 'Yes'}}
+				    <input data-set="required" name="required" value="Yes" checked="true" type="checkbox">
+				    {{else}}
+				    <input data-set="required" name="required" value="Yes" type="checkbox">
+				    {{/if}}
+				    <?php echo __('Yes', 'framework'); ?>
+				</label>
 
-			<br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
+				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
 
-			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+				<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-			<br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
+				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 
 		<!-- Repeating settings -->
 		<div class="settings-container">
@@ -215,18 +216,20 @@ class Colorpicker_type extends Data_Type {
 				<?php echo __('Repeating', 'framework'); ?>:
 		    </label>
 		    <div class="settings-in">
-			<label class="settings-title"> 
-			    {{if repeating == 'Yes'}}
-				<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
-			    {{else}}
-				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
-			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
-			</label>
-			<br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+				<label> 
+				    {{if repeating == 'Yes'}}
+					<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+				    {{else}}
+					<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+				    {{/if}}
+				    <?php echo __('Yes', 'framework'); ?>
+				</label>
+			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		    </div>
-		</div><div class="clear"></div>
+		    <div class="clear"></div>
+		</div>
 
+		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>

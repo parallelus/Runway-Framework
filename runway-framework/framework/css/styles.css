@@ -123,7 +123,8 @@
     font-weight: bold;
 }
 #theme-framework table.form-table td p.description,
-#theme-framework table.form-table th p.description {
+#theme-framework table.form-table th p.description,
+#theme-framework .settings-field-caption {
     color: #999;
     font-weight: 300;
 }
@@ -167,10 +168,15 @@
     height: 320px;
 }
 
-/* Development Helpers */
+/* Development Helpers (code snippets) */
 .data-function {
-    background: #eaf6fb;
-    border: 1px solid #dff2fb;
+    background: #EFFAFF;
+    border: 1px solid #C8DBE3;
+    color: #517584;
+    border-radius: 3px;
+    padding: 3px 6px;
+    margin: 3px 0;
+    display: inline-block;
 }
 
 /* Popup and Dialog Defaults
@@ -184,7 +190,7 @@
     z-index: 30;
 }
 .ui-widget-overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -268,7 +274,7 @@ div.ui-dialog-content,
     width: 24px;
     margin: -16px 0 0 0;
     padding: 3px;
-    height: 23px;
+    height: 24px;
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding-box;
     background-clip: padding-box;
@@ -297,8 +303,12 @@ div.ui-dialog-content,
 /* Data Type Specific
 ====================================== */
 .wp-picker-container .iris-picker,
-#ui-datepicker-div.ui-datepicker {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .3);
+#ui-datepicker-div.ui-datepicker,
+#theme-framework .font-options-container {
+	box-shadow: 0 2px 9px rgba(0, 0, 0, .25);
+	border-color: #c2c2c2 #c2c2c2 #bdbdbd;
+	background-color: #f5f5f5;
+	border-radius: 3px;
 }
 
 /* Color Picker (WP Default) */
@@ -306,11 +316,26 @@ div.ui-dialog-content,
     position: absolute;
     z-index: 100;
 }
-.wp-picker-container .iris-picker {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .3);
-}
 .wp-color-result {
     top: 0; /* fixes shifting on open/close */
+}
+
+/* Font Picker (custom) */
+.font-options-container {
+	border-width: 1px;
+	border-style: solid;
+	cursor:default;
+	display:none;
+	margin-top: 5px;
+	position:absolute;
+	text-align:left;
+	width: 394px;
+	z-index: 50;
+	padding: 15px
+}
+.font-options-container .ui-dialog-content {
+	padding: 15px 15px 0;
+	margin-bottom: 15px;
 }
 
 /* Color Picker (custom) */
@@ -357,7 +382,7 @@ div.ui-dialog-content,
     border: 1px solid #dfdfdf;
     border-width: 0;
     margin: 1px 3px 1px 1px;
-    padding: 5px;
+    padding: 10px 8px 5px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;
@@ -373,7 +398,7 @@ div.ui-dialog-content,
     border-color: #bbb
 }
 .radio-image.checked {
-    background: #efefef
+    background: #fff
 }
 .radio-image p {
     margin: 0;
@@ -387,6 +412,7 @@ div.ui-dialog-content,
 
 /* Date Picker */
 #ui-datepicker-div.ui-datepicker {
+	display: none;
     padding: 10px;
     z-index: 999999 !important;
 }

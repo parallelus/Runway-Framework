@@ -125,7 +125,7 @@ class Fileupload_type extends Data_Type {
 		}
 		?>
 		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-		<input id="upload_image-<?php echo $this->field->alias; ?>" class="custom-data-type" <?php echo $section; ?> data-type="fileupload-type" type="text" size="36" name="<?php echo $this->field->alias; ?>" value="<?php echo @stripslashes( $input_value ); ?>" <?php $this->link(); ?> />
+		<input id="upload_image-<?php echo $this->field->alias; ?>" class="custom-data-type" <?php echo $section; ?> data-type="fileupload-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" size="36" name="<?php echo $this->field->alias; ?>" value="<?php echo @stripslashes( $input_value ); ?>" <?php $this->link(); ?> />
 
 		<span class="field_label">
 			<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
@@ -164,7 +164,8 @@ class Fileupload_type extends Data_Type {
 						file_frame.on( 'select', function() {
 							attachment = file_frame.state().get('selection').first().toJSON();
 							attached_input.val(attachment.url);
-                                                        
+							attached_input.trigger('change');
+							
 							if ( wp.customize ) {
 								var api = wp.customize;
 								var mysetting = api.instance(attached_input.attr('name'));
@@ -201,11 +202,10 @@ class Fileupload_type extends Data_Type {
 		        <div class="settings-in">
 		            <input name="values" value="${values}" class="settings-input" type="text">
 
-		            <br><span class="settings-field-caption"></span>
-
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -223,15 +223,16 @@ class Fileupload_type extends Data_Type {
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
-		            <br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
@@ -239,7 +240,7 @@ class Fileupload_type extends Data_Type {
 		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label class="settings-title"> 
+		            <label> 
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -247,10 +248,12 @@ class Fileupload_type extends Data_Type {
 		                {{/if}}
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
+			<?php parent::render_conditional_display(); ?>
 		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 		</script>

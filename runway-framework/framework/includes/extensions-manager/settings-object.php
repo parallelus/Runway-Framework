@@ -504,7 +504,7 @@ class Extm_Admin extends Runway_Admin_Object {
 		$zip = new ZipArchive();
 		$res = $zip->open($file);
 
-		if ( $upload_dir['path'].'/'.file_exists( $file ) ) {
+		if ( file_exists( $file ) ) {
 			if ( is_writable( $this->extensions_dir ) ) {
 				if(unzip_file($file, $this->extensions_dir) !== true) {
 					return __( 'Install error', 'framework' ).': '.$zip->getStatusString();
@@ -516,7 +516,7 @@ class Extm_Admin extends Runway_Admin_Object {
 
 					if ( $zip->status == 0 ) {
 						do_action( 'after_load_extension' );
-						return __( 'Extension', 'framework' ).' <b>'.$ext_info['Name'].'</b> '.__( 'has been installed. Do you want to activate it', 'framework' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it', 'framework' ).'</a>?';
+						return __( 'Extension', 'framework' ).' <b>'.$ext_info['Name'].'</b> '.__( 'has been installed. Do you want to activate it? ', 'framework' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it', 'framework' ).'</a>?';
 					}
 					else {
 						return __( 'Install error', 'framework' ).': '.$zip->getStatusString();

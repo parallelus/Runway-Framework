@@ -18,7 +18,7 @@ if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_versio
 wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css');
 wp_enqueue_script('dashicons', FRAMEWORK_URL.'framework/includes/themes-manager/js/dashicons.js');
 
-$custom_icon_src = file_exists(get_home_path() . 'wp-content/themes/' . $Folder . '/custom-icon.png')? home_url() . '/wp-content/themes/' . $Folder . '/custom-icon.png' : '';
+$custom_icon_src = isset($Folder)? (file_exists(get_home_path() . 'wp-content/themes/' . $Folder . '/custom-icon.png')? home_url() . '/wp-content/themes/' . $Folder . '/custom-icon.png' : '') : '';
 
 // A few defaults and error checking
 $Name = (isset($Name)) ? $Name : '';

@@ -590,7 +590,7 @@ if ( !defined( $runway_framework_admin ) ) {
 					}					
 					$this->set_data( $arr, $keys );
 					$this->save_data();
-					$this->message = __( 'Saved!', 'more_plugins' );
+					$this->message = __( 'Saved!', 'framework' );
 				}
 			}
 

@@ -80,7 +80,7 @@ case 'add-extension':{
 					$exploded = explode( '.', $_FILES['extzip']['name'] );
 					$file_ext = array_pop( $exploded );
 					if ( $file_ext == 'zip' ) {
-						$info_message = $extm->load_new_extension( $_FILES['extzip'] );
+						$info_message = $extm->load_new_extension( $_FILES['extzip']['tmp_name'] );
 						$exts = $extm->get_extensions_list( $extm->extensions_dir );
 						include_once 'views/admin-home.php';
 					}

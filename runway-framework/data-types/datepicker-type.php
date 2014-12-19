@@ -87,6 +87,7 @@ class Datepicker_type extends Data_Type {
 		<?php
 		} else { 
 			$input_value = ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : '';
+			//$input_value_unformatted =date_format(date_create($input_value), 'm/d/Y') );
 			if(!is_string($input_value) && !is_numeric($input_value)) {
 				if(is_array($input_value) && isset($input_value[0]))
 					$input_value = $input_value[0];
@@ -122,6 +123,7 @@ class Datepicker_type extends Data_Type {
 				value="<?php echo $input_value ?>"
 				<?php echo $section; ?>
 				data-format="<?php echo stripslashes( $this->field->format ); ?>"
+				<?php echo parent::add_data_conditional_display($this->field); ?>
 				data-changeMonth="<?php echo stripslashes( $this->field->changeMonth ); ?>"
 				data-changeYear="<?php echo stripslashes( $this->field->changeYear ); ?>"
 				data-type="datepicker-type" />
@@ -152,13 +154,13 @@ class Datepicker_type extends Data_Type {
 		                <option {{if format == "dd M, y"}} selected="true" {{/if}} value="dd M, y"><?php echo __('Short', 'framework'); ?> - dd M, y</option>
 		                <option {{if format == "dd MM, y"}} selected="true" {{/if}} value="dd MM, y"><?php echo __('Medium', 'framework'); ?> - dd MM, y</option>
 		                <option {{if format == "DD, dd MM, yy"}} selected="true" {{/if}} value="DD, dd MM, yy"><?php echo __('Full', 'framework'); ?> - DD, dd MM, yy</option>
-		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy"><?php echo __('With text', 'framework'); ?> - '<?php echo __('day', 'framework'); ?>' d '<?php echo __('of', 'framework'); ?>' MM '<?php echo __('in the year', 'framework'); ?> yy</option>
+		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy"><?php echo __('With text', 'framework'); ?> - '<?php echo __("day", "framework"); ?>' d '<?php echo __("of", "framework"); ?>' MM '<?php echo __("in the year", "framework"); ?>' yy</option>
 		            </select>
-		            <br><span class="settings-field-caption"></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -174,11 +176,12 @@ class Datepicker_type extends Data_Type {
 		                       data-changeYear="true"/>
 		                <input type="hidden" id="datepicker-custom-format" value="${values}" />
 		            </div>
-		            <span class="settings-field-caption"><?php echo __('You can input default value respectively with selected in format field', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('You can input default value respectively with selected in format field.', 'framework'); ?></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -196,15 +199,16 @@ class Datepicker_type extends Data_Type {
 		                Yes
 		            </label>
 
-		            <br><span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?>.</span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <br><span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -223,11 +227,10 @@ class Datepicker_type extends Data_Type {
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
-		            <br><span class="settings-field-caption"></span><br>
-
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <div class="settings-container">
 		        <label class="settings-title">
@@ -245,11 +248,10 @@ class Datepicker_type extends Data_Type {
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
 
-		            <br><span class="settings-field-caption"></span><br>
-
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
@@ -257,7 +259,7 @@ class Datepicker_type extends Data_Type {
 		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label class="settings-title"> 
+		            <label> 
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -265,10 +267,12 @@ class Datepicker_type extends Data_Type {
 		                {{/if}}
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
+			<?php parent::render_conditional_display(); ?>
 		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 		</script>

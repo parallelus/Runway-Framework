@@ -56,7 +56,7 @@ class Checkbox_bool_type extends Data_Type {
 				<legend class="customize-control-title"><span><?php echo __(stripslashes( $this->field->title ), 'framework'); ?></span></legend>
 				<input type="hidden" value="false" name="<?php echo $this->field->alias ?>"  />
 				<label>
-					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo $section; ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo $this->field->alias ?>" <?php  if ( $this->get_value() == 'true' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>
+					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo $section; ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo $this->field->alias ?>" <?php  if ( $this->get_value() == 'true' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>
 				</label>
 			</fieldset> 
 		<?php
@@ -86,10 +86,9 @@ class Checkbox_bool_type extends Data_Type {
 						{{/if}}
 						<?php echo __('Checked', 'framework'); ?>
 					</label>
-
-					<br><span class="settings-field-caption"></span>
 				</div>
-			</div><div class="clear"></div>
+				<div class="clear"></div>
+			</div>
 
 			 <!-- Repeating settings -->
 		    <div class="settings-container">
@@ -97,7 +96,7 @@ class Checkbox_bool_type extends Data_Type {
 					<?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		        	<label class="settings-title"> 
+		        	<label> 
 	                	{{if repeating == 'Yes'}}
 		                	<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -105,10 +104,12 @@ class Checkbox_bool_type extends Data_Type {
 		                {{/if}}
 						<?php echo __('Yes', 'framework'); ?>
 	                </label>
-	                <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+	                <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
+			<?php parent::render_conditional_display(); ?>
 			<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 		</script>

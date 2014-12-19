@@ -98,41 +98,41 @@ if ( !empty( $fields ) ) :
 			continue;
 		}
 
-	$title = stripslashes( __( htmlspecialchars_decode( $elements->$field->title ), 'framework' ) );
+		$title = stripslashes( __( htmlspecialchars_decode( $elements->$field->title ), 'framework' ) );
 
-$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
-$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
+		$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
+		$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
 
-if ( $developerMode ) {
+		if ( $developerMode ) {
 
-	$field_alias = $elements->$field->alias;
-	if ( $custom_alias != null ) {
-		$alias = $custom_alias;
-	}
-	$title = apply_filters('formsbuilder_name_attr_title', '', $field_alias, $title, $alias);
-	$fieldCaption = apply_filters('formsbuilder_dev_description', '', $fieldCaption, $field_alias, $alias);
-}
+			$field_alias = $elements->$field->alias;
+			if ( $custom_alias != null ) {
+				$alias = $custom_alias;
+			}
+			$title = apply_filters('formsbuilder_name_attr_title', '', $field_alias, $title, $alias);
+			$fieldCaption = apply_filters('formsbuilder_dev_description', '', $fieldCaption, $field_alias, $alias);
+		}
 
-$fieldType = 'dynamic_'.$elements->$field->type;
+		$fieldType = 'dynamic_'.$elements->$field->type;
 
-if ( !$elements->$field->type ) {
-	continue;
-}
+		if ( !$elements->$field->type ) {
+			continue;
+		}
 
-if ( method_exists( $options_object, $fieldType ) ) {
-	$field = $options_object->$fieldType( $elements->$field );
-} else {
-	$elements->$field = apply_filters( 'before-dynamic-field-render_' . $elements->$field->alias, $elements->$field );
-	$field = $options_object->dynamic_template_field( $elements->$field );
-}
+		if ( method_exists( $options_object, $fieldType ) ) {
+			$field = $options_object->$fieldType( $elements->$field );
+		} else {
+			$elements->$field = apply_filters( 'before-dynamic-field-render_' . $elements->$field->alias, $elements->$field );
+			$field = $options_object->dynamic_template_field( $elements->$field );
+		}
 
-$row = array(
-	$title . $titleCaption,
-	$field . $fieldCaption,
-);
+		$row = array(
+			$title . $titleCaption,
+			$field . $fieldCaption,
+		);
 
-$options_object->html->setting_row( $row );
-endforeach;
+		$options_object->html->setting_row( $row );
+	endforeach;
 endif;
 
 // End of container

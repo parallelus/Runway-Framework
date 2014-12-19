@@ -12,11 +12,10 @@
 
                 <input data-set="title" name="title" value="${title}" class="settings-input" type="text">
 
-                <br><span class="settings-field-caption"></span>
-
             </div>
+            <div class="clear"></div>
 
-        </div><div class="clear"></div>
+        </div>
 
         <div class="settings-container">
             <label class="settings-title">
@@ -26,8 +25,6 @@
             <div class="settings-in">
 
                 <input data-set="titleCaption" name="titleCaption" value="${titleCaption}" class="settings-input" type="text">
-
-                <br><span class="settings-field-caption"></span>
 
             </div>
 
@@ -42,11 +39,10 @@
 
                 <input data-set="alias" name="alias" value="${alias}" class="settings-input" type="text">
 
-                <br><span class="settings-field-caption"></span>
-
             </div>
+            <div class="clear"></div>
 
-        </div><div class="clear"></div>
+        </div>
 
         <div class="settings-container">
             <label class="settings-title">
@@ -78,11 +74,12 @@
 
                 </select>
 
-                <br><span class="settings-field-caption"></span>
+                <span class="settings-field-caption"></span>
 
             </div>
+            <div class="clear"></div>
 
-        </div><div class="clear"></div>
+        </div>
 
         <div class="settings-container">
             <label class="settings-title">
@@ -93,11 +90,12 @@
 
                 <input data-set="fieldCaption" name="fieldCaption" value="${fieldCaption}" class="settings-input" type="text">
 
-                <br><span class="settings-field-caption"></span>
+                <span class="settings-field-caption"></span>
 
             </div>
+            <div class="clear"></div>
 
-        </div><div class="clear"></div>
+        </div>
 
         <span class="field-settings-form-middle-section"></span>
     </form>

@@ -128,7 +128,7 @@ class FormsBuilder {
 						$_this->data_types = array();
 
 						if ( !file_exists( $data_types_path ) || !file_exists( $data_types_base ) ) {
-							wp_die( "Error: data types" );
+							wp_die( __('Error: data types', 'framework') );
 						} else {
 							include_once $data_types_base;
 							

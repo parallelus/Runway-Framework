@@ -226,27 +226,31 @@ if ( !function_exists( 'options_data' ) ) {
 
 if( !function_exists( 'get_font_options_data' )) {
 	function get_font_options_data( $key, $option = false, $default = null ) {
-		
+
 		$font_options = get_options_data( $key, $option, $default );
-		
-		$options_str = $font_options['family'];
-		if($font_options['style'] == 'italic' || $font_options['weight'] != '') {
-			$options_str .= ':';
-			if($font_options['weight'] == 'bold' && $font_options['style'] == 'italic') {
-				$options_str .= "bolditalic";
-			}
-			else if($font_options['style'] == 'italic' && $font_options['weight'] != '' ){
-				$options_str .= 'italic'.$font_options['weight'];
-			}
-			else if($font_options['style'] == 'italic') {
-				$options_str .= 'italic';
-			}
-			else if($font_options['weight'] != '') {
-				$options_str .= $font_options['weight'];
-			}
-		}
+
+		$options_str = str_replace(' ', '+', trim($font_options['family']));
+		// if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
+		// 	$options_str .= ':'.$font_options['weight'];
+		// }
+		// if($font_options['style'] == 'italic' || $font_options['weight'] != '') {
+		// 	$options_str .= ':';
+		// 	if($font_options['weight'] == 'bold' && $font_options['style'] == 'italic') {
+		// 		$options_str .= "bolditalic";
+		// 	}
+		// 	else if($font_options['style'] == 'italic' && $font_options['weight'] != '' ){
+		// 		$options_str .= 'italic'.$font_options['weight'];
+		// 	}
+		// 	else if($font_options['style'] == 'italic') {
+		// 		$options_str .= 'italic';
+		// 	}
+		// 	else if($font_options['weight'] != '') {
+		// 		$options_str .= $font_options['weight'];
+		// 	}
+		// }
 		$query_args = array( 'family' => $options_str );
-		wp_enqueue_style( 'google-font', add_query_arg( $query_args, "//fonts.googleapis.com/css" ), array(), null );
+		wp_enqueue_style( 'google-font-'.$options_str , add_query_arg( $query_args, "//fonts.googleapis.com/css" ), array(), null );
+
 		return $font_options;
 	}
 }
@@ -953,10 +957,10 @@ function ask_new_theme( $old_theme, $new_theme, $link) {
 	?>
 	<div class="error">
 		<p><strong>
-		We noticed this theme was previously named <i><?php echo $old_theme; ?></i> but is now named <i><?php echo $new_theme; ?></i>.<br>
-		If this is a new theme you should create a new unique ID for the data file to avoid any data collisions.<br>
-		If this is the same theme and you are just renaming it, you should keep this ID the same.<br>
-		Do you want to create a new ID now?</strong>
+		<?php echo __('We noticed this theme was previously named', 'framework') . '<i> ' . $old_theme. '</i> '. __('but is now named', 'framework') . ' <i>' . $new_theme . '</i>.<br>' .
+		__('If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'framework') . '.<br>' .
+		__('If this is the same theme and you are just renaming it, you should keep this ID the same' , 'framework') . '.<br>' .
+		__('Do you want to create a new ID now?', 'framework') . '</strong>'; ?>
 		<a href="<?php echo add_query_arg( 'create-theme-id', 1, $link ); ?>"><?php _e('Yes', 'framework') ?></a>
 		<a href="<?php echo add_query_arg( 'create-theme-id', 0, $link ); ?>"><?php _e('No', 'framework') ?></a>
 		</p>
@@ -977,26 +981,21 @@ function check_theme_ID( $folder = false ) {
 		$themeInfo = rw_get_theme_data();
 		$theme_name_stylecss = $themeInfo['Name'];
 
-		// $is_prefix_ID = ( isset($settings['ThemeID']) && isset($settings['isPrefixID']) )? $settings['isPrefixID'] : false;
 		if( isset($settings['ThemeID']) ) {
-			//if( !isset($settings['isPrefixID']) || (isset($settings['isPrefixID']) && !$settings['isPrefixID']) ) {
-				$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
-				if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
-					//$settings['isPrefixID'] = true;
-					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
-					//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );		
-				}
-			//}
+			$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
+			if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
+				$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
+			}
 		}
+
+		if(empty($theme_name_stylecss))
+			$theme_name_stylecss = __('Unknown Theme (Theme Name in style.css is empty)', 'framework');
 
 		if( isset($settings['Name']) && $theme_name_stylecss != $settings['Name'] ) {
 
-			$link = admin_url('admin.php?page=themes');
-			//$link = home_url().$_SERVER['REQUEST_URI'];
-
+			$link = (IS_CHILD)? admin_url('admin.php?page=themes') : admin_url('themes.php');
 			if(isset($_GET['create-theme-id'])) {
 				if($_GET['create-theme-id']) {
-					//$theme_prefix_old = $settings['ThemeID'];
 					$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : $shortname;
 					$theme_id = create_theme_ID();
 					$settings['ThemeID'] = $theme_id;
@@ -1004,13 +1003,11 @@ function check_theme_ID( $folder = false ) {
 				  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
 				  		$settings['Name'] = $theme_name_stylecss;
 						$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
-				  		//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
 				  	}
 			  	}
 			  	else {
 					$settings['Name'] = $theme_name_stylecss;
 					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
-					//file_put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode($settings) );
 			  	}
 				$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
 				echo $redirect;

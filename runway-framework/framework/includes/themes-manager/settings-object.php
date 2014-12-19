@@ -331,13 +331,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		}
 
 		// check if have new custom icon and if true move file to theme folder
-		if ( $_FILES['theme_options']['name']['CustomIcon'] != '' /*||
-			 $_FILES['theme_options']['type']['CustomIcon'] == 'image/png' ||
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/x-png' || 
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/gif' || 
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpeg' || 
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/jpg' || 
-	         $_FILES['theme_options']['type']['CustomIcon'] == 'image/pjpeg'*/ ) {
+		if ( $_FILES['theme_options']['name']['CustomIcon'] != '' ) {
 
 			imagepng(
 				imagecreatefromstring(
@@ -352,25 +346,6 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	             $image->resize(16, 16);
     	         $image->save($this->themes_path . '/' . $options['Folder'] . '/custom-icon.png');
 	        }
-
-			// $image = $this->themes_path . '/' . $options['Folder'] . '/tmp.png';
-			// $new_image = $this->themes_path . '/' . $options['Folder'] . '/custom-icon.png';
-
-			// $size = getimagesize( $image );
-			// $width = 24; //*** Fix Width & Heigh (Autu caculate) ***//
-			// $height = round( $width*$size[1]/$size[0] );
-
-			// $images_orig = imagecreatefrompng( $image );
-			// $photoX = imagesx( $images_orig );
-			// $photoY = imagesy( $images_orig );
-
-			// $images_fin = imagecreatetruecolor( $width, $height );
-			// imagecopyresampled( $images_fin, $images_orig, 0, 0, 0, 0, $width+1, $height+1, $photoX, $photoY );
-
-			// imagepng( $images_fin, $new_image );
-			// imagedestroy( $images_orig );
-			// imagedestroy( $images_fin );
-			// unlink( $image );
 
 			$options['CustomIcon'] = true;
 		}
@@ -464,8 +439,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		if ( isset( $Name ) )
 			$lines[] = "Theme Name: {$Name}\n";
-		if ( isset( $Icon ) )
-			$lines[] = "Icon: {$Icon}\n";
+		// if ( isset( $Icon ) )
+			// $lines[] = "Icon: {$Icon}\n";
 		if ( isset( $URI ) )
 			$lines[] = "Theme URI: {$URI}\n";
 		if ( isset( $Description ) )
@@ -740,7 +715,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			// build plugin header
 			$theme_data = rw_get_theme_data( get_theme_root().'/'.$theme_name );
 			$theme_data['Tags'] = implode( ' ', $theme_data['Tags'] );
-			$theme_data['Icon'] = rw_get_custom_theme_data('Icon', get_theme_root().'/'.$theme_name);
+			// $theme_data['Icon'] = rw_get_custom_theme_data('Icon', get_theme_root().'/'.$theme_name);
 			$theme_data['License'] = rw_get_custom_theme_data('License', get_theme_root().'/'.$theme_name);
 			$theme_data['LicenseURI'] = rw_get_custom_theme_data('License URI', get_theme_root().'/'.$theme_name);
 			$css = $this->build_theme_css( $theme_data, true );
@@ -760,7 +735,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
-			wp_die( 'You must have ZipArchive class' );
+			wp_die( __('You must have ZipArchive class', 'framework') );
 		}
 	}
 

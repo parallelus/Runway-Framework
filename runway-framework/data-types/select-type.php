@@ -100,7 +100,7 @@ class Select_type extends Data_Type {
 			$this->enable_repeating($field, $key_values);
 			$this->wp_customize_js();
 		} else {
-			$html = "<select " . $this->get_link() . " class='input-select custom-data-type' $section data-type='select-type' name='{$this->field->alias}'>";
+			$html = "<select " . $this->get_link() . " class='input-select custom-data-type' " . parent::add_data_conditional_display($this->field) . " $section data-type='select-type' name='{$this->field->alias}'>";
 
 			foreach ( $key_values as $key => $val ) {
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
@@ -134,12 +134,12 @@ class Select_type extends Data_Type {
 		        <div class="settings-in">
 
 		            <textarea data-set="values" name="values" class="settings-textarea select-type" id="select-values">${values}</textarea>
-
-		            <br><span class="settings-field-caption"></span>
+		            <span class="settings-field-caption"><?php printf( __('Enter options in the format: %s key=>value %s', 'framework'), '<code>', '</code>'); ?></span>
 
 		        </div>
+		        <div class="clear"></div>
 
-		    </div><div class="clear"></div>
+		    </div>
 
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
@@ -147,7 +147,7 @@ class Select_type extends Data_Type {
 		            <?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label class="settings-title"> 
+		            <label> 
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -155,10 +155,12 @@ class Select_type extends Data_Type {
 		                {{/if}}
 		                <?php echo __('Yes', 'framework'); ?>
 		            </label>
-		            <br><span class="settings-title-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?>.</span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
 		        </div>
-		    </div><div class="clear"></div>
+		        <div class="clear"></div>
+		    </div>
 
+			<?php parent::render_conditional_display(); ?>
 		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 		</script>
