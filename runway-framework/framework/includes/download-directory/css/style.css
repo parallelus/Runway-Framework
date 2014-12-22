@@ -123,3 +123,22 @@ h3.white-gradient-left-right:after {
 	background: rgba(255,255,255,0.65);
 	/*border-top: 1px solid #e8e8e8;*/
 }
+
+.add-ons-installed-menu {
+  background-color:#FFFFFF;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .2);
+  
+  width:180px;
+  cursor:default;
+  display:none;
+  margin-top: 5px;
+  position:absolute;
+  text-align:left;
+  z-index:50;
+  padding: 5px 5px 5px 5px;
+}
+
+.add-ons-installed-menu ul li a {
+	text-decoration:none;
+}

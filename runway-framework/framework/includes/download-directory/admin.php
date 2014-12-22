@@ -18,7 +18,6 @@ switch ($addons_type) {
 	case 'themes':
 		$themes = wp_get_themes();
 		$items_installed = (isset($themes) && !empty($themes))? array_keys($themes) : array();
-		$items_installed_link = admin_url('admin.php?page=themes');
 		break;
 
 	case 'extensions':
