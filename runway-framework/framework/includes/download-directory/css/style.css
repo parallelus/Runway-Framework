@@ -142,3 +142,7 @@ h3.white-gradient-left-right:after {
 .add-ons-installed-menu ul li a {
 	text-decoration:none;
 }
+
+.dashicons-position {
+	margin-top:3px;
+}

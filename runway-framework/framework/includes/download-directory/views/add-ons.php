@@ -84,7 +84,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 			<?php if(in_array($key, $items_installed)): 
 					switch ($addons_type) {
 						case 'themes': ?>
-							<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="<?php echo $items_installed_link_base; ?>"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down" style="margin-top:2px;"></div></a>
+							<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="#<?php //echo $items_installed_link_base; ?>"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
 							<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
 								<ul>
 									<?php if(isset($items_installed_link[$key]['child']) && !empty($items_installed_link[$key]['child'])) : ?>
