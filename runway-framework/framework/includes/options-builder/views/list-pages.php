@@ -1,22 +1,3 @@
-<script type="text/javascript">
-
-	// page remove
-	jQuery(function () {
-		jQuery('.remove-page').on('click', function () {
-
-			jQuery.ajax({
-				url:jQuery(this).prop('href'),
-				success:function () {
-					document.location.reload();
-				}
-			});
-
-			return false;
-		});
-	});
-
-</script>
-
 <?php if ( $pages ) { ?>
 
 	<table class="wp-list-table widefat" style="margin-top: 15px;">
