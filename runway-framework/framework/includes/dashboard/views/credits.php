@@ -6,8 +6,8 @@
 			<form id="credits_sort_form" method="post">
 				<div class="pull-right tablenav">
 					<select class="credits-sort" name="sort" id="credits_sort">
-						<option value="achievements_count_desc" <?php echo ($Dashboard_Admin->selectableSort == 'achievements_count_desc')? 'selected' : ''; ?>><?php _e( 'Achievement count (from hight to low)', 'framework' ) ?></option>
-						<option value="achievements_count_asc" <?php echo ($Dashboard_Admin->selectableSort == 'achievements_count_asc')? 'selected' : ''; ?>><?php _e( 'Achievement count (from low to hight)', 'framework' ) ?></option>
+						<option value="achievements_count_desc" <?php echo ($Dashboard_Admin->selectableSort == 'achievements_count_desc')? 'selected' : ''; ?>><?php _e( 'Achievement count (from high to low)', 'framework' ) ?></option>
+						<option value="achievements_count_asc" <?php echo ($Dashboard_Admin->selectableSort == 'achievements_count_asc')? 'selected' : ''; ?>><?php _e( 'Achievement count (from low to high)', 'framework' ) ?></option>
 						<option value="user_name_asc" <?php echo ($Dashboard_Admin->selectableSort == 'user_name_asc')? 'selected' : ''; ?>><?php _e( 'Name (A-Z)', 'framework' ) ?></option>
 						<option value="user_name_desc" <?php echo ($Dashboard_Admin->selectableSort == 'user_name_desc')? 'selected' : ''; ?>><?php _e( 'Name (Z-A)', 'framework' ) ?></option>
 					</select>
