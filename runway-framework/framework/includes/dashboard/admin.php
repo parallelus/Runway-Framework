@@ -46,33 +46,3 @@
 
 	<div class="clear"></div>
 </div> <!-- id="wpbody" -->
-
-<script type="text/javascript">
-	jQuery(function () {
-
-		var $ = jQuery;
-
-		$('.tab-controlls a').click(function () {
-
-			if(!$(this).hasClass('nav-tab-active')) {
-				$('.tab-controlls a').removeClass('nav-tab-active');
-				$(this).addClass('nav-tab-active');
-				$('.tab-active').removeClass('tab-active');
-				$($(this).data('tabrel')).addClass('tab-active');
-			}
-
-			return false;
-		});
-
-	});
-</script>
-
-<?php
-if(isset($_POST['request']) && $_POST['request'] == 'get_achievements') { ?>
-	<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			jQuery('.tab-controlls a[href=#credits]').trigger("click");
-		});
-	</script>
-<?php }
-?>

@@ -56,4 +56,23 @@ jQuery(document).ready(function($) {
 			$('#credits_sort_form').submit();
 		}
 	});
+
+	$('.tab-controlls a').click(function () {
+
+		if(!$(this).hasClass('nav-tab-active')) {
+			$('.tab-controlls a').removeClass('nav-tab-active');
+			$(this).addClass('nav-tab-active');
+			$('.tab-active').removeClass('tab-active');
+			$($(this).data('tabrel')).addClass('tab-active');
+		}
+
+		return false;
+	});	
+
+	$('#credits_sort_form').submit(function (e) {
+		$('input[name=state]').val(1);
+	});	
+
+	if($('#credits_sort_form').find('input[name=state]').val() == 1)
+		$('.tab-controlls a[href*=credits]').trigger("click");
 });

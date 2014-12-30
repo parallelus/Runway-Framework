@@ -15,6 +15,7 @@
 					<input name="token" type="hidden" value="<?php echo $Dashboard_Admin->token; ?>">
 					<input name="startPage" type="hidden" value="<?php echo $Dashboard_Admin->startPage; ?>">
 					<input name="perPage" type="hidden" value="<?php echo $Dashboard_Admin->perPage; ?>">
+					<input name="state" type="hidden" value="<?php echo $Dashboard_Admin->state; ?>">
 					
 					<div class="tablenav-pages">
 						<span class="displaying-num"><?php echo $Dashboard_Admin->credits['totalResults'];?> <?php echo __('items', 'framework'); ?></span>
