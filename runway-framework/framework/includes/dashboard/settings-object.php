@@ -23,7 +23,8 @@ class Dashboard_Admin extends Runway_Admin_Object {
 		$this->selectableSort = isset($_POST['sort'])? $_POST['sort'] : 'achievements_count';
 		$this->perPage = isset($_POST['perPage']) ? $_POST['perPage'] : 20;
 		$this->startPage = isset($_POST['startPage']) ? $_POST['startPage'] : 0;
-		
+		$this->state = isset($_POST['state']) ? $_POST['state'] : 0;
+
 		if(isset($_POST['sort'])) {
 			if($_POST['sort'] == 'achievements_count_desc') {
 				$this->sort = 'achievements_count';
@@ -55,7 +56,8 @@ class Dashboard_Admin extends Runway_Admin_Object {
                 'sort' => $this->sort,
                 'sortOrder' => $this->sortDest,
                 'perPage' => $this->perPage,
-                'startPage' => $this->startPage
+                'startPage' => $this->startPage,
+                'state' => $this->state
             )
         );
 

@@ -168,12 +168,8 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	add_action( 'admin_menu', 'clear_submenu', 100 );
 
 	function framework_localization() {
-		$langDir = apply_filters('rf_languages_dir', get_template_directory() . '/languages');
+		$langDir = apply_filters('rf_languages_dir', get_template_directory() . '/framework/languages');
 		$isLoadedDir = load_theme_textdomain('framework', $langDir);
-		
-		/*if(!$isLoadedDir) {
-			add_action('admin_notices', 'framework_localization_warning_message');
-		}*/
 	}
 	add_action('after_setup_theme', 'framework_localization');
 

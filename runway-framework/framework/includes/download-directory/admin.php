@@ -52,13 +52,13 @@ if(!is_a($exts_addons, 'WP_Error') && isset($exts_addons['body']) && $exts_addon
 	$this->extensions_addons = json_decode($exts_addons['body']);
 }
 
-if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
+if ( isset( $_GET['action'] ) && ($_GET['action'] == 'install' || $_GET['action'] == 'download') ) {
 	$item = $_GET['item'];
 	$extension_zip_file_name = $directory->downloads_dir . $item . '.zip';
 //	$zipPath = (isset($this->extensions_addons->$item->Path)) ? '&zip='.$this->extensions_addons->$item->Path : '';
 	$item_file = basename($this->extensions_addons->$item->Files[0]->file);
 
-	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item_file}");
+	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item_file}", array('timeout' => 0));
 	//$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item}".$zipPath);
 
 	if( !empty($extension_zip['body']) ) {
@@ -72,7 +72,10 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'install' ) {
 			if($permissions < '0755')
 				chmod( $extension_zip_file_name, 0755 );
 
-			echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
+			if($_GET['action'] == 'install')
+				echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
+			else
+				echo '<div id="message" class="updated"><p>' . __('Theme has been downloaded', 'framework') . '</p></div>';
 		}
 		else {
 			include_once 'views/error-msg.php';

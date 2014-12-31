@@ -17,6 +17,7 @@ if($exploded_version[0] <= 3 && (isset($exploded_version[1]) && $exploded_versio
 }
 wp_enqueue_style('dashicons_custom_style_css', FRAMEWORK_URL.'framework/includes/themes-manager/css/custom-style.css');
 wp_enqueue_script('dashicons', FRAMEWORK_URL.'framework/includes/themes-manager/js/dashicons.js');
+wp_enqueue_script('theme-conf', FRAMEWORK_URL.'framework/includes/themes-manager/js/theme-conf.js');
 
 $custom_icon_src = isset($Folder)? (file_exists(get_home_path() . 'wp-content/themes/' . $Folder . '/custom-icon.png')? home_url() . '/wp-content/themes/' . $Folder . '/custom-icon.png' : '') : '';
 
@@ -34,46 +35,6 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 <p>
 	<?php echo __('Fill out the options below to create a new Runway child theme. The new child theme folder will be created in the', 'framework'); ?> <code>wp-content/themes</code> <?php echo __('folder', 'framework'); ?>.
 </p>
-
-<script type="text/javascript">
-	(function($){
-		$(document).ready(function(){
-			$('.input-select').change(function(){
-				if($(this).val() == 'custom-icon'){
-					$('.custom-icon-upload').show();
-				}
-				else{
-					$('.custom-icon-upload').hide();	
-				}
-			});
-			
-			if($('.input-select').val() == 'default-wordpress-icon'){
-				$('.choose-default-wordpress').show();
-			}			
-			if($('.input-select').val() == 'custom-icon'){
-				$('.choose-another').show();
-			}
-
-			$('.input-select').change(function(){
-				if($('.input-select').val() == 'default-wordpress-icon')
-					$('.choose-another').hide();
-				else
-					$('.choose-another').show();
-				$('.custom-icon-upload').hide();
-				$('.choose-default-wordpress').toggle();
-			});
-
-			$('.choose-another-link').click(function(e){
-				e.preventDefault();
-				$('.choose-another').hide();
-				$('.custom-icon-upload').show();
-
-			});
-
-			$("#menu_icon").val('menu-icon-page').attr('selected',true);						
-		});
-	})(jQuery);
-</script>
 
 <form method="post" enctype="multipart/form-data">
 

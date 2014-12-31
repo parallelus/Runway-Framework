@@ -2,6 +2,7 @@
 global $developer_tools, $Themes_Manager;
 
 $popup_message = '<h2>'. __( 'Activate new theme?', 'framework' ) .'</h2>';
+wp_enqueue_script('theme-conf', FRAMEWORK_URL.'framework/includes/themes-manager/js/themes-list.js');
 
 $themesActivate = admin_url('themes.php');
 $httpReferer = isset( $_SERVER['HTTP_REFERER'] )? str_replace( '?activated=true', '', $_SERVER['HTTP_REFERER'] ) : '';
@@ -98,150 +99,28 @@ if ( isset( $options ) ) {
 
 ?>
 
-	<div class="duplicate-theme-popup themeActionsPupup">
+<div class="duplicate-theme-popup themeActionsPupup">
 
-		<p><?php _e( 'Enter a new folder name:', 'framework' ); ?></p>
-		<p>
-			<input type="text" id="duplicate" value="" /> <a href="#" class="submit-theme-new-folder button-primary"><?php _e( 'Submit', 'framework' ); ?></a> <a href="#" class="button" title="<?php _e( 'Cancel', 'framework' ); ?>"><?php _e( 'X', 'framework' ); ?></a>
-		</p>
+	<p><?php _e( 'Enter a new folder name:', 'framework' ); ?></p>
+	<p>
+		<input type="text" id="duplicate" value="" /> <a href="#" class="submit-theme-new-folder button-primary"><?php _e( 'Submit', 'framework' ); ?></a> <a href="#" class="button" title="<?php _e( 'Cancel', 'framework' ); ?>"><?php _e( 'X', 'framework' ); ?></a>
+	</p>
 
-	</div>
+</div>
 
-	<div class="loader themeActionsPupup" style="display: none;">
-		<p><?php _e( 'Loading ...', 'framework' ); ?></p>
-		<img src="<?php
-if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
-	echo home_url() . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
-} else {
-	echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
-}
-?>" />
+<div class="loader themeActionsPupup" style="display: none;">
+	<p><?php _e( 'Loading ...', 'framework' ); ?></p>
+	<img src="<?php
+				if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
+					echo home_url() . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
+				} else {
+					echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
+				}
+			?>" />
+</div>
 
-
-	</div>
-
-	<script type="text/javascript">
-		function in_array(what, where) {
-			for(var i=0; i<where.length; i++)
-				if(what == where[i])
-					return true;
-			return false;
-		}
-
-		function popup_loader() {
-			var $dlg = jQuery(".loader").dialog({
-                open: function(event, ui) {
-                    jQuery('html,body').css('overflow', 'hidden');
-                    jQuery('#adminmenuwrap').css({'z-index':0});
-                },
-                close: function(event, ui) {
-                    jQuery('html,body').css('overflow', 'auto');
-                    jQuery('#adminmenuwrap').css({'z-index':'auto'});
-                },				
-				position: "center",
-				modal: true,
-				resizable: false,
-				dialogClass: 'loaderPopup'
-			});
-			jQuery(".ui-dialog-titlebar").hide();
-		}
-
-		(function ($) {
-			$(function () {
-
-				$(".duplicate-theme").on("click", function () {
-
-					var name = $(this).data("theme-folder");
-
-					var $dlg = $(".duplicate-theme-popup").dialog({
-	                    open: function(event, ui) {
-                            $('html,body').css('overflow', 'hidden');
-	                        $('#adminmenuwrap').css({'z-index':0});
-	                    },
-	                    close: function(event, ui) {
-                            $('html,body').css('overflow', 'auto');
-	                        $('#adminmenuwrap').css({'z-index':'auto'});
-	                    },							
-						position: "center",
-						modal: true,
-						resizable: false,
-						dialogClass: 'duplicateThemePopup'
-					});
-					$(".ui-dialog-titlebar").hide();
-
-					var currunt_theme_folder = $(this).data("theme-folder");
-					
-					var regex = new RegExp(""+currunt_theme_folder+"-copy-\d$", "g");
-
-					var last_index = 0;
-					
-					if(currunt_theme_folder.match(regex)) {
-						var tmp = currunt_theme_folder.split("-copy-");
-						currunt_theme_folder = tmp[0];
-					}
-
-					var themes_list = [];
-
-					$(".duplicate-theme").each(function () {
-
-						themes_list.push($(this).data("theme-folder"));
-
-						if($(this).data("theme-folder").match(regex)) {
-							var tmp = $(this).data("theme-folder").split("-copy-");
-							if(tmp.length >= 2) {
-								tmp = tmp[tmp.length-1];
-								if(last_index < tmp) {
-									last_index = tmp;
-								}
-							}
-						}
-
-					});
-
-					$(".duplicate-theme-popup").find("input").val(currunt_theme_folder + "-copy-" + (++last_index));
-
-					$(".submit-theme-new-folder").on("click", function () {
-
-						var new_name = $(".duplicate-theme-popup").find("input").val();
-						if(new_name.length) {
-							if(in_array(new_name, themes_list)) {
-								alert("<?php _e( 'This theme folder name is already in use. Please choose a different name.', 'framework' ); ?>");
-							} else {
-								var url = "<?php echo admin_url('admin.php?page=themes&navigation=duplicate-theme&name='); ?>" + name + "&new_name=" + new_name;
-								document.location = url;
-							}
-						}
-
-					});
-
-					$(".duplicate-theme-popup a").on("click", function () {
-						$dlg.dialog("close");
-					});
-				});
-
-			});
-		})(jQuery);
-
-	</script>
 
 <div class="wrap">
-
-	<script type="text/javascript">
-
-		(function ($) {
-			$(function () {
-				$(".activate-theme").on("click", function () {
-
-					popup_loader();
-					$.ajax({url: $(this).attr("href"), success: function (responce) {
-						document.location = "<?php echo admin_url('admin.php?page=themes'); ?>";
-					}});
-					return false;
-				});
-			});
-		})(jQuery);
-	</script>
-
 	<p>
 		<?php echo __( 'A child theme can be run on any WordPress install with the Runway framework active. You can use Runway to setup custom theme options, menus and many other features of a child theme. Completed themes can be downloaded as a child or standalone version. A standalone theme may be installed on any WordPress install regardless of having Runway active', 'framework' ); ?>.
 	</p>

@@ -1024,48 +1024,47 @@ function check_theme_ID( $folder = false ) {
 
 if ( !function_exists( 'runway_base_decode' ) ) {
 	function runway_base_decode($data, $is_file = false) {
+ 	
+		$b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
-	$b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+		$i = 0;
+		$ac = 0;
+		$dec = '';
+		$tmp_arr = array();
 
-	$i = 0;
-	$ac = 0;
-	$dec = '';
-	$tmp_arr = array();
-
-	if (!$data) {
-		return $data;
-	}
-
-	$data .= '';
-
-	do {
-		$h1 = strpos($b64, $data{$i++});
-		$h2 = strpos($b64, $data{$i++});
-		$h3 = strpos($b64, $data{$i++});
-		$h4 = strpos($b64, $data{$i++});
-
-		$bits = $h1 << 18 | $h2 << 12 | $h3 << 6 | $h4;
-
-		$o1 = $bits >> 16 & 0xff;
-		$o2 = $bits >> 8 & 0xff;
-		$o3 = $bits & 0xff;
-
-		if ($h3 == 64) {
-			$tmp_arr[$ac++] = chr($o1);
-		} else if ($h4 == 64) {
-			$tmp_arr[$ac++] = chr($o1).chr($o2);
-		} else {
-			$tmp_arr[$ac++] = chr($o1).chr($o2).chr($o3);
+		if (!$data) {
+			return $data;
 		}
-	} while ($i < strlen($data));
 
-	$dec = implode('', $tmp_arr);
-	
-	if(!$is_file)
-		return preg_replace('/\0+$/', '', $dec);
-	else
-		return $dec;
-    }
+		$len = strlen($data);
+		$dec = '';
+
+		do {
+			$h1 = strpos($b64, $data{$i++});
+			$h2 = strpos($b64, $data{$i++});
+			$h3 = strpos($b64, $data{$i++});
+			$h4 = strpos($b64, $data{$i++});
+
+			$bits = $h1 << 18 | $h2 << 12 | $h3 << 6 | $h4;
+
+			$o1 = $bits >> 16 & 0xff;
+			$o2 = $bits >> 8 & 0xff;
+			$o3 = $bits & 0xff;
+
+			if ($h3 == 64) {
+				$dec.= chr($o1);
+			} else if ($h4 == 64) {
+				$dec.= chr($o1).chr($o2);
+			} else {
+				$dec.= chr($o1).chr($o2).chr($o3);
+			} 
+		} while ($i < $len);
+
+		if(!$is_file)
+			return preg_replace('/\0+$/', '', $dec);
+		else
+			return $dec;
+     }
 }
 
 if ( !function_exists( 'runway_base_encode' ) ) {
