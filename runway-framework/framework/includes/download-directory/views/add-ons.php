@@ -31,7 +31,15 @@ if(isset($this->extensions_addons) && !empty($this->extensions_addons)) {
 
 			case 'extensions':
 				$filename = basename($item->Files[0]->file);
-				$addon_key = substr($filename, 0, strpos($filename, '-extension-'));
+				$addon_key = '';
+				// File naming: name-extensions-v0.0.0.zip or {extnsion name slug}-extensions-{version number}.zip
+				$file_keys = array('-extension-', '-v', '.zip');
+				foreach ($file_keys as $file_key) {
+					$addon_key = substr($filename, 0, strpos($filename, $file_key));
+					if (!empty($addon_key)) {
+						break;
+					}
+				}
 				// $extensions_addons_search[$addon_key] = $item;
 				break;
 
