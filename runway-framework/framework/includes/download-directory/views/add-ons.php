@@ -110,7 +110,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): 
 					switch ($addons_type) {
 						case 'themes':
-							if( in_array($key, $items_installed) ): ?>
+							/*if( in_array($key, $items_installed) ): ?>
 								<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
 							<?php else: ?>
 								<a class="button button-primary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
@@ -136,7 +136,13 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 									<?php } ?>
 									</ul>
 								</div>
-							<?php endif;
+							<?php endif;*/ 
+
+							?>
+							
+							<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+
+							<?php
 
 							break;
 
