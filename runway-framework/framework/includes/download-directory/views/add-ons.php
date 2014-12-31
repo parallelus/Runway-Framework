@@ -11,20 +11,35 @@ if(isset($this->extensions_addons) && !empty($this->extensions_addons)) {
 		switch ($addons_type) {
 			case 'themes':
 				$addon_key = $key;
-				foreach($item->Files as $file_key => $file_info) {
-					$filename = basename($file_info->file);
-					$extensions_addons_search[$addon_key] = $item;
-					$addon_key = substr($filename, 0, strpos($filename, '-install-'));
-					$package_id = '';
+				if (isset($item->Files[0]->file)) {
+					$filename = basename($item->Files[0]->file);
+					$addon_key = '';
+					// File naming: theme-name-install-v0.0.0.zip or {theme name slug}-{type of package}-{version number}.zip
+					$file_keys = array('-install-', '-full-package-', '-v', '.zip');
+					// find the key
+					foreach ($file_keys as $file_key) {
+						$addon_key = substr($filename, 0, strpos($filename, $file_key));
+						if (!empty($addon_key)) {
+							break;
+						}
+					}
+				}
+				$file_count = count($item->Files);
+				for ($i = 0; $i < $file_count; $i++) {
+				// foreach($item->Files as $file_key => $file_info) {
+					$filename = basename($item->Files[$i]->file);
+					// $addon_key = substr($filename, 0, strpos($filename, '-install-'));
+					$package_id = 'full';
 					if( substr($filename, 0, strpos($filename, '-install-child-'))) {
 						$package_id = 'child';
 					}
 					if( substr($filename, 0, strpos($filename, '-install-standalone-'))) {
 						$package_id = 'standalone';
 					}
-					if( substr($filename, 0, strpos($filename, '-install-full-package-'))) {
-						$package_id = 'full';
-					}
+					// if( substr($filename, 0, strpos($filename, '-full-package-'))) {
+					// 	$package_id = 'full';
+					// }
+					$item->Files[$i]->package_id = $package_id;
 				}
 
 				break;
@@ -34,6 +49,7 @@ if(isset($this->extensions_addons) && !empty($this->extensions_addons)) {
 				$addon_key = '';
 				// File naming: name-extensions-v0.0.0.zip or {extnsion name slug}-extensions-{version number}.zip
 				$file_keys = array('-extension-', '-v', '.zip');
+				// find the key
 				foreach ($file_keys as $file_key) {
 					$addon_key = substr($filename, 0, strpos($filename, $file_key));
 					if (!empty($addon_key)) {
@@ -74,6 +90,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 	</div>
 </div>
 
+
 <div class="theme-browser content-filterable rendered">
 	<?php foreach($extensions_addons_search as $key => $item_addons) {
 		$item_name = isset($item_addons->Files[0]->name)? str_replace('-', '_', sanitize_key($item_addons->Files[0]->name)) : ''; ?>
@@ -94,25 +111,33 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 					switch ($addons_type) {
 						case 'themes':
 							if( in_array($key, $items_installed) ): ?>
-								<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="#<?php //echo $items_installed_link_base; ?>"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
-								<?php if(isset($package_id) && !empty($package_id) ): ?>
-										<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
-											<ul>
-												<?php if(!empty($package_id) && $package_id == 'child') : ?>
-													<li><a href="<?php echo $items_installed_link_package[$key]['child']; ?>"><?php echo __('Download child theme', 'framework'); ?></a></li>
-												<?php endif; ?>
-												<?php if(!empty($package_id) && $package_id == 'standalone') : ?>									
-													<li><a href="<?php echo $items_installed_link_package[$key]['standalone']; ?>"><?php echo __('Download standalone theme', 'framework'); ?></a></li>
-												<?php endif; ?>
-												<?php if(isset($items_installed_link[$key]['full']) && !empty($items_installed_link[$key]['full'])) : ?>									
-													<li><a href="<?php echo $items_installed_link_package[$key]['full']; ?>"><?php echo __('Download full package theme', 'framework'); ?></a></li>
-												<?php endif; ?>									
-											</ul>
-										</div>
-								<?php endif; ?>
+								<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
 							<?php else: ?>
-								<a class="button button-primary" href="<?php echo $items_installed_link_package[$key]['full']; ?>"><?php echo __('Install', 'framework'); ?></a>
-							<?php endif;								
+								<a class="button button-primary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
+							<?php endif; ?>
+
+							<?php if( isset($item_addons->Files) && count($item_addons->Files) ): ?>
+								<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
+									<ul>
+									<?php 
+									foreach ($item_addons->Files as $file_key => $file_info) { 
+										$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=install&amp;item='.$file_info->name.'&amp;_wpnonce=');
+										?>
+										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'child') : ?>
+											<li><a href="<?php echo $download_link; ?>"><?php echo __('Install child theme', 'framework'); ?></a></li>
+										<?php endif; ?>
+										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'standalone') : ?>									
+											<li><a href="<?php echo $download_link; ?>"><?php echo __('Install standalone theme', 'framework'); ?></a></li>
+										<?php endif; ?>
+										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'full') : 
+											$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=download&amp;item='.$file_info->name.'&amp;_wpnonce='); ?>
+											<li><a href="<?php echo $download_link; ?>"><?php echo __('Download full theme package', 'framework'); ?></a></li>
+										<?php endif; ?>									
+									<?php } ?>
+									</ul>
+								</div>
+							<?php endif;
+
 							break;
 
 						case 'extensions':
