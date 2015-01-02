@@ -100,23 +100,27 @@ if ( isset( $options ) ) {
 ?>
 
 <div class="duplicate-theme-popup themeActionsPupup">
-
 	<p><?php _e( 'Enter a new folder name:', 'framework' ); ?></p>
 	<p>
-		<input type="text" id="duplicate" value="" /> <a href="#" class="submit-theme-new-folder button-primary"><?php _e( 'Submit', 'framework' ); ?></a> <a href="#" class="button" title="<?php _e( 'Cancel', 'framework' ); ?>"><?php _e( 'X', 'framework' ); ?></a>
+		<input type="text" id="duplicate-theme-name" value="" /> 
+		<input type="hidden" id="response-folder-name-exists" value="Another theme already exists with this folder name. Please choose a different name.">
+	</p>
+	<p>
+		<a href="<?php echo admin_url('admin.php?page=themes&navigation=duplicate-theme&name='); ?>" class="submit-theme-new-folder button-primary" title="<?php _e( 'Duplicate', 'framework' ); ?>"><?php _e( 'Duplicate', 'framework' ); ?></a> <a href="#" class="button cancel-duplicate" title="<?php _e( 'Cancel', 'framework' ); ?>"><?php _e( 'Cancel', 'framework' ); ?></a>
 	</p>
 
 </div>
 
 <div class="loader themeActionsPupup" style="display: none;">
-	<p><?php _e( 'Loading ...', 'framework' ); ?></p>
+	<p><?php _e( 'Loading...', 'framework' ); ?></p>
 	<img src="<?php
-				if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
+				/*if ( file_exists( get_stylesheet_directory() . '/framework/images/ajax-loader.gif' ) ) {
 					echo home_url() . '/wp-content/themes/' . str_replace( $developer_tools->themes_path . '/', '', get_stylesheet_directory() ) . '/framework/images/ajax-loader.gif';
 				} else {
 					echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
-				}
-			?>" />
+				}*/
+				echo admin_url('images/spinner.gif'); 
+			?>" width="20" height="20" style="width:20px; height:20px;" />
 </div>
 
 
