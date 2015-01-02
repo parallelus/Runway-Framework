@@ -78,23 +78,27 @@ function popup_loader() {
 
 			});
 
-			$(".duplicate-theme-popup").find("input").val(currunt_theme_folder + "-copy-" + (++last_index));
+			$(".duplicate-theme-popup #duplicate-theme-name").val(currunt_theme_folder + "-copy-" + (++last_index));
 
-			$(".submit-theme-new-folder").on("click", function () {
+			$(".submit-theme-new-folder").on("click", function (e) {
 
-				var new_name = $(".duplicate-theme-popup").find("input").val();
+				e.preventDefault();
+
+				var new_name = $(".duplicate-theme-popup #duplicate-theme-name").val();
 				if(new_name.length) {
 					if(in_array(new_name, themes_list)) {
-						alert("<?php _e( 'This theme folder name is already in use. Please choose a different name.', 'framework' ); ?>");
+						var folder_exists_response = $(".duplicate-theme-popup #response-folder-name-exists").val();
+						alert(folder_exists_response);
 					} else {
-						var url = "<?php echo admin_url('admin.php?page=themes&navigation=duplicate-theme&name='); ?>" + name + "&new_name=" + new_name;
+						$dlg.dialog("close");
+						var url = $(this).attr('href') + name + "&new_name=" + new_name;
 						document.location = url;
 					}
 				}
 
 			});
 
-			$(".duplicate-theme-popup a").on("click", function () {
+			$(".duplicate-theme-popup a.cancel-duplicate").on("click", function () {
 				$dlg.dialog("close");
 			});
 		});
