@@ -110,39 +110,32 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): 
 					switch ($addons_type) {
 						case 'themes':
-							/*if( in_array($key, $items_installed) ): ?>
-								<a class="button button-secondary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Installed', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
+							if( in_array($key, $items_installed) ): ?>
+								<?php if( isset($item_addons->Files) && count($item_addons->Files) ): ?>
+									<a class="button button-primary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
+									<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
+										<ul>
+										<?php 
+										foreach ($item_addons->Files as $file_key => $file_info) {
+											$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=install&amp;item='.$file_info->name.'&amp;_wpnonce=');
+											?>
+											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'child') : ?>
+												<li><a href="<?php echo $download_link; ?>"><?php echo __('Install child theme', 'framework'); ?></a></li>
+											<?php endif; ?>
+											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'standalone') : ?>									
+												<li><a href="<?php echo $download_link; ?>"><?php echo __('Install standalone theme', 'framework'); ?></a></li>
+											<?php endif; ?>
+											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'full') : 
+												$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=download&amp;item='.$file_info->name.'&amp;_wpnonce='); ?>
+												<li><a href="<?php echo $download_link; ?>"><?php echo __('Download full theme package', 'framework'); ?></a></li>
+											<?php endif; ?>									
+										<?php } ?>
+										</ul>
+									</div>
+								<?php endif; ?>
 							<?php else: ?>
-								<a class="button button-primary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
-							<?php endif; ?>
-
-							<?php if( isset($item_addons->Files) && count($item_addons->Files) ): ?>
-								<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
-									<ul>
-									<?php 
-									foreach ($item_addons->Files as $file_key => $file_info) { 
-										$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=install&amp;item='.$file_info->name.'&amp;_wpnonce=');
-										?>
-										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'child') : ?>
-											<li><a href="<?php echo $download_link; ?>"><?php echo __('Install child theme', 'framework'); ?></a></li>
-										<?php endif; ?>
-										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'standalone') : ?>									
-											<li><a href="<?php echo $download_link; ?>"><?php echo __('Install standalone theme', 'framework'); ?></a></li>
-										<?php endif; ?>
-										<?php if(!empty($file_info->package_id) && $file_info->package_id == 'full') : 
-											$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=download&amp;item='.$file_info->name.'&amp;_wpnonce='); ?>
-											<li><a href="<?php echo $download_link; ?>"><?php echo __('Download full theme package', 'framework'); ?></a></li>
-										<?php endif; ?>									
-									<?php } ?>
-									</ul>
-								</div>
-							<?php endif;*/ 
-
-							?>
-							
-							<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
-
-							<?php
+								<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+							<?php endif;
 
 							break;
 
