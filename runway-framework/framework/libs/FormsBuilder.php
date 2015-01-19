@@ -9,9 +9,8 @@ class FormsBuilder {
 		$this->init_variables(); // Initialize variables
 		$this->add_actions( $save_action, $save_custom_options_action ); // Add actions function
 
-		if ( is_admin() ) {
-			$this->add_to_customize_page();
-		}
+		// WP Customizer Integration
+		$this->add_to_customize_page();
 	}
 
 	// Include data-types
@@ -114,11 +113,13 @@ class FormsBuilder {
 					$settings = $this->make_settings( $current );
 
 					if ( !empty( $settings ) ) {
-						${$current['admin_object']} = new Settings_Object( $settings );
+						${$current['admin_object']} = new Runway_Settings_Object( $settings );
 					}
 
-					add_action( 'customize_controls_print_styles', array( ${$current['admin_object']}, 'include_extension_css' ) );
-					add_action( 'customize_controls_print_scripts', array( ${$current['admin_object']}, 'include_extension_js' ) );
+					if (isset($current['admin_object'])) {
+						add_action( 'customize_controls_print_styles', array( ${$current['admin_object']}, 'include_extension_css' ) );
+						add_action( 'customize_controls_print_scripts', array( ${$current['admin_object']}, 'include_extension_js' ) );
+					}
 
 					$_this = ${$current['admin_object']};
 					add_action( 'customize_register' , function ( $wp_customize ) use ( $_this ) {
@@ -135,7 +136,15 @@ class FormsBuilder {
 							include_data_types($data_types_path);
 						}
 
-						$_this->data = get_option( $_this->option_key );
+						// Create the panel
+						$panel_slug = $_this->slug;
+						$wp_customize->add_panel( $panel_slug, array(
+							'priority'       => 10,
+							'capability'     => 'edit_theme_options',
+							'theme_supports' => '',
+							'title'          => $_this->name,
+							'description'    => '',
+						) );
 
 						// including js and cs
 
@@ -152,7 +161,8 @@ class FormsBuilder {
 											$wp_customize->add_section( $container->index, array(
 													'title' => $container->title, //Visible title of section
 													'description' => '',
-													'priority' => isset($container->priority)? $container->priority : ''
+													'priority' => isset($container->priority)? $container->priority : '',
+													'panel' => $panel_slug
 												) );
 											
 											$priority_level = 0;
@@ -522,13 +532,19 @@ class FormsBuilder {
 	}
 }
 
-if ( is_admin() ) {
-	// class to create Runway_Admin_Object's in Forms builder without standart actions
-	class Settings_Object extends Runway_Admin_Object{
+if ( isset($GLOBALS['wp_customize']) || is_admin() ) {	
+	// class to create Runway_Admin_Object's in Forms builder without standard actions
+	class Runway_Settings_Object extends Runway_Admin_Object {
 
 		public function load_objects() {}
 		public function options_page() {}
 		public function admin_menu() {}
+
+	}
+} else {
+	class Runway_Settings_Object extends Runway_Object {
+
+		// Just a placeholder to prevent errors on the public website.
 
 	}
 }
