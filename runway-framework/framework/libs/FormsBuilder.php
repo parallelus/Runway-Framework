@@ -114,6 +114,7 @@ class FormsBuilder {
 
 					if ( !empty( $settings ) ) {
 						${$current['admin_object']} = new Runway_Settings_Object( $settings );
+						${$current['object']} = new Runway_Object( $settings );
 					}
 
 					if (isset($current['admin_object'])) {
@@ -122,6 +123,9 @@ class FormsBuilder {
 					}
 
 					$_this = ${$current['admin_object']};
+					$_this->keys = '_framework,' . $_this->slug;
+					$_this->data = ${$current['object']}->load_objects();
+
 					add_action( 'customize_register' , function ( $wp_customize ) use ( $_this ) {
 						$data_types_path = FRAMEWORK_DIR . 'data-types';
 						$data_types_base = $data_types_path . '/data-type.php';
