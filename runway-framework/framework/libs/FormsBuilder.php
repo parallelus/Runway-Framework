@@ -123,7 +123,7 @@ class FormsBuilder {
 					}
 
 					$_this = ${$current['admin_object']};
-					$_this->keys = '_framework,' . $_this->slug;
+					$_this->keys = '_framework,' . $_this->option_key;
 					$_this->data = ${$current['object']}->load_objects();
 
 					add_action( 'customize_register' , function ( $wp_customize ) use ( $_this ) {

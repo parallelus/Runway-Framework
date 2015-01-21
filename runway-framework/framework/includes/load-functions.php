@@ -638,12 +638,13 @@ function db_json_sync(){
 				$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 				$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-				if (in_array($option_key_json, array($json_prefix . 'report-manager')))
+				if (in_array($option_key_json, array($json_prefix . 'report-manager', $json_prefix . 'formsbuilder_')))
 					continue;
 				if (strpos($option_key_json, $json_prefix) !== false) {
 					
-					$json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
-						json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					// $json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
+					// 	json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
 					$db = get_option($option_key);					
 					$params = array(
 					    'json' => $json,
