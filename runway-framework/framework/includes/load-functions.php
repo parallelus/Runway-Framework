@@ -406,6 +406,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 	$exclude = array(
 		$shortname.'report-manager',
+		$shortname.'formsbuilder_'
 	);
 
 	// check if current option is runway extension option
