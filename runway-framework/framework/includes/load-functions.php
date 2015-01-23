@@ -639,8 +639,14 @@ function db_json_sync(){
 				$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 				$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
-				if (in_array($option_key_json, array($json_prefix . 'report-manager', $json_prefix . 'formsbuilder_')))
+				if (in_array($option_key_json, array($json_prefix . 'report-manager')))
 					continue;
+				if ($option_key_json == $json_prefix . 'formsbuilder_') {
+					delete_option($option_key);
+					$wp_filesystem->delete($json_dir.'/'.$ff);
+					continue;
+				}
+
 				if (strpos($option_key_json, $json_prefix) !== false) {
 					
 					$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
