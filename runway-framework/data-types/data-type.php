@@ -45,8 +45,8 @@ class Data_Type extends WP_Customize_Control {
 	}
 	
 	public static function data_type_filter($type, $field_type, $field_alias) {
-		$type = "postMessage";
-		
+		//$type = "postMessage"; 				// uncomment if need use transport = postMessage
+
 		return $type;
 	}
 	

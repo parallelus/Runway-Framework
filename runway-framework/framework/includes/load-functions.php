@@ -170,7 +170,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 
 		global $wpdb;
 		$result = $wpdb->get_results( "SELECT * FROM wp_options WHERE option_name = '" . $key . "'" );
-		$value = unserialize($result[0]->option_value);
+		$value = isset($result[0]->option_value)? unserialize($result[0]->option_value) : '';
 
 		$key_tmp = explode('_', $original_key);
 		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
