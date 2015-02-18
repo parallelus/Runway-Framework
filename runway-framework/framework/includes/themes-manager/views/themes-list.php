@@ -21,34 +21,18 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 		$s = '';
 		$ms_enable_theme_link = admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $options['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $options['Folder'] ));		
 		?>
-			<script type="text/javascript">
-				(function ($) {
-					$(function () {
-						var $dlg = $(".enable-theme-popup").dialog({
-							position: "center",
-							modal: true,
-							resizable: false,
-							dialogClass: 'activateThemePopup'
-						});
-						$(".ui-dialog-titlebar").hide();
 
-						$(".enable-theme-popup a").on("click", function () {
-							$dlg.dialog("close");
-						});
-					});
-				})(jQuery);
-			</script>
+		<div class="enable-theme-popup themeActionsPupup" style="display:none;">
 
-			<div class="enable-theme-popup themeActionsPupup">
+			<?php echo __('Enable default theme for a network', 'framework'); ?>?
 
-				<?php echo __('Enable default theme for a network', 'framework'); ?>?
+			<p class="bottom-panel">
+				<a href="<?php echo $ms_enable_theme_link; ?>" class="enable-theme button"><?php _e( 'Enable', 'framework' ); ?></a>
+				&nbsp;<a href="javascript: void(0);" class="button"><?php _e( 'Cancel', 'framework' ); ?></a>
+			</p>
 
-				<p class="bottom-panel">
-					<a href="<?php echo $ms_enable_theme_link; ?>" class="enable-theme button"><?php _e( 'Enable', 'framework' ); ?></a>
-					&nbsp;<a href="javascript: void(0);" class="button"><?php _e( 'Cancel', 'framework' ); ?></a>
-				</p>
+		</div>		
 
-			</div>		
 		<?php
 	}
 }
@@ -90,7 +74,7 @@ if ( isset( $options ) ) {
 				<?php echo $popup_message; ?>
 				<p class="bottom-panel">
 					<a href="<?php echo $activate_link; ?>" class="activate-theme button"><?php _e( 'Activate', 'framework' ); ?></a>
-					&nbsp;<a href="javascript: void(0);" class="button"><?php _e( 'Cancel', 'framework' ); ?></a>
+					&nbsp;<a href="javascript: void(0);" class="button  cancel-activate-theme"><?php _e( 'Cancel', 'framework' ); ?></a>
 				</p>
 			</div> <?php
 		}
@@ -119,7 +103,7 @@ if ( isset( $options ) ) {
 				} else {
 					echo home_url() . '/wp-content/themes/runway-framework/framework/images/ajax-loader.gif';
 				}*/
-				echo admin_url('images/spinner.gif'); 
+				echo admin_url('images/spinner.gif');
 			?>" width="20" height="20" style="width:20px; height:20px;" />
 </div>
 

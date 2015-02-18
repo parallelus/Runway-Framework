@@ -323,3 +323,12 @@
 		margin-bottom: 50px;
 	}
 }
+
+.ui-dialog-titlebar-close {
+	position: relative;
+	top: -50px;
+}
+.ui-dialog .ui-dialog-titlebar-close .ui-button-text { display: none; }
+.ui-dialog {
+	position: fixed;
+}

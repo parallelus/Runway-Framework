@@ -166,7 +166,11 @@ if ( !function_exists( 'get_options_data' ) ) {
 		$key = $shortname . $key;
 
 		// get value from database
-		$value = get_option( $key );
+		// $value = get_option( $key );
+
+		global $wpdb;
+		$result = $wpdb->get_results( "SELECT * FROM wp_options WHERE option_name = '" . $key . "'" );
+		$value = isset($result[0]->option_value)? unserialize($result[0]->option_value) : '';
 
 		$key_tmp = explode('_', $original_key);
 		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
@@ -406,6 +410,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 	$exclude = array(
 		$shortname.'report-manager',
+		$shortname.'formsbuilder_'
 	);
 
 	// check if current option is runway extension option
@@ -640,10 +645,17 @@ function db_json_sync(){
 
 				if (in_array($option_key_json, array($json_prefix . 'report-manager')))
 					continue;
+				if ($option_key_json == $json_prefix . 'formsbuilder_') {
+					delete_option($option_key);
+					$wp_filesystem->delete($json_dir.'/'.$ff);
+					continue;
+				}
+
 				if (strpos($option_key_json, $json_prefix) !== false) {
 					
-					$json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
-						json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					// $json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
+					// 	json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
 					$db = get_option($option_key);					
 					$params = array(
 					    'json' => $json,
