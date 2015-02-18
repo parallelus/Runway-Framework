@@ -22,11 +22,11 @@ case 'delete-package':{
 			$alone_theme_file = "$name-($package).a.zip";
 			$child_theme_file = "$name-($package).c.zip";
 			$download_dir = $developer_tools->themes_path."/$name/download/";
-			if ( unlink( $download_dir.$alone_theme_file ) ) {
+			if ( file_exists($download_dir.$alone_theme_file) && unlink( $download_dir.$alone_theme_file ) ) {
 				// out message
 			}
 
-			if ( unlink( $download_dir.$child_theme_file ) ) {
+			if ( file_exists($download_dir.$child_theme_file) && unlink( $download_dir.$child_theme_file ) ) {
 				// out message
 			}
 		}
