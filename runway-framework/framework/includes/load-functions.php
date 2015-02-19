@@ -561,7 +561,8 @@ function custom_theme_menu_icon() {
 			}
 		}
 	} else {
-		$icon = rw_get_custom_theme_data('Icon');
+		$settings = get_settings_json();
+		$icon = $settings['Icon'];
 		if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
 		} else {
