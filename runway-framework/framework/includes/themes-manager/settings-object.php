@@ -293,9 +293,11 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$options['Tags'] = explode( ' ', $options['Tags'] );
         
         // extract ExludedPaths from string
-		$options['ExludedPaths'] = explode( ',', $options['ExludedPaths'] );
-        $options['ExludedPaths'] = array_map('trim',$options['ExludedPaths']);
-                
+        if (!empty($options['ExludedPaths'])) {
+          $options['ExludedPaths'] = explode( ',', $options['ExludedPaths'] );
+          $options['ExludedPaths'] = array_map('trim',$options['ExludedPaths']);
+        }
+		        
 		// set template to runway-framework
 		$options['Template'] = 'runway-framework';
 
@@ -674,7 +676,10 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
         $theme_data_json = get_settings_json($theme_name);
-        $excluded_paths_by_user = array_map('trim',$theme_data_json['ExludedPaths']);
+        $excluded_paths_by_user = array();
+        if (!empty($options['ExludedPaths'])) {
+          $excluded_paths_by_user = array_map('trim',$theme_data_json['ExludedPaths']);
+        }
         
 		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_alone_theme', $theme_name );
