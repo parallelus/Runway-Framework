@@ -185,6 +185,14 @@ $comment = $html->format_comment( $comment );
 $row = array( __( 'Google API Key', 'framework' ), $html->settings_input( 'theme_options[WebFontAPIKey]', isset( $WebFontAPIKey ) ? $WebFontAPIKey : '' ) . $comment );
 $html->setting_row( $row );
 
+if ( isset( $ExludedPaths ) && is_array( $ExludedPaths ) ) {
+	$ExludedPaths = implode(",\n", $ExludedPaths );
+}
+
+$comment = __( 'Folders and files that will be excluded from the final package. Use commas as separators.', 'framework' );
+$comment = $html->format_comment( $comment );
+$row = array( __( 'Exluded paths', 'framework' ), $html->settings_textarea( 'theme_options[ExludedPaths]', isset( $ExludedPaths ) ? $ExludedPaths : '' ) . $comment );
+$html->setting_row( $row );
 ?>
 				</table>
 			</div>
