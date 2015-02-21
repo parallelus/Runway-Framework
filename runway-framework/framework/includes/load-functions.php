@@ -562,11 +562,12 @@ function custom_theme_menu_icon() {
 		}
 	} else {
 		$settings = get_settings_json();
-		$icon = $settings['Icon'];
+		$icon = (!empty($settings)) ? $settings['Icon'] : '';
 		if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
-		} else {
-
+		} elseif ($theme['Folder'] == 'runway-framework' && file_exists( THEME_DIR . 'framework/images/menu-runway.png' )) {
+            $menu[$themeKey][6] = get_stylesheet_directory_uri() .'/framework/images/menu-runway.png';
+        } else {
 			global $wp_filesystem;
 
 			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
