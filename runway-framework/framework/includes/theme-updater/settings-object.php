@@ -181,7 +181,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 		
 		$theme_info['post_args'] = array(
 			'method' => 'POST',
-			'timeout' => 10,
+			'timeout' => 20,
 			'body' => $postdata
 		    );
 
@@ -192,8 +192,11 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 
 		$theme_info = $this->get_theme_info('theme');
 
-		$response_json = wp_remote_post($this->url_update_fw, $theme_info['post_args']);
-		$response_data = json_decode($response_json['body'], true);
+		$response = wp_remote_post($this->url_update_fw, $theme_info['post_args']);
+
+		if(is_a($response, 'WP_Error'))
+			return $data;
+		$response_data = json_decode($response['body'], true);
 
 		if($theme_info['type'] == 'child' && isset($response_data['success']) && $response_data['success'] && $response_data['result']['has_update']) {
 			$update = array();

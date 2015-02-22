@@ -84,10 +84,14 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 		<tr class = 'choose-another' style="display: none;">
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
-				<div>
-					<img src="<?php echo $custom_icon_src; ?>" width="16" height="16" />
-				</div>
-				<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
+				<?php if(isset($custom_icon_src) && !empty($custom_icon_src)): ?>
+					<div>
+						<img src="<?php echo $custom_icon_src; ?>" width="16" height="16" />
+					</div>
+					<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
+				<?php else: ?>
+					<a href="#" class='choose-another-link' ><?php echo __('Choose Custom Icon', 'framework'); ?></a>
+				<?php endif; ?>
 			</td>
 		</tr>			
 		<tr class = 'custom-icon-upload' style="display: none;">
