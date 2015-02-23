@@ -36,7 +36,7 @@ class Extm_Admin extends Runway_Admin_Object {
 	
 	function get_admin_data( $option_key ) {
 
-		return get_option( $option_key.'_extensions-manager' );
+		return get_option( $option_key.'extensions-manager' );
 
 	}
 
@@ -467,7 +467,8 @@ class Extm_Admin extends Runway_Admin_Object {
 		$theme_name = strtolower( $theme_name );
 		if( $theme_name != get_stylesheet() ) {
 			$theme = wp_get_theme( $theme_name );
-			$admin_data = $this->get_admin_data( $theme->Name );
+			$option_key = apply_filters( 'shortname', sanitize_title( $theme->Name . '_' ) );
+			$admin_data = $this->get_admin_data( $option_key );
 			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ? 
 				$admin_data['extensions'][$theme_name]['active'] :
 				array();

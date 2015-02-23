@@ -7,7 +7,7 @@ jQuery( document ).ready(function( $ ) {
 		modal: true,
 		resizable: false,
 		draggable: false,
-		closeOnEscape: true,      
+		closeOnEscape: true,  
 		open: function(event, ui) {
 			$(this).css({'max-height': 500});
 			$('ul').css({'z-index':0}); 
@@ -25,7 +25,7 @@ jQuery( document ).ready(function( $ ) {
     $( ".rebuild-package" ).click(function(e) {
 
       	e.preventDefault();
-      	$( ".tags-dialog" ).dialog('option', 'title', 'Package Options');
+		$( ".tags-dialog" ).dialog('option', 'title', 'Package Options');
       	$( "#tags-save" ).text('Create Package');
       	$( "#tags-save" ).val('add');
         $( ".tags-dialog" ).dialog( "open" );

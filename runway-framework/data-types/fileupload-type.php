@@ -62,10 +62,7 @@ class Fileupload_type extends Data_Type {
 				'value' => '#'
 			);
 			$this->enable_repeating($field);
-
-			if (!did_action('wp_enqueue_media'))
-				wp_enqueue_media();
-		?>
+        ?>
 		<script type='text/javascript'>
                     var file_frame;
 			var current_button;
@@ -130,11 +127,7 @@ class Fileupload_type extends Data_Type {
 		<span class="field_label">
 			<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
 		</span>
-		<?php
-		if ( ! did_action( 'wp_enqueue_media' ) )
-    		wp_enqueue_media();    	
-		?>
-
+		
 		<script type="text/javascript">
 			var file_frame;
 			var current_button;
@@ -146,7 +139,7 @@ class Fileupload_type extends Data_Type {
 					console.log('Yes keydown triggered. ' + e.which)
 				});	
 
-				$(function(){
+				
 					$("#upload_image_button-<?php echo $this->field->alias; ?>").click(function(e) {
 						e.preventDefault();
 						current_button = $(this);
@@ -180,7 +173,7 @@ class Fileupload_type extends Data_Type {
 
 						file_frame.open();
 					});
-				});
+				
 			})(jQuery);
 		</script><?php
 		}

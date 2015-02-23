@@ -727,7 +727,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$zip->addFromString( $theme_name.'/style.css', $css_ext );
 
 			// copy child theme files
-			$this->add_to_zip_r( get_stylesheet_directory(), $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
+			$this->add_to_zip_r( get_theme_root().'/'.$theme_name, $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
 
 			$zip->close();
 
@@ -806,9 +806,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$to_del = array_slice( $history, 10 );
 			foreach ( $to_del as $ts => $info ) {
 				unset( $history[$ts] );
-				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
+				if ( !empty($info['c_file']) && file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
 					unlink( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] );
-				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
+				if ( !empty($info['a_file']) && file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
 					unlink( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] );
 			}
 		}

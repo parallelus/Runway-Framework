@@ -69,15 +69,18 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	//-----------------------------------------------------------------
 	// Initialize the admin components
 	//-----------------------------------------------------------------
-	if ( is_admin() ) {
+	if ( is_admin() || isset($GLOBALS['wp_customize']) ) {
 		include_once 'core/admin-object.php';
-
+	}
+	
+	if ( is_admin() ) {
 		db_json_sync();
 		check_theme_ID();
 		prepare_translate_files();
 	}
 
-	load_data_types();
+	//load_data_types();
+    add_action('admin_enqueue_scripts','load_data_types');
 	load_framework_libraries();
 
 	//-----------------------------------------------------------------
