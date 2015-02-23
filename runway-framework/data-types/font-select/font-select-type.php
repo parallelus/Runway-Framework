@@ -291,9 +291,6 @@ class Font_select_type extends Data_Type {
 			</div>	
 
 		</div>
-		
-
-		</div>
 
 		<?php
 	}
