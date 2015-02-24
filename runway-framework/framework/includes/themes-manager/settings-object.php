@@ -291,7 +291,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		// extract tags from string
 		$options['Tags'] = explode( ' ', $options['Tags'] );
-
+        
+        // extract ExludedPaths from string
+        if (!empty($options['ExludedPaths'])) {
+          $options['ExludedPaths'] = explode( ',', $options['ExludedPaths'] );
+          $options['ExludedPaths'] = array_map('trim',$options['ExludedPaths']);
+        }
+		        
 		// set template to runway-framework
 		$options['Template'] = 'runway-framework';
 
@@ -556,10 +562,21 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		foreach ( $files as $file ) {
 			if ( $file != '.' && $file != '..' ) {
 				if ( !in_array( $file, $exclude ) ) {
-					if ( is_dir( $path.'/'.$file ) ) {
+					if ( is_dir( $path.'/'.$file ) ) { 
 						$zip->addEmptyDir( $path_in_zip.$file );
-						$this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip );
-					}
+                        
+						//check if any of the exluded items has this folder in it's path, go on with it's subfolders as exludes in next iterations
+                        $next_exclude = array();
+                        foreach($exclude as $exclude_item) {
+                            if (strpos($exclude_item,$file) !== false) {
+                              $exclude_item_path_arr = explode("/", $exclude_item, 2);
+                              if ($exclude_item_path_arr[0] == $file) {
+                                $next_exclude[] = ltrim(strstr($exclude_item, '/'), "/");
+                              }
+                            }
+                        }
+                        $this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip, $next_exclude );
+                    }
 					elseif ( is_file( $path.'/'.$file ) ) {
 						$zip->addFromString( $path_in_zip.$file, $wp_filesystem->get_contents( $path.'/'.$file ) );
 					}
@@ -658,7 +675,12 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-		
+        $theme_data_json = get_settings_json($theme_name);
+        $excluded_paths_by_user = array();
+        if (!empty($options['ExludedPaths'])) {
+          $excluded_paths_by_user = array_map('trim',$theme_data_json['ExludedPaths']);
+        }
+        
 		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_alone_theme', $theme_name );
 			global $extm;
@@ -690,7 +712,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$zip->addEmptyDir( $theme_name.'/framework/includes/' );
 			$framework_dir = FRAMEWORK_DIR.'framework/includes/';
 			$exclude = array('report-manager', 'themes-manager', 'download-directory', 'dashboard', 'pointers');
-			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/includes/', $zip, $exclude );
+			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/includes/', $zip, $exclude);
 			$zip->addEmptyDir( $theme_name.'/data-types/' );
 			$framework_dir = FRAMEWORK_DIR.'data-types/';
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/data-types/', $zip );
@@ -727,8 +749,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$zip->addFromString( $theme_name.'/style.css', $css_ext );
 
 			// copy child theme files
-			$this->add_to_zip_r( get_theme_root().'/'.$theme_name, $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
 
+            $exclude = array_merge(array( 'download', 'functions.php', 'style.css' ), $excluded_paths_by_user);
+			$this->add_to_zip_r( get_theme_root().'/'.$theme_name, $theme_name.'/', $zip, $exclude );
 			$zip->close();
 
 			do_action( 'after_build_alone_theme', $theme_name, home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}" );

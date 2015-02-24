@@ -217,4 +217,12 @@ if ( $history ) { ?>
 			</tr>
 		</tfoot>
 	</table>
+    
+    <?php
+    // Delete all button
+    $rebuild_button = $html->settings_link(__('Delete All Old Download Packages', 'framework'), array('class'=>'button-primary','navigation'=>'confirm-del-packages-all','name'=>$_REQUEST['name']));
+    ?>
+
+    <p><?php echo $rebuild_button; ?></p>
+
 	<?php } ?>
