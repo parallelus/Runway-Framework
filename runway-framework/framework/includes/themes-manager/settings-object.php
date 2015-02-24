@@ -689,7 +689,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/', $zip, $exclude );
 			$zip->addEmptyDir( $theme_name.'/framework/includes/' );
 			$framework_dir = FRAMEWORK_DIR.'framework/includes/';
-			$exclude = array('report-manager', 'themes-manager', 'download-directory', 'dashboard', 'pointers');
+			$exclude = array('report-manager', 'download-directory', 'dashboard', 'pointers');
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/includes/', $zip, $exclude );
 			$zip->addEmptyDir( $theme_name.'/data-types/' );
 			$framework_dir = FRAMEWORK_DIR.'data-types/';
