@@ -110,7 +110,7 @@ class Colorpicker_type extends Data_Type {
 								//}, 50);
 							},
 							clear: function() {
-								jQuery('[name="'+name+'"]').attr('value', '');
+								jQuery('[name="'+name+'"]').attr('value', '').val('').trigger('change');
 							}
 						});
 					});
