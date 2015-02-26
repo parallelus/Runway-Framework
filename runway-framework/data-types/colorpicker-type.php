@@ -98,7 +98,7 @@ class Colorpicker_type extends Data_Type {
 				(function () {
 
 					var name = '<?php echo $this->field->alias; ?>';
-
+                    var default_val = '<?php echo $this->field->values ?>';
 					jQuery(function () {
 
 						jQuery('[name="'+name+'"]').wpColorPicker({ 
@@ -110,7 +110,8 @@ class Colorpicker_type extends Data_Type {
 								//}, 50);
 							},
 							clear: function() {
-								jQuery('[name="'+name+'"]').attr('value', '').val('').trigger('change');
+                                default_val = (default_val) ? default_val : '';
+								jQuery('[name="'+name+'"]').attr('value', default_val).val(default_val).trigger('change');
 							}
 						});
 					});
