@@ -677,7 +677,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		global $wp_filesystem;
         $theme_data_json = get_settings_json($theme_name);
         $excluded_paths_by_user = array();
-        if (!empty($options['ExludedPaths'])) {
+        if (!empty($theme_data_json['ExludedPaths'])) {
           $excluded_paths_by_user = array_map('trim',$theme_data_json['ExludedPaths']);
         }
         
