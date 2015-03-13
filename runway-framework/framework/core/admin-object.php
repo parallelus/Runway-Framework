@@ -1212,7 +1212,7 @@ if ( !defined( $runway_framework_admin ) ) {
 					}
 				}
 				
-				if(!$found_in_framework_dirs) {
+				if(!$found_in_framework_dirs && !$found_in_theme_dirs) {
 					$template_path = get_theme_root().'/'.$theme_data['Template'].'/data-types/'.$field->type.'.php';
 				}
 			}
