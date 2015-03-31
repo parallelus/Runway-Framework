@@ -192,20 +192,18 @@ class Checkbox_type extends Data_Type {
 
 				<script type="text/javascript">
 
-					var name = '<?php echo $this->field->alias; ?>';
-
-					jQuery('[name="'+name+'[]"]').on('click', function () {
+					jQuery('input[name="<?php echo $this->field->alias;?>[]"]').on('click', function () {
 
 						var value = [];
 
-						jQuery('[name="'+name+'[]"]:checked').each(function () {
+						jQuery('[name="<?php echo $this->field->alias;?>[]"]:checked').each(function () {
 							value.push(jQuery(this).val());
 						});
 
-						jQuery('[name="'+name+'"]').val(value).trigger('change');
+						jQuery('[name="<?php echo $this->field->alias;?>"]').val(value).trigger('change');
 
 					});
-
+                    
 				</script>
 			<?php
 		}
