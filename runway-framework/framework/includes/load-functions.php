@@ -1148,4 +1148,12 @@ if(!function_exists('runway_check_versions')) {
 		return $has_update;
 	}
 }
+
+if(!function_exists('runway_filesystem_method')) {
+	function runway_filesystem_method($method) {
+		$method = is_admin()? 'direct' : $method;
+		return $method;
+	}
+}
+add_filter( 'filesystem_method', 'runway_filesystem_method' );
 ?>
