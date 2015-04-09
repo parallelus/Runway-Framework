@@ -49,14 +49,18 @@ if(!function_exists('include_data_types')) {
 				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
 					if(is_dir("$data_types_path/$name/$filename"))
 						continue;
-					
-					include_once "$data_types_path/$name/$filename";
-					$data_types_array[$filename] = "$data_types_path/$name/$filename";
+
+					if( pathinfo("$data_types_path/$name/$filename", PATHINFO_EXTENSION) == 'php' ) {
+						include_once "$data_types_path/$name/$filename";
+						$data_types_array[$filename] = "$data_types_path/$name/$filename";
+					}
 				}
 			}
 			else {
-				include_once "$data_types_path/$name";
-				$data_types_array[$name] = "$data_types_path/$name";
+				if( pathinfo("$data_types_path/$name", PATHINFO_EXTENSION) == 'php' ) {
+					include_once "$data_types_path/$name";
+					$data_types_array[$name] = "$data_types_path/$name";
+				}
 			}
 		}
 		
