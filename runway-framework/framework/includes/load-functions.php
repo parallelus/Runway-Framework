@@ -276,7 +276,7 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 			global $libraries;
 			$libraries = array();
 			foreach ( $libs as $key => $lib ) {
-				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) ) {
+				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) && pathinfo($lib, PATHINFO_EXTENSION) == 'php' ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
 					if ( class_exists( $name ) && $name != 'Html' ) {
