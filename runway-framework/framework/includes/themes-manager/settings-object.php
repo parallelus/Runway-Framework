@@ -343,7 +343,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	        $image = wp_get_image_editor($_FILES['theme_options']['tmp_name']['CustomIcon']);
 
         	if(!is_wp_error($image)){
-	             $image->resize(16, 16);
+	             $image->resize(36, 36);
     	         $image->save($this->themes_path . '/' . $options['Folder'] . '/custom-icon.png');
 	        }
 
