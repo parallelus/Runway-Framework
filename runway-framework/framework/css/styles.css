@@ -1,10 +1,3 @@
-/* Custom Menu Icon */
-#adminmenu a.custom-icon .wp-menu-image img {
-    padding: 8px 0 0;
-    width: 18px;
-    height: 18px;
-}
-
 /* Tabs */
 #theme-framework.hasPageTitle h2.nav-tab-wrapper {
     padding-top: 25px

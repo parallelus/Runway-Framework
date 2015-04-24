@@ -180,6 +180,20 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'framework').'</div>';
 	}
 	
+	// Force custom icon styles on every page
+	function framework_theme_menu_custom_icon() {
+		?>
+		<style type="text/css">
+			#adminmenu a.custom-icon .wp-menu-image img {
+				padding: 8px 0 0;
+				width: 18px;
+				height: 18px;
+			}
+		</style>
+		<?php
+	}
+	add_action('admin_head', 'framework_theme_menu_custom_icon');
+
 	//-----------------------------------------------------------------
 	// WP-Pointers (temporary location)
 	//-----------------------------------------------------------------
