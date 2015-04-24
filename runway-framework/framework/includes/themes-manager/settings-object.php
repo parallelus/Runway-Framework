@@ -908,15 +908,26 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Preview URL
 	$t['previewURL'] = home_url();
 	if ( is_ssl() ) $t['previewURL'] = str_replace( 'http://', 'https://', $t['previewURL'] );
-	$t['previewURL'] = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => strtolower( urlencode( $theme['Template'] ) ), 'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 'preview_iframe' => false, 'TB_iframe' => 'false' ), $t['previewURL'] ) );
+	$t['previewURL'] = esc_url(htmlspecialchars( 
+		add_query_arg( 
+			array( 
+				'preview' => 1, 
+				'template' => strtolower( urlencode( $theme['Template'] ) ), 
+				'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 
+				'preview_iframe' => false, 
+				'TB_iframe' => 'false' 
+			), 
+			$t['previewURL'] 
+		) 
+	));
 	// Edit URL
-	$t['editURL'] = 'admin.php?page=themes&navigation=edit-theme&name='. $t['folder'];
+	$t['editURL'] = esc_url('admin.php?page=themes&navigation=edit-theme&name='. $t['folder']);
 	// Delete URL
-	$t['deleteURL'] = 'admin.php?page=themes&navigation=delete-theme&name='. $t['folder'];
+	$t['deleteURL'] = esc_url('admin.php?page=themes&navigation=delete-theme&name='. $t['folder']);
 	// Download URL
-	$t['downloadURL'] = 'admin.php?page=themes&navigation=do-package&name='. $t['folder'];
+	$t['downloadURL'] = esc_url('admin.php?page=themes&navigation=do-package&name='. $t['folder']);
 	// History URL
-	$t['historyURL'] = 'admin.php?page=themes&navigation=do-download&name='. $t['folder'];
+	$t['historyURL'] = esc_url('admin.php?page=themes&navigation=do-download&name='. $t['folder']);
 
 	// Links
 	// --------------------------------------------

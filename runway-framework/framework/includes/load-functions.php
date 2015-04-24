@@ -983,8 +983,8 @@ function ask_new_theme( $old_theme, $new_theme, $link) {
 		__('If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'framework') . '.<br>' .
 		__('If this is the same theme and you are just renaming it, you should keep this ID the same' , 'framework') . '.<br>' .
 		__('Do you want to create a new ID now?', 'framework') . '</strong>'; ?>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 1, $link ); ?>"><?php _e('Yes', 'framework') ?></a>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 0, $link ); ?>"><?php _e('No', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 1, $link )); ?>"><?php _e('Yes', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 0, $link )); ?>"><?php _e('No', 'framework') ?></a>
 		</p>
 	</div>
 	<?php
