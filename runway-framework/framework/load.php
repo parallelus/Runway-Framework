@@ -79,7 +79,8 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 		prepare_translate_files();
 	}
 
-	load_data_types();
+	//load_data_types();
+    add_action('admin_enqueue_scripts','load_data_types');
 	load_framework_libraries();
 
 	//-----------------------------------------------------------------

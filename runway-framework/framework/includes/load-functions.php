@@ -12,13 +12,13 @@ spl_autoload_register( function( $class ) {
 //-----------------------------------------------------------------
 
 if ( !function_exists( 'load_data_types' ) ) :
-	function load_data_types() {
+    function load_data_types() {
 		global $data_types_list;
 
 		// $data_types_path = get_theme_root() . "/runway-framework/data-types";
 		$data_types_path = FRAMEWORK_DIR .'data-types';
 		$data_types_base = $data_types_path . "/data-type.php";
-
+        
 		if (!file_exists($data_types_path) || !file_exists($data_types_base)) {
 			wp_die("Error: has no data types.");
 		} else {
@@ -28,7 +28,12 @@ if ( !function_exists( 'load_data_types' ) ) :
 
 			foreach ($data_types_array as $name => $path) {
 				$data_type_slug = basename($path, '.php');
-
+                
+                if ($name == 'fileupload-type.php') {
+                  if ( ! did_action( 'wp_enqueue_media' ) )
+                    wp_enqueue_media();   //Needed for upload field
+                }
+                
 				$data_types_list[$data_type_slug] = array(
 				    'filename' => $name,
 				    'classname' => ucfirst(str_replace('-', '_', $data_type_slug)),
