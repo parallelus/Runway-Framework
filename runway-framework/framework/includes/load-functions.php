@@ -12,13 +12,13 @@ spl_autoload_register( function( $class ) {
 //-----------------------------------------------------------------
 
 if ( !function_exists( 'load_data_types' ) ) :
-	function load_data_types() {
+    function load_data_types() {
 		global $data_types_list;
 
 		// $data_types_path = get_theme_root() . "/runway-framework/data-types";
 		$data_types_path = FRAMEWORK_DIR .'data-types';
 		$data_types_base = $data_types_path . "/data-type.php";
-
+        
 		if (!file_exists($data_types_path) || !file_exists($data_types_base)) {
 			wp_die("Error: has no data types.");
 		} else {
@@ -28,7 +28,12 @@ if ( !function_exists( 'load_data_types' ) ) :
 
 			foreach ($data_types_array as $name => $path) {
 				$data_type_slug = basename($path, '.php');
-
+                
+                if ($name == 'fileupload-type.php') {
+                  if ( ! did_action( 'wp_enqueue_media' ) )
+                    wp_enqueue_media();   //Needed for upload field
+                }
+                
 				$data_types_list[$data_type_slug] = array(
 				    'filename' => $name,
 				    'classname' => ucfirst(str_replace('-', '_', $data_type_slug)),
@@ -49,14 +54,18 @@ if(!function_exists('include_data_types')) {
 				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
 					if(is_dir("$data_types_path/$name/$filename"))
 						continue;
-					
-					include_once "$data_types_path/$name/$filename";
-					$data_types_array[$filename] = "$data_types_path/$name/$filename";
+
+					if( pathinfo("$data_types_path/$name/$filename", PATHINFO_EXTENSION) == 'php' ) {
+						include_once "$data_types_path/$name/$filename";
+						$data_types_array[$filename] = "$data_types_path/$name/$filename";
+					}
 				}
 			}
 			else {
-				include_once "$data_types_path/$name";
-				$data_types_array[$name] = "$data_types_path/$name";
+				if( pathinfo("$data_types_path/$name", PATHINFO_EXTENSION) == 'php' ) {
+					include_once "$data_types_path/$name";
+					$data_types_array[$name] = "$data_types_path/$name";
+				}
 			}
 		}
 		
@@ -272,7 +281,7 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 			global $libraries;
 			$libraries = array();
 			foreach ( $libs as $key => $lib ) {
-				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) ) {
+				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) && pathinfo($lib, PATHINFO_EXTENSION) == 'php' ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
 					if ( class_exists( $name ) && $name != 'Html' ) {
@@ -974,8 +983,8 @@ function ask_new_theme( $old_theme, $new_theme, $link) {
 		__('If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'framework') . '.<br>' .
 		__('If this is the same theme and you are just renaming it, you should keep this ID the same' , 'framework') . '.<br>' .
 		__('Do you want to create a new ID now?', 'framework') . '</strong>'; ?>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 1, $link ); ?>"><?php _e('Yes', 'framework') ?></a>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 0, $link ); ?>"><?php _e('No', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 1, $link )); ?>"><?php _e('Yes', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 0, $link )); ?>"><?php _e('No', 'framework') ?></a>
 		</p>
 	</div>
 	<?php
@@ -1148,4 +1157,12 @@ if(!function_exists('runway_check_versions')) {
 		return $has_update;
 	}
 }
+
+if(!function_exists('runway_filesystem_method')) {
+	function runway_filesystem_method($method) {
+		$method = is_admin()? 'direct' : $method;
+		return $method;
+	}
+}
+add_filter( 'filesystem_method', 'runway_filesystem_method' );
 ?>

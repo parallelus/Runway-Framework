@@ -86,7 +86,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 			<td>
 				<?php if(isset($custom_icon_src) && !empty($custom_icon_src)): ?>
 					<div>
-						<img src="<?php echo $custom_icon_src; ?>" width="16" height="16" />
+						<img src="<?php echo $custom_icon_src; ?>" width="18" height="18" />
 					</div>
 					<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
 				<?php else: ?>
@@ -98,7 +98,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<input type="file" name="theme_options[CustomIcon]" value="" />
-				<p class="description"><?php echo __('Recommended size 32x32px for HiDPI screens. Icon displayed at 16x16px.', 'framework'); ?></p>
+				<p class="description"><?php echo __('Recommended size 36x36px for HiDPI screens. Icon displayed at 16x16px.', 'framework'); ?></p>
 			</td>
 		</tr>
 <?php
