@@ -100,22 +100,24 @@ class Colorpicker_type extends Data_Type {
 					var name = '<?php echo $this->field->alias; ?>';
  					var default_val = '<?php echo $this->field->values ?>';
 
-					jQuery(function () {
-
-						jQuery('[name="'+name+'"]').wpColorPicker({ 
-							change: function (event, ui) {
-								var hexcolor = jQuery( this ).wpColorPicker( 'color' );
-							
-								//setTimeout(function () {
-								jQuery('[name="'+name+'"]').attr('value', hexcolor).val(hexcolor).trigger('change');
-								//}, 50);
-							},
-							clear: function() {
-								default_val = (default_val) ? default_val : '';
-								jQuery('[name="'+name+'"]').attr('value', default_val).val(default_val).trigger('change');
-							}
-						});
-					});
+					jQuery(document).ready(function($) {
+                        default_val = (default_val) ? default_val : false;
+                        $('input[name="'+name+'"]').wpColorPicker({ 
+                            change: function (event, ui) {
+                                var hexcolor = $(this).wpColorPicker( 'color' );
+                                $('[name="'+name+'"]').attr('value', hexcolor).trigger('change');
+                            },
+                            clear: function() { 
+                              $('[name="'+name+'"]').attr('value', '');
+                              if ( wp.customize ) {
+                                var alias = name.replace(/\[\d*\]$/, "");
+                                var api = wp.customize;
+                                api.instance(alias).set($('input[name="'+alias+'"]').val());
+                              }
+                            },
+                            defaultColor: default_val
+                        });
+                    });
 
 				})();
 			</script>
@@ -246,7 +248,7 @@ class Colorpicker_type extends Data_Type {
 
 				setTimeout(function () {
 					jQuery('.color-picker').wpColorPicker();
-					jQuery('.settings-select').one('change', colorPickerInit());
+					jQuery('.settings-select').on('change', colorPickerInit());
 				}, 200);
 
 			}
