@@ -248,7 +248,7 @@ class Colorpicker_type extends Data_Type {
 
 				setTimeout(function () {
 					jQuery('.color-picker').wpColorPicker();
-					jQuery('.settings-select').on('change', colorPickerInit());
+					jQuery('.settings-select').one('change', colorPickerInit());
 				}, 200);
 
 			}
