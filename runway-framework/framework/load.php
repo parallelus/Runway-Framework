@@ -184,7 +184,8 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	function framework_theme_menu_custom_icon() {
 		?>
 		<style type="text/css">
-			#adminmenu a.custom-icon .wp-menu-image img {
+			#adminmenu a.custom-icon .wp-menu-image img,
+			#adminmenu .wp-menu-image img {
 				padding: 8px 0 0;
 				width: 18px;
 				height: 18px;
