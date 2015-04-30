@@ -144,6 +144,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 	// $option (optional) is path to option in options-set (coma separated values)
 	// $default (optional) if nothing was matched then return this value
 	function get_options_data( $key, $option = false, $default = null ) {
+		global $wpdb, $shortname;
 
 		if ( $option && isset( $_REQUEST['customized'] ) ) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
@@ -152,8 +153,6 @@ if ( !function_exists( 'get_options_data' ) ) {
 				return $value;
 			}
 		}
-
-		global $shortname;
 
 		if ( empty( $key ) ) {
 			return $default;
@@ -177,9 +176,42 @@ if ( !function_exists( 'get_options_data' ) ) {
 		// get value from database
 		// $value = get_option( $key );
 
-		global $wpdb;
-		$result = $wpdb->get_results( "SELECT * FROM wp_options WHERE option_name = '" . $key . "'" );
-		$value = isset($result[0]->option_value)? unserialize($result[0]->option_value) : '';
+		// get value from database query
+		// $result = $wpdb->get_results( "SELECT * FROM wp_options WHERE option_name = '" . $key . "'" );
+		// $value = isset($result[0]->option_value)? unserialize($result[0]->option_value) : '';
+
+		// Same logic as get_option()
+		$alloptions = wp_load_alloptions();
+
+		if ( isset( $alloptions[$key] ) ) {
+			// get the cached value
+			$option_value = $alloptions[$key];
+		} else {
+
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $key ) );
+
+			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			if ( is_object( $row ) ) {
+				// value exists, so cache it
+				$option_value = $row->option_value;
+				wp_cache_add( $key, $option_value, 'options' );
+			} else { 
+				// option does not exist, so we must cache its non-existence
+				$notoptions[$key] = true;
+				wp_cache_set( 'notoptions', $notoptions, 'options' );
+
+				// and return the default
+				return apply_filters( 'default_option_' . $key, $default );
+			}
+		}
+
+		if (isset($option_value)) {
+			// prepare the value for use
+			$value = unserialize($option_value);
+		} else {
+			// nada, so return the default
+			return apply_filters( 'default_option_' . $key, $default );
+		}
 
 		$key_tmp = explode('_', $original_key);
 		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
