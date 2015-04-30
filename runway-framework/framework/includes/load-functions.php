@@ -220,6 +220,9 @@ if ( !function_exists( 'get_options_data' ) ) {
 				return $meta_value;			
 		}
 
+		// Validate
+		$value[$option] = ( isset( $value[$option] ) ) ? $value[$option] : '';
+
 		// apply data-type filter
 		if ( isset( $value['field_types'][$option] ) ) {
 			$field_type = $value['field_types'][$option];
@@ -227,7 +230,6 @@ if ( !function_exists( 'get_options_data' ) ) {
 		}
 
 		// apply option option_key filter
-		$value[$option] = ( isset( $value[$option] ) ) ? $value[$option] : '';
 		$value[$option] = apply_filters( 'options_data_' . $option, $value[$option] );
 		// apply option page_key+option_key filter
 		$opt = ( isset( $value[$option] ) ) ? $value[$option] : '';
