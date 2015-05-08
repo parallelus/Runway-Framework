@@ -145,7 +145,7 @@ if ( isset( $Screenshot ) ) { ?>
 					<a href="<?php echo home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ?>"><?php echo __('View Screenshot', 'framework'); ?></a><br>
 				<?php } ?>
 				<input type="file" name="theme_options[Screenshot]" value="<?php echo isset($_FILES['theme_options']['name']['Screenshot'])? $_FILES['theme_options']['name']['Screenshot'] : ''; ?>" />
-				<p class="description"><?php echo __('Recommended size: 600×450 for HiDPI. Displayed at 300×225.', 'framework'); ?></p>
+				<p class="description"><?php echo __('Recommended size: 600&#215;450 for HiDPI. Displayed at 300&#215;225.', 'framework'); ?></p>
 			</td>
 		</tr>
 
