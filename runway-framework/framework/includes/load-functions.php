@@ -606,14 +606,16 @@ function custom_theme_menu_icon() {
 	} else {
 		$settings = get_settings_json();
 		$icon = $settings['Icon'];
-		if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
-			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
-		} else {
+		if ( $themeKey != null ) {
+			if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
+				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
+			} else {
 
-			global $wp_filesystem;
+				global $wp_filesystem;
 
-			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
-			$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
+				$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
+				$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
+			}
 		}
 	}
 }
