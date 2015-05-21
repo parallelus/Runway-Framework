@@ -233,7 +233,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 		$value[$option] = apply_filters( 'options_data_' . $option, $value[$option] );
 		// apply option page_key+option_key filter
 		$opt = ( isset( $value[$option] ) ) ? $value[$option] : '';
-		$value[$option] = apply_filters( 'options_data_' . $original_key . '_' . $option, $value[$option] );
+		$value[$option] = stripslashes_deep( apply_filters( 'options_data_' . $original_key . '_' . $option, $value[$option] ) );
 
 		if ( !empty( $value ) ) {
 			// return value by defined option path
