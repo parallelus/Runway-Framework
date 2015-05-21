@@ -17,7 +17,7 @@ class Range_slider_type extends Data_Type {
 		$customize_title = stripslashes($this->field->title);
 		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		
+
 		$start = "0";
 		
 		$double = false;
@@ -64,12 +64,12 @@ class Range_slider_type extends Data_Type {
 					<?php } else { ?>
 					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
 					<?php } ?>
-					
+
 					<input type="hidden" 
 					       class="custom-data-type" 
 					       <?php echo parent::add_data_conditional_display($this->field); ?> 
 					       name="<?php echo $this->field->alias;?>" 
-					       value="" 
+					       value="<?php echo $value; ?>" 
 					       <?php $this->link() ?>
 					       <?php echo $section; ?>
 					       id="hidden-<?php echo $this->field->alias; ?>"
