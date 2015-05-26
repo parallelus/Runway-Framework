@@ -276,7 +276,6 @@ class Code_editor_type extends Data_Type {
 			(function($){
 				$(document).ready(function(){
 					var editor = ace.edit("<?php echo $this->field->alias; ?>");
-
 					editor.getSession().on('change', function(e) {
 						var editor = ace.edit("<?php echo $this->field->alias; ?>");
 						var code = editor.getSession().getValue();
@@ -287,6 +286,7 @@ class Code_editor_type extends Data_Type {
 						}
 						$('#hidden-<?php echo $this->field->alias; ?>').trigger('change');
 					});
+					editor.setShowPrintMargin(false);
 				});
 			})(jQuery);
 		</script>
