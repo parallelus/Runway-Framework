@@ -83,7 +83,7 @@ class Radio_buttons extends Data_Type {
 					if ($cnt < $len)
 						$html .= '<br>';
 				}
-				echo $html . "</div>";
+				echo  $html . "</div>";
 				?>
 					<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
 				<?php
@@ -128,7 +128,7 @@ class Radio_buttons extends Data_Type {
 			// Add the fieldset container
 			$html = '<fieldset><legend class="screen-reader-text"><span>' . stripslashes($this->field->title) . '</span></legend>' . stripslashes($html) . '</fieldset>';
 
-			echo $html;
+			echo  $html;
 		}
 
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -276,7 +276,7 @@ class Radio_buttons extends Data_Type {
 		$add_id = 'add_' . $field_name;
 		$del_id = 'del_' . $field_name;
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
@@ -286,24 +286,24 @@ class Radio_buttons extends Data_Type {
 			(function($){
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
-					var start_radio_groups_index = <?php echo $start_number; ?>;
+					var start_radio_groups_index = <?php echo esc_js($start_number); ?>;
 
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<div class="radio_group">');
 
 						<?php foreach ($default_values as $val_key => $val) { ?>
 						var child_field = $('<input/>', {
-							type: '<?php echo $type; ?>',
-							class: '<?php echo $class; ?>',
-							name: '<?php echo $field_name; ?>['+start_radio_groups_index+']',
-							value: "<?php echo $val_key; ?>"
+							type: '<?php echo esc_js($type); ?>',
+							class: '<?php echo esc_js($class); ?>',
+							name: '<?php echo esc_js($field_name); ?>['+start_radio_groups_index+']',
+							value: "<?php echo esc_js($val_key); ?>"
 						})							
-						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
 
 						field.append(child_field);
-						field.append("<?php echo $val; ?><br/>");
+						field.append("<?php echo esc_js($val); ?><br/>");
 						<?php } ?>
 						start_radio_groups_index++;
 
@@ -311,11 +311,11 @@ class Radio_buttons extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br><br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a>');
 						
 						if(typeof reinitialize_customize_radio_instance == 'function') {
-							reinitialize_customize_radio_instance('<?php echo $field_name ?>');
+							reinitialize_customize_radio_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -328,7 +328,7 @@ class Radio_buttons extends Data_Type {
 						$(this).remove();
 						
 						if(typeof reinitialize_customize_radio_instance == 'function') {
-							reinitialize_customize_radio_instance('<?php echo $field_name ?>');
+							reinitialize_customize_radio_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -336,7 +336,7 @@ class Radio_buttons extends Data_Type {
 						if(typeof reinitialize_customize_radio_instance == 'function') {
 							var api = wp.customize;
 							api.bind('ready', function(){
-								reinitialize_customize_radio_instance('<?php echo $field_name ?>');
+								reinitialize_customize_radio_instance('<?php echo esc_js($field_name) ?>');
 							});
 						}
 					}
@@ -351,8 +351,8 @@ class Radio_buttons extends Data_Type {
 	?>
 		<script type="text/javascript">
 		(function($){
-			$('body').on('click', 'input[name^="<?php echo $this->field->alias;?>"]', function(e){
-				reinitialize_customize_radio_instance('<?php echo $this->field->alias;?>');
+			$('body').on('click', 'input[name^="<?php echo esc_js($this->field->alias);?>"]', function(e){
+				reinitialize_customize_radio_instance('<?php echo esc_js($this->field->alias);?>');
 			});
 		})(jQuery);
 

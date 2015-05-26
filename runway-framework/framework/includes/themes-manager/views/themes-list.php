@@ -27,7 +27,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 			<?php echo __('Enable default theme for a network', 'framework'); ?>?
 
 			<p class="bottom-panel">
-				<a href="<?php echo $ms_enable_theme_link; ?>" class="enable-theme button"><?php _e( 'Enable', 'framework' ); ?></a>
+				<a href="<?php echo esc_url($ms_enable_theme_link); ?>" class="enable-theme button"><?php _e( 'Enable', 'framework' ); ?></a>
 				&nbsp;<a href="javascript: void(0);" class="button"><?php _e( 'Cancel', 'framework' ); ?></a>
 			</p>
 
@@ -71,9 +71,9 @@ if ( isset( $options ) ) {
 			</script>
 
 			<div class="activate-theme-popup themeActionsPupup">
-				<?php echo $popup_message; ?>
+				<?php echo  $popup_message; ?>
 				<p class="bottom-panel">
-					<a href="<?php echo $activate_link; ?>" class="activate-theme button"><?php _e( 'Activate', 'framework' ); ?></a>
+					<a href="<?php echo esc_url($activate_link); ?>" class="activate-theme button"><?php _e( 'Activate', 'framework' ); ?></a>
 					&nbsp;<a href="javascript: void(0);" class="button  cancel-activate-theme"><?php _e( 'Cancel', 'framework' ); ?></a>
 				</p>
 			</div> <?php
@@ -148,25 +148,25 @@ if ( isset( $options ) ) {
 	
 	<div class="theme-browser rendered">
 		<div class="themes">
-			<div class="theme active" tabindex="0" data-themeid="<?php echo $current_theme['Folder'];?>">
+			<div class="theme active" tabindex="0" data-themeid="<?php echo esc_attr($current_theme['Folder']); ?>">
 				<div class="theme-screenshot">
-					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+					<img alt="" src="<?php echo esc_url( (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 				</div>
-				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
-				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $current_theme['AuthorName']; ?></div>
-				<h3 id="<?php echo strtolower( $t['name'] );?>-name" class="theme-name">
-					<span><?php echo __('Active', 'framework'); ?>:</span> <?php echo $t['name']; ?>
+				<span id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
+				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo  $current_theme['AuthorName']; ?></div>
+				<h3 id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-name" class="theme-name">
+					<span><?php echo __('Active', 'framework'); ?>:</span> <?php echo  $t['name']; ?>
 				</h3>
 				<div class="runway-theme-actions">
 					<?php if ( strtolower( $t['name'] ) != 'runway' ) { ?>
 					<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'framework'); ?>">
-						<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
+						<div class="dashicons dashicons-edit" data-code="f105"><?php echo  $t['editLink']; ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'framework'); ?>">
-						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
+						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo  $t['duplicateLink']; ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'framework'); ?>">
-						<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
+						<div class="dashicons dashicons-download" data-code="f316"><?php echo  $t['downloadLink']; ?></div>
 					</div>
 					<?php } ?>
 				</div>
@@ -188,20 +188,20 @@ if ( isset( $options ) ) {
 					$ms_enable_theme_link = network_admin_url().esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
 				}
 			?>
-			<div class="theme" tabindex="0" data-themeid="<?php echo $theme['Folder'];?>">
+			<div class="theme" tabindex="0" data-themeid="<?php echo esc_attr($theme['Folder']); ?>">
 				<div class="theme-screenshot">
-					<img alt="" src="<?php echo (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+					<img alt="" src="<?php echo esc_url( (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 				</div>
-				<span id="<?php echo strtolower( $t['name'] );?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
-				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo $theme['AuthorName']; ?></div>
-				<h3 id="<?php echo strtolower( $t['name'] );?>-name" class="theme-name">
-					<?php echo $t['name']; ?>
+				<span id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'framework'); ?></span><span class="action-text" style="display: none"></span></span>
+				<div class="theme-author"><?php echo __('By', 'framework'); ?> <?php echo  $theme['AuthorName']; ?></div>
+				<h3 id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-name" class="theme-name">
+					<?php echo  $t['name']; ?>
 				</h3>
 				<div class="runway-theme-notactive-actions">
 					<div class="runway-theme-actions">
 						<?php if($allowed){ ?>
 						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'framework'); ?>">
-							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $t['activateLink']; ?></div>
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo  $t['activateLink']; ?></div>
 						</div>
 						<?php } else { ?>
 						<?php
@@ -213,14 +213,14 @@ if ( isset( $options ) ) {
 								$link .= 'href="'. $ms_enable_theme_link .'">'. __( 'Network Enable', 'framework' ) .'</a>';
 						?>
 						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'framework'); ?>">
-							<div class="dashicons dashicons-yes" data-code="f147"><?php echo $link; ?></div>
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo  $link; ?></div>
 						</div>
 						<?php	} ?>
 						<?php } ?>
 						
 						<?php if($allowed || (!$allowed && is_admin())) { ?>
 						<div class="dashicons-container dashicons-container-visibility" data-action-text="<?php _e('Preview', 'framework'); ?>">
-							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo $t['previewLink']; ?></div>
+							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo  $t['previewLink']; ?></div>
 						</div>
 						<?php } ?>
 					</div>
@@ -228,16 +228,16 @@ if ( isset( $options ) ) {
 					<?php	if(strtolower( $theme['Name'] ) != 'runway') { ?>
 					<div class="runway-theme-actions-bottom">
 						<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'framework'); ?>">
-							<div class="dashicons dashicons-edit" data-code="f105"><?php echo $t['editLink']; ?></div>
+							<div class="dashicons dashicons-edit" data-code="f105"><?php echo  $t['editLink']; ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'framework'); ?>">
-							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
+							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo  $t['duplicateLink']; ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-no" data-action-text="<?php _e('Delete', 'framework'); ?>">
-							<div class="dashicons dashicons-no" data-code="f158"><?php echo $t['deleteLink']; ?></div>
+							<div class="dashicons dashicons-no" data-code="f158"><?php echo  $t['deleteLink']; ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'framework'); ?>">
-							<div class="dashicons dashicons-download" data-code="f316"><?php echo $t['downloadLink']; ?></div>
+							<div class="dashicons dashicons-download" data-code="f316"><?php echo  $t['downloadLink']; ?></div>
 						</div>
 					</div>
 					<?php	} ?>
@@ -269,11 +269,11 @@ if ( isset( $options ) ) {
 		<div class="themes">
 			<?php $i = 0; foreach ( $other_themes as $theme ) { ?>
 				<div class="theme runway-theme-other" tabindex="0">
-					<a href="<?php echo $theme->itemLink; ?>" target="_blank">
+					<a href="<?php echo esc_url($theme->itemLink); ?>" target="_blank">
 						<div class="theme-screenshot">
-							<img alt="" src="<?php echo (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png';?>" />
+							<img alt="" src="<?php echo esc_url( (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 						</div>
-						<h3 id="<?php echo strtolower($theme->Name );?>-name" class="theme-name"><?php echo $theme->Name; ?></h3>
+						<h3 id="<?php echo esc_attr(strtolower($theme->Name )) ;?>-name" class="theme-name"><?php echo  $theme->Name; ?></h3>
 						<div class="runway-theme-other-actions"></div>
 					</a>
 				</div>
@@ -283,7 +283,7 @@ if ( isset( $options ) ) {
 			} 
 			?>
 			<div class="theme add-new-theme runway-find-more-themes">
-				<a href="<?php echo admin_url('admin.php?page=directory&addons=themes'); ?>">
+				<a href="<?php echo esc_attr(admin_url('admin.php?page=directory&addons=themes')); ?>">
 					<div class="theme-screenshot"><span></span></div>
 					<h3 class="theme-name"><?php echo __('Find More Themes', 'framework'); ?></h3>
 				</a>
@@ -308,7 +308,7 @@ if ( isset( $options ) ) {
 				{{if screenshot[0] != null}}
 					<div class="screenshot"><img src="${screenshot[0]}" alt="" /></div>
 				{{else}}
-					<div class="screenshot blank"><img src="<?php echo FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png'; ?>" alt="" /></div>
+					<div class="screenshot blank"><img src="<?php echo esc_url(FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png'); ?>" alt="" /></div>
 				{{/if}}
 				</div>
 			

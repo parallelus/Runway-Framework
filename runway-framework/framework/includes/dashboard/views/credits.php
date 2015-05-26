@@ -11,18 +11,18 @@
 						<option value="user_name_asc" <?php echo ($Dashboard_Admin->selectableSort == 'user_name_asc')? 'selected' : ''; ?>><?php _e( 'Name (A-Z)', 'framework' ) ?></option>
 						<option value="user_name_desc" <?php echo ($Dashboard_Admin->selectableSort == 'user_name_desc')? 'selected' : ''; ?>><?php _e( 'Name (Z-A)', 'framework' ) ?></option>
 					</select>
-					<input name="request" type="hidden" value="<?php echo $Dashboard_Admin->request; ?>">
-					<input name="token" type="hidden" value="<?php echo $Dashboard_Admin->token; ?>">
-					<input name="startPage" type="hidden" value="<?php echo $Dashboard_Admin->startPage; ?>">
-					<input name="perPage" type="hidden" value="<?php echo $Dashboard_Admin->perPage; ?>">
-					<input name="state" type="hidden" value="<?php echo $Dashboard_Admin->state; ?>">
+					<input name="request" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->request); ?>">
+					<input name="token" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->token); ?>">
+					<input name="startPage" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->startPage); ?>">
+					<input name="perPage" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->perPage); ?>">
+					<input name="state" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->state); ?>">
 					
 					<div class="tablenav-pages">
-						<span class="displaying-num"><?php echo $Dashboard_Admin->credits['totalResults'];?> <?php echo __('items', 'framework'); ?></span>
+						<span class="displaying-num"><?php echo  $Dashboard_Admin->credits['totalResults'];?> <?php echo __('items', 'framework'); ?></span>
 						<button class="first-page disabled pagination" name="first_page">&laquo;</button>
 						<button class="prev-page disabled pagination" name="prev_page">‹</button>
 						<span class="paging-input">
-							<input type="text" class="current-page" value="<?php echo $Dashboard_Admin->currentPage; ?>"/>
+							<input type="text" class="current-page" value="<?php echo esc_attr($Dashboard_Admin->currentPage); ?>"/>
 							<?php echo __('of', 'framework'); ?> <span class="total-pages"><?php echo ceil($Dashboard_Admin->credits['totalResults']/$Dashboard_Admin->perPage); ?></span>
 						</span>
 						<button class="next-page disabled pagination" name="next_page">›</button>
@@ -36,18 +36,18 @@
 						<div class="credits-column">
 							<div class="credits-user">
 								<span class="avatar">
-									<img src="<?php echo $credit['avatar_url'];?>" width="60" height="60" alt="<?php echo $credit['displayname'];?>"/>
+									<img src="<?php echo esc_url($credit['avatar_url']); ?>" width="60" height="60" alt="<?php echo esc_attr($credit['displayname']);?>"/>
 								</span>
 								<span class="user-name">
-									<span class="name"><?php echo $credit['displayname'];?></span>
-									<span class="user"><?php echo $credit['username'];?></span>
+									<span class="name"><?php echo  $credit['displayname'];?></span>
+									<span class="user"><?php echo  $credit['username'];?></span>
 								</span>
 							</div>
 						</div>
 						<div class="credits-column achievements">
 							<?php foreach($credit['achievements'] as $achievement) { ?>
 							<span class="badge">
-								<img src="<?php echo $achievement['achievement_image']; ?>" width="40" height="40" alt="<?php echo $achievement['achievement_name']; ?>"/>
+								<img src="<?php echo esc_url($achievement['achievement_image']); ?>" width="40" height="40" alt="<?php echo esc_attr($achievement['achievement_name']); ?>"/>
 							</span>
 							<?php } ?>
 						</div>

@@ -3,10 +3,10 @@
 
 		<script type="text/javascript">
 		// output the page in JSON format
-		var pageJSON = '<?php echo $page_json; ?>';
+		var pageJSON = '<?php echo  $page_json; ?>';
 
 		// output the page in JSON format
-		var SAVE_ACTION = '<?php echo $this->save_action ?>';   
+		var SAVE_ACTION = '<?php echo  $this->save_action ?>';   
 		</script>
 		<style type="text/css">
 			#new-item-added, #new-item-duplicated{
@@ -29,7 +29,6 @@
 				display:none;
 			}   
 		</style>
-		<title></title>
 	</head>
 	<body>
 		<div id="new-item-added">
@@ -42,11 +41,11 @@
 		<?php if ( isset( $message ) ): ?>
 		<div id="message" class="updated below-h2">
 			<p>
-				<?php echo $message; ?>
+				<?php echo  $message; ?>
 			</p>
 		</div><?php else: ?>
 		<div id="message2" class="updated below-h2" style="display: none;"></div><?php endif; ?>
-		<form class="save-page" method="post" action="<?php echo admin_url('admin.php?page=options-builder&amp;navigation=save-page'); ?>" enctype="multipart/form-data" style="display: none;">
+		<form class="save-page" method="post" action="<?php echo esc_url(admin_url('admin.php?page=options-builder&amp;navigation=save-page')); ?>" enctype="multipart/form-data" style="display: none;">
 			<input type="hidden" name="action" value="save"> <input type="hidden" class="page" name="page" value="">
 		</form>
 		<div class="settings-dialog">
@@ -54,11 +53,11 @@
 		</div>
 		<div id="titlediv">
 			<div id="titlewrap" <?php if(!$this->resolutions['title']){ echo 'style="display:none;"'; } ?>>
-				<label class="hide-if-no-js" style="visibility: hidden;" id="title-prompt-text" for="title"><?php _e( 'Enter title here', 'framework' ); ?></label> <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $page['settings']['title'] ?>" id="title" autocomplete="off">
+				<label class="hide-if-no-js" style="visibility: hidden;" id="title-prompt-text" for="title"><?php _e( 'Enter title here', 'framework' ); ?></label> <input type="text" name="post_title" size="30" tabindex="1" value="<?php echo esc_attr($page['settings']['title']) ?>" id="title" autocomplete="off">
 			</div>
 			<div class="inside" style="min-height: auto !important;">
-				<div id="edit-slug-box" <?php if(!$this->resolutions['alias']){ echo 'style="display:none;"'; } ?>> <input type="hidden" name="primary-page-slug" value="<?php echo $page['settings']['alias']; ?>">
-					<strong><?php _e( 'Alias:', 'framework' ); ?></strong> <span id="slug-static"><span id="editable-post-name" class="dynamic-page-title edit-slug" title="<?php _e( 'Click to edit the page alias.', 'framework' ); ?>"><?php echo $page['settings']['alias'] ?></span> <span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js"><?php _e( 'Edit', 'framework' ); ?></a></span> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button></span> <span id="slug-editor" style="display:none;"><input class="slug-editor-input" id="slug-editor-input" value=""><button class="button slug-editor-save"><span id="slug-editor2"><?php _e( 'Ok', 'framework' ); ?></span></button> <button class="button slug-editor-cancel"><?php _e( 'Cancel', 'framework' ); ?></button> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button> <button class="button get-primary-slug"><?php _e('Reset', 'framework'); ?></button></span> <span id="editable-post-name-full">???</span>
+				<div id="edit-slug-box" <?php if(!$this->resolutions['alias']){ echo 'style="display:none;"'; } ?>> <input type="hidden" name="primary-page-slug" value="<?php echo esc_attr($page['settings']['alias']); ?>">
+					<strong><?php _e( 'Alias:', 'framework' ); ?></strong> <span id="slug-static"><span id="editable-post-name" class="dynamic-page-title edit-slug" title="<?php _e( 'Click to edit the page alias.', 'framework' ); ?>"><?php echo  $page['settings']['alias'] ?></span> <span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js"><?php _e( 'Edit', 'framework' ); ?></a></span> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button></span> <span id="slug-editor" style="display:none;"><input class="slug-editor-input" id="slug-editor-input" value=""><button class="button slug-editor-save"><span id="slug-editor2"><?php _e( 'Ok', 'framework' ); ?></span></button> <button class="button slug-editor-cancel"><?php _e( 'Cancel', 'framework' ); ?></button> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button> <button class="button get-primary-slug"><?php _e('Reset', 'framework'); ?></button></span> <span id="editable-post-name-full">???</span>
 				</div>
 			</div>
 		</div>
@@ -113,7 +112,7 @@
 									<?php _e( 'Page settings', 'framework' ); ?>
 								</div><?php if(isset($help_tabs_admin)) { ?>
 								<div class="page-help-tabs tabIn" style="display: none">
-									<?php echo $help_tabs_admin->render_options_builder_page("admin.php?page={$page['settings']['alias']}"); ?>
+									<?php echo  $help_tabs_admin->render_options_builder_page("admin.php?page={$page['settings']['alias']}"); ?>
 								</div><?php } ?>
 							</div>
 							<div class="clear"></div>

@@ -73,7 +73,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 
 <div class="wp-filter">
 	<div class="filter-count">
-		<span class="count theme-count"><?php echo $total_count; ?></span>
+		<span class="count theme-count"><?php echo  $total_count; ?></span>
 	</div>
 	<ul class="filter-links">
 		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'themes')? 'current' : ''; ?>"><?php echo __('Themes', 'framework'); ?></a></li>
@@ -84,7 +84,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 	<div class="search-form">
 		<?php $url = 'admin.php?page=directory&addons='.$addons_type; ?>
 		<form id="search-plugins" method="post" action="<?php echo admin_url($url); ?>">
-			<input placeholder="<?php echo __('Search ', 'framework') . strtolower(rf__($addons_type)) . '...'; ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? $_REQUEST['s'] : ''; ?>" class="wp-filter-search-rf">
+			<input placeholder="<?php echo __('Search ', 'framework') . strtolower(rf__($addons_type)) . '...'; ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? esc_attr($_REQUEST['s']) : ''; ?>" class="wp-filter-search-rf">
 			<input class="button button-primary" type="submit" name="plugin-search-input" id="plugin-search-input" value="Search">
 		</form>		
 	</div>
@@ -95,55 +95,55 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 	<?php foreach($extensions_addons_search as $key => $item_addons) {
 		$item_name = isset($item_addons->Files[0]->name)? str_replace('-', '_', sanitize_key($item_addons->Files[0]->name)) : ''; ?>
 	
-	<div class="theme" tabindex="0" aria-describedby="<?php echo $item_name; ?>-action <?php echo $item_name; ?>-name">	
+	<div class="theme" tabindex="0" aria-describedby="<?php echo esc_attr($item_name.'-action'. $item_name); ?>-name">	
 		<div class="theme-screenshot">
 			<?php if (isset($item_addons->Screenshot) && !empty($item_addons->Screenshot)) : ?>
-				<img src="<?php echo $item_addons->Screenshot; ?>" alt="<?php echo $item_addons->Name; ?>">
-			<?php else : ?>
-				<img src="http://runwaywp.com/sites/main/wp-content/uploads/item-placeholder-preview-1-2197-640x316.png" alt="<?php echo $item_addons->Name; ?>">
+				<img src="<?php echo esc_url($item_addons->Screenshot); ?>" alt="<?php echo esc_attr($item_addons->Name); ?>">
+			<?php else : ?>)
+				<img src="http://runwaywp.com/sites/main/wp-content/uploads/item-placeholder-preview-1-2197-640x316.png" alt="<?php echo esc_attr($item_addons->Name); ?>">
 			<?php endif; ?>
-			<div class="more-details-rf white-gradient"><p><?php echo $item_addons->content; ?></p></div>
+			<div class="more-details-rf white-gradient"><p><?php echo  $item_addons->content; ?></p></div>
 		</div>
 
-		<h3 class="theme-name-rf white-gradient-left-right"><?php echo $item_addons->Name; ?></h3>
+		<h3 class="theme-name-rf white-gradient-left-right"><?php echo  $item_addons->Name; ?></h3>
 		<div class="theme-actions add-ons-init">
 			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ): 
 					switch ($addons_type) {
 						case 'themes':
 							if( in_array($key, $items_installed) ): ?>
 								<?php if( isset($item_addons->Files) && count($item_addons->Files) ): ?>
-									<a class="button button-primary add-ons-installed" data-key="<?php echo $key; ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
-									<div class="<?php echo $key; ?>-installed-item add-ons-installed-menu" style="display:none">
+									<a class="button button-primary add-ons-installed" data-key="<?php echo esc_attr($key); ?>" href="#"><?php echo __('Install', 'framework'); ?><div class="dashicons dashicons-arrow-down dashicons-position"></div></a>
+									<div class="<?php echo esc_attr($key); ?>-installed-item add-ons-installed-menu" style="display:none">
 										<ul>
 										<?php 
 										foreach ($item_addons->Files as $file_key => $file_info) {
 											$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=install&amp;item='.$file_info->name.'&amp;_wpnonce=');
 											?>
 											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'child') : ?>
-												<li><a href="<?php echo $download_link; ?>"><?php echo __('Install child theme', 'framework'); ?></a></li>
+												<li><a href="<?php echo esc_url($download_link); ?>"><?php echo __('Install child theme', 'framework'); ?></a></li>
 											<?php endif; ?>
 											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'standalone') : ?>									
-												<li><a href="<?php echo $download_link; ?>"><?php echo __('Install standalone theme', 'framework'); ?></a></li>
+												<li><a href="<?php echo esc_url($download_link); ?>"><?php echo __('Install standalone theme', 'framework'); ?></a></li>
 											<?php endif; ?>
 											<?php if(!empty($file_info->package_id) && $file_info->package_id == 'full') : 
 												$download_link = admin_url('admin.php?page=directory&amp;addons=themes&amp;action=download&amp;item='.$file_info->name.'&amp;_wpnonce='); ?>
-												<li><a href="<?php echo $download_link; ?>"><?php echo __('Download full theme package', 'framework'); ?></a></li>
+												<li><a href="<?php echo esc_url($download_link); ?>"><?php echo __('Download full theme package', 'framework'); ?></a></li>
 											<?php endif; ?>									
 										<?php } ?>
 										</ul>
 									</div>
 								<?php endif; ?>
 							<?php else: ?>
-								<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+								<a class="button button-secondary" href="<?php echo esc_url($item_addons->itemLink); ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
 							<?php endif;
 
 							break;
 
 						case 'extensions':
 							if( in_array($key, $items_installed) ): ?>
-								<a class="button button-secondary" href="<?php echo $items_installed_link; ?>"><?php echo __('Installed', 'framework'); ?></a>
+								<a class="button button-secondary" href="<?php echo esc_url($items_installed_link); ?>"><?php echo __('Installed', 'framework'); ?></a>
 							<?php else: ?>
-								<a class="button button-primary" href="<?php echo admin_url('admin.php?page=directory&amp;addons=extensions&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce='); ?>"><?php echo __('Install', 'framework'); ?></a>
+								<a class="button button-primary" href="<?php echo esc__url(admin_url('admin.php?page=directory&amp;addons=extensions&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce=')); ?>"><?php echo __('Install', 'framework'); ?></a>
 							<?php endif;								
 							break;
 
@@ -154,7 +154,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 							break;
 					} ?>			
 			<?php else: ?>
-					<a class="button button-secondary" href="<?php echo $item_addons->itemLink; ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
+					<a class="button button-secondary" href="<?php echo esc_url($item_addons->itemLink); ?>" target="_blank"><?php echo __('Details', 'framework'); ?></a>
 			<?php endif; ?>
 		</div>
 

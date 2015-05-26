@@ -141,13 +141,13 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			?>
 
-			<input type="hidden" name='version_key' value='<?php echo $this->get_version_id(); ?>' />
-			<input type="hidden" name='import_key' value='<?php echo $import_key; ?>' />
-			<input type="hidden" name='ancestor_key' value='<?php echo $ancestor_key; ?>' />
-			<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
+			<input type="hidden" name='version_key' value='<?php echo esc_attr($this->get_version_id()); ?>' />
+			<input type="hidden" name='import_key' value='<?php echo esc_attr($import_key); ?>' />
+			<input type="hidden" name='ancestor_key' value='<?php echo esc_attr($ancestor_key); ?>' />
+			<input type="hidden" name='originating_keys' value='<?php echo esc_attr($keys); ?>' />
 			<input type="hidden" name='action' value='save' />
 			<p class="submit">
-				<input type="submit" class='<?php echo $class; ?>' value='<?php rf_e($text); ?>' />
+				<input type="submit" class='<?php echo esc_attr($class); ?>' value='<?php rf_e($text); ?>' />
 			</p>
 			</form>
 
@@ -870,13 +870,13 @@ if ( !defined( $runway_framework_admin ) ) {
 
 ?>
 			<div class="wrap">
-			<div id="theme-framework" class="<?php echo $containerClass; ?>">
+			<div id="theme-framework" class="<?php echo esc_attr($containerClass); ?>">
 
 				<div id="icon-options-general" class="icon32"><br /></div>
 
 			<?php
-			echo $adminPageTitle . PHP_EOL; // The title
-			echo $adminPageDesc . PHP_EOL; // The description
+			echo  $adminPageTitle . PHP_EOL; // The title
+			echo  $adminPageDesc . PHP_EOL; // The description
 ?>
 
 			<?php
@@ -916,10 +916,10 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			?>
 				<div class="wrap">
-				<div id="theme-framework" class="has-right-sidebar <?php echo $this->slug; ?> <?php echo $this->slug . '-' . $this->navigation; ?>">
+				<div id="theme-framework" class="has-right-sidebar <?php echo esc_attr($this->slug); ?> <?php echo esc_attr($this->slug . '-' . $this->navigation); ?>">
 
 					<div id="icon-options-general" class="icon32"><br /></div>
-					<h2><?php echo $this->name; ?></h2>
+					<h2><?php echo  $this->name; ?></h2>
 
 					<div class="inner-sidebar metabox-holder">
 
@@ -1140,7 +1140,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		function navigation_bar( $levels ) {
 
 			?><ul class="nav-bar-trail">
-			<li><a href="<?php echo $this->settings_url; ?>"><?php echo $this->name; ?></a></li>
+			<li><a href="<?php echo esc_url($this->settings_url); ?>"><?php echo  $this->name; ?></a></li>
 			<?php
 			for ( $i = 0; $i < count( $levels ); $i++ ) {
 				$selected = ( $i == count( $levels ) - 1 ) ? ' selected="selected"' : '';
@@ -1174,7 +1174,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			//]]>
 			</script>
 			<?php $css = FRAMEWORK_URL . 'framework/css/styles.css'; ?>
-			<link rel='stylesheet' type='text/css' href='<?php echo $css; ?>' />
+			<link rel='stylesheet' type='text/css' href='<?php echo esc_url($css); ?>' />
 			<?php
 		}		
 

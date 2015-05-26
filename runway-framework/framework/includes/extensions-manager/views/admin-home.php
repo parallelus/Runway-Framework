@@ -19,8 +19,8 @@ switch ( $this->navigation ) {
 }
 ?>
 <ul class="subsubsub">
-	<li class="all"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo $ext_all_total; ?>)</span></a> |</li>
-	<li class="inactive"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo $ext_inactive_total; ?>)</span></a></li>	
+	<li class="all"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'framework' );?> <span class="count">(<?php echo  $ext_all_total; ?>)</span></a> |</li>
+	<li class="inactive"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'framework' );?> <span class="count">(<?php echo  $ext_inactive_total; ?>)</span></a></li>	
 </ul>
 <form method="post" action="<?php echo admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
 	<p class="search-box">
@@ -57,10 +57,10 @@ if ( !empty( $exts ) ):
 ?>
 		<tr <?php if ( $ext_cnt ): ?> class="inactive" <?php else:  ?> calss="active" <?php endif; ?> >
 			<th class="check-column">
-				<input type="checkbox" name="ext_chk[]" value="<?php echo $ext; ?>" />
+				<input type="checkbox" name="ext_chk[]" value="<?php echo esc_attr($ext); ?>" />
 			</th>
 			<td class="plugin-title">
-				<strong><?php echo $ext_info['Name']; ?></strong>
+				<strong><?php echo  $ext_info['Name']; ?></strong>
 				<?php if ( $ext_cnt ): ?>
 					<br><a href="<?php echo admin_url('admin.php?page=extensions&navigation=extension-activate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Activate', 'framework' );?></a> |
 					<a style="color: #BC0B0B;" href="<?php echo admin_url('admin.php?page=extensions&navigation=del-extension-confirm&ext='.urlencode( $ext )); ?>"><?php echo __( 'Delete', 'framework' );?></a>
@@ -84,12 +84,12 @@ if ( $ext_info['Author'] ) {
 else {
 	$author = ' | '. __( 'By Unknown', 'framework' );	
 }
-$plugin_link = ( $ext_info['ExtensionURI'] ) ? ' | <a href="'. $ext_info['ExtensionURI'] .'" title="' . __( 'Visit plugin site', 'framework' ).'">' . __( 'Visit plugin site', 'framework' ) . '</a>' : '';
-$info = '<div class="'. $class .'second plugin-version-author-uri">'. $version . $author . $plugin_link .'</div>';
+$plugin_link = ( $ext_info['ExtensionURI'] ) ? ' | <a href="'. esc_url($ext_info['ExtensionURI']) .'" title="' . __( 'Visit plugin site', 'framework' ).'">' . __( 'Visit plugin site', 'framework' ) . '</a>' : '';
+$info = '<div class="'. esc_attr($class) .'second plugin-version-author-uri">'. $version . $author . $plugin_link .'</div>';
 
 // Print details
-echo $description;
-echo $info;
+echo  $description;
+echo  $info; // escaped above
 ?>
 
 				<?php if ( count( $ext_info['DepsExts'] ) > 0 && isset( $ext_info['DepsExts'] ) && !empty( $ext_info['DepsExts'] ) ): ?>
@@ -118,7 +118,7 @@ $coma = ( $i == $deps_count ) ? '' : ',';
 $active = $active ? '<i style="color: green;">' . __( 'Active', 'framework' ) .'</i>' :
 '<i style="color: red;">' . __( 'Disabled', 'framework' ) . '</i>';
 ?>
-							<?php echo $ext_data['Name']; ?>(<?php echo $active; ?>)<?php echo $coma; ?>
+							<?php echo  $ext_data['Name']; ?>(<?php echo  $active; ?>)<?php echo  $coma; ?>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</td>

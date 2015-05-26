@@ -14,7 +14,7 @@ class Textarea_type extends Data_Type {
 		}
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		$customize_title = stripslashes($this->field->title);
 		
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
@@ -35,15 +35,15 @@ class Textarea_type extends Data_Type {
 			if ($count == 0)
 				$count = 1;
 			?>
-			<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+			<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 			<?php
 			for ($key = 0; $key < $count; $key++) {
 			?>
 				<textarea
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 					<?php $this->link() ?>
-					name="<?php echo $this->field->alias; ?>[]"
-					<?php echo $section; ?>
+					name="<?php echo esc_attr($this->field->alias); ?>[]"
+					<?php echo  $section; // escaped above ?>
 					data-type='textarea-image'><?php echo isset($this->field->value[$key]) && is_string($this->field->value[$key]) ? $this->field->value[$key] : ''; ?></textarea>
 				<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
@@ -61,14 +61,14 @@ class Textarea_type extends Data_Type {
 			$this->wp_customize_js();
 		} else {
 			?>
-			<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+			<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 				<textarea
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 					<?php $this->link() ?> 
 					<?php echo parent::add_data_conditional_display($this->field); ?>
-					name="<?php echo $this->field->alias; ?>"
-					<?php echo $section; ?>
-					data-type='textarea-image'><?php echo is_string( $value )? $value : ''; ?></textarea><?php
+					name="<?php echo esc_attr($this->field->alias); ?>"
+					<?php echo  $section; // escaped above ?>
+					data-type='textarea-image'><?php echo is_string( $value )? html_entity_decode(esc_textarea($value)) : ''; ?></textarea><?php
 		}
         
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -198,7 +198,7 @@ class Textarea_type extends Data_Type {
 		$del_id = 'del_'.$field_name;
 
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
@@ -209,15 +209,15 @@ class Textarea_type extends Data_Type {
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<textarea>', {
-							class: '<?php echo $class; ?>',
-							name: '<?php echo $field_name; ?>[]',
+							class: '<?php echo esc_js($class); ?>',
+							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
 						})							
-						.attr('data-type', '<?php echo $data_type; ?>')
-						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
+						.attr('data-type', '<?php echo esc_js($data_type); ?>')
+						.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>');
 						field.insertBefore($(this));
 
 						field.click(function(e){
@@ -226,11 +226,11 @@ class Textarea_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
-							reinitialize_customize_textarea_instance('<?php echo $field_name ?>');
+							reinitialize_customize_textarea_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -242,7 +242,7 @@ class Textarea_type extends Data_Type {
 						$(this).remove();
                                                         
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
-							reinitialize_customize_textarea_instance('<?php echo $field_name ?>');
+							reinitialize_customize_textarea_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
                                                         
@@ -250,7 +250,7 @@ class Textarea_type extends Data_Type {
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
 							var api = wp.customize;
 								api.bind('ready', function(){
-									reinitialize_customize_textarea_instance('<?php echo $field_name ?>');
+									reinitialize_customize_textarea_instance('<?php echo esc_js($field_name) ?>');
 								});
 							}
 					}
@@ -265,8 +265,8 @@ class Textarea_type extends Data_Type {
 	?>
 		<script type="text/javascript">
 			(function($){
-				$('body').on('change', 'textarea[name="<?php echo $this->field->alias;?>[]"]', function(){
-					reinitialize_customize_textarea_instance('<?php echo $this->field->alias;?>');
+				$('body').on('change', 'textarea[name="<?php echo esc_js($this->field->alias); ?>[]"]', function(){
+					reinitialize_customize_textarea_instance('<?php echo esc_js($this->field->alias); ?>');
 				});
 			})(jQuery);
                 

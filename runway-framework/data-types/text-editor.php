@@ -24,7 +24,7 @@ class Text_editor extends Data_Type {
         $html = ob_get_contents();
         ob_end_clean();
 
-        echo $html; ?>
+        echo  $html; ?>
         <script type="text/javascript">
             jQuery(document).ready(function($){
                 $('textarea.wp-editor-area').addClass('custom-data-type');
@@ -63,7 +63,7 @@ class Text_editor extends Data_Type {
 
         (function () {
 
-            var name = '<?php echo $this->field->alias; ?>';
+            var name = '<?php echo  $this->field->alias; ?>';
 
             jQuery('[name="'+name+'"]')
                 .attr('data-customize-setting-link', name);

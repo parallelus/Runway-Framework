@@ -14,11 +14,11 @@ class Input_text extends Data_Type {
 
 		$this->get_value();
 
-		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 		?>
 			<label>
-				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+				<span class="customize-control-title"><?php echo  $this->field->title ?></span>
 				<div class="customize-control-content">				
 			<?php
 			if (isset($this->field->value) && is_array($this->field->value)) {
@@ -40,12 +40,12 @@ class Input_text extends Data_Type {
 				<input 
 					type="text" 
 					class="input-text custom-data-type" 
-					<?php echo $section; ?> 
+					<?php echo  $section; // escaped above ?> 
 					data-type="input-text" 
 					<?php echo parent::add_data_conditional_display($this->field); ?> 
 					<?php $this->link(); ?> 
-					name="<?php echo $this->field->alias; ?>[]" 
-					accept=""value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : '' ?>"
+					name="<?php echo esc_attr($this->field->alias); ?>[]" 
+					accept=""value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? esc_attr($repeat_value) : '' ?>"
 				/>
 					<a href="#" class="delete_field"><?php echo __('Delete', 'framework'); ?></a><br>
 				<?php
@@ -73,7 +73,7 @@ class Input_text extends Data_Type {
 		else{
 			?>
 			<label>
-				<span class="customize-control-title"><?php echo $this->field->title ?></span>
+				<span class="customize-control-title"><?php echo  $this->field->title ?></span>
 				<?php
 					$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 					if(!is_string($input_value) && !is_numeric($input_value)) {
@@ -86,7 +86,7 @@ class Input_text extends Data_Type {
                             
 				<div class="customize-control-content">
 					<input type="text" 
-						class="input-text custom-data-type" <?php echo $section; ?> data-type="input-text" <?php echo parent::add_data_conditional_display($this->field); ?> <?php $this->link(); ?> name="<?php echo $this->field->alias; ?>" value="<?php echo $input_value; ?>"/>
+						class="input-text custom-data-type" <?php echo  $section; // escaped above ?> data-type="input-text" <?php echo parent::add_data_conditional_display($this->field); // escaped above ?> <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias); ?>" value="<?php echo esc_attr($input_value); ?>"/>
 				</div>
 			</label>
 			<?php

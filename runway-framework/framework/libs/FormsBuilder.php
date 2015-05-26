@@ -350,7 +350,7 @@ class FormsBuilder {
 
 	public function save_form_from_builder() {
 		$json_form = $_REQUEST['json_form'];
-		echo $json_form; die();
+		echo  $json_form; die();
 	}
 
 	public function save_custom_options( $options = null, $custom_alias = null ) {

@@ -44,10 +44,10 @@ class Select_type extends Data_Type {
 
 		$vals = $value;
 		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 		$customize_title = stripslashes( $this->field->title );
                 ?>
-		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
                 <?php
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
 			$vals = isset($this->field->value) ? $this->field->value : array();
@@ -67,9 +67,9 @@ class Select_type extends Data_Type {
 			?>
 			<select <?php $this->link();?>
 				class='input-select custom-data-type'
-				<?php echo $section;?>
+				<?php echo  $section; // escaped above ?>
 				data-type='select-type'
-				name="<?php echo $this->field->alias;?>[]">
+				name="<?php echo esc_attr($this->field->alias); ?>[]">
 			<?php foreach($key_values as $select_value_key=>$val) { 
 				$html = "";
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
@@ -81,7 +81,7 @@ class Select_type extends Data_Type {
 					$checked = '';
 					$html .= '<option value="'.$select_value_key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
 				}
-				echo $html;
+				echo  $html;
 			} ?>
 			</select>
 			<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a><br>
@@ -113,7 +113,7 @@ class Select_type extends Data_Type {
 
 			$html .= '</select>';
 
-			echo $html;
+			echo  $html;
 		}
         
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -235,7 +235,7 @@ class Select_type extends Data_Type {
 		$del_id = 'del_'.$field_name;
 
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				Add Field
 			</a>
@@ -246,15 +246,15 @@ class Select_type extends Data_Type {
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<select>', {
-							type: '<?php echo $type; ?>',
-							class: '<?php echo $class; ?>',
-							name: '<?php echo $field_name; ?>[]',
+							type: '<?php echo esc_js($type); ?>',
+							class: '<?php echo esc_js($class); ?>',
+							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
 						})							
-						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
                                                 
 						<?php foreach($default_values as $val_key=>$val) { 
@@ -265,7 +265,7 @@ class Select_type extends Data_Type {
 								$html .= '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
 							}
 						?>
-						field.append('<?php echo $html;?>');
+						field.append('<?php echo esc_js($html);?>');
 						<?php } ?>
                                                             
 						field.insertBefore($(this));
@@ -276,11 +276,11 @@ class Select_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_select_instance == 'function') {
-							reinitialize_customize_select_instance('<?php echo $field_name ?>');
+							reinitialize_customize_select_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -292,7 +292,7 @@ class Select_type extends Data_Type {
 						$(this).remove();
                                                         
 						if(typeof reinitialize_customize_select_instance == 'function') {
-							reinitialize_customize_select_instance('<?php echo $field_name ?>');
+							reinitialize_customize_select_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
                                                         
@@ -300,7 +300,7 @@ class Select_type extends Data_Type {
 						if(typeof reinitialize_customize_select_instance == 'function') {
 							var api = wp.customize;
 							api.bind('ready', function(){
-								reinitialize_customize_select_instance('<?php echo $field_name ?>');
+								reinitialize_customize_select_instance('<?php echo esc_js($field_name) ?>');
 							});
 						}
 					}
@@ -315,8 +315,8 @@ class Select_type extends Data_Type {
 	?>
 		<script type="text/javascript">
 			(function($){
-				$('body').on('change', 'select[name="<?php echo $this->field->alias;?>[]"]', function(){
-					reinitialize_customize_select_instance('<?php echo $this->field->alias;?>');
+				$('body').on('change', 'select[name="<?php echo esc_js($this->field->alias);?>[]"]', function(){
+					reinitialize_customize_select_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
                 

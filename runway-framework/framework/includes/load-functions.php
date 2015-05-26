@@ -1067,8 +1067,8 @@ function check_theme_ID( $folder = false ) {
 					$settings['Name'] = $theme_name_stylecss;
 					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
 			  	}
-				$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-				echo $redirect;
+				$redirect = '<script type="text/javascript">window.location = "'. esc_url($link) .'";</script>';
+				echo  $redirect; // escaped above
 			}
 			add_action('admin_notices', 'ask_new_theme', 10, 3);
 			do_action('admin_notices', $settings['Name'], $theme_name_stylecss, $link );
