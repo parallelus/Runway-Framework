@@ -513,7 +513,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			// things don't stack up.
 
 			if ( !( $this->validate_sumbission() ) ) {
-				if ( $this->action == 'save' ) {
+				if ( $this->action == 'save' && !empty($_POST) ) {
 					$keys = $this->keys;
 					if ( !empty( $this->action_keys ) ) {
 						$keys = $this->action_keys;
