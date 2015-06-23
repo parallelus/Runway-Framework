@@ -316,6 +316,7 @@ class FormsBuilder {
 				FRAMEWORK_URL.'framework/js/jquery-ui.min.js',
 				FRAMEWORK_URL.'framework/js/jquery.cookie.js',
 				FRAMEWORK_URL.'framework/includes/options-page-render/js/scripts.js',
+				FRAMEWORK_URL.'framework/includes/options-page-render/js/condition-script.js',
 			),
 			'css' => array(
 				'wp-color-picker',
