@@ -102,6 +102,11 @@ class Colorpicker_type extends Data_Type {
 
 					jQuery(document).ready(function($) {
                         default_val = (default_val) ? default_val : false;
+						$('input.color-picker-hex[name="'+name+'"]').keydown(function (e) {
+						    if (e.keyCode == 13) {
+						    	e.preventDefault();
+						    }
+						});                        
                         $('input[name="'+name+'"]').wpColorPicker({ 
                             change: function (event, ui) {
                                 var hexcolor = $(this).wpColorPicker( 'color' );
