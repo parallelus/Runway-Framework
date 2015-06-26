@@ -8,6 +8,7 @@
 		<th id="alias_head" class="manage-column column-alias"><?php _e( 'Alias', 'framework' ); ?></th>
 		<th id="description_head"
 			class="manage-column column-description"><?php _e( 'Description', 'framework' ); ?></th>
+		<th id="order_head" class="manage-column column-order"><?php _e( 'Order', 'framework' ); ?></th>			
 	</tr>
 	</thead>
 	<tbody id="the-list">
@@ -47,7 +48,9 @@
 			<td class="column-description desc">
 				<?php echo  $page->settings->pageDescription ?>
 			</td>
-
+			<td class="column-order">
+				<?php echo (!isset($page->settings->menu_order) || empty($page->settings->menu_order))? 0 : $page->settings->menu_order ?>
+			</td>
 		</tr>
 
 			<?php } ?>
@@ -60,6 +63,7 @@
 		<th id="alias_foot" class="manage-column column-alias"><?php _e( 'Alias', 'framework' ); ?></th>
 		<th id="description_foot"
 			class="manage-column column-description"><?php _e( 'Description', 'framework' ); ?></th>
+		<th id="alias_foot" class="manage-column column-order"><?php _e( 'Order', 'framework' ); ?></th>
 	</tr>
 	</tfoot>
 	</table>
