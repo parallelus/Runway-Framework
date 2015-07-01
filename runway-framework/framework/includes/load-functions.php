@@ -30,8 +30,8 @@ if ( !function_exists( 'load_data_types' ) ) :
 				$data_type_slug = basename($path, '.php');
                 
                 if ($name == 'fileupload-type.php') {
-                  // if ( ! did_action( 'wp_enqueue_media' ) )
-                    // wp_enqueue_media();   //Needed for upload field
+                  if ( ! did_action( 'wp_enqueue_media' ) )
+                    wp_enqueue_media();   // Needed for upload field
                 }
                 
 				$data_types_list[$data_type_slug] = array(
