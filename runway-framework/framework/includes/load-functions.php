@@ -752,7 +752,13 @@ function do_not_syncronize($params) {
 	if(isset($params['json'])) {
 		foreach($params['json'] as $k => $v) {
 			if(is_array($v)) {
-				$params['db'][$k] = isset($params['db'][$k]) ? $params['db'][$k] : null;
+				if(isset($params['db'][$k])) {
+					$params['json_updated'][$k] = $params['db'][$k];
+					continue;
+				} else
+					$params['db'][$k] = null;
+				//$params['db'][$k] = isset($params['db'][$k]) ? $params['db'][$k] : null;
+
 				$founded = false;
 				
 				foreach($params['excludes'] as $ex_key => $ex_val) {

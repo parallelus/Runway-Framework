@@ -257,7 +257,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
      * @uses do_action() Calls 'rf_save_data' hook before updating the option.
      */
 	function save_data( $data = array() ) {
-        
+
 		if (empty($data))
 			$data = $this->data['_framework'];
 		if ($this->dynamic && isset($data[$this->option_key]))
@@ -267,6 +267,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 			foreach ($data['field_types'] as $field_type_key => $field_type_value) {
 				switch ($field_type_value) {
 					case "checkbox-type":
+						$data[$field_type_key] = empty($data[$field_type_key])? '' : $data[$field_type_key];
 						if (isset($data[$field_type_key])) {
 							$data[$field_type_key] = $this->updateRepeatingCheckbox($data[$field_type_key]);
 						}
