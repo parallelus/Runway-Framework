@@ -69,15 +69,18 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	//-----------------------------------------------------------------
 	// Initialize the admin components
 	//-----------------------------------------------------------------
-	if ( is_admin() ) {
+	if ( is_admin() || isset($GLOBALS['wp_customize']) ) {
 		include_once 'core/admin-object.php';
-
+	}
+	
+	if ( is_admin() ) {
 		db_json_sync();
 		check_theme_ID();
 		prepare_translate_files();
 	}
 
-	load_data_types();
+	//load_data_types();
+    add_action('admin_enqueue_scripts','load_data_types');
 	load_framework_libraries();
 
 	//-----------------------------------------------------------------
@@ -177,6 +180,21 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'framework').'</div>';
 	}
 	
+	// Force custom icon styles on every page
+	function framework_theme_menu_custom_icon() {
+		?>
+		<style type="text/css">
+			#adminmenu a.custom-icon .wp-menu-image img,
+			#adminmenu .wp-menu-image img {
+				padding: 8px 0 0;
+				width: 18px;
+				height: 18px;
+			}
+		</style>
+		<?php
+	}
+	add_action('admin_head', 'framework_theme_menu_custom_icon');
+
 	//-----------------------------------------------------------------
 	// WP-Pointers (temporary location)
 	//-----------------------------------------------------------------

@@ -9,7 +9,7 @@ $this->navigation_bar( array( __( 'Upload New', 'framework' ) ) );
 <?php if ( $info_message != '' ): ?>
 	<div id="message" class="updated">
 		<p>
-			<?php echo $info_message; ?>
+			<?php echo  $info_message; ?>
 		</p>
 	</div>
 	<?php endif; ?>

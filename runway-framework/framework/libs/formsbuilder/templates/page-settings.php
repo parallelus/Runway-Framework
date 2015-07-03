@@ -18,7 +18,7 @@ $checked = '';
 if ( isset( $page['settings']['showPageTitle'] ) && $page['settings']['showPageTitle'] == 'true' ) {
 	$checked = 'checked="checked"';
 } ?>
-								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo $checked; ?> value="true">
+								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo  $checked; ?> value="true">
 								<?php _e('Yes', 'framework'); ?>
 							</label>
 							<p class="description"><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'framework' ); ?></p>
@@ -136,14 +136,14 @@ $icons = array(
 );
 
 foreach ( $icons as $icon_type => $icon_name ) { ?>
-							        	<option value="<?php echo $icon_type; ?>" <?php echo ( $page['settings']['icon'] == $icon_type ) ? 'selected="true"' : ''; ?>><?php echo $icon_name; ?></option>
+							        	<option value="<?php echo esc_attr($icon_type); ?>" <?php echo ( $page['settings']['icon'] == $icon_type ) ? 'selected="true"' : ''; ?>><?php echo  $icon_name; ?></option>
 							        <?php } ?>
 
 							</select>
 
 							<div class="custom-icon-ob" style="margin-top: 4px; ">
 								<?php if ( isset( $page['settings']['icon_file'] ) ) { ?>
-									<input type="hidden" name="icon_file" value="<?php echo $page['settings']['icon_file']; ?>" />
+									<input type="hidden" name="icon_file" value="<?php echo esc_attr($page['settings']['icon_file']); ?>" />
 									<img style="width: 28px; height: 28px; float: left; margin-top: 1px; margin-right: 5px;" src="<?php echo get_stylesheet_directory_uri() . '/data/icons/' . $page['settings']['icon_file']; ?>" />
 								<?php } ?>
 								<div class="file-upload"><input type="file" name="icon_url" /></div>

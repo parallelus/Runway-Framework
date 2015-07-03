@@ -11,7 +11,7 @@ class Html {
 		$defaults = array( 'action' => 'save', 'keys' => $keys );
 		$args = wp_parse_args( $args, $defaults ); ?>
 			<?php $url = $this->settings_link( false, $args ); ?>
-				<form method="post" action='<?php echo $url; ?>'>
+				<form method="post" action='<?php echo esc_url($url); ?>'>
 			<?php
 	}
 
@@ -43,7 +43,7 @@ class Html {
 				<tr>
 		<?php
 		foreach ( (array) $titles as $title ) : ?>
-			<th><?php echo $title; ?></th>
+			<th><?php echo  $title; ?></th>
 		<?php endforeach; ?>
 				</tr>
 			</thead>
@@ -60,7 +60,7 @@ class Html {
 		</tbody><tfoot><tr>
 		<?php
 		foreach ( (array) $titles as $title ) : ?>
-			<th><?php echo $title; ?></th>
+			<th><?php echo  $title; ?></th>
 		<?php endforeach; ?>
 		</tr></tfoot></table>
 		<?php
@@ -73,13 +73,13 @@ class Html {
 	*/
 	function table_row( $contents, $nbr, $class = '' ) {
 		$class .= ( $nbr++ % 2 ) ? ' alternate ' : '' ; ?>
-		<tr class="<?php echo $class; ?>">
+		<tr class="<?php echo esc_attr($class); ?>">
 		<?php
 		$count = 1;
 		$total = count( $contents );
 		foreach ( (array) $contents as $content ) {
-			$tdClass = ( $count == $total ) ? ' class="last-td"' : ''; ?>
-			<td<?php echo $tdClass; ?>><?php echo $content; ?></td>
+			?>
+			<td <?php echo ( $count == $total ) ? 'class="last-td"' : ''; ?>><?php echo  $content; ?></td>
 		<?php $count++; } ?>
 		</tr>
 		<?php
@@ -91,11 +91,11 @@ class Html {
 	*/
 	function setting_row( $cols, $class = '' ) { ?>
 
-		<tr class="<?php echo $class; ?>"><th scope="row" valign="top">
+		<tr class="<?php echo esc_attr($class); ?>"><th scope="row" valign="top">
 			<?php echo array_shift( $cols ); ?></th>
 		<?php
 		foreach ( $cols as $col ) { ?>
-			<td><?php echo $col; ?></td>
+			<td><?php echo  $col; ?></td>
 		<?php
 		} ?></tr>
 		<?php
@@ -116,7 +116,7 @@ class Html {
 			$link .= '&' . $key . '=' . urlencode( $value );
 		}
 
-		$link = wp_nonce_url( $link, $this->object->nonce_action( $args ) );
+		$link = esc_url(wp_nonce_url( $link, $this->object->nonce_action( $args ) ));
 		$args['class'] = isset( $args['class'] ) ? $args['class'] : '';
 		$class = ( $c = $args['class'] ) ? $c : 'more-common';
 		$html = "<a class='$class' href='$link'>$text</a>";
@@ -373,13 +373,13 @@ class Html {
 		$this->object->keys = isset( $this->object->keys ) ? $this->object->keys : array();
 		$keys = implode( ',', (array) $this->object->keys ); ?>
 
-		<input type="hidden" name='version_key' value='<?php echo $this->object->get_version_id(); ?>' />
-		<input type="hidden" name='import_key' value='<?php echo $this->object->get_val( 'import_key' ); ?>' />
-		<input type="hidden" name='ancestor_key' value='<?php echo $this->object->get_val( 'ancestor_key' ); ?>' />
-		<input type="hidden" name='originating_keys' value='<?php echo $keys; ?>' />
+		<input type="hidden" name='version_key' value='<?php echo esc_attr($this->object->get_version_id()); ?>' />
+		<input type="hidden" name='import_key' value='<?php echo esc_attr($this->object->get_val( 'import_key' )); ?>' />
+		<input type="hidden" name='ancestor_key' value='<?php echo esc_attr($this->object->get_val( 'ancestor_key' )); ?>' />
+		<input type="hidden" name='originating_keys' value='<?php echo esc_attr($keys); ?>' />
 		<input type="hidden" name='action' value='save' />
 		<p class="submit">
-			<input type="submit" class='<?php echo $class; ?>' value='<?php rf_e($text); ?>' />
+			<input type="submit" class='<?php echo esc_attr($class); ?>' value='<?php rf_e($text); ?>' />
 		</p>
 		</form>
 
@@ -496,13 +496,13 @@ class Html {
 	function bool_var( $name, $title, $arr ) { ?>
 
 		<tr>
-			<th scope="row" valign="top"><?php echo $title; ?></th>
+			<th scope="row" valign="top"><?php echo  $title; ?></th>
 			<td>
 				<?php
 		$true = ( $arr[$name] ) ? " checked='checked'" : '';
 		$false = ( $true ) ?  '' : " checked='checked'"; ?>
-				<label><input type="radio" name="<?php echo $name; ?>" value="true" <?php echo $true; ?>> <?php echo $title2; ?> Yes</label>
-				<label><input type="radio" name="<?php echo $name; ?>" value="false" <?php echo $false; ?>> <?php echo $title2; ?> No</label>
+				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="true" <?php echo  $true; ?>> <?php echo  $title2; ?> Yes</label>
+				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="false" <?php echo  $false; ?>> <?php echo  $title2; ?> No</label>
 			</td>
 		</tr>
 		<?php
@@ -516,12 +516,12 @@ class Html {
 	function checkboxes( $name, $title, $values, $arr ) { ?>
 
 		<tr>
-			<th scope="row" valign="top"><?php echo $title; ?></th>
+			<th scope="row" valign="top"><?php echo  $title; ?></th>
 			<td>
 		<?php
 		foreach ( $values as $key => $title2 ) {
 			$checked = ( in_array( $key, (array) $arr[$name] ) ) ? " checked='checked'" : ''; ?>
-			<label><input type="checkbox" name="<?php echo $name; ?>[]" value="<?php echo $key; ?>" <?php echo $checked; ?>> <?php echo $title2; ?></label>
+			<label><input type="checkbox" name="<?php echo esc_attr($name); ?>[]" value="<?php echo esc_attr($key); ?>" <?php echo  $checked; ?>> <?php echo  $title2; ?></label>
 		<?php } ?>
 			</td>
 		</tr>

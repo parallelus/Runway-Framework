@@ -45,8 +45,8 @@ class Data_Type extends WP_Customize_Control {
 	}
 	
 	public static function data_type_filter($type, $field_type, $field_alias) {
-		$type = "postMessage";
-		
+		//$type = "postMessage"; 				// uncomment if need use transport = postMessage
+
 		return $type;
 	}
 	
@@ -203,7 +203,7 @@ class Data_Type extends WP_Customize_Control {
 		$del_id = 'del_'.$field_name;
 
 		?>
-			<div id="<?php echo $add_id; ?>">
+			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
 					Add Field
 				</a>
@@ -213,16 +213,16 @@ class Data_Type extends WP_Customize_Control {
 				(function($){
 					$(document).ready(function(){
 						var field = $.parseJSON('<?php echo json_encode($field); ?>');
-						$('#<?php echo $add_id; ?>').click(function(e){
+						$('#<?php echo esc_js($add_id); ?>').click(function(e){
 							e.preventDefault();
 							var field = $('<input/>', {
-								type: '<?php echo $type; ?>',
-								class: '<?php echo $class; ?>',
-								name: '<?php echo $field_name; ?>[]',
+								type: '<?php echo esc_js($type); ?>',
+								class: '<?php echo esc_js($class); ?>',
+								name: '<?php echo esc_js($field_name); ?>[]',
 								value: ""
 							})							
-							.attr('data-type', '<?php echo $data_type; ?>')
-							.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+							.attr('data-type', '<?php echo esc_js($data_type); ?>')
+							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
 							.insertBefore($(this)).focus();
 
 							field.click(function(e){
@@ -231,11 +231,11 @@ class Data_Type extends WP_Customize_Control {
 
 							$('#header').focus();
 							field.after('<br>');
-							field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+							field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 							field.next().after('<a href="#" class="delete_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                                 
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
 
@@ -247,7 +247,7 @@ class Data_Type extends WP_Customize_Control {
 							$(this).remove();
                                                                 
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
                                                         
@@ -255,7 +255,7 @@ class Data_Type extends WP_Customize_Control {
 							if(typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;
 								api.bind('ready', function(){
-									reinitialize_customize_instance('<?php echo $field_name ?>');
+									reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 								});
 							}
 						}
@@ -271,8 +271,8 @@ class Data_Type extends WP_Customize_Control {
 		?>
 		<script type="text/javascript">
 			(function($){
-				$('body').on('change', 'input[name="<?php echo $this->field->alias;?>[]"]', function(){
-					reinitialize_customize_instance('<?php echo $this->field->alias;?>');
+				$('body').on('change', 'input[name="<?php echo esc_js($this->field->alias);?>[]"]', function(){
+					reinitialize_customize_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
                 

@@ -15,7 +15,7 @@ wp_enqueue_script('themes-manager-themes');
 
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 switch ( $action ) {
-case 'delete-package':{
+	case 'delete-package':{
 		$package = isset( $_REQUEST['package'] ) ? $_REQUEST['package'] : '';
 		$name = isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : '';
 		if ( $name != '' && $package != '' ) {
@@ -31,6 +31,21 @@ case 'delete-package':{
 			}
 		}
 	} break;
+
+    case 'delete-package-all':{
+		$theme_name = isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : '';
+		if ( $theme_name != '') {
+            $history = $developer_tools->get_history($theme_name);
+            $current_package = array_shift($history);
+            foreach ( $history as $ts => $info ) {
+				unset( $history[$ts] );
+				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
+					unlink( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] );
+				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
+					unlink( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] );
+			}
+        }
+ 	} break;
 }
 
 switch ( $this->navigation ) {
@@ -60,8 +75,8 @@ case 'duplicate-theme': {
 			$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
 
 			$link = admin_url('admin.php?page=themes&navigation=edit-theme&name='.$_REQUEST['new_name']);
-			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-			echo $redirect;
+			$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
+			echo  $redirect; // escaped above
 		}
 	} break;
 
@@ -88,8 +103,8 @@ case 'edit-theme': {
 				$developer_tools->make_package_info_from_ts( $options['Folder'], $ts );
 
 				$link = admin_url('admin.php?page=themes');
-    			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-    			echo $redirect;
+    			$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link).'";</script>';
+    			echo  $redirect; // escaped above
 			}
 		} else {
 			$this->view( 'theme-conf' );
@@ -136,10 +151,17 @@ case 'list-runway-themes': { }
 case 'confirm-del-package':{
 		$name = $_REQUEST['name'];
 		$package = isset( $_REQUEST['package'] ) ? $_REQUEST['package'] : '';
-		$alone_theme_file = "$name-($package).a.zip";
-		$child_theme_file = "$name-($package).c.zip";
-		$package_info = $developer_tools->make_package_info_from_ts( $name, $package );
+		if ($package !== 'all') {
+			$alone_theme_file = "$name-($package).a.zip";
+			$child_theme_file = "$name-($package).c.zip";
+			$package_info = $developer_tools->make_package_info_from_ts( $name, $package );
+		}
 		include_once 'views/del-package-confirmation.php';
+	} break;
+
+case 'confirm-del-packages-all':{
+		$name = $_REQUEST['name'];
+		include_once 'views/del-packages-confirmation-all.php';
 	} break;
 
 default: {

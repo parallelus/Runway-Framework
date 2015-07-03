@@ -112,5 +112,21 @@ function popup_loader() {
 			return false;
 		});
 
+		$(".cancel-activate-theme").on("click", function () {
+
+			var $dlg = $(".enable-theme-popup").dialog({
+				position: "center",
+				modal: true,
+				resizable: false,
+				dialogClass: 'activateThemePopup'
+			});
+			$(".ui-dialog-titlebar").hide();
+
+			$(".enable-theme-popup a").on("click", function () {
+				$dlg.dialog("close");
+			});
+			$('.enable-theme-popup .themeActionsPupup').show();
+		});
+
 	});
 })(jQuery);

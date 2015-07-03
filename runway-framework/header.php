@@ -2,7 +2,7 @@
 <html <?php language_attributes(); ?>>
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php bloginfo( 'charset' ); ?>" />
-	<title><?php wp_title( '|', true, 'right' ); echo ' '; bloginfo( 'name' ); ?></title>
+	<title><?php wp_title( '|', true, 'right' ); ?></title>
 
 	<!-- Favorites and mobile bookmark icons -->
 	<link rel="shortcut icon" href="<?php get_stylesheet_directory_uri(); ?>/favicon.ico">

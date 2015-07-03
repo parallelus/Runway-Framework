@@ -60,13 +60,13 @@ $current_tag = ($current_data && $current_data->tags_show == "true" )? $current_
 	</thead>
 	<tbody>
 		<tr>
-			<td><p><?php echo $current_package['date'] .", ". $current_package['time']; ?></p></td>
+			<td><p><?php echo  $current_package['date'] .", ". $current_package['time']; ?></p></td>
 			<td>
 <?php 
 if ( $current_package['a_hash'] ) { 
 	?>
 
-				<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['a_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
+				<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['a_file'] ); ?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
 				<p class="checksum"><?php echo __('Checksum', 'framework') .": <span class='code'>". $current_package['a_hash']; ?></span></p>
 				<?php 
 			} 
@@ -78,17 +78,17 @@ else {
 			<td>
 <?php 
 if ( $current_package['c_hash'] ) { ?>
-				<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['c_file']?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
+				<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $current_package['c_file'] ); ?>" class="button-primary"><?php _e('Download', 'framework') ?></a></p>
 				<p class="checksum"><?php echo __('Checksum', 'framework') .": <span class='code'>". $current_package['c_hash']; ?></span></p>
 <?php 
 } 
 else { ?>Not found<?php } ?>
 			</td>
 			<td>
-                <span class="text-display" title="<?php  echo substr($current_tag, 0, 50); if(strlen($current_tag) > 50) echo '...'; ?>">
+                <span class="text-display" title="<?php echo esc_attr(substr($current_tag, 0, 50)); if(strlen($current_tag) > 50) echo '...'; ?>">
                     <?php
                     if(strlen($current_tag) > 12) echo substr($current_tag, 0, 12) . '...';
-                    else echo $current_tag;
+                    else echo  $current_tag;
                     ?>
                 </span>
 			</td>
@@ -111,7 +111,7 @@ else { ?>Not found<?php } ?>
 $rebuild_button = $html->settings_link(__('Rebuild Download Packages', 'framework'), array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
 ?>
 
-<p><?php echo $rebuild_button; ?></p>
+<p><?php echo  $rebuild_button; ?></p>
 
 <div class="tags-dialog">
 	<fieldset>
@@ -167,11 +167,11 @@ if ( $history ) { ?>
 				}
 				?>
 				<tr>
-					<td><p><?php echo $package['date'] .", ". $package['time']; ?></p></td>
+					<td><p><?php echo  $package['date'] .", ". $package['time']; ?></p></td>
 					<td>
 				<?php 
 				if ( $package['a_hash'] ) { ?>
-						<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['a_hash']; ?></span>)</p>
+						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file'] ); ?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo  $package['a_hash']; ?></span>)</p>
 						<?php 
 				} else { 
 					_e('Package Not Found', 'framework');
@@ -180,26 +180,26 @@ if ( $history ) { ?>
 					<td>
 				<?php 
 				if ( $package['c_hash'] ) { ?>
-						<p><a href="<?php echo home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file']?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo $package['c_hash']; ?></span>)</p>
+						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file'] ); ?>"><?php _e('Download', 'framework') ?></a> &nbsp;(<span class="code"><?php echo  $package['c_hash']; ?></span>)</p>
 				<?php 
 				} else { 
 					_e('Package Not Found', 'framework');
 				} ?>
 					</td>
 					<td>
-                        <p title="<?php echo substr($tag, 0, 50); if(strlen($tag) > 50) echo '...'; ?>">
+                        <p title="<?php echo esc_attr(substr($tag, 0, 50)); if(strlen($tag) > 50) echo '...'; ?>">
                             <?php
                                 if(strlen($tag) > 12) echo substr($tag, 0, 12) . '...';
-                                else echo $tag;
+                                else echo  $tag;
                             ?>
 						</p>
 					</td>
 					<td>
-						<p><a href="<?php echo $developer_tools->self_url('edit-tags-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" class="link-tags-edit"><?php _e('Edit', 'framework'); ?></a></p>
+						<p><a href="<?php echo esc_url( $developer_tools->self_url('edit-tags-package').'&name='.$_REQUEST['name'].'&package='.$package['exp'] ); ?>" class="link-tags-edit"><?php _e('Edit', 'framework'); ?></a></p>
 					</td>	
 					<td>
 						<!--.'&name=liftoff&action=delete-package&package='.$package['exp']-->
-						<p><a href="<?php echo $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp']; ?>" ><?php _e('Delete', 'framework'); ?></a></p>
+						<p><a href="<?php echo esc_url( $developer_tools->self_url('confirm-del-package').'&name='.$_REQUEST['name'].'&package='.$package['exp'] ); ?>" ><?php _e('Delete', 'framework'); ?></a></p>
 					</td>
 				</tr>
 			<?php }
@@ -217,4 +217,8 @@ if ( $history ) { ?>
 			</tr>
 		</tfoot>
 	</table>
+	<?php
+	// Delete all button
+    $rebuild_button = $html->settings_link(__('Delete All Old Download Packages', 'framework'), array('class'=>'button-primary','navigation'=>'confirm-del-packages-all','name'=>$_REQUEST['name'])); ?>
+    <p><?php echo  $rebuild_button; ?></p>	
 	<?php } ?>

@@ -60,7 +60,7 @@ class WP_Pointers {
 
 		// generating javascript
 		$javascript = '';
-		$javascript .= '<script type="text/javascript">';
+		// $javascript .= '<script type="text/javascript">';
 		$javascript .= 'jQuery(document).ready(function () {';
 		$javascript .= 'if(typeof(jQuery().pointer) != "undefined") {';
 		foreach ( $pointers as $pointer ) {
@@ -91,10 +91,10 @@ class WP_Pointers {
 			}
 		}
 		$javascript .= '}});';
-		$javascript .= '</script>';
+		// $javascript .= '</script>';
 
 		// render script
-		echo $javascript;
+		echo '<script type="text/javascript">'. $javascript .'</script>';
 
 	}
 

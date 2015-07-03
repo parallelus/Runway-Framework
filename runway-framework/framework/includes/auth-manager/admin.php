@@ -6,8 +6,8 @@
 				    $link = admin_url('admin.php?page=accounts&navigation=success');
     			else 
     				$link = admin_url('admin.php?page=accounts&navigation=error');
-    			$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-				echo $redirect;
+    			$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
+				echo  $redirect; // escaped above
 			}
 			break;
 		}
@@ -15,8 +15,8 @@
 		case 'auth-sign-out': {
 			$this->auth_user_signout();
 			$link = admin_url('admin.php?page=accounts');
-    		$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-			echo $redirect;
+    		$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
+			echo  $redirect; // escaped above
 			
 			break;
 		}

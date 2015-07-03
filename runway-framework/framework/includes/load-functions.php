@@ -12,13 +12,13 @@ spl_autoload_register( function( $class ) {
 //-----------------------------------------------------------------
 
 if ( !function_exists( 'load_data_types' ) ) :
-	function load_data_types() {
+    function load_data_types() {
 		global $data_types_list;
 
 		// $data_types_path = get_theme_root() . "/runway-framework/data-types";
 		$data_types_path = FRAMEWORK_DIR .'data-types';
 		$data_types_base = $data_types_path . "/data-type.php";
-
+        
 		if (!file_exists($data_types_path) || !file_exists($data_types_base)) {
 			wp_die("Error: has no data types.");
 		} else {
@@ -28,7 +28,12 @@ if ( !function_exists( 'load_data_types' ) ) :
 
 			foreach ($data_types_array as $name => $path) {
 				$data_type_slug = basename($path, '.php');
-
+                
+                if ($name == 'fileupload-type.php') {
+                  // if ( ! did_action( 'wp_enqueue_media' ) )
+                    // wp_enqueue_media();   //Needed for upload field
+                }
+                
 				$data_types_list[$data_type_slug] = array(
 				    'filename' => $name,
 				    'classname' => ucfirst(str_replace('-', '_', $data_type_slug)),
@@ -49,14 +54,18 @@ if(!function_exists('include_data_types')) {
 				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
 					if(is_dir("$data_types_path/$name/$filename"))
 						continue;
-					
-					include_once "$data_types_path/$name/$filename";
-					$data_types_array[$filename] = "$data_types_path/$name/$filename";
+
+					if( pathinfo("$data_types_path/$name/$filename", PATHINFO_EXTENSION) == 'php' ) {
+						include_once "$data_types_path/$name/$filename";
+						$data_types_array[$filename] = "$data_types_path/$name/$filename";
+					}
 				}
 			}
 			else {
-				include_once "$data_types_path/$name";
-				$data_types_array[$name] = "$data_types_path/$name";
+				if( pathinfo("$data_types_path/$name", PATHINFO_EXTENSION) == 'php' ) {
+					include_once "$data_types_path/$name";
+					$data_types_array[$name] = "$data_types_path/$name";
+				}
 			}
 		}
 		
@@ -135,6 +144,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 	// $option (optional) is path to option in options-set (coma separated values)
 	// $default (optional) if nothing was matched then return this value
 	function get_options_data( $key, $option = false, $default = null ) {
+		global $wpdb, $shortname;
 
 		if ( $option && isset( $_REQUEST['customized'] ) ) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
@@ -143,8 +153,6 @@ if ( !function_exists( 'get_options_data' ) ) {
 				return $value;
 			}
 		}
-
-		global $shortname;
 
 		if ( empty( $key ) ) {
 			return $default;
@@ -166,7 +174,44 @@ if ( !function_exists( 'get_options_data' ) ) {
 		$key = $shortname . $key;
 
 		// get value from database
-		$value = get_option( $key );
+		// $value = get_option( $key );
+
+		// get value from database query
+		// $result = $wpdb->get_results( "SELECT * FROM wp_options WHERE option_name = '" . $key . "'" );
+		// $value = isset($result[0]->option_value)? unserialize($result[0]->option_value) : '';
+
+		// Same logic as get_option()
+		$alloptions = wp_load_alloptions();
+
+		if ( isset( $alloptions[$key] ) ) {
+			// get the cached value
+			$option_value = $alloptions[$key];
+		} else {
+
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $key ) );
+
+			// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+			if ( is_object( $row ) ) {
+				// value exists, so cache it
+				$option_value = $row->option_value;
+				wp_cache_add( $key, $option_value, 'options' );
+			} else { 
+				// option does not exist, so we must cache its non-existence
+				$notoptions[$key] = true;
+				wp_cache_set( 'notoptions', $notoptions, 'options' );
+
+				// and return the default
+				return apply_filters( 'default_option_' . $key, $default );
+			}
+		}
+
+		if (isset($option_value)) {
+			// prepare the value for use
+			$value = unserialize($option_value);
+		} else {
+			// nada, so return the default
+			return apply_filters( 'default_option_' . $key, $default );
+		}
 
 		$key_tmp = explode('_', $original_key);
 		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
@@ -175,6 +220,9 @@ if ( !function_exists( 'get_options_data' ) ) {
 				return $meta_value;			
 		}
 
+		// Validate
+		$value[$option] = ( isset( $value[$option] ) ) ? $value[$option] : '';
+
 		// apply data-type filter
 		if ( isset( $value['field_types'][$option] ) ) {
 			$field_type = $value['field_types'][$option];
@@ -182,11 +230,10 @@ if ( !function_exists( 'get_options_data' ) ) {
 		}
 
 		// apply option option_key filter
-		$value[$option] = ( isset( $value[$option] ) ) ? $value[$option] : '';
 		$value[$option] = apply_filters( 'options_data_' . $option, $value[$option] );
 		// apply option page_key+option_key filter
 		$opt = ( isset( $value[$option] ) ) ? $value[$option] : '';
-		$value[$option] = apply_filters( 'options_data_' . $original_key . '_' . $option, $value[$option] );
+		$value[$option] = stripslashes_deep( apply_filters( 'options_data_' . $original_key . '_' . $option, $value[$option] ) );
 
 		if ( !empty( $value ) ) {
 			// return value by defined option path
@@ -268,7 +315,7 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 			global $libraries;
 			$libraries = array();
 			foreach ( $libs as $key => $lib ) {
-				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) ) {
+				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) && pathinfo($lib, PATHINFO_EXTENSION) == 'php' ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
 					if ( class_exists( $name ) && $name != 'Html' ) {
@@ -406,6 +453,7 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 
 	$exclude = array(
 		$shortname.'report-manager',
+		$shortname.'formsbuilder_'
 	);
 
 	// check if current option is runway extension option
@@ -556,15 +604,18 @@ function custom_theme_menu_icon() {
 			}
 		}
 	} else {
-		$icon = rw_get_custom_theme_data('Icon');
-		if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
-			$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
-		} else {
+		$settings = get_settings_json();
+		$icon = $settings['Icon'];
+		if ( $themeKey != null ) {
+			if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
+				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
+			} else {
 
-			global $wp_filesystem;
+				global $wp_filesystem;
 
-			$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
-			$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
+				$settings = json_decode($wp_filesystem->get_contents(THEME_DIR . 'data/settings.json'), true);
+				$menu[$themeKey][6] = isset($settings['default-wordpress-icon-class'])? $settings['default-wordpress-icon-class'] : '';
+			}
 		}
 	}
 }
@@ -640,10 +691,17 @@ function db_json_sync(){
 
 				if (in_array($option_key_json, array($json_prefix . 'report-manager')))
 					continue;
+				if ($option_key_json == $json_prefix . 'formsbuilder_') {
+					delete_option($option_key);
+					$wp_filesystem->delete($json_dir.'/'.$ff);
+					continue;
+				}
+
 				if (strpos($option_key_json, $json_prefix) !== false) {
 					
-					$json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
-						json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
+					// $json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
+					// 	json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
 					$db = get_option($option_key);					
 					$params = array(
 					    'json' => $json,
@@ -961,8 +1019,8 @@ function ask_new_theme( $old_theme, $new_theme, $link) {
 		__('If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'framework') . '.<br>' .
 		__('If this is the same theme and you are just renaming it, you should keep this ID the same' , 'framework') . '.<br>' .
 		__('Do you want to create a new ID now?', 'framework') . '</strong>'; ?>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 1, $link ); ?>"><?php _e('Yes', 'framework') ?></a>
-		<a href="<?php echo add_query_arg( 'create-theme-id', 0, $link ); ?>"><?php _e('No', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 1, $link )); ?>"><?php _e('Yes', 'framework') ?></a>
+		<a href="<?php echo esc_url(add_query_arg( 'create-theme-id', 0, $link )); ?>"><?php _e('No', 'framework') ?></a>
 		</p>
 	</div>
 	<?php
@@ -1009,8 +1067,8 @@ function check_theme_ID( $folder = false ) {
 					$settings['Name'] = $theme_name_stylecss;
 					$wp_filesystem->put_contents(get_stylesheet_directory() . '/data/settings.json', json_encode($settings), FS_CHMOD_FILE);
 			  	}
-				$redirect = '<script type="text/javascript">window.location = "'.$link.'";</script>';
-				echo $redirect;
+				$redirect = '<script type="text/javascript">window.location = "'. esc_url($link) .'";</script>';
+				echo  $redirect; // escaped above
 			}
 			add_action('admin_notices', 'ask_new_theme', 10, 3);
 			do_action('admin_notices', $settings['Name'], $theme_name_stylecss, $link );
@@ -1135,4 +1193,12 @@ if(!function_exists('runway_check_versions')) {
 		return $has_update;
 	}
 }
+
+if(!function_exists('runway_filesystem_method')) {
+	function runway_filesystem_method($method) {
+		$method = is_admin()? 'direct' : $method;
+		return $method;
+	}
+}
+add_filter( 'filesystem_method', 'runway_filesystem_method' );
 ?>

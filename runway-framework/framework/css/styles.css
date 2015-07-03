@@ -2,6 +2,10 @@
 #theme-framework.hasPageTitle h2.nav-tab-wrapper {
     padding-top: 25px
 }
+#theme-framework h2.nav-tab-wrapper a.nav-tab:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 
 /* Container Titles */
 #theme-framework .dynamic-page-wrapper h3.first-title {

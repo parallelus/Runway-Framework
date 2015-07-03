@@ -343,7 +343,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	        $image = wp_get_image_editor($_FILES['theme_options']['tmp_name']['CustomIcon']);
 
         	if(!is_wp_error($image)){
-	             $image->resize(16, 16);
+	             $image->resize(36, 36);
     	         $image->save($this->themes_path . '/' . $options['Folder'] . '/custom-icon.png');
 	        }
 
@@ -689,7 +689,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/', $zip, $exclude );
 			$zip->addEmptyDir( $theme_name.'/framework/includes/' );
 			$framework_dir = FRAMEWORK_DIR.'framework/includes/';
-			$exclude = array('report-manager', 'themes-manager', 'download-directory', 'dashboard', 'pointers');
+			$exclude = array('report-manager', 'download-directory', 'dashboard', 'pointers', 'auth-manager', 'options-builder', 'theme-updater');
 			$this->add_to_zip_r( $framework_dir, $theme_name.'/framework/includes/', $zip, $exclude );
 			$zip->addEmptyDir( $theme_name.'/data-types/' );
 			$framework_dir = FRAMEWORK_DIR.'data-types/';
@@ -727,7 +727,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$zip->addFromString( $theme_name.'/style.css', $css_ext );
 
 			// copy child theme files
-			$this->add_to_zip_r( get_stylesheet_directory(), $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
+			$this->add_to_zip_r( get_theme_root().'/'.$theme_name, $theme_name.'/', $zip, array( 'download', 'functions.php', 'style.css' ) );
 
 			$zip->close();
 
@@ -806,9 +806,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$to_del = array_slice( $history, 10 );
 			foreach ( $to_del as $ts => $info ) {
 				unset( $history[$ts] );
-				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
+				if ( !empty($info['c_file']) && file_exists( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] ) )
 					unlink( $this->themes_path . "/{$theme_name}/download/".$info['c_file'] );
-				if ( file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
+				if ( !empty($info['a_file']) && file_exists( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] ) )
 					unlink( $this->themes_path . "/{$theme_name}/download/".$info['a_file'] );
 			}
 		}
@@ -908,15 +908,26 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Preview URL
 	$t['previewURL'] = home_url();
 	if ( is_ssl() ) $t['previewURL'] = str_replace( 'http://', 'https://', $t['previewURL'] );
-	$t['previewURL'] = htmlspecialchars( add_query_arg( array( 'preview' => 1, 'template' => strtolower( urlencode( $theme['Template'] ) ), 'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 'preview_iframe' => false, 'TB_iframe' => 'false' ), $t['previewURL'] ) );
+	$t['previewURL'] = esc_url(htmlspecialchars( 
+		add_query_arg( 
+			array( 
+				'preview' => 1, 
+				'template' => strtolower( urlencode( $theme['Template'] ) ), 
+				'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 
+				'preview_iframe' => false, 
+				'TB_iframe' => 'false' 
+			), 
+			$t['previewURL'] 
+		) 
+	));
 	// Edit URL
-	$t['editURL'] = 'admin.php?page=themes&navigation=edit-theme&name='. $t['folder'];
+	$t['editURL'] = esc_url('admin.php?page=themes&navigation=edit-theme&name='. $t['folder']);
 	// Delete URL
-	$t['deleteURL'] = 'admin.php?page=themes&navigation=delete-theme&name='. $t['folder'];
+	$t['deleteURL'] = esc_url('admin.php?page=themes&navigation=delete-theme&name='. $t['folder']);
 	// Download URL
-	$t['downloadURL'] = 'admin.php?page=themes&navigation=do-package&name='. $t['folder'];
+	$t['downloadURL'] = esc_url('admin.php?page=themes&navigation=do-package&name='. $t['folder']);
 	// History URL
-	$t['historyURL'] = 'admin.php?page=themes&navigation=do-download&name='. $t['folder'];
+	$t['historyURL'] = esc_url('admin.php?page=themes&navigation=do-download&name='. $t['folder']);
 
 	// Links
 	// --------------------------------------------

@@ -15,7 +15,7 @@ class Fileupload_type extends Data_Type {
 		}
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
                 
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 			$this->get_value();
@@ -40,12 +40,12 @@ class Fileupload_type extends Data_Type {
 			<?php
 				for ($key = 0; $key < $count; $key++) {
 			?>
-				<input id="upload_image-<?php echo $this->field->alias; ?>_<?php echo $key; ?>" class="custom-file-upload custom-data-type" <?php echo $section; ?> 
-					data-type="fileupload-type" type="text" size="36" name="<?php echo $this->field->alias; ?>[]" 
+				<input id="upload_image-<?php echo esc_attr($this->field->alias); ?>_<?php echo esc_attr($key); ?>" class="custom-file-upload custom-data-type" <?php echo  $section; // escaped above ?> 
+					data-type="fileupload-type" type="text" size="36" name="<?php echo esc_attr($this->field->alias); ?>[]" 
 					value="<?php echo @stripslashes(isset($this->field->value[$key]) ? $this->field->value[$key] : '' ); ?>" <?php $this->link(); ?> />
 
 					<span class="field_label">
-						<button id="upload_image_button-<?php echo $this->field->alias; ?>_<?php echo $key; ?>" class="custom-file-upload-button button"><?php _e('Select File', 'framework'); ?></button>
+						<button id="upload_image_button-<?php echo esc_attr($this->field->alias.'_'.$key); ?>" class="custom-file-upload-button button"><?php _e('Select File', 'framework'); ?></button>
 					</span>
 					<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
@@ -62,9 +62,6 @@ class Fileupload_type extends Data_Type {
 				'value' => '#'
 			);
 			$this->enable_repeating($field);
-
-			if (!did_action('wp_enqueue_media'))
-				wp_enqueue_media();
 		?>
 		<script type='text/javascript'>
                     var file_frame;
@@ -125,16 +122,12 @@ class Fileupload_type extends Data_Type {
 		}
 		?>
 		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-		<input id="upload_image-<?php echo $this->field->alias; ?>" class="custom-data-type" <?php echo $section; ?> data-type="fileupload-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" size="36" name="<?php echo $this->field->alias; ?>" value="<?php echo @stripslashes( $input_value ); ?>" <?php $this->link(); ?> />
+		<input id="upload_image-<?php echo esc_attr($this->field->alias); ?>" class="custom-data-type" <?php echo  $section; // escaped above ?> data-type="fileupload-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" size="36" name="<?php echo esc_attr($this->field->alias); ?>" value="<?php echo esc_attr(@stripslashes( $input_value )); ?>" <?php $this->link(); ?> />
 
 		<span class="field_label">
-			<button id="upload_image_button-<?php echo $this->field->alias; ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
+			<button id="upload_image_button-<?php echo esc_attr($this->field->alias); ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
 		</span>
-		<?php
-		if ( ! did_action( 'wp_enqueue_media' ) )
-    		wp_enqueue_media();    	
-		?>
-
+		
 		<script type="text/javascript">
 			var file_frame;
 			var current_button;
@@ -142,12 +135,12 @@ class Fileupload_type extends Data_Type {
 
 			(function($){
 
-				$("#upload_image-<?php echo $this->field->alias; ?>").keydown(function(e){
+				$("#upload_image-<?php echo esc_js($this->field->alias); ?>").keydown(function(e){
 					console.log('Yes keydown triggered. ' + e.which)
 				});	
 
-				$(function(){
-					$("#upload_image_button-<?php echo $this->field->alias; ?>").click(function(e) {
+				
+					$("#upload_image_button-<?php echo esc_js($this->field->alias); ?>").click(function(e) {
 						e.preventDefault();
 						current_button = $(this);
 						attached_input = current_button.parent().prev();
@@ -180,7 +173,7 @@ class Fileupload_type extends Data_Type {
 
 						file_frame.open();
 					});
-				});
+				
 			})(jQuery);
 		</script><?php
 		}
@@ -295,7 +288,7 @@ class Fileupload_type extends Data_Type {
 		$add_id = 'add_' . $field_name;
 		$del_id = 'del_' . $field_name;
 		?>
-			<div id="<?php echo $add_id; ?>">
+			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
 					<?php echo __('Add Field', 'framework'); ?>
 				</a>
@@ -306,17 +299,17 @@ class Fileupload_type extends Data_Type {
 					$(document).ready(function(){
 						var field = $.parseJSON('<?php echo json_encode($field); ?>');
 
-						$('#<?php echo $add_id; ?>').click(function(e){
+						$('#<?php echo esc_js($add_id); ?>').click(function(e){
 							e.preventDefault();
 							var field = $('<input/>', {
-								type: '<?php echo $type; ?>',
-								class: '<?php echo $class; ?>',
-								name: '<?php echo $field_name; ?>[]',
+								type: '<?php echo esc_js($type); ?>',
+								class: '<?php echo esc_js($class); ?>',
+								name: '<?php echo esc_js($field_name); ?>[]',
 								value: ""
 							})					
-							.attr('size', '<?php echo $size; ?>')
-							.attr('data-type', '<?php echo $data_type; ?>')
-							.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+							.attr('size', '<?php echo esc_js($size); ?>')
+							.attr('data-type', '<?php echo esc_js($data_type); ?>')
+							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
 							.insertBefore($(this)).focus();
 
 							field.click(function(e){
@@ -325,11 +318,11 @@ class Fileupload_type extends Data_Type {
 
 							$('#header').focus();
 							field.after('<br>');
-							field.after('<span class="field_label"> <button class="custom-file-upload-button button"><?php echo $after_field ?></button> </span>');
+							field.after('<span class="field_label"> <button class="custom-file-upload-button button"><?php echo esc_js($after_field) ?></button> </span>');
 							field.next().after('<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a>');
 			                                                                
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
 
@@ -341,7 +334,7 @@ class Fileupload_type extends Data_Type {
 							$(this).remove();
 			                                                                
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
 			                                                        
@@ -349,7 +342,7 @@ class Fileupload_type extends Data_Type {
 							if(typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;
 								api.bind('ready', function(){
-									reinitialize_customize_instance('<?php echo $field_name ?>');
+									reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 								});
 							}
 						}

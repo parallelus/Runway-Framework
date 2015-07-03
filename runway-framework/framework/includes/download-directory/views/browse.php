@@ -33,7 +33,7 @@
 		</form>
 	</div>
 	<div class="tablenav-pages <?php // if one page, add class 'one-page' ?>">
-		<span class="displaying-num"><?php echo $response->total_count ?> <?php _e( 'items', 'framework' ) ?></span>
+		<span class="displaying-num"><?php echo  $response->total_count ?> <?php _e( 'items', 'framework' ) ?></span>
 		<span class="pagination-links">
 
 			<?php if ( $current_page == 1 ) { ?>
@@ -41,15 +41,15 @@
 				<a class="prev-page disabled" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="#">&lsaquo;</a>
 			<?php } 
 else { ?>
-				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
-				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
+				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&laquo;</a>
+				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&lsaquo;</a>
 			<?php } ?>
 
 			<span class="paging-input">
 				<form method="get" style="display: inline;">
-					<input type="hidden" name="s" value="<?php echo $_REQUEST['s']; ?>">
+					<input type="hidden" name="s" value="<?php echo esc_attr($_REQUEST['s']); ?>">
 					<input type="hidden" name="page" value="directory">
-					<input class="current-page" title="<?php _e( 'Current page', 'framework' ) ?>" type="text" name="_current_page" value="<?php echo $current_page ?>" size="2"> of <span class="total-pages"><?php echo ceil( $response->total_count / $response->on_page ) ?></span>
+					<input class="current-page" title="<?php _e( 'Current page', 'framework' ) ?>" type="text" name="_current_page" value="<?php echo esc_attr($current_page) ?>" size="2"> of <span class="total-pages"><?php echo ceil( $response->total_count / $response->on_page ) ?></span>
 				</form>
 			</span>
 
@@ -58,8 +58,8 @@ else { ?>
 				<a class="last-page disabled" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="">&raquo;</a>
 			<?php } 
 else { ?>
-				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
-				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
+				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&rsaquo;</a>
+				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&raquo;</a>
 			<?php } ?>
 
 		</span>
@@ -89,19 +89,19 @@ if ( isset($response->extensions) && $response->extensions )
 {
 	foreach ( $response->extensions as $token => $extension ) {	?>
 			<tr>
-				<td class="name column-name"><strong><?php echo $extension->Name ?></strong>
+				<td class="name column-name"><strong><?php echo  $extension->Name ?></strong>
 					<div class="action-links">
-						<a href="#" class="details" token="<?php echo $token; ?>" title="<?php echo __('More information', 'framework'); ?>"><?php echo __('Details', 'framework'); ?></a> |
-						<a class="install-now" href="<?php echo admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce='); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>">
+						<a href="#" class="details" token="<?php echo esc_attr($token); ?>" title="<?php echo __('More information', 'framework'); ?>"><?php echo __('Details', 'framework'); ?></a> |
+						<a class="install-now" href="<?php echo esc_url( admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce=') ); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>">
 							<?php echo ($extm->is_install($token)) ? __('Reinstall', 'framework') : __('Install Now', 'framework') ?>
 						</a>
 					</div>
-					<div class = "details-dialog" token="<?php echo $token; ?>" style="display:none">
-						<strong><?php echo $extension->Name ?></strong> (<?php echo __('Version', 'framework') . ': ' . $extension->Version ?>)<hr>
+					<div class = "details-dialog" token="<?php echo esc_attr($token); ?>" style="display:none">
+						<strong><?php echo  $extension->Name ?></strong> (<?php echo __('Version', 'framework') . ': ' . $extension->Version ?>)<hr>
 						<?php rf_e($extension->Description); ?>
 					</div>
 				</td>
-				<td class="vers column-version"><?php echo $extension->Version ?></td>				
+				<td class="vers column-version"><?php echo  $extension->Version ?></td>				
 				<td class="desc column-description"><?php rf_e($extension->Description); ?></td>
 			</tr>
 		<?php } 
@@ -123,7 +123,7 @@ else {
 
 <div class="tablenav bottom">
 	<div class="tablenav-pages <?php // if one page, add class 'one-page' ?>">
-		<span class="displaying-num"><?php echo $response->total_count ?> <?php _e( 'items', 'framework' ) ?></span>
+		<span class="displaying-num"><?php echo  $response->total_count ?> <?php _e( 'items', 'framework' ) ?></span>
 		<span class="pagination-links">
 
 			<?php if ( $current_page == 1 ) { ?>
@@ -131,15 +131,15 @@ else {
 				<a class="prev-page disabled" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="#">&lsaquo;</a>
 			<?php } 
 else { ?>
-				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&laquo;</a>
-				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&lsaquo;</a>
+				<a class="first-page" title="<?php _e( 'Go to the first page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory'.(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&laquo;</a>
+				<a class="prev-page" title="<?php _e( 'Go to the previous page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.($current_page - 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&lsaquo;</a>
 			<?php } ?>
 
 			<span class="paging-input">
 				<form method="get" style="display: inline;">
-					<input type="hidden" name="s" value="<?php echo $_REQUEST['s']; ?>">
+					<input type="hidden" name="s" value="<?php echo esc_attr($_REQUEST['s']); ?>">
 					<input type="hidden" name="page" value="directory">
-					<input class="current-page" title="<?php _e( 'Current page', 'framework' ) ?>" type="text" name="_current_page" value="<?php echo $current_page ?>" size="2"> of <span class="total-pages"><?php echo ceil( $response->total_count / $response->on_page ) ?></span>
+					<input class="current-page" title="<?php _e( 'Current page', 'framework' ) ?>" type="text" name="_current_page" value="<?php echo esc_attr($current_page) ?>" size="2"> of <span class="total-pages"><?php echo ceil( $response->total_count / $response->on_page ) ?></span>
 				</form>
 			</span>
 
@@ -148,8 +148,8 @@ else { ?>
 				<a class="last-page disabled" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="">&raquo;</a>
 			<?php } 
 else { ?>
-				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&rsaquo;</a>
-				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')); ?>">&raquo;</a>
+				<a class="next-page" title="<?php _e( 'Go to the next page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.($current_page + 1).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&rsaquo;</a>
+				<a class="last-page" title="<?php _e( 'Go to the last page', 'framework' ) ?>" href="<?php echo esc_url( admin_url('admin.php?page=directory&current_page='.ceil( $response->total_count / $response->on_page ).(isset( $_REQUEST['s'] ) ? "&s={$_REQUEST['s']}" : '')) ); ?>">&raquo;</a>
 			<?php } ?>
 
 		</span>

@@ -14,7 +14,7 @@ class Colorpicker_type extends Data_Type {
 			extract( $vals );
 		}
 
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 	?>
 
 	<label>
@@ -41,10 +41,10 @@ class Colorpicker_type extends Data_Type {
 				else
 					$repeat_value = "";
 			?>
-				<input class="color-picker-hex custom-data-type" <?php echo $section; ?> 
+				<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?> 
 					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?> 
-					name="<?php echo $this->field->alias ?>[]" 
-					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? $repeat_value : ''; ?>" />
+					name="<?php echo esc_attr($this->field->alias) ?>[]" 
+					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? esc_attr($repeat_value) : ''; ?>" />
 				<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
 				<?php
 			}
@@ -64,7 +64,7 @@ class Colorpicker_type extends Data_Type {
 			<script type="text/javascript">
 				(function () {
 
-					var name = '<?php echo $this->field->alias; ?>';
+					var name = '<?php echo esc_js($this->field->alias); ?>';
 
 					jQuery(function () {
 
@@ -93,11 +93,12 @@ class Colorpicker_type extends Data_Type {
 			}
 		?>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-			<input class="color-picker-hex custom-data-type" <?php echo $section; ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="<?php echo $input_value; ?>" />
+			<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias) ?>" value="<?php echo esc_attr($input_value); ?>" />
 			<script type="text/javascript">
 				(function () {
 
-					var name = '<?php echo $this->field->alias; ?>';
+					var name = '<?php echo esc_js($this->field->alias); ?>';
+ 					var default_val = '<?php echo esc_js($this->field->values) ?>';
 
 					jQuery(function () {
 
@@ -110,7 +111,8 @@ class Colorpicker_type extends Data_Type {
 								//}, 50);
 							},
 							clear: function() {
-								jQuery('[name="'+name+'"]').attr('value', '');
+								default_val = (default_val) ? default_val : '';
+								jQuery('[name="'+name+'"]').attr('value', default_val).val(default_val).trigger('change');
 							}
 						});
 					});
@@ -272,7 +274,7 @@ class Colorpicker_type extends Data_Type {
 			$del_id = 'del_'.$field_name;
 
 			?>
-			<div id="<?php echo $add_id; ?>">
+			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
 					<?php echo __('Add Field', 'framework'); ?>
 				</a>
@@ -283,16 +285,16 @@ class Colorpicker_type extends Data_Type {
 					$(document).ready(function(){
 						var field = $.parseJSON('<?php echo json_encode($field); ?>');
                                                 
-						$('#<?php echo $add_id; ?>').click(function(e){
+						$('#<?php echo esc_js($add_id); ?>').click(function(e){
 							e.preventDefault();
 							var field = $('<input/>', {
-								type: '<?php echo $type; ?>',
-								class: '<?php echo $class; ?>',
-								name: '<?php echo $field_name; ?>[]',
+								type: '<?php echo esc_js($type); ?>',
+								class: '<?php echo esc_js($class); ?>',
+								name: '<?php echo esc_js($field_name); ?>[]',
 								value: ""
 							})							
-							.attr('data-type', '<?php echo $data_type; ?>')
-							.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+							.attr('data-type', '<?php echo esc_js($data_type); ?>')
+							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
 							.insertBefore($(this)).focus();
 
 							field.click(function(e){
@@ -301,7 +303,7 @@ class Colorpicker_type extends Data_Type {
 
 							$('#header').focus();
 							field.after('<br>');
-							field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+							field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 							field.wpColorPicker({ change: function () {
@@ -311,7 +313,7 @@ class Colorpicker_type extends Data_Type {
 							}});
                                                     
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
 
@@ -323,7 +325,7 @@ class Colorpicker_type extends Data_Type {
 							$(this).remove();
                                                         
 							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
                                                         
@@ -331,7 +333,7 @@ class Colorpicker_type extends Data_Type {
 							if(typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;
 								api.bind('ready', function(){
-									reinitialize_customize_instance('<?php echo $field_name ?>');
+									reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 								});
 							}
 						}

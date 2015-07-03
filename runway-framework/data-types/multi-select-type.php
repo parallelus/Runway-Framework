@@ -38,7 +38,7 @@ class Multi_select_type extends Data_Type {
 				}
 			}
 		}
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 		$customize_title = stripslashes( $this->field->title );
 		?>
 		<?php
@@ -56,12 +56,12 @@ class Multi_select_type extends Data_Type {
 		if($count == 0) 
 			$count = 1;
 		?>
-		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 		<?php
 		for( $key = 0; $key < $count; $key++ ) {
 		?>
-			<select multiple class="input-select custom-data-type" <?php echo $section;?> data-type="multi-select-type" 
-				name="<?php echo $this->field->alias;?>[<?php echo $key;?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
+			<select multiple class="input-select custom-data-type" <?php echo  $section; // escaped above ?> data-type="multi-select-type" 
+				name="<?php echo esc_attr($this->field->alias);?>[<?php echo esc_attr($key);?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
                     
 				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'framework'); ?></option>
 				<?php foreach ( $key_values as $select_value_key => $val ) { 
@@ -71,7 +71,7 @@ class Multi_select_type extends Data_Type {
 					else
 						$checked = '';
 				?>
-				<option value='<?php echo $select_value_key;?>' <?php echo $checked;?>><?php echo stripslashes( $val );?></option>
+				<option value='<?php echo esc_attr($select_value_key);?>' <?php echo esc_attr($checked);?>><?php echo stripslashes( $val );?></option>
 				<?php } ?>
 			</select>
 		<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a><br>
@@ -117,7 +117,7 @@ class Multi_select_type extends Data_Type {
 		}
 		$html .= '</select>';
 
-		echo $html;
+		echo  $html;
             
 		/* dirty hack to make multiple elms on customize.php page */
 		if ( $this->is_customize_theme_page ) { ?>
@@ -125,14 +125,14 @@ class Multi_select_type extends Data_Type {
 			<script type="text/javascript">
 
 				(function($){
-					$('body').on('click', 'select[name^="<?php echo $this->field->alias;?>"] option', function(){
+					$('body').on('click', 'select[name^="<?php echo esc_js($this->field->alias);?>"] option', function(){
 						var values_array = [];
 						$(this).parent().children("option:selected").each(function(){
 							values_array.push($(this).val());
 						});
 						
 						var api = wp.customize;
-						api.instance('<?php echo $this->field->alias;?>').set(values_array);
+						api.instance('<?php echo esc_js($this->field->alias);?>').set(values_array);
 					});
 				})(jQuery);
 
@@ -291,7 +291,7 @@ class Multi_select_type extends Data_Type {
 		$del_id = 'del_'.$field_name;
 
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
@@ -301,18 +301,18 @@ class Multi_select_type extends Data_Type {
 			(function($){
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
-					var start_radio_groups_index = <?php echo $start_number;?>;
+					var start_radio_groups_index = <?php echo esc_js($start_number);?>;
                                                 
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<select>', {
-							type: '<?php echo $type; ?>',
-							class: '<?php echo $class; ?>',
-							name: '<?php echo $field_name; ?>['+start_radio_groups_index+'][]',
+							type: '<?php echo esc_js($type); ?>',
+							class: '<?php echo esc_js($class); ?>',
+							name: '<?php echo esc_js($field_name); ?>['+start_radio_groups_index+'][]',
 							value: "",
 							multiple: ""
 						})							
-						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>').
 						css({'height': '103px'});
 						start_radio_groups_index++;
@@ -321,7 +321,7 @@ class Multi_select_type extends Data_Type {
 						<?php foreach($default_values as $val_key=>$val) { 
 							$html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
 						?>
-						field.append('<?php echo $html;?>');
+						field.append('<?php echo esc_js($html);?>');
 						<?php } ?>
                                                             
 						field.insertBefore($(this));
@@ -332,11 +332,11 @@ class Multi_select_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
-							reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+							reinitialize_customize_multiselect_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -348,7 +348,7 @@ class Multi_select_type extends Data_Type {
 						$(this).remove();
                                                         
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
-							reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+							reinitialize_customize_multiselect_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
                                                         
@@ -356,7 +356,7 @@ class Multi_select_type extends Data_Type {
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
 							var api = wp.customize;
 							api.bind('ready', function(){
-								reinitialize_customize_multiselect_instance('<?php echo $field_name ?>');
+								reinitialize_customize_multiselect_instance('<?php echo esc_js($field_name) ?>');
 							});
 						}
 					}
@@ -371,8 +371,8 @@ class Multi_select_type extends Data_Type {
 	?>
 		<script type="text/javascript">
 			(function($){
-				$('body').on('click', 'select[name^="<?php echo $this->field->alias;?>"] option', function(){
-					reinitialize_customize_multiselect_instance('<?php echo $this->field->alias;?>');
+				$('body').on('click', 'select[name^="<?php echo esc_js($this->field->alias);?>"] option', function(){
+					reinitialize_customize_multiselect_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
                 

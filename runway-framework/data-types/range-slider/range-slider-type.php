@@ -15,7 +15,7 @@ class Range_slider_type extends Data_Type {
 		do_action(self::$type_slug . '_before_render_content', $this);
 		
 		$customize_title = stripslashes($this->field->title);
-		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 		
 		$start = "0";
@@ -53,51 +53,51 @@ class Range_slider_type extends Data_Type {
 			$connect = '"'.$this->field->connect.'"'
 		?>
 
-		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 		
-		<div id="<?php echo $this->field->alias; ?>" class="range-slider">
-			<div id="slider-<?php echo $this->field->alias;?>" <?php if($this->field->orientation == 'vertical') { ?>style="height: 250px;"<?php } ?>></div>
+		<div id="<?php echo esc_attr($this->field->alias); ?>" class="range-slider">
+			<div id="slider-<?php echo esc_attr($this->field->alias);?>" <?php if($this->field->orientation == 'vertical') { ?>style="height: 250px;"<?php } ?>></div>
 			<div class="slider-values">
 				Slider values: <?php if($double) { ?>
-					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
-					<span class="slider-end-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startSecondEntry; ?></span>
+					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startFirstEntry; ?></span>
+					<span class="slider-end-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startSecondEntry; ?></span>
 					<?php } else { ?>
-					<span class="slider-start-<?php echo $this->field->alias;?> slider-value"><?php echo $this->field->startFirstEntry; ?></span>
+					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startFirstEntry; ?></span>
 					<?php } ?>
 					
 					<input type="hidden" 
 					       class="custom-data-type" 
 					       <?php echo parent::add_data_conditional_display($this->field); ?> 
-					       name="<?php echo $this->field->alias;?>" 
-					       value="" 
+					       name="<?php echo esc_attr($this->field->alias);?>" 
+					       value="<?php echo esc_attr($value); ?>" 
 					       <?php $this->link() ?>
-					       <?php echo $section; ?>
-					       id="hidden-<?php echo $this->field->alias; ?>"
+					       <?php echo  $section; // escaped above ?>
+					       id="hidden-<?php echo esc_attr($this->field->alias); ?>"
 					       data-type="range-slider"/>
 			</div>
 			<script type="text/javascript">
 				jQuery(document).ready(function($) {
-					$('#slider-<?php echo $this->field->alias; ?>').noUiSlider({
-						start: <?php echo $start; ?>, 
+					$('#slider-<?php echo esc_js($this->field->alias); ?>').noUiSlider({
+						start: <?php echo esc_js($start); ?>, 
 						range: {
-							'min': [<?php echo ($this->field->rangeMin != "") ? $this->field->rangeMin : 0; ?>],
-							'max': [<?php echo ($this->field->rangeMax != "") ? $this->field->rangeMax : 100; ?>]
+							'min': [<?php echo ($this->field->rangeMin != "") ? esc_js($this->field->rangeMin) : 0; ?>],
+							'max': [<?php echo ($this->field->rangeMax != "") ? esc_js($this->field->rangeMax) : 100; ?>]
 						}, 
-						connect: <?php echo $connect; ?><?php if($this->field->margin != "") { ?>,
-						margin: <?php echo $this->field->margin; ?><?php } ?><?php if($this->field->step != "") { ?>, 
-						step: <?php echo $this->field->step; ?><?php } ?>, 
-						orientation: "<?php echo $this->field->orientation; ?>", 
-						direction: "<?php echo $this->field->direction; ?>",
+						connect: <?php echo esc_js($connect); ?><?php if($this->field->margin != "") { ?>,
+						margin: <?php echo esc_js($this->field->margin); ?><?php } ?><?php if($this->field->step != "") { ?>, 
+						step: <?php echo esc_js($this->field->step); ?><?php } ?>, 
+						orientation: "<?php echo esc_js($this->field->orientation); ?>", 
+						direction: "<?php echo esc_js($this->field->direction); ?>",
 						serialization: {
 							lower: [
 								$.Link({
-									target: $(".slider-start-<?php echo $this->field->alias;?>"),
+									target: $(".slider-start-<?php echo esc_js($this->field->alias);?>"),
 									method: "html"
 								})
 							],
 							upper: [
 								$.Link({
-									target: $(".slider-end-<?php echo $this->field->alias;?>"),
+									target: $(".slider-end-<?php echo esc_js($this->field->alias);?>"),
 									method: "html"
 								})
 							]
@@ -287,16 +287,16 @@ class Range_slider_type extends Data_Type {
 	public function wp_customize_js($double = false) { ?>
 		<script type="text/javascript">
 			(function($){
-				$('#slider-<?php echo $this->field->alias; ?>').change(function(){
-					var hidden_elem = $('#hidden-<?php echo $this->field->alias; ?>');
+				$('#slider-<?php echo esc_js($this->field->alias); ?>').change(function(){
+					var hidden_elem = $('#hidden-<?php echo esc_js($this->field->alias); ?>');
 					<?php if($double) { ?>
-						hidden_elem.val("["+$(".slider-start-<?php echo $this->field->alias;?>").text()+", "+$(".slider-end-<?php echo $this->field->alias;?>").text()+"]");
+						hidden_elem.val("["+$(".slider-start-<?php echo esc_js($this->field->alias);?>").text()+", "+$(".slider-end-<?php echo esc_js($this->field->alias); ?>").text()+"]");
 					<?php } else {?>
-						hidden_elem.val("["+$(".slider-start-<?php echo $this->field->alias;?>").text()+"]");
+						hidden_elem.val("["+$(".slider-start-<?php echo esc_js($this->field->alias);?>").text()+"]");
 					<?php } ?>
 						
 					if ( wp.customize ) {
-						var alias = "<?php echo $this->field->alias; ?>";
+						var alias = "<?php echo esc_js($this->field->alias); ?>";
 						var api = wp.customize;
 						api.instance(alias).set(hidden_elem.val());
 					}

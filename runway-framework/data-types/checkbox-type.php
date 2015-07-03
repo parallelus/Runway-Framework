@@ -112,7 +112,7 @@ class Checkbox_type extends Data_Type {
 						$readonly . ' ' . $checked . '/>' . stripslashes($val) . '</label>';
 				}
 
-				echo $html . "</div>";
+				echo  $html . "</div>";
 				?>
 					<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
 				<?php
@@ -183,26 +183,23 @@ class Checkbox_type extends Data_Type {
 			// Add the fieldset container
 			$html = '<legend class="customize-control-title"><span>' . $this->field->title . '</span></legend><fieldset><legend class="screen-reader-text"><span>' . $this->field->title . '</span></legend>' . $html . '</fieldset>';
 
-			echo $html;
+			echo  $html;
 
 			/* dirty hack to make multiple elms on customize.php page */
 			if ($this->is_customize_theme_page) {
 			?>
-				<input type="hidden" <?php $this->link(); ?> name="<?php echo $this->field->alias ?>" value="" />
+				<input type="hidden" <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias) ?>" value="" />
 
 				<script type="text/javascript">
 
-					var name = '<?php echo $this->field->alias; ?>';
-
-					jQuery('[name="'+name+'[]"]').on('click', function () {
-
+					jQuery('input[name="<?php echo esc_js($this->field->alias);?>[]"]').on('click', function () {
 						var value = [];
 
-						jQuery('[name="'+name+'[]"]:checked').each(function () {
+						jQuery('[name="<?php echo esc_js($this->field->alias); ?>[]"]:checked').each(function () {
 							value.push(jQuery(this).val());
 						});
 
-						jQuery('[name="'+name+'"]').val(value).trigger('change');
+						jQuery('[name="<?php echo esc_js($this->field->alias);?>"]').val(value).trigger('change');
 
 					});
 
@@ -361,7 +358,7 @@ class Checkbox_type extends Data_Type {
 		$add_id = 'add_' . $field_name;
 		$del_id = 'del_' . $field_name;
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
@@ -371,17 +368,17 @@ class Checkbox_type extends Data_Type {
 			(function($){
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
-					var start_radio_groups_index = <?php echo $start_number; ?>;
+					var start_radio_groups_index = <?php echo esc_js($start_number); ?>;
 						                                                
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<div class="checkbox_group">');
 						                                                        
 						<?php foreach ($default_values as $val_key => $val) { ?>
 								                                                        
 						var child_field = $('<label>'+
-							'<input class="<?php echo $class; ?>" data-type="<?php echo $data_type; ?>" data-section="<?php echo $data_section; ?>" type="<?php echo $type; ?>" name="<?php echo $field_name; ?>['+start_radio_groups_index+'][]" value="<?php echo $val_key; ?>"/>'+
-							'<?php echo $val; ?> '+
+							'<input class="<?php echo esc_attr($class); ?>" data-type="<?php echo esc_attr($data_type); ?>" data-section="<?php echo esc_attr($data_section); ?>" type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($field_name); ?>['+start_radio_groups_index+'][]" value="<?php echo esc_attr($val_key); ?>"/>'+
+							'<?php echo  $val; ?> '+
 						'</label>');
 								                                                       
 						field.append(child_field);
@@ -392,11 +389,11 @@ class Checkbox_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br><br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo  $after_field ?> </span>');
 						field.next().after('<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a>');
 								
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
-							reinitialize_customize_checkbox_list_instance('<?php echo $field_name ?>');
+							reinitialize_customize_checkbox_list_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -410,7 +407,7 @@ class Checkbox_type extends Data_Type {
 						$(this).remove();
 								
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
-							reinitialize_customize_checkbox_list_instance('<?php echo $field_name ?>');
+							reinitialize_customize_checkbox_list_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 							
@@ -418,7 +415,7 @@ class Checkbox_type extends Data_Type {
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
 							var api = wp.customize;
 								api.bind('ready', function(){
-									reinitialize_customize_checkbox_list_instance('<?php echo $field_name ?>');
+									reinitialize_customize_checkbox_list_instance('<?php echo esc_js($field_name) ?>');
 								});
 							}
 						}
@@ -433,8 +430,8 @@ class Checkbox_type extends Data_Type {
 	?>
 		<script type="text/javascript">
 			(function($){
-				$('body').on('click', 'input[name^="<?php echo $this->field->alias;?>"]', function(){
-					reinitialize_customize_checkbox_list_instance('<?php echo $this->field->alias;?>');
+				$('body').on('click', 'input[name^="<?php echo esc_js($this->field->alias);?>"]', function(){
+					reinitialize_customize_checkbox_list_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
                 

@@ -34,3 +34,7 @@
 }
 
 .dynamic-page-wrapper { margin-top: 25px; }
+
+div.show-hide-section h3.hndle:hover {
+	cursor: default !important;
+}

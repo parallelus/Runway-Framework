@@ -18,7 +18,7 @@ class Datepicker_type extends Data_Type {
 		else {
 			$value = $this->get_value();
 		}
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 		?>
 		<?php
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
@@ -43,12 +43,12 @@ class Datepicker_type extends Data_Type {
 					$repeat_value = "";
 			?>
 				<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
-					name="<?php echo $this->field->alias; ?>[]"
-					value="<?php echo $repeat_value ?>"
-					<?php echo $section; ?>
-					data-format="<?php echo stripslashes($this->field->format); ?>"
-					data-changeMonth="<?php echo stripslashes($this->field->changeMonth); ?>"
-					data-changeYear="<?php echo stripslashes($this->field->changeYear); ?>"
+					name="<?php echo esc_attr($this->field->alias); ?>[]"
+					value="<?php echo esc_attr($repeat_value) ?>"
+					<?php echo  $section; // escaped above ?>
+					data-format="<?php echo esc_attr(stripslashes($this->field->format)); ?>"
+					data-changeMonth="<?php echo esc_attr(stripslashes($this->field->changeMonth)); ?>"
+					data-changeYear="<?php echo esc_attr(stripslashes($this->field->changeYear)); ?>"
 					data-type="datepicker-type" />
 				<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
 			<?php
@@ -77,7 +77,7 @@ class Datepicker_type extends Data_Type {
 
 							onSelect: function(date) {
 								if(typeof reinitialize_customize_instance == 'function') {
-									reinitialize_customize_instance('<?php echo $this->field->alias ?>');
+									reinitialize_customize_instance('<?php echo esc_js($this->field->alias) ?>');
 								}
 							}
 						});
@@ -98,18 +98,18 @@ class Datepicker_type extends Data_Type {
 			<script type="text/javascript">
 				(function ($) {
 					$(function () {
-						$("[name='<?php echo $this->field->alias; ?>']").datepicker({
+						$("[name='<?php echo esc_js($this->field->alias); ?>']").datepicker({
 							autoSize: false,
 							dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
 							changeMonth: $(this).data('changemonth'),
 							changeYear: $(this).data('changeyear'),
 
 							onSelect: function(date) {
-								$("[name='<?php echo $this->field->alias; ?>']").attr('value', date).val(date);
+								$("[name='<?php echo esc_js($this->field->alias); ?>']").attr('value', date).val(date);
 								if ( wp.customize ) {
 									var api = wp.customize;
 									console.log(api);
-									api.instance('<?php echo $this->field->alias; ?>').set(date);
+									api.instance('<?php echo esc_js($this->field->alias); ?>').set(date);
 								}
 							}
 						});
@@ -117,17 +117,17 @@ class Datepicker_type extends Data_Type {
 				})(jQuery);
 			</script>
 			
-			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+			<legend class="customize-control-title"><span><?php echo esc_attr(stripslashes( $this->field->title )) ?></span></legend>
 			<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
-				name="<?php echo $this->field->alias; ?>"
-				value="<?php echo $input_value ?>"
-				<?php echo $section; ?>
-				data-format="<?php echo stripslashes( $this->field->format ); ?>"
+				name="<?php echo esc_attr($this->field->alias); ?>"
+				value="<?php echo esc_attr($input_value) ?>"
+				<?php echo  $section; // escaped above ?>
+				data-format="<?php echo esc_attr(stripslashes( $this->field->format )); ?>"
 				<?php echo parent::add_data_conditional_display($this->field); ?>
-				data-changeMonth="<?php echo stripslashes( $this->field->changeMonth ); ?>"
-				data-changeYear="<?php echo stripslashes( $this->field->changeYear ); ?>"
+				data-changeMonth="<?php echo esc_attr(stripslashes( $this->field->changeMonth )); ?>"
+				data-changeYear="<?php echo esc_attr(stripslashes( $this->field->changeYear )); ?>"
 				data-type="datepicker-type" />
-			<div id="datapicker-dialog" name="<?php echo isset( $alias )? $alias : ''; ?>" title="<?php echo isset( $title )? stripslashes( $title ) : ''; ?>" style="display:none;"></div>
+			<div id="datapicker-dialog" name="<?php echo isset( $alias )? esc_attr($alias) : ''; ?>" title="<?php echo isset( $title )? esc_attr(stripslashes( $title )) : ''; ?>" style="display:none;"></div>
                     
 		<?php } ?>
                 
@@ -373,7 +373,7 @@ class Datepicker_type extends Data_Type {
 		$del_id = 'del_'.$field_name;
 
 		?>
-		<div id="<?php echo $add_id; ?>">
+		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
@@ -384,15 +384,15 @@ class Datepicker_type extends Data_Type {
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 
-					$('#<?php echo $add_id; ?>').click(function(e){
+					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<input/>', {
-							type: '<?php echo $type; ?>',
-							class: '<?php echo $class; ?>',
-							name: '<?php echo $field_name; ?>[]',
+							type: '<?php echo esc_js($type); ?>',
+							class: '<?php echo esc_js($class); ?>',
+							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
 						})							
-						.attr('data-type', '<?php echo $data_type; ?>')
+						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
 						.insertBefore($(this));
 
@@ -402,7 +402,7 @@ class Datepicker_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br>');
-						field.after('<span class="field_label"> <?php echo $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a>');
                                                         
 						field.datepicker({
@@ -413,13 +413,13 @@ class Datepicker_type extends Data_Type {
 
 							onSelect: function(date) {
 								if(typeof reinitialize_customize_instance == 'function') {
-									reinitialize_customize_instance('<?php echo $field_name ?>');
+									reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 								}
 							}
 						});
                                                         
 						if(typeof reinitialize_customize_instance == 'function') {
-							reinitialize_customize_instance('<?php echo $field_name ?>');
+							reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
 
@@ -431,7 +431,7 @@ class Datepicker_type extends Data_Type {
 						$(this).remove();
                                                         
 						if(typeof reinitialize_customize_instance == 'function') {
-							reinitialize_customize_instance('<?php echo $field_name ?>');
+							reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
                                                         
@@ -439,7 +439,7 @@ class Datepicker_type extends Data_Type {
 						if(typeof reinitialize_customize_instance == 'function') {
 							var api = wp.customize;
 							api.bind('ready', function(){
-								reinitialize_customize_instance('<?php echo $field_name ?>');
+								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							});
 						}
 					}

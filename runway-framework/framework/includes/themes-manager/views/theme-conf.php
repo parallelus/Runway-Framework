@@ -44,7 +44,7 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 	foreach ( $errors as $error ) { 
 		?>
 
-				<li><?php echo $error; ?></li>
+				<li><?php echo  $error; ?></li>
 
 			<?php } ?>
 		</ul>
@@ -72,29 +72,33 @@ $required = '<p class="description required">' . __( 'Required', 'framework' ) .
 		$html->setting_row( $row );
 		?>
 
-		<tr class = 'choose-default-wordpress' style="display: none;">
+		<tr class='choose-default-wordpress' style="display: none;">
 			<td>
-				<input class='dashicon-code-selected' name="theme_options[default-wordpress-icon-code]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-code'])? $options['default-wordpress-icon-code'] : '';?> >
-				<input class='dashicon-class-selected' name="theme_options[default-wordpress-icon-class]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-class'])? $options['default-wordpress-icon-class'] : '';?> >
+				<input class='dashicon-code-selected' name="theme_options[default-wordpress-icon-code]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-code'])? esc_attr($options['default-wordpress-icon-code']) : '';?> >
+				<input class='dashicon-class-selected' name="theme_options[default-wordpress-icon-class]" type="hidden" value=<?php echo isset($options['default-wordpress-icon-class'])? esc_attr($options['default-wordpress-icon-class']) : '';?> >
 			</td>
 			<td>
 				<?php require_once(get_template_directory().'/framework/templates/dashicons.php'); ?>
 			</td>
 		</tr>
-		<tr class = 'choose-another' style="display: none;">
+		<tr class='choose-another' style="display: none;">
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
-				<div>
-					<img src="<?php echo $custom_icon_src; ?>" width="16" height="16" />
-				</div>
-				<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
+				<?php if(isset($custom_icon_src) && !empty($custom_icon_src)): ?>
+					<div>
+						<img src="<?php echo esc_url($custom_icon_src); ?>" width="18" height="18" />
+					</div>
+					<a href="#" class='choose-another-link' ><?php echo __('Choose Another Icon', 'framework'); ?></a>
+				<?php else: ?>
+					<a href="#" class='choose-another-link' ><?php echo __('Choose Custom Icon', 'framework'); ?></a>
+				<?php endif; ?>
 			</td>
 		</tr>			
-		<tr class = 'custom-icon-upload' style="display: none;">
+		<tr class='custom-icon-upload' style="display: none;">
 			<td><?php echo __('Custom icon', 'framework'); ?>:</td>
 			<td>
 				<input type="file" name="theme_options[CustomIcon]" value="" />
-				<p class="description"><?php echo __('Recommended size 32x32px for HiDPI screens. Icon displayed at 16x16px.', 'framework'); ?></p>
+				<p class="description"><?php echo __('Recommended size 36x36px for HiDPI screens. Icon displayed at 16x16px.', 'framework'); ?></p>
 			</td>
 		</tr>
 <?php
@@ -138,10 +142,10 @@ $html->setting_row( $row );
 			<td>
 				<?php
 if ( isset( $Screenshot ) ) { ?>
-					<a href="<?php echo home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ?>"><?php echo __('View Screenshot', 'framework'); ?></a><br>
+					<a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $Folder . '/screenshot.png' ) ?>"><?php echo __('View Screenshot', 'framework'); ?></a><br>
 				<?php } ?>
-				<input type="file" name="theme_options[Screenshot]" value="<?php echo isset($_FILES['theme_options']['name']['Screenshot'])? $_FILES['theme_options']['name']['Screenshot'] : ''; ?>" />
-				<p class="description"><?php echo __('Recommended size: 600×450 for HiDPI. Displayed at 300×225.', 'framework'); ?></p>
+				<input type="file" name="theme_options[Screenshot]" value="<?php echo isset($_FILES['theme_options']['name']['Screenshot'])? esc_attr($_FILES['theme_options']['name']['Screenshot']) : ''; ?>" />
+				<p class="description"><?php echo __('Recommended size: 600&#215;450 for HiDPI. Displayed at 300&#215;225.', 'framework'); ?></p>
 			</td>
 		</tr>
 
@@ -155,7 +159,7 @@ if ( isset( $Screenshot ) ) { ?>
 
 				<?php
 if ( isset( $Folder ) ) { ?>
-						<input type="hidden" name="base_name" value="<?php echo isset( $Folder ) ? $Folder : '' ?>" />
+						<input type="hidden" name="base_name" value="<?php echo isset( $Folder ) ? esc_attr($Folder) : '' ?>" />
 					<?php }
 ?>
 
@@ -186,12 +190,12 @@ $html->setting_row( $row );
 			</div>
 		</div>
 	</div>
-	<input type="hidden" name="theme_options[old_folder_name]" value="<?php echo isset( $Folder ) ? $Folder : ''; ?>" />
+	<input type="hidden" name="theme_options[old_folder_name]" value="<?php echo isset( $Folder ) ? esc_attr($Folder) : ''; ?>" />
 	<?php 
 
 	// Save button
 	$submitText = ($html->object->navigation == 'new-theme') ? __( 'Create Theme', 'framework' )  : __( 'Update', 'framework' ); 
-	echo '<input class="button-primary" type="submit" value="'.$submitText.'">';
+	echo '<input class="button-primary" type="submit" value="'.esc_attr($submitText).'">';
 
 	?>
 

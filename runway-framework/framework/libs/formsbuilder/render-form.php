@@ -2,8 +2,8 @@
 // Assign a variable for object reference
 $options_object = ${$current['admin_object']};
 ?>
-<input type="hidden" id="page-slug" value="<?php echo $options_object->slug;?>">
-<div class="dynamic-page-wrapper" id="<?php echo $current['builder_page']->settings->alias; ?>">
+<input type="hidden" id="page-slug" value="<?php echo esc_attr($options_object->slug); ?>">
+<div class="dynamic-page-wrapper" id="<?php echo esc_attr($current['builder_page']->settings->alias); ?>">
 <?php
 global $developerMode, $contentTypeMetaBox;
 $current = apply_filters( 'before-dynamic-page-render_' . $current['builder_page']->settings->alias, $current );
@@ -81,7 +81,7 @@ if ( $elements->$container->type == 'visible' ) {
 if ( $elements->$container->type == 'show-hide' ) {
 	// echo '<a name="'. $elements->$container->title .'"></a>';
 	echo '<div class="meta-box-sortables metabox-holder">';
-	echo '<div class="postbox">';
+	echo '<div class="postbox show-hide-section">';
 	echo '<div class="handlediv" title="'.__( 'Click to toggle', 'framework' ).'"><br></div><h3 class="hndle"><span>'.rf__($elements->$container->title).'</span></h3>';
 	echo '<div class="inside" style="display: none;">';
 }
