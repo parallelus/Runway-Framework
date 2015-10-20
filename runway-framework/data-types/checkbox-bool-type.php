@@ -53,7 +53,7 @@ class Checkbox_bool_type extends Data_Type {
 		else:
 		?>
 			<fieldset>
-				<legend class="customize-control-title"><span><?php echo __(stripslashes( $this->field->title ), 'framework'); ?></span></legend>
+				<legend class="customize-control-title"><span><?php echo rf__(stripslashes( $this->field->title )); ?></span></legend>
 				<input type="hidden" value="false" name="<?php echo esc_attr($this->field->alias) ?>"  />
 				<label>
 					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>

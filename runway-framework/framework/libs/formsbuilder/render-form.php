@@ -97,10 +97,10 @@ if ( is_object( $sortOrder ) ) :
 							continue;
 						}
 
-						$title = stripslashes( __( htmlspecialchars_decode( $elements->$field->title ), 'framework' ) );
+						$title = stripslashes( rf__( htmlspecialchars_decode( $elements->$field->title ) ) );
 
-						$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->titleCaption ), 'framework' ) ) ) : '';
-						$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( __( htmlspecialchars_decode( $elements->$field->fieldCaption ), 'framework' ) ) ) : '';
+						$titleCaption = ( isset( $elements->$field->titleCaption ) ) ? stripslashes( $options_object->html->format_comment( rf__( htmlspecialchars_decode( $elements->$field->titleCaption ) ) ) ) : '';
+						$fieldCaption = ( isset( $elements->$field->fieldCaption ) ) ? stripslashes( $options_object->html->format_comment( rf__( htmlspecialchars_decode( $elements->$field->fieldCaption ) ) ) ) : '';
 
 						if ( $developerMode ) {
 
