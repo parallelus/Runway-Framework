@@ -16,10 +16,10 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 	$options = array();
 	$options['Folder'] = 'liftoff';
 
-	if(is_multisite() && is_admin() && isset($options)){		
+	if(is_multisite() && is_admin() && isset($options)){
 		$url = 'themes.php?';
 		$s = '';
-		$ms_enable_theme_link = admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $options['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $options['Folder'] ));		
+		$ms_enable_theme_link = admin_url('network/').esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $options['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $options['Folder'] ));
 		?>
 
 		<div class="enable-theme-popup themeActionsPupup" style="display:none;">
@@ -31,7 +31,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 				&nbsp;<a href="javascript: void(0);" class="button"><?php _e( 'Cancel', 'framework' ); ?></a>
 			</p>
 
-		</div>		
+		</div>
 
 		<?php
 	}
@@ -40,7 +40,7 @@ if ( isset( $_GET['activate-default'] ) && $_GET['activate-default'] == 'activat
 if ( isset( $options ) ) {
 	$theme = wp_get_theme($options['Folder']);
 	if(isset($_REQUEST['activate-default'])){
-		$allowed = $theme->is_allowed( 'network' );	
+		$allowed = $theme->is_allowed( 'network' );
 		$activate = ($this->navigation == 'new-theme' || $_REQUEST['activate-default'] == 'activate') ? true : false;
 		if($allowed && $activate){
 			$activate_link = wp_nonce_url( 'themes.php?action=activate&template='.$options['Folder'].'&stylesheet='.$options['Folder'], 'switch-theme_' . $options['Folder'] );
@@ -55,7 +55,7 @@ if ( isset( $options ) ) {
 			                },
 			                close: function(event, ui) {
 			                    jQuery('#adminmenuwrap').css({'z-index':'auto'});
-			                },							
+			                },
 							position: "center",
 							modal: true,
 							resizable: false,
@@ -79,14 +79,14 @@ if ( isset( $options ) ) {
 			</div> <?php
 		}
 	}
-} 
+}
 
 ?>
 
 <div class="duplicate-theme-popup themeActionsPupup">
 	<p><?php _e( 'Enter a new folder name:', 'framework' ); ?></p>
 	<p>
-		<input type="text" id="duplicate-theme-name" value="" /> 
+		<input type="text" id="duplicate-theme-name" value="" />
 		<input type="hidden" id="response-folder-name-exists" value="Another theme already exists with this folder name. Please choose a different name.">
 	</p>
 	<p>
@@ -115,7 +115,7 @@ if ( isset( $options ) ) {
 	<br>
 
 	<?php
-	
+
 		$themes_list = $developer_tools->search_themes();
 
 		$tmp_themes = array();
@@ -123,13 +123,13 @@ if ( isset( $options ) ) {
 			$tmp_themes[] = wp_get_theme($theme['Folder']);
 		}
 		$js_themes = wp_prepare_themes_for_js( $tmp_themes );
-		
+
 		wp_localize_script( 'themes-manager-themes', '_wpThemeSettings', array(
 			'themes'   => $js_themes,
 			'settings' => array(
 				'canInstall'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ),
 				'installURI'    => ( ! is_multisite() && current_user_can( 'install_themes' ) ) ? admin_url( 'theme-install.php' ) : null,
-				'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete." ),
+				'confirmDelete' => __( "Are you sure you want to delete this theme?\n\nClick 'Cancel' to go back, 'OK' to confirm the delete.", 'framework' ),
 				'adminUrl'      => parse_url( admin_url(), PHP_URL_PATH ),
 			),
 			'l10n' => array(
@@ -138,14 +138,14 @@ if ( isset( $options ) ) {
 				'searchPlaceholder' => __( 'Search installed themes...', 'framework'  ), // placeholder (no ellipsis)
 			),
 		) );
-		
+
 		$current_theme = rw_get_theme_data();
-		
+
 		// Set the variables
 		$t = runway_admin_themes_list_prepare( $current_theme );
 		unset( $themes_list[$current_theme['Folder']] );
 	?>
-	
+
 	<div class="theme-browser rendered">
 		<div class="themes">
 			<div class="theme active" tabindex="0" data-themeid="<?php echo esc_attr($current_theme['Folder']); ?>">
@@ -171,21 +171,21 @@ if ( isset( $options ) ) {
 					<?php } ?>
 				</div>
 			</div>
-			
+
 			<?php foreach ( $themes_list as $theme ) { ?>
-			<?php 
-				$t = runway_admin_themes_list_prepare( $theme ); 
+			<?php
+				$t = runway_admin_themes_list_prepare( $theme );
 				if ( !isset( $theme['Template'] ) || empty( $theme['Template'] ) ) {
 					$theme['Template'] = strtolower( $theme['Folder'] );
 				}
-				
+
 				$theme_obj = wp_get_theme($theme['Folder']);
 				$allowed = $theme_obj->is_allowed( 'network' );
-				
-				if(is_multisite() && is_admin()){		
+
+				if(is_multisite() && is_admin()){
 					$url = 'themes.php?';
 					$s = '';
-					$ms_enable_theme_link = network_admin_url().esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));		
+					$ms_enable_theme_link = network_admin_url().esc_url(wp_nonce_url($url . 'action=enable&amp;theme=' . $theme['Folder'] . '&amp;paged=' . 1 . '&amp;s=' . $s, 'enable-theme_' . $theme['Folder'] ));
 				}
 			?>
 			<div class="theme" tabindex="0" data-themeid="<?php echo esc_attr($theme['Folder']); ?>">
@@ -206,7 +206,7 @@ if ( isset( $options ) ) {
 						<?php } else { ?>
 						<?php
 							if(is_admin()) {
-								$link = '<a '; 
+								$link = '<a ';
 								if(SUBDOMAIN_INSTALL != true){
 									$link .= 'class="activate-theme" ';
 								}
@@ -217,7 +217,7 @@ if ( isset( $options ) ) {
 						</div>
 						<?php	} ?>
 						<?php } ?>
-						
+
 						<?php if($allowed || (!$allowed && is_admin())) { ?>
 						<div class="dashicons-container dashicons-container-visibility" data-action-text="<?php _e('Preview', 'framework'); ?>">
 							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo  $t['previewLink']; ?></div>
@@ -264,7 +264,7 @@ if ( isset( $options ) ) {
 	?>
 
 	<br>
-	
+
 	<div class="theme-browser rendered">
 		<div class="themes">
 			<?php $i = 0; foreach ( $other_themes as $theme ) { ?>
@@ -277,10 +277,10 @@ if ( isset( $options ) ) {
 						<div class="runway-theme-other-actions"></div>
 					</a>
 				</div>
-			<?php 
+			<?php
 				$i++;
 				if($i >= 3) break;
-			} 
+			}
 			?>
 			<div class="theme add-new-theme runway-find-more-themes">
 				<a href="<?php echo esc_attr(admin_url('admin.php?page=directory&addons=themes')); ?>">
@@ -291,9 +291,9 @@ if ( isset( $options ) ) {
 		</div>
 		<br class="clear">
 	</div>
-	
+
 	<div class="theme-overlay"></div>
-	
+
 	<script id="tmpl-theme-modal" type="text/x-jquery-tmpl">
 		<div class="theme-overlay {{if active == true}}active{{/if}}">
 		<div class="theme-backdrop"></div>
@@ -311,7 +311,7 @@ if ( isset( $options ) ) {
 					<div class="screenshot blank"><img src="<?php echo esc_url(FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png'); ?>" alt="" /></div>
 				{{/if}}
 				</div>
-			
+
 				<div class="theme-info">
 					{{if active == true }}
 						<span class="current-label"><?php _e( 'Current Theme', 'framework' ); ?></span>
@@ -336,7 +336,7 @@ if ( isset( $options ) ) {
 					{{/if}}
 				</div>
 			</div>
-		
+
 			<div class="theme-actions">
 				<div class="active-theme">
 					<a href="${actions.customize}" class="button button-primary customize load-customize hide-if-no-customize"><?php _e( 'Customize', 'framework' ); ?></a>
