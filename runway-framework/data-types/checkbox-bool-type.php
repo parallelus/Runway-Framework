@@ -15,7 +15,7 @@ class Checkbox_bool_type extends Data_Type {
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'):
 			$this->get_value();
-        
+
 		if (isset($this->field->value) && is_array($this->field->value)) {
 			foreach ($this->field->value as $key => $tmp_value) {
 				if (is_string($key))
@@ -24,19 +24,19 @@ class Checkbox_bool_type extends Data_Type {
 		}
 
 		$count = isset($this->field->value) ? count((array)$this->field->value) : 1;
-		if($count == 0) 
+		if($count == 0)
 			$count = 1;
 		?>
 		<fieldset>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ); ?></span></legend>
-                        
+
 		<?php for( $key = 0; $key < $count; $key++ ) { ?>
-			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> /> 
+			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> />
 			<span class="field_label"><?php _e( 'Yes', 'framework' ) ?></span>
-                                
+
 			<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a><br>
-		<?php } ?>        
-		<?php 
+		<?php } ?>
+		<?php
 			$field = array(
 				'field_name' => $this->field->alias,
 				'type' => 'checkbox',
@@ -45,7 +45,7 @@ class Checkbox_bool_type extends Data_Type {
 				'data_type' => 'checkbox-bool-type',
 				'after_field' => __( 'Yes', 'framework' )
 			);
-			$this->enable_repeating($field); 
+			$this->enable_repeating($field);
 			$this->wp_customize_js();
 		?>
 		</fieldset>
@@ -58,12 +58,12 @@ class Checkbox_bool_type extends Data_Type {
 				<label>
 					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>
 				</label>
-			</fieldset> 
+			</fieldset>
 		<?php
 		endif;
 
 		do_action( self::$type_slug . '_after_render_content', $this );
-	}	
+	}
 
 	public static function render_settings() { ?>
 
@@ -96,7 +96,7 @@ class Checkbox_bool_type extends Data_Type {
 					<?php echo __('Repeating', 'framework'); ?>:
 		        </label>
 		        <div class="settings-in">
-		        	<label> 
+		        	<label>
 	                	{{if repeating == 'Yes'}}
 		                	<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
@@ -143,7 +143,7 @@ class Checkbox_bool_type extends Data_Type {
 		</script>
 
 	<?php }
-        
+
 	public function enable_repeating($field = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -156,7 +156,7 @@ class Checkbox_bool_type extends Data_Type {
 			<a href="#">
 				<?php echo __('Add Field', 'framework'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
@@ -170,7 +170,7 @@ class Checkbox_bool_type extends Data_Type {
 							class: '<?php echo esc_js($class); ?>',
 							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
 						.insertBefore($(this));
@@ -179,7 +179,7 @@ class Checkbox_bool_type extends Data_Type {
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a>');
-								
+
 						if(typeof reinitialize_customize_checkbox_bool_instance == 'function') {
 							reinitialize_customize_checkbox_bool_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -191,12 +191,12 @@ class Checkbox_bool_type extends Data_Type {
 						$(this).prev('input').remove();
 						$(this).next('br').remove();
 						$(this).remove();
-								
+
 						if(typeof reinitialize_customize_checkbox_bool_instance == 'function') {
 							reinitialize_customize_checkbox_bool_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-							
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_checkbox_bool_instance == 'function') {
 							var api = wp.customize;
@@ -211,7 +211,7 @@ class Checkbox_bool_type extends Data_Type {
 	<?php
 	endif;
 	}
-	
+
 	public function wp_customize_js() {
 	?>
 		<script type="text/javascript">
@@ -220,7 +220,7 @@ class Checkbox_bool_type extends Data_Type {
 				reinitialize_customize_checkbox_bool_instance('<?php echo esc_js($this->field->alias);?>');
 			});
 		})(jQuery);
-                
+
 		if(typeof reinitialize_customize_checkbox_bool_instance !== 'function') {
 			function reinitialize_customize_checkbox_bool_instance(alias) {
 				(function($){
