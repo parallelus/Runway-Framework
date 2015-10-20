@@ -52,7 +52,7 @@ class FormsBuilder {
 		if ( !empty( $page_options ) ) {
 			$alias = $page_options->settings->alias;
 			$current = $this->prepare_form( $page_options );
-			
+
 			$settings = $this->make_settings( $current );
 			global ${$current['object']}, ${$current['admin_object']};
 
@@ -82,7 +82,7 @@ class FormsBuilder {
 
 	// Add options page to pages list
 	public function add_page_to_pages_list( $page = null ) {
-		
+
 		if ( !empty( $_REQUEST['json_form'] ) && $page == null ) {
 			$page_options = json_decode( stripslashes( $_REQUEST['json_form'] ) );
 			$this->options_pages[$page_options->settings->alias] = $page_options;
@@ -94,15 +94,15 @@ class FormsBuilder {
 			update_option( $this->option_key, $this->options_pages );
 		}
 	}
-	
+
 	public function remove_page_from_pages_list($page = null) {
-		
+
 		if($page != null) {
 			if(isset($this->options_pages[$page->settings->alias]))
 				unset($this->options_pages[$page->settings->alias]);
 			update_option( $this->option_key, $this->options_pages );
 		}
-		
+
 	}
 
 	public function add_to_customize_page() {
@@ -136,7 +136,7 @@ class FormsBuilder {
 							wp_die( __('Error: data types', 'framework') );
 						} else {
 							include_once $data_types_base;
-							
+
 							include_data_types($data_types_path);
 						}
 
@@ -168,7 +168,7 @@ class FormsBuilder {
 													'priority' => isset($container->priority)? $container->priority : '',
 													'panel' => $panel_slug
 												) );
-											
+
 											$priority_level = 0;
 											foreach ( $container_fields as $field_id ) {
 												if ( $field_id != 'none' ) {
@@ -180,7 +180,8 @@ class FormsBuilder {
 														$wp_customize->add_setting( $field->alias, array(
 																'default' => '',
 																'type' => 'customize',
-																'transport' => apply_filters('data_type_transport', 'refresh', $field->type, $field->alias)
+																'transport' => apply_filters('data_type_transport', 'refresh', $field->type, $field->alias),
+																'sanitize_callback' => 'formsbuilder_customize_sanitize_callback'
 															) );
 
 														$option_field = new $class_Name(
@@ -339,7 +340,7 @@ class FormsBuilder {
 			// TODO: save as form
 			$form = json_decode( $json );
 			if( IS_CHILD && get_template() == 'runway-framework') {
-				
+
 				if(!function_exists('WP_Filesystem'))
 					require_once(ABSPATH . 'wp-admin/includes/file.php');
 				WP_Filesystem();
@@ -477,38 +478,38 @@ class FormsBuilder {
 
 		add_action( 'admin_init', array( $this, 'include_styles' ) );
 		add_action( 'admin_init', array( $this, 'include_scripts' ) );
-		
+
 		add_action( 'wp_ajax_add_page_to_pages_list', array( $this, 'add_page_to_pages_list' ) );
-		
+
 		//default filter
 		add_filter('formsbuilder_name_attr_title', array('FormsBuilder', 'get_formsbuilder_name_attr_title'), 20, 4);
 		add_filter('formsbuilder_dev_description', array('FormsBuilder', 'get_formsbuilder_dev_description'), 20, 4);
 	}
-	
+
 	public static function get_formsbuilder_name_attr_title($content, $field_alias, $title, $alias) {
 		$title = '<span title="get_options_data(\''.$alias.'\', \''.$field_alias.'\')">'. $title .'</span>';
-		
+
 		return $title;
 	}
-	
+
 	public static function get_formsbuilder_dev_description($content, $fieldCaption, $field_alias, $alias) {
 		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$field_alias.'\')</code></span>';
-		
+
 		return $fieldCaption;
 	}
 
 	/*public static function get_options_data_filter($content, $fieldCaption, $field_alias, $title, $alias, $custom_alias) {
-		
+
 		if ( $custom_alias != null ) {
 			$alias = $custom_alias;
 		}
-		
+
 		$title = '<span title="get_options_data(\''.$alias.'\', \''.$field_alias.'\')">'. $title .'</span>';
 		$fieldCaption .= '<span class="developerMode"><code class="data-function">get_options_data(\''.$alias.'\', \''.$field_alias.'\')</code></span>';
-		
+
 		return array('title' => $title, 'fieldCaption' => $fieldCaption);
 	}*/
-	
+
 	// Include styles
 	public function include_styles() {
 		wp_register_style( 'formsbuilder-style', $this->css_path.'styles.css' );
@@ -531,13 +532,13 @@ class FormsBuilder {
 				'jquery-cookie',
 			)
 		);
-		
+
 		global $translation_array;
 		wp_localize_script( 'formsbuilder', 'translations_js', $translation_array );
 	}
 }
 
-if ( isset($GLOBALS['wp_customize']) || is_admin() ) {	
+if ( isset($GLOBALS['wp_customize']) || is_admin() ) {
 	// class to create Runway_Admin_Object's in Forms builder without standard actions
 	class Runway_Settings_Object extends Runway_Admin_Object {
 
@@ -554,4 +555,5 @@ if ( isset($GLOBALS['wp_customize']) || is_admin() ) {
 	}
 }
 
-?>
+// required sanitize_callback (theme check)
+function formsbuilder_customize_sanitize_callback($value) { return $value; }

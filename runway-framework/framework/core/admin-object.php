@@ -853,7 +853,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			// Page description
 			if ( isset( $this->builder_page ) && $this->builder_page->settings->pageDescription ) {
-				$description = '<p class="pageDescription">'.esc_html( $this->builder_page->settings->pageDescription ).'</p>';
+				$description = '<p class="pageDescription">'. wp_kses_post( $this->builder_page->settings->pageDescription ).'</p>';
 				$adminPageDesc = apply_filters( 'framework_admin_description', $description );
 			}
 
