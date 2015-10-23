@@ -606,7 +606,7 @@ function custom_theme_menu_icon() {
 		}
 	} else {
 		$settings = get_settings_json();
-		$icon = $settings['Icon'];
+		$icon = (isset($settings['Icon']))? $settings['Icon'] : '';
 		if ( $themeKey != null ) {
 			if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
