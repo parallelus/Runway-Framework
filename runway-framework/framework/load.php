@@ -214,7 +214,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 		global $current_screen;
 		echo '<div id="message" class="error">',
 		'<h3><strong>'.__('You must have PHP v5.3.1 or later to use this theme.', 'framework').'</strong></h3>',
-		'<p>'.__('You can try adding the following to the top of to your .htaccess file in the WordPress root directory', 'framework').':</p>',
+		'<p>'.__('You can try adding the following to the top of your .htaccess file in the WordPress root directory', 'framework').':</p>',
 		'<p><code style="font-size: 14px; font-weight: 800;">AddType application/x-httpd-php53 .php</code></p>',
 		'<p>.'.__('If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.', 'framework').'</p>',
 		'</div>';
