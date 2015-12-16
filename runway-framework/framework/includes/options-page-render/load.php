@@ -23,43 +23,43 @@ $page_options = array();
 $pages_dir = get_stylesheet_directory() . '/data/pages/';
 $page_files = array();
 if ( is_dir( $pages_dir ) ) {
-	$page_files = scandir( $pages_dir );
+	$page_files = runway_scandir( $pages_dir );
 }
 
 $pages = array();
 foreach ( $page_files as $page_file ) {
-	if ( $page_file != '.' && $page_file != '..' ) {
-		$json = $wp_filesystem->get_contents( $pages_dir . $page_file );
-		$pages[] = json_decode( $json );
-	}
+	$json = $wp_filesystem->get_contents( $pages_dir . $page_file );
+	$pages[] = json_decode( $json );
 }
 
 if ( !empty( $pages ) ) {
 	foreach ( $pages as $page ) {
 
-		$alias = $page->settings->alias;
-		$page_options[$alias] = $form_builder->prepare_form( $page );
-		$settings = $form_builder->make_settings( $page_options[$alias] );
+		if(!empty($page)) {
+			$alias = $page->settings->alias;
+			$page_options[$alias] = $form_builder->prepare_form( $page );
+			$settings = $form_builder->make_settings( $page_options[$alias] );
 
-		global ${$page_options[$alias]['object']}, ${$page_options[$alias]['admin_object']};
+			global ${$page_options[$alias]['object']}, ${$page_options[$alias]['admin_object']};
 
-		// Using a variable variabel, ${$options['obj_name']}, we can assign the new ojbect on the fly
-		require_once 'object.php';
-		${$page_options[$alias]['object']} = new Generic_Settings_Object( $settings );
+			// Using a variable variabel, ${$options['obj_name']}, we can assign the new ojbect on the fly
+			require_once 'object.php';
+			${$page_options[$alias]['object']} = new Generic_Settings_Object( $settings );
 
-		if ( is_admin() ) {
-			// Setup admin object
-			require_once 'settings-object.php';
-			${$page_options[$alias]['admin_object']} = new Generic_Admin_Object( $settings );
-			${$page_options[$alias]['admin_object']}->dir = plugin_dir_path( __FILE__ );
+			if ( is_admin() ) {
+				// Setup admin object
+				require_once 'settings-object.php';
+				${$page_options[$alias]['admin_object']} = new Generic_Admin_Object( $settings );
+				${$page_options[$alias]['admin_object']}->dir = plugin_dir_path( __FILE__ );
+			}
+
+			$formsbilder_option = get_option($form_builder->option_key);
+			if(!isset($formsbilder_option) || $formsbilder_option == false) {
+				$form_builder->add_page_to_pages_list( $page );
+			}
+
+			do_action( 'options_page_render_is_load' );
 		}
-
-		$formsbilder_option = get_option($form_builder->option_key);
-		if(!isset($formsbilder_option) || $formsbilder_option == false) {
-			$form_builder->add_page_to_pages_list( $page );
-		}
-
-		do_action( 'options_page_render_is_load' );
 	}
 
 	// Add an "Edit" button in the title

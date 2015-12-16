@@ -326,16 +326,13 @@ class Apm_Admin extends Runway_Admin_Object {
 			wp_die( $error_message );
 		}
 
-		$page_files = scandir( $this->pages_dir );
+		$page_files = runway_scandir( $this->pages_dir );
 
 		$pages = array();
 
 		foreach ( $page_files as $page_file ) {
-			if ( $page_file != '.' && $page_file != '..' ) {
-				//$json = file_get_contents( $this->pages_dir . $page_file );
-				$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
-				$pages[] = json_decode( $json );
-			}
+			$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
+			$pages[] = json_decode( $json );
 		}
 		$sorted_list = $this->sort_pages_list($pages);
 

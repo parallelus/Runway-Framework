@@ -49,9 +49,11 @@ endif;
 if(!function_exists('include_data_types')) {
 	function include_data_types($data_types_path) {
 		$data_types_array = array();
-		foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+		$names = runway_scandir($data_types_path, array('data-type.php'));
+		foreach ( $names as $name ) {
 			if(is_dir("$data_types_path/$name")) {
-				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
+				$filenames = runway_scandir("$data_types_path/$name");
+				foreach($filenames as $filename) {
 					if(is_dir("$data_types_path/$name/$filename"))
 						continue;
 
@@ -312,11 +314,11 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 	function load_framework_libraries() {
 		$libs_path = get_template_directory().'/framework/libs/';
 		if ( file_exists( $libs_path ) ) {
-			$libs = scandir( $libs_path );
+			$libs = runway_scandir( $libs_path );
 			global $libraries;
 			$libraries = array();
 			foreach ( $libs as $key => $lib ) {
-				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) && pathinfo($lib, PATHINFO_EXTENSION) == 'php' ) {
+				if ( is_file( $libs_path.$lib ) ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
 					if ( class_exists( $name ) && $name != 'Html' ) {
@@ -359,7 +361,7 @@ function get_extensions() {
 	// get additional extensions name and path
 	$keys = array();
 	if ( file_exists( $additional_extensions_dir ) ) {
-		$keys = array_diff( (array)scandir( $additional_extensions_dir ), array( '.', '..' ) );
+		$keys = runway_scandir( $additional_extensions_dir );
 	}
 
 	foreach ( $keys as $key ) {
@@ -367,7 +369,7 @@ function get_extensions() {
 	}
 
 	// get built-in extensions name and path
-	$keys = array_diff( scandir( $builtin_extensions_dir ), array( '.', '..' ) );
+	$keys = runway_scandir($builtin_extensions_dir);
 
 	foreach ( $keys as $key ) {
 		$extensions[$key] = $builtin_extensions_dir.$key;
@@ -375,8 +377,7 @@ function get_extensions() {
 
 	// get pages names and path
 	if ( file_exists( $dynamic_pages_dir ) ) {
-		$keys = array_diff( (array)scandir( $dynamic_pages_dir ), array( '.', '..' ) );
-
+		$keys = runway_scandir( $dynamic_pages_dir );
 		foreach ( $keys as $key ) {
 			$key = str_replace( '.json', '', $key );
 			$extensions['option_key_'.$key] = $dynamic_pages_dir.'/'.$key;
@@ -530,7 +531,8 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 		$stylesheet_files = array();
 		$template_files = array();
 
-		$theme_files = scandir( $theme_dir );
+		$theme_files = runway_scandir( $theme_dir );
+
 		foreach ( $theme_files as $file ) {
 			if ( is_file( $theme_dir.'/'.$file ) ) {
 				if ( preg_match( '/(.+).css/', $file ) ) {
@@ -681,12 +683,12 @@ function db_json_sync(){
 	}
 
 	if (is_dir($json_dir)) {
-		$ffs = scandir($json_dir);
+		$ffs = runway_scandir($json_dir);
 
 		add_filter('rf_do_not_syncronize', 'do_not_syncronize', 10);
 
 		foreach ($ffs as $ff) {
-			if ($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+			if (pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 				$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 				$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
@@ -836,7 +838,7 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 
 function find_custom_recursive($array = array(), $searched_key = '', $returned_key = 0, &$excludes) {
 	$tmp_array = array();
-	if (!empty($array)) {
+	if (is_array($array) && !empty($array)) {
 		foreach($array as $key=>$value) {
 			if(in_array($key, $excludes))
 				continue;
@@ -865,7 +867,7 @@ function find_custom_recursive($array = array(), $searched_key = '', $returned_k
 }
 
 function create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix) {
-	$ffs = scandir($json_dir);
+	$ffs = runway_scandir($json_dir);
 	$ffs_name = array();
 
 	if(!function_exists('WP_Filesystem'))
@@ -873,7 +875,7 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 	WP_Filesystem();
 	global $wp_filesystem;
     foreach($ffs as $ff){
-	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    if(pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 	    	$ffs_name[] = $option_key_json;
 	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
@@ -902,9 +904,9 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 		}
 	}
 
-	$ffs_translation = scandir($translation_dir);
+	$ffs_translation = runway_scandir($translation_dir);
     foreach($ffs_translation as $ff){
-	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'php') {
+	    if(pathinfo($ff, PATHINFO_EXTENSION) == 'php') {
 	    	if(!in_array(pathinfo($ff, PATHINFO_FILENAME), $ffs_name))
 	    		unlink($translation_dir.'/'.$ff);
 	    }
@@ -974,7 +976,7 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 	// global $wpdb, $shortname;
 
 	$json_dir = ($json_dir)? $json_dir : get_stylesheet_directory() . '/data';
-    $ffs = scandir($json_dir);
+    $ffs = runway_scandir($json_dir);
 
     $flag = true;
 	if ( is_dir($json_dir) ) {
@@ -987,7 +989,7 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 
 	if( $flag ) {
 	    foreach($ffs as $ff){
-		    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    	if(pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 		    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
 
 	    		$theme_id_prefix = ($pos = strpos($option_key, '_'))? substr($option_key, 0, $pos+1) : '';
@@ -1208,4 +1210,23 @@ if(!function_exists('runway_filesystem_method')) {
 	}
 }
 add_filter( 'filesystem_method', 'runway_filesystem_method' );
+
+if(!function_exists('runway_scandir')) {
+	function runway_scandir($dir, $excl = array()) {
+		$all_files = scandir( $dir );
+		$files = array();
+		$denied_files = array('.', '..', '.DS_Store');
+		if(!empty($excl)) {
+			$denied_files = array_merge($denied_files, $excl);
+		}
+
+		foreach ( $all_files as $file ) {
+			if(!in_array($file, $denied_files)) {
+				$files[] = $file;
+			}
+		}
+
+		return $files;
+	}
+}
 ?>

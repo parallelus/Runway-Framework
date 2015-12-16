@@ -1189,7 +1189,8 @@ if ( !defined( $runway_framework_admin ) ) {
 			} else {
 				$found_in_theme_dirs = false;
 				if(is_dir( THEME_DIR . 'data-types')) {
-					foreach ( array_diff( scandir( THEME_DIR . 'data-types' ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+					$names = runway_scandir(THEME_DIR . 'data-types', array('data-type.php'));
+					foreach ( $names as $name ) {
 						if(is_dir( THEME_DIR . 'data-types/' . $name) && file_exists(THEME_DIR . 'data-types/' . $name . "/" . $field->type . '.php'))
 						{
 							$template_path = THEME_DIR . 'data-types/' . $name . "/" . $field->type . '.php';
@@ -1201,7 +1202,8 @@ if ( !defined( $runway_framework_admin ) ) {
 				
 				$found_in_framework_dirs = false;
 				if(!$found_in_theme_dirs) {
-					foreach ( array_diff( scandir( get_theme_root().'/'.$theme_data['Template'] . '/data-types' ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+					$names = runway_scandir(get_theme_root().'/'.$theme_data['Template'] . '/data-types', array('data-type.php'));
+					foreach ( $names as $name ) {
 						if(is_dir( get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name) && 
 							file_exists(get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name . "/" . $field->type . '.php'))
 						{
