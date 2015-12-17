@@ -120,14 +120,7 @@ else {
 		} break;
 
 	case 'reset-fields-page':{
-			if(!function_exists('WP_Filesystem'))
-				require_once(ABSPATH . 'wp-admin/includes/file.php');
-			WP_Filesystem();
-			global $wp_filesystem;
-
-			$page = json_decode( $wp_filesystem->get_contents( $pages_dir.$_GET['page_id'].'.json' ) );
-			$theme = rw_get_theme_data();
-			delete_option( $theme['Folder'].'_'.$page->settings->alias );
+			$apm->reset_to_default( $pages_dir, $_GET['page_id'] );
 			$pages = $apm->get_pages_list();
 
 			include_once 'views/list-pages.php';

@@ -296,6 +296,34 @@ class Apm_Admin extends Runway_Admin_Object {
 		//do_action( 'after_delete_page' );
 	}
 
+	function reset_to_default( $pages_dir, $page_id ) {
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem, $shortname;
+
+		$page = json_decode( $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' ) );
+
+	 	$settings = get_settings_json();
+	 	$json_prefix = isset($settings['ThemeID']) ? $settings['ThemeID'] . '_' : $shortname;
+	 	$json_dir = get_stylesheet_directory() . '/data';
+		$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $json_prefix.$page->settings->alias.'.json'), true);
+
+		foreach($page->elements as $elm) {
+			if(isset($elm->template) && $elm->template == 'field' && isset($elm->type)) {
+	 			switch ($elm->type) {
+	 				case 'range-slider-type':
+	 					$json[$elm->alias] = '['.$elm->startFirstEntry.', '.$elm->startSecondEntry.']';
+	 					break;
+	 				default:
+	 					$json[$elm->alias] = isset($elm->values)? $elm->values : '';
+	 					break;
+	 			}
+			}
+		}
+		update_option($json['index'], $json);
+	}
+
 	function get_pages_list() {
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
