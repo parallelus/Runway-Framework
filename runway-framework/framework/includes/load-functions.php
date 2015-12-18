@@ -278,9 +278,6 @@ if( !function_exists( 'get_font_options_data' )) {
 	function get_font_options_data( $key, $option = false, $default = null ) {
 
 		$font_options = get_options_data( $key, $option, $default );
-		if(empty($font_options))
-			return '';
-
 		$options_str = str_replace(' ', '+', trim($font_options['family']));
 		// if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
 		// 	$options_str .= ':'.$font_options['weight'];

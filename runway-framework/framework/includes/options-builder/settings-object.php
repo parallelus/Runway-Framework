@@ -313,8 +313,15 @@ class Apm_Admin extends Runway_Admin_Object {
 			if(isset($elm->template) && $elm->template == 'field' && isset($elm->type)) {
 	 			switch ($elm->type) {
 	 				case 'range-slider-type':
-	 					$json[$elm->alias] = '['.$elm->startFirstEntry.', '.$elm->startSecondEntry.']';
+	 					$json[$elm->alias] = (isset($elm->startSecondEntry) && !empty($elm->startSecondEntry))? '['.$elm->startFirstEntry.', '.$elm->startSecondEntry.']' : '['.$elm->startFirstEntry.']';
 	 					break;
+	 				case 'font-select-type':
+	 					$json[$elm->alias]['family'] = $elm->family;
+	 					$json[$elm->alias]['weight'] = $elm->weight;
+	 					$json[$elm->alias]['size'] = $elm->size;
+						unset($json[$elm->alias]['style']);
+	 					unset($json[$elm->alias]['color']);
+	 					break;	 					
 	 				default:
 	 					$json[$elm->alias] = isset($elm->values)? $elm->values : '';
 	 					break;
