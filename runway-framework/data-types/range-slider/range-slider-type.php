@@ -17,33 +17,23 @@ class Range_slider_type extends Data_Type {
 		$customize_title = stripslashes($this->field->title);
 		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		
+
 		$start = "0";
-		
-		$double = false;
-		if($this->field->startFirstEntry != '' && $this->field->startSecondEntry != '') {
-			$double = true;
-		}
-		
-		if($double)
+
+		$values_string = ($value !== null && $value !== false && $value !== "")? $value : '';
+		$values_string = preg_replace("/[\[\]\s]*/", "", $values_string);
+		$values_array = explode(",", $values_string);
+
+		$double = (count($values_array) > 1)? true : false;
+
+		if($double) {
+			$this->field->startFirstEntry = $values_array[0];
+			$this->field->startSecondEntry = $values_array[1];
 			$start = "[".$this->field->startFirstEntry.", ".$this->field->startSecondEntry."]";
-		else if($this->field->startFirstEntry != '')
+		}
+		else if($values_array[0] != '') {
+			$this->field->startFirstEntry = $values_array[0];
 			$start = "[".$this->field->startFirstEntry."]";
-		
-		if($value !== null && $value !== false && $value !== "") {
-			
-			$start = $value;
-			if($double) {
-				$values_string = $start;
-				$values_string = preg_replace("/[\[\]\s]*/", "", $values_string);
-				$values_array = explode(",", $values_string);
-				
-				$this->field->startFirstEntry = $values_array[0];
-				$this->field->startSecondEntry = $values_array[1];
-			}
-			else {
-				$this->field->startFirstEntry = preg_replace("/\[\]\s/", "", $start);
-			}
 		}
 		
 		$connect = 'false';
