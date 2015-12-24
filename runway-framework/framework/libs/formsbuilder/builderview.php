@@ -66,7 +66,7 @@
 			<div id="menu-management-liquid">
 				<div id="">
 					<div class="nav-tabs-nav">
-						<div class="nav-tabs-wrapper">
+						<div class="nav-tab-wrapper nav-tabs-wrapper">
 							<div class="nav-tabs">
 								<a href="javascript:void(0);" class="nav-tab nav-tab-active" data-switchto="elements-list"><?php _e( 'Options', 'framework' ); ?></a> <a href="javascript:void(0);" class="nav-tab" data-switchto="page-global-settings" <?php if(!$this->resolutions['settings']){ echo 'style="display:none;"'; } ?>><?php _e( 'Settings', 'framework' ); ?></a> <?php if(isset($help_tabs_admin)) { ?> <a href="javascript:void(0);" class="nav-tab" data-switchto="page-help-tabs"><?php _e( 'Help tabs', 'framework' ); ?></a> <?php } ?>
 							</div>
