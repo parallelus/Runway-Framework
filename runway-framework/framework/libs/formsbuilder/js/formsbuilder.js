@@ -1513,7 +1513,7 @@ var system_vars_definition = ['template', 'index'];
 
                 // preload page settings
                 $('.page-global-settings').html($("#page-settings-template").tmpl(pageObject.getPageSettings()));
-                $('textarea#pageDescription').text(pageObject.getPageSettings().pageDescription)
+                $('textarea#pageDescription').text(pageObject.getPageSettings().pageDescription);
 
                 // control tabs switcher
                 $('.nav-tabs a').on('click', function() {

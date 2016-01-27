@@ -1228,4 +1228,33 @@ if(!function_exists('runway_scandir')) {
 		return $files;
 	}
 }
+
+if(!function_exists('sort_pages_list')) {
+	function sort_pages_list($pages) {
+		$pages_tmp = array();
+		$pages_sorted = array();
+		$pages_excl = array();
+
+		foreach($pages as $key => $page) {
+			//$term_data = get_option('taxonomy_'.$term->term_id);
+			$menu_order = (!isset($page->settings->menu_order) || empty($page->settings->menu_order))? 0 : $page->settings->menu_order;
+			$new_keys[] = array( 'key' => $key, 'order' => $menu_order );
+			if (array_key_exists($menu_order, $pages_tmp)) {
+				$pages_excl[] = array( 'page' => $page, 'menu_order' => $menu_order );
+			} else
+				$pages_tmp[$menu_order] = $page;
+		}
+		ksort($pages_tmp);
+
+		foreach($pages_tmp as $key => $page) {
+			$pages_sorted[] = $page;
+			foreach($pages_excl as $page_excl) {
+				if( $key == $page_excl['menu_order'] )
+					$pages_sorted[] = $page_excl['page'];
+			}
+		}
+
+		return $pages_sorted;
+	}
+}	
 ?>

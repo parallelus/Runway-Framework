@@ -33,6 +33,7 @@ foreach ( $page_files as $page_file ) {
 }
 
 if ( !empty( $pages ) ) {
+	$pages = sort_pages_list($pages);
 	foreach ( $pages as $page ) {
 
 		if(!empty($page)) {
