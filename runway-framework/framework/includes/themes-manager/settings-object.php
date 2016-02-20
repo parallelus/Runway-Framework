@@ -480,10 +480,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	function copy_r( $path, $dest, $exlude = array() ) {
 		if ( is_dir( $path ) ) {
 			@mkdir( $dest );
-			$objects = scandir( $path );
+			$objects = runway_scandir( $path );
 			if ( sizeof( $objects ) > 0 ) {
 				foreach ( $objects as $file ) {
-					if ( $file == '.' || $file == '..' ) continue;
 					// go on
 					if ( is_dir( $path.DS.$file ) ) {
 						if ( !in_array( $file, $exlude ) )
@@ -526,11 +525,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$dir = $this->themes_path . '/' . $theme_name;
 
 		if ( is_dir( $dir ) ) {
-			$objects = scandir( $dir );
+			$objects = runway_scandir( $dir );
 			foreach ( $objects as $object ) {
-				if ( $object != '.' && $object != '..' ) {
-					if ( filetype( $dir.'/'.$object ) == 'dir' ) $this->rrmdir( $dir.'/'.$object ); else unlink( $dir.'/'.$object );
-				}
+				if ( filetype( $dir.'/'.$object ) == 'dir' ) $this->rrmdir( $dir.'/'.$object ); else unlink( $dir.'/'.$object );
 			}
 			reset( $objects );
 			rmdir( $dir );
@@ -552,17 +549,15 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
 
-		$files = scandir( $path );
+		$files = runway_scandir( $path );
 		foreach ( $files as $file ) {
-			if ( $file != '.' && $file != '..' ) {
-				if ( !in_array( $file, $exclude ) ) {
-					if ( is_dir( $path.'/'.$file ) ) {
-						$zip->addEmptyDir( $path_in_zip.$file );
-						$this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip );
-					}
-					elseif ( is_file( $path.'/'.$file ) ) {
-						$zip->addFromString( $path_in_zip.$file, $wp_filesystem->get_contents( $path.'/'.$file ) );
-					}
+			if ( !in_array( $file, $exclude ) ) {
+				if ( is_dir( $path.'/'.$file ) ) {
+					$zip->addEmptyDir( $path_in_zip.$file );
+					$this->add_to_zip_r( $path.'/'.$file, $path_in_zip.$file.'/', $zip );
+				}
+				elseif ( is_file( $path.'/'.$file ) ) {
+					$zip->addFromString( $path_in_zip.$file, $wp_filesystem->get_contents( $path.'/'.$file ) );
 				}
 			}
 		}
@@ -606,24 +601,22 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 			$source = str_replace( '\\', '/', realpath( $source ) );
 			if ( is_dir( $source ) === true ) {
-				$files = scandir( $source );
+				$files = runway_scandir( $source );
 				foreach ( $files as $file ) {
-					if ( $file != '.' && $file != '..' ) {
-						$file = $source.'/'.$file;
+					$file = $source.'/'.$file;
 
-						if ( is_dir( $file ) === true ) {
-							$zip->addEmptyDir( str_replace( $source . '/', "{$theme_name}/", $file . '/' ) );
-							$arr = explode( '/', $file );
-							if ( array_pop( $arr ) == 'assets' ) {
-								$this->add_to_zip_r( $file, $theme_name.'/assets/', $zip );
-							}
-							if ( array_pop( $arr ) == 'data' ) {
-								$this->add_to_zip_r( $file, $theme_name.'/data/', $zip );
-							}
+					if ( is_dir( $file ) === true ) {
+						$zip->addEmptyDir( str_replace( $source . '/', "{$theme_name}/", $file . '/' ) );
+						$arr = explode( '/', $file );
+						if ( array_pop( $arr ) == 'assets' ) {
+							$this->add_to_zip_r( $file, $theme_name.'/assets/', $zip );
 						}
-						else if ( is_file( $file ) === true ) {
-							$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), $wp_filesystem->get_contents( $file ) );
+						if ( array_pop( $arr ) == 'data' ) {
+							$this->add_to_zip_r( $file, $theme_name.'/data/', $zip );
 						}
+					}
+					else if ( is_file( $file ) === true ) {
+						$zip->addFromString( str_replace( $source . '/', "{$theme_name}/", $file ), $wp_filesystem->get_contents( $file ) );
 					}
 				}
 			}

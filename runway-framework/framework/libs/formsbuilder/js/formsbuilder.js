@@ -1436,6 +1436,8 @@ var system_vars_definition = ['template', 'index'];
                 // Click function for show/hide Alias field
                 $('.edit-slug').click(function() {
 
+                    var oldAlias = $("#editable-post-name").text();
+                    $('#alias-error-text').hide();
                     $('.slug-editor-input').val($("#editable-post-name").text());
                     $('#slug-static').hide();
                     $('#slug-editor').show();
@@ -1454,6 +1456,10 @@ var system_vars_definition = ['template', 'index'];
                         }).done(function(response){
                             if(!response)
                                 $("#editable-post-name").text(newAlias);
+                            else if (oldAlias != newAlias) {
+                                $('#alias-error-text').text(translations_js.alias + ' "' + newAlias + '" ' + translations_js.already_exists);
+                                $('#alias-error-text').show();
+                            }                            
                         });
 
                         $('#slug-editor').hide();
@@ -1468,25 +1474,31 @@ var system_vars_definition = ['template', 'index'];
 
                 // Click function to make slug from page title
                 $('.make-from-title').click(function(){
-                    var val = $('#title').val();
-                    val = val.toLowerCase();
-                    val = val.trim();
-                    val = val.replace(/[^\sa-z-]+/gi,'');
-                    val = val.trim();
-                    val = val.replace(/\s+/g, '-');
+
+                    var oldAlias = $("#editable-post-name").text();
+                    var newAlias = $('#title').val();
+                    newAlias = newAlias.toLowerCase();
+                    newAlias = newAlias.trim();
+                    //val = val.replace(/[^\sa-z-]+/gi,'');
+                    //val = val.trim();
+                    newAlias = newAlias.replace(/\s+/g, '-');
 
                     $.ajax({
                         type: 'POST',
                         url: ajaxurl,
                         data: {
                             action: 'check_is_options_page_alias_unique',
-                            alias: val
+                            alias: newAlias
                         }
                     }).done(function(response){
                         if(!response){
-                            $("#editable-post-name").text(val);
+                            $("#editable-post-name").text(newAlias);
                             $('#slug-editor').hide();
                             $('#slug-static').show();
+                            $('#alias-error-text').hide();
+                        } else if (oldAlias != newAlias) {
+                            $('#alias-error-text').text(translations_js.alias + ' "' + newAlias + '" ' + translations_js.already_exists);
+                            $('#alias-error-text').show();
                         }
                     });
                 });
@@ -1496,10 +1508,12 @@ var system_vars_definition = ['template', 'index'];
                     $("#editable-post-name").text($('input[name="primary-page-slug"]').val());
                     $('#slug-editor').hide();
                     $('#slug-static').show();
+                    $('#alias-error-text').hide();
                 });
 
                 // preload page settings
                 $('.page-global-settings').html($("#page-settings-template").tmpl(pageObject.getPageSettings()));
+                $('textarea#pageDescription').text(pageObject.getPageSettings().pageDescription);
 
                 // control tabs switcher
                 $('.nav-tabs a').on('click', function() {

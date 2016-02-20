@@ -48,5 +48,9 @@ $translation_array = array(	'edit_field'			=> __( 'Edit Field', 'framework' ),
 							'update_ct'				=> __( 'Update', 'framework'),
 							'parent_ct'				=> __( 'Parent', 'framework'),
 							'duplicate'				=> __( 'Duplicate', 'framework'),
-							'duplicate_title'		=> __( 'Create Duplicate Layout Title', 'framework')
+							'duplicate_title'		=> __( 'Create Duplicate Layout Title', 'framework'),
+							'add_row'				=> __( 'Add Row', 'framework'),
+							'add_column'			=> __( 'Add Column', 'framework'),
+							'add_element'			=> __( 'Add Cell', 'framework'),
+							'alias'					=> __( 'Alias', 'framework')
 );

@@ -18,7 +18,7 @@ if ( !function_exists( 'load_data_types' ) ) :
 		// $data_types_path = get_theme_root() . "/runway-framework/data-types";
 		$data_types_path = FRAMEWORK_DIR .'data-types';
 		$data_types_base = $data_types_path . "/data-type.php";
-        
+
 		if (!file_exists($data_types_path) || !file_exists($data_types_base)) {
 			wp_die("Error: has no data types.");
 		} else {
@@ -28,12 +28,12 @@ if ( !function_exists( 'load_data_types' ) ) :
 
 			foreach ($data_types_array as $name => $path) {
 				$data_type_slug = basename($path, '.php');
-                
+
                 if ($name == 'fileupload-type.php') {
                   if ( ! did_action( 'wp_enqueue_media' ) )
                     wp_enqueue_media();   // Needed for upload field
                 }
-                
+
 				$data_types_list[$data_type_slug] = array(
 				    'filename' => $name,
 				    'classname' => ucfirst(str_replace('-', '_', $data_type_slug)),
@@ -49,9 +49,11 @@ endif;
 if(!function_exists('include_data_types')) {
 	function include_data_types($data_types_path) {
 		$data_types_array = array();
-		foreach ( array_diff( scandir( $data_types_path ), array( '..', '.', 'data-type.php' ) ) as $name ) {
+		$names = runway_scandir($data_types_path, array('data-type.php'));
+		foreach ( $names as $name ) {
 			if(is_dir("$data_types_path/$name")) {
-				foreach(array_diff( scandir( "$data_types_path/$name" ), array( '..', '.' ) ) as $filename) {
+				$filenames = runway_scandir("$data_types_path/$name");
+				foreach($filenames as $filename) {
 					if(is_dir("$data_types_path/$name/$filename"))
 						continue;
 
@@ -68,7 +70,7 @@ if(!function_exists('include_data_types')) {
 				}
 			}
 		}
-		
+
 		return $data_types_array;
 	}
 }
@@ -95,18 +97,18 @@ if ( !function_exists( 'r_option' ) ) {
 
 if ( !function_exists( 'rf__' ) ) {
 	function rf__( $var, $domain = 'framework' ){
-		return call_user_func( '__', $var, $domain );    
+		return call_user_func( '__', $var, $domain );
 	}
 }
 
 if ( !function_exists( 'rf_e' ) ) {
 	function rf_e( $var, $domain = 'framework' ){
-		call_user_func( '_e', $var, $domain );    
+		call_user_func( '_e', $var, $domain );
 	}
 }
 
 // register taxonommies to custom post types
-if ( !function_exists( 'register_custom_taxonomies' ) ) {	
+if ( !function_exists( 'register_custom_taxonomies' ) ) {
 	function register_custom_taxonomies() {
 		global $shortname;
 
@@ -114,13 +116,14 @@ if ( !function_exists( 'register_custom_taxonomies' ) ) {
 		if(isset($content_types_options['taxonomies']))
 		foreach ((array)$content_types_options['taxonomies'] as $taxonomy => $values) {
 			$content_types_to_adding = array();
-			if(isset($content_types_options['content_types']))	
+			if(isset($content_types_options['content_types']))
 			foreach ((array)$content_types_options['content_types'] as $content_type => $vals) {
 				if(isset($vals['taxonomies']) && in_array($taxonomy, $vals['taxonomies'])){
 					$content_types_to_adding[] = $content_type;
 				}
 			}
-			register_taxonomy($taxonomy, $content_types_to_adding, array(
+			call_user_func('register_taxonomy', $taxonomy, $content_types_to_adding, array(
+			// register_taxonomy($taxonomy, $content_types_to_adding, array(
 				// Hierarchical taxonomy (like categories)
 				'hierarchical' => true,
 				// This array of options controls the labels displayed in the WordPress Admin UI
@@ -135,7 +138,7 @@ if ( !function_exists( 'register_custom_taxonomies' ) ) {
 		}
 	}
 	add_action('init', 'register_custom_taxonomies');
-}	
+}
 
 
 // get framework data
@@ -195,7 +198,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 				// value exists, so cache it
 				$option_value = $row->option_value;
 				wp_cache_add( $key, $option_value, 'options' );
-			} else { 
+			} else {
 				// option does not exist, so we must cache its non-existence
 				$notoptions[$key] = true;
 				wp_cache_set( 'notoptions', $notoptions, 'options' );
@@ -217,7 +220,7 @@ if ( !function_exists( 'get_options_data' ) ) {
 		if($key_tmp[0] == 'formsbuilder' && !is_null(get_post(end($key_tmp), ARRAY_A))) {
 			$meta_value = get_post_meta( end($key_tmp), $option, true );
 			if( !empty($meta_value) )
-				return $meta_value;			
+				return $meta_value;
 		}
 
 		// Validate
@@ -275,7 +278,6 @@ if( !function_exists( 'get_font_options_data' )) {
 	function get_font_options_data( $key, $option = false, $default = null ) {
 
 		$font_options = get_options_data( $key, $option, $default );
-
 		$options_str = str_replace(' ', '+', trim($font_options['family']));
 		// if($font_options['weight'] != '' && $font_options['weight'] == 'bold') {
 		// 	$options_str .= ':'.$font_options['weight'];
@@ -311,11 +313,11 @@ if ( !function_exists( 'load_framework_libraries' ) ) :
 	function load_framework_libraries() {
 		$libs_path = get_template_directory().'/framework/libs/';
 		if ( file_exists( $libs_path ) ) {
-			$libs = scandir( $libs_path );
+			$libs = runway_scandir( $libs_path );
 			global $libraries;
 			$libraries = array();
 			foreach ( $libs as $key => $lib ) {
-				if ( $lib != '.' && $lib != '..' && is_file( $libs_path.$lib ) && pathinfo($lib, PATHINFO_EXTENSION) == 'php' ) {
+				if ( is_file( $libs_path.$lib ) ) {
 					include_once $libs_path.$lib;
 					$name = str_replace( '.php', '', str_replace( '-', '_', $lib ) );
 					if ( class_exists( $name ) && $name != 'Html' ) {
@@ -358,7 +360,7 @@ function get_extensions() {
 	// get additional extensions name and path
 	$keys = array();
 	if ( file_exists( $additional_extensions_dir ) ) {
-		$keys = array_diff( (array)scandir( $additional_extensions_dir ), array( '.', '..' ) );
+		$keys = runway_scandir( $additional_extensions_dir );
 	}
 
 	foreach ( $keys as $key ) {
@@ -366,7 +368,7 @@ function get_extensions() {
 	}
 
 	// get built-in extensions name and path
-	$keys = array_diff( scandir( $builtin_extensions_dir ), array( '.', '..' ) );
+	$keys = runway_scandir($builtin_extensions_dir);
 
 	foreach ( $keys as $key ) {
 		$extensions[$key] = $builtin_extensions_dir.$key;
@@ -374,8 +376,7 @@ function get_extensions() {
 
 	// get pages names and path
 	if ( file_exists( $dynamic_pages_dir ) ) {
-		$keys = array_diff( (array)scandir( $dynamic_pages_dir ), array( '.', '..' ) );
-
+		$keys = runway_scandir( $dynamic_pages_dir );
 		foreach ( $keys as $key ) {
 			$key = str_replace( '.json', '', $key );
 			$extensions['option_key_'.$key] = $dynamic_pages_dir.'/'.$key;
@@ -394,7 +395,7 @@ function theme_option_filter($pre) {
 
 	// if current options is from runway extension
 	if ( strstr( $wp_current_filter[0], 'pre_option_'.$shortname ) ) {
-		
+
 		$option_key = str_replace( 'pre_option_', '', $wp_current_filter[0] );
 
 		// get option from database (the same way as wordpress default)
@@ -415,9 +416,9 @@ function theme_option_filter($pre) {
 				// if have option save it into database
 				$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
 
-				$result = $wpdb->insert( 
-					$wpdb->options, 
-					array( 
+				$result = $wpdb->insert(
+					$wpdb->options,
+					array(
 						'option_value' => maybe_serialize($value),
 						'option_name' => $option_key
 					)
@@ -529,7 +530,8 @@ function rw_get_theme_data( $theme_dir = null, $stylesheet = null ) {
 		$stylesheet_files = array();
 		$template_files = array();
 
-		$theme_files = scandir( $theme_dir );
+		$theme_files = runway_scandir( $theme_dir );
+
 		foreach ( $theme_files as $file ) {
 			if ( is_file( $theme_dir.'/'.$file ) ) {
 				if ( preg_match( '/(.+).css/', $file ) ) {
@@ -605,7 +607,7 @@ function custom_theme_menu_icon() {
 		}
 	} else {
 		$settings = get_settings_json();
-		$icon = $settings['Icon'];
+		$icon = (isset($settings['Icon']))? $settings['Icon'] : '';
 		if ( $themeKey != null ) {
 			if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
@@ -680,12 +682,12 @@ function db_json_sync(){
 	}
 
 	if (is_dir($json_dir)) {
-		$ffs = scandir($json_dir);
-		
+		$ffs = runway_scandir($json_dir);
+
 		add_filter('rf_do_not_syncronize', 'do_not_syncronize', 10);
 
 		foreach ($ffs as $ff) {
-			if ($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+			if (pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 				$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 				$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
 
@@ -698,11 +700,11 @@ function db_json_sync(){
 				}
 
 				if (strpos($option_key_json, $json_prefix) !== false) {
-					
+
 					$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
 					// $json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
 					// 	json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
-					$db = get_option($option_key);					
+					$db = get_option($option_key);
 					$params = array(
 					    'json' => $json,
 					    'db' => $db,
@@ -730,7 +732,7 @@ function db_json_sync(){
 					$returned_array = apply_filters('rf_do_not_syncronize', $params);
 					$json_updated = $returned_array['json_updated'];
 					$need_update = $returned_array['need_update'];
-					
+
 					//old functionality
 					//$excludes = array('body_structure', 'layouts', 'headers', 'footers', 'sidebars_list', 'contexts', 'content_types', 'taxonomies', 'fields', 'defaults');  // don't synchronize
 					//split_data($json, $db, $json_updated, $need_update, $excludes);
@@ -748,7 +750,7 @@ function db_json_sync(){
 }
 
 function do_not_syncronize($params) {
-	
+
 	if(isset($params['json'])) {
 		foreach($params['json'] as $k => $v) {
 			if(is_array($v)) {
@@ -760,7 +762,7 @@ function do_not_syncronize($params) {
 				//$params['db'][$k] = isset($params['db'][$k]) ? $params['db'][$k] : null;
 
 				$founded = false;
-				
+
 				foreach($params['excludes'] as $ex_key => $ex_val) {
 					if(!is_array($ex_val) && $k == $ex_val) {
 						$founded = true;
@@ -770,13 +772,13 @@ function do_not_syncronize($params) {
 						break;
 					}
 				}
-				
+
 				if($founded) {
 					if( isset($params['db'][$k]) )
 						$params['json_updated'][$k] = $params['db'][$k];
 					continue;
 				}
-				
+
 				$tmp_array = do_not_syncronize(array(
 				    'json' => $v,
 				    'db' => $params['db'][$k],
@@ -785,7 +787,7 @@ function do_not_syncronize($params) {
 				    'need_update' => $params['need_update'],
 				    'excludes' => $params['excludes']
 				));
-				
+
 				$params['json_updated'][$k] = $tmp_array['json_updated'];
 				$params['need_update'] = $tmp_array['need_update'];
 			}
@@ -801,13 +803,13 @@ function do_not_syncronize($params) {
 			}
 		}
 	}
-	
+
 	return $params;
 }
 
 //old functionality
 function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
-	
+
 	if(isset($json)) {
 		foreach($json as $k => $v) {
 			if(is_array($v)) {
@@ -835,7 +837,7 @@ function split_data($json, $db, &$json_updated, &$need_update, &$excludes) {
 
 function find_custom_recursive($array = array(), $searched_key = '', $returned_key = 0, &$excludes) {
 	$tmp_array = array();
-	if (!empty($array)) {
+	if (is_array($array) && !empty($array)) {
 		foreach($array as $key=>$value) {
 			if(in_array($key, $excludes))
 				continue;
@@ -847,7 +849,7 @@ function find_custom_recursive($array = array(), $searched_key = '', $returned_k
 					}
 				}
 				foreach($returned as $key2 => $value2) {
-					if(!empty($value2) && !in_array($value2, $tmp_array)) 
+					if(!empty($value2) && !in_array($value2, $tmp_array))
 						$tmp_array[] = trim($value2);
 				}
 			}
@@ -864,15 +866,15 @@ function find_custom_recursive($array = array(), $searched_key = '', $returned_k
 }
 
 function create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix) {
-	$ffs = scandir($json_dir);
+	$ffs = runway_scandir($json_dir);
 	$ffs_name = array();
-	
+
 	if(!function_exists('WP_Filesystem'))
 		require_once(ABSPATH . 'wp-admin/includes/file.php');
 	WP_Filesystem();
 	global $wp_filesystem;
     foreach($ffs as $ff){
-	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    if(pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 	    	$option_key_json = pathinfo($ff, PATHINFO_FILENAME);
 	    	$ffs_name[] = $option_key_json;
 	    	$option_key = str_replace($json_prefix, $option_prefix, $option_key_json);
@@ -898,12 +900,12 @@ function create_translate_files($translation_dir, $json_dir, $option_prefix, $js
 				$translation_string.= "?>";
 				$wp_filesystem->put_contents($translation_file, $translation_string, FS_CHMOD_FILE);
 			}
-		}	
+		}
 	}
 
-	$ffs_translation = scandir($translation_dir);
+	$ffs_translation = runway_scandir($translation_dir);
     foreach($ffs_translation as $ff){
-	    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'php') {
+	    if(pathinfo($ff, PATHINFO_EXTENSION) == 'php') {
 	    	if(!in_array(pathinfo($ff, PATHINFO_FILENAME), $ffs_name))
 	    		unlink($translation_dir.'/'.$ff);
 	    }
@@ -926,7 +928,7 @@ function prepare_translate_files(){
 
     if(is_dir($json_dir)) {
     	create_translate_files($translation_dir, $json_dir, $option_prefix, $json_prefix);
-	}    
+	}
     if(is_dir($json_pages_dir)) {
     	create_translate_files($translation_dir.'/pages', $json_pages_dir, $option_prefix, $json_prefix);
 	}
@@ -945,7 +947,7 @@ function get_settings_json( $folder = false ) {
 		require_once(ABSPATH . 'wp-admin/includes/file.php');
 	WP_Filesystem();
 	global $wp_filesystem;
-	$file = (!$folder)? get_stylesheet_directory() . '/data/settings.json' : 
+	$file = (!$folder)? get_stylesheet_directory() . '/data/settings.json' :
 						preg_replace("~\/(?!.*\/)(.*)~", '/'.$folder, get_stylesheet_directory()) . '/data/settings.json';
 
 	$settings = '';
@@ -967,13 +969,13 @@ function create_theme_ID( $length = 0 ) {
 	}
 
     return $theme_id;
-} 
+}
 
 function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 	// global $wpdb, $shortname;
 
 	$json_dir = ($json_dir)? $json_dir : get_stylesheet_directory() . '/data';
-    $ffs = scandir($json_dir);
+    $ffs = runway_scandir($json_dir);
 
     $flag = true;
 	if ( is_dir($json_dir) ) {
@@ -981,12 +983,12 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 			$flag = false;
 		}
 	}
-	else 
+	else
 		$flag = false;
 
 	if( $flag ) {
 	    foreach($ffs as $ff){
-		    if($ff != '.' && $ff != '..' && pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
+	    	if(pathinfo($ff, PATHINFO_EXTENSION) == 'json') {
 		    	$option_key = pathinfo($ff, PATHINFO_FILENAME);
 
 	    		$theme_id_prefix = ($pos = strpos($option_key, '_'))? substr($option_key, 0, $pos+1) : '';
@@ -994,7 +996,7 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 				 	if (!rename($json_dir.'/'.$ff, str_replace($theme_id_prefix, $theme_id.'_', $json_dir.'/'.$ff)) )
 					 	$flag = false;
 				}
-			}	
+			}
 		}
 	}
 
@@ -1011,7 +1013,7 @@ function change_theme_prefix( $theme_name, $theme_id, $json_dir = false ) {
 	// 			$flag = false;
 
 	// 		}
-	// 	} 
+	// 	}
 	// }
 
 	return $flag;
@@ -1083,12 +1085,12 @@ function check_theme_ID( $folder = false ) {
 		else
 			return true;
 	}
-	
+
 }
 
 if ( !function_exists( 'runway_base_decode' ) ) {
 	function runway_base_decode($data, $is_file = false) {
- 	
+
 		$b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 
 		$i = 0;
@@ -1121,7 +1123,7 @@ if ( !function_exists( 'runway_base_decode' ) ) {
 				$dec.= chr($o1).chr($o2);
 			} else {
 				$dec.= chr($o1).chr($o2).chr($o3);
-			} 
+			}
 		} while ($i < $len);
 
 		if(!$is_file)
@@ -1195,7 +1197,7 @@ if(!function_exists('runway_check_versions')) {
 				break;
 			}
 		}
-		
+
 		return $has_update;
 	}
 }
@@ -1207,4 +1209,52 @@ if(!function_exists('runway_filesystem_method')) {
 	}
 }
 add_filter( 'filesystem_method', 'runway_filesystem_method' );
+
+if(!function_exists('runway_scandir')) {
+	function runway_scandir($dir, $excl = array()) {
+		$all_files = scandir( $dir );
+		$files = array();
+		$denied_files = array('.', '..', '.DS_Store');
+		if(!empty($excl)) {
+			$denied_files = array_merge($denied_files, $excl);
+		}
+
+		foreach ( $all_files as $file ) {
+			if(!in_array($file, $denied_files)) {
+				$files[] = $file;
+			}
+		}
+
+		return $files;
+	}
+}
+
+if(!function_exists('sort_pages_list')) {
+	function sort_pages_list($pages) {
+		$pages_tmp = array();
+		$pages_sorted = array();
+		$pages_excl = array();
+
+		foreach($pages as $key => $page) {
+			//$term_data = get_option('taxonomy_'.$term->term_id);
+			$menu_order = (!isset($page->settings->menu_order) || empty($page->settings->menu_order))? 0 : $page->settings->menu_order;
+			$new_keys[] = array( 'key' => $key, 'order' => $menu_order );
+			if (array_key_exists($menu_order, $pages_tmp)) {
+				$pages_excl[] = array( 'page' => $page, 'menu_order' => $menu_order );
+			} else
+				$pages_tmp[$menu_order] = $page;
+		}
+		ksort($pages_tmp);
+
+		foreach($pages_tmp as $key => $page) {
+			$pages_sorted[] = $page;
+			foreach($pages_excl as $page_excl) {
+				if( $key == $page_excl['menu_order'] )
+					$pages_sorted[] = $page_excl['page'];
+			}
+		}
+
+		return $pages_sorted;
+	}
+}	
 ?>

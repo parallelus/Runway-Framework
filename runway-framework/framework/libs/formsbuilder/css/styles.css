@@ -295,6 +295,11 @@
 	font-size: 13px;
 	vertical-align: baseline;
 }
+#alias-error-text {
+	display:none;
+	padding-left:10px;
+	color:red
+}
 #menu-management-liquid {
 	margin-top: 15px;
 }

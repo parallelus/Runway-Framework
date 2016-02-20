@@ -58,6 +58,7 @@
 			<div class="inside" style="min-height: auto !important;">
 				<div id="edit-slug-box" <?php if(!$this->resolutions['alias']){ echo 'style="display:none;"'; } ?>> <input type="hidden" name="primary-page-slug" value="<?php echo esc_attr($page['settings']['alias']); ?>">
 					<strong><?php _e( 'Alias:', 'framework' ); ?></strong> <span id="slug-static"><span id="editable-post-name" class="dynamic-page-title edit-slug" title="<?php _e( 'Click to edit the page alias.', 'framework' ); ?>"><?php echo  $page['settings']['alias'] ?></span> <span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js"><?php _e( 'Edit', 'framework' ); ?></a></span> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button></span> <span id="slug-editor" style="display:none;"><input class="slug-editor-input" id="slug-editor-input" value=""><button class="button slug-editor-save"><span id="slug-editor2"><?php _e( 'Ok', 'framework' ); ?></span></button> <button class="button slug-editor-cancel"><?php _e( 'Cancel', 'framework' ); ?></button> <button class="button make-from-title"><?php _e( 'Make slug from title', 'framework' ); ?></button> <button class="button get-primary-slug"><?php _e('Reset', 'framework'); ?></button></span> <span id="editable-post-name-full">???</span>
+				<span id="alias-error-text"></span>
 				</div>
 			</div>
 		</div>
@@ -66,7 +67,7 @@
 			<div id="menu-management-liquid">
 				<div id="">
 					<div class="nav-tabs-nav">
-						<div class="nav-tabs-wrapper">
+						<div class="nav-tab-wrapper nav-tabs-wrapper">
 							<div class="nav-tabs">
 								<a href="javascript:void(0);" class="nav-tab nav-tab-active" data-switchto="elements-list"><?php _e( 'Options', 'framework' ); ?></a> <a href="javascript:void(0);" class="nav-tab" data-switchto="page-global-settings" <?php if(!$this->resolutions['settings']){ echo 'style="display:none;"'; } ?>><?php _e( 'Settings', 'framework' ); ?></a> <?php if(isset($help_tabs_admin)) { ?> <a href="javascript:void(0);" class="nav-tab" data-switchto="page-help-tabs"><?php _e( 'Help tabs', 'framework' ); ?></a> <?php } ?>
 							</div>

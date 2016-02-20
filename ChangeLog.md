@@ -1,3 +1,28 @@
+## v1.4.3 (February 20th 2016)
+
+* Fixed page sorting for theme options pages
+
+## v1.4.2 (July 3rd 2015)
+
+* Various bug fixes and updates
+
+## v1.4.1 (December 31st 2015)
+
+* Various bug fixes
+
+## v1.4.0 (December 19st 2014)
+
+* New font picker data type
+* Conditional logic in the Options Builder
+* Dashicons for menus and extensions
+* Style updates in the admin
+* Bug fixes
+* Updates to default theme Liftoff
+
+## v1.3.1 (December 2nd 2014)
+
+* Various bug fixes
+
 ## v1.3 (November 12th 2014)
 
 * The bug “#63 - Error messages on plugin install screen” is fixed

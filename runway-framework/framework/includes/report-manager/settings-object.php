@@ -47,22 +47,30 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 
 	}
 
+	function count_fails() {
+		$this->fail = 0;
+		foreach ( $this->reports as $report_key => $report_info ) {
+			if ( $report_info['state'] == 'fail' ) {
+				$this->fail++;
+			}
+		}	
+	}
+
 	function site_admin_notice() {
 		global $theme_name, $reports;
 
 		if ( $theme_name != 'runway-framework' ) {
-			$fail = 0;
-			foreach ( $this->reports as $report_key => $report_info ) {
-				if ( $report_info['state'] == 'fail' ) {
-					$fail++;
-				}
+			$this->count_fails();
+			if ( $this->fail != 0 ) {
+				$reports->fix_all_issues();
 			}
 
-			if ( $fail != 0 ) {
+			$this->count_fails();
+			if ( $this->fail != 0 ) {
 				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
 		           $reports->fix_all_issues();
 		        else
-        		   echo "<div class='update-nag'>" . sprintf( __( 'You have '.$fail.' failed tests. To have a good time with Runway these should be fixed. See the error details on the <a href="'.$reports->self_url().'">reports page</a>' ) ) . "</div>";				
+        		   echo "<div class='update-nag'>" . sprintf( __( 'You have '.$this->fail.' failed tests. To have a good time with Runway these should be fixed. See the error details on the <a href="'.$reports->self_url().'">reports page</a>' ) ) . "</div>";				
 			}
 		}
 		else {

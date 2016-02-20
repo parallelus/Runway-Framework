@@ -296,6 +296,41 @@ class Apm_Admin extends Runway_Admin_Object {
 		//do_action( 'after_delete_page' );
 	}
 
+	function reset_to_default( $pages_dir, $page_id ) {
+		if(!function_exists('WP_Filesystem'))
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+		WP_Filesystem();
+		global $wp_filesystem, $shortname;
+
+		$page = json_decode( $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' ) );
+
+	 	$settings = get_settings_json();
+	 	$json_prefix = isset($settings['ThemeID']) ? $settings['ThemeID'] . '_' : $shortname;
+	 	$json_dir = get_stylesheet_directory() . '/data';
+		$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $json_prefix.$page->settings->alias.'.json'), true);
+
+		foreach($page->elements as $elm) {
+			if(isset($elm->template) && $elm->template == 'field' && isset($elm->type)) {
+	 			switch ($elm->type) {
+	 				case 'range-slider-type':
+	 					$json[$elm->alias] = (isset($elm->startSecondEntry) && !empty($elm->startSecondEntry))? '['.$elm->startFirstEntry.', '.$elm->startSecondEntry.']' : '['.$elm->startFirstEntry.']';
+	 					break;
+	 				case 'font-select-type':
+	 					$json[$elm->alias]['family'] = $elm->family;
+	 					$json[$elm->alias]['weight'] = $elm->weight;
+	 					$json[$elm->alias]['size'] = $elm->size;
+						unset($json[$elm->alias]['style']);
+	 					unset($json[$elm->alias]['color']);
+	 					break;	 					
+	 				default:
+	 					$json[$elm->alias] = isset($elm->values)? $elm->values : '';
+	 					break;
+	 			}
+			}
+		}
+		update_option($json['index'], $json);
+	}
+
 	function get_pages_list() {
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -326,48 +361,19 @@ class Apm_Admin extends Runway_Admin_Object {
 			wp_die( $error_message );
 		}
 
-		$page_files = scandir( $this->pages_dir );
+		$page_files = runway_scandir( $this->pages_dir );
 
 		$pages = array();
 
 		foreach ( $page_files as $page_file ) {
-			if ( $page_file != '.' && $page_file != '..' ) {
-				//$json = file_get_contents( $this->pages_dir . $page_file );
-				$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
-				$pages[] = json_decode( $json );
-			}
+			$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
+			$pages[] = json_decode( $json );
 		}
-		$sorted_list = $this->sort_pages_list($pages);
+		$sorted_list = sort_pages_list($pages);
 
 		return $sorted_list;
 	}
 
-	function sort_pages_list($pages) {
-		$pages_tmp = array();
-		$pages_sorted = array();
-		$pages_excl = array();
-
-		foreach($pages as $key => $page) {
-			//$term_data = get_option('taxonomy_'.$term->term_id);
-			$menu_order = (!isset($page->settings->menu_order) || empty($page->settings->menu_order))? 0 : $page->settings->menu_order;
-			$new_keys[] = array( 'key' => $key, 'order' => $menu_order );
-			if (array_key_exists($menu_order, $pages_tmp)) {
-				$pages_excl[] = array( 'page' => $page, 'menu_order' => $menu_order );
-			} else
-				$pages_tmp[$menu_order] = $page;
-		}
-		ksort($pages_tmp);
-
-		foreach($pages_tmp as $key => $page) {
-			$pages_sorted[] = $page;
-			foreach($pages_excl as $page_excl) {
-				if( $key == $page_excl['menu_order'] )
-					$pages_sorted[] = $page_excl['page'];
-			}
-		}
-
-		return $pages_sorted;
-	}
 
 
 	public function inputs_encode( $page ) {

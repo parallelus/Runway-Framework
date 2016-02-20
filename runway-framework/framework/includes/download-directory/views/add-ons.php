@@ -143,7 +143,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 							if( in_array($key, $items_installed) ): ?>
 								<a class="button button-secondary" href="<?php echo esc_url($items_installed_link); ?>"><?php echo __('Installed', 'framework'); ?></a>
 							<?php else: ?>
-								<a class="button button-primary" href="<?php echo esc__url(admin_url('admin.php?page=directory&amp;addons=extensions&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce=')); ?>"><?php echo __('Install', 'framework'); ?></a>
+								<a class="button button-primary" href="<?php echo esc_url(admin_url('admin.php?page=directory&amp;addons=extensions&amp;action=install&amp;item='.$item_addons->Files[0]->name.'&amp;_wpnonce=')); ?>"><?php echo __('Install', 'framework'); ?></a>
 							<?php endif;								
 							break;
 
