@@ -711,6 +711,9 @@ function db_json_sync(){
 					    'current_json_name' => $ff,
 					    'json_updated' => $json,
 					    'need_update' => false,
+					    'allow_false' => array(
+						array('plugin_installer', 'plugin_options')
+					    ),
 					    'excludes' => array(
 						array('admin-menu-editor', 'body_structure'),
 						array('layouts_manager', 'body_structure'),
@@ -754,8 +757,19 @@ function do_not_syncronize($params) {
 	if(isset($params['json'])) {
 		foreach($params['json'] as $k => $v) {
 			if(is_array($v)) {
-				if(isset($params['db'][$k])) {
+				$is_allow_false = (is_array($params['allow_false']) && !empty($params['allow_false']) && (strpos($params['current_json_name'], $params['allow_false'][0][0]) !== false) && ($k == $params['allow_false'][0][1]))? true : false;
+				if($is_allow_false || isset($params['db'][$k])) {
 					$params['json_updated'][$k] = $params['db'][$k];
+					if($is_allow_false) {
+						foreach($v as $k0 => $v0) {
+							if( is_array($params['db'][$k]) && array_key_exists($k0, $params['db'][$k] ))
+								continue;
+							else {
+								$params['json_updated'][$k][$k0] = $v0;
+								$params['need_update'] = true;
+							}
+						}
+					}
 					continue;
 				} else
 					$params['db'][$k] = null;
@@ -785,6 +799,7 @@ function do_not_syncronize($params) {
 				    'current_json_name' => $params['current_json_name'],
 				    'json_updated' => $params['json_updated'][$k],
 				    'need_update' => $params['need_update'],
+				    'allow_false' => $params['allow_false'],
 				    'excludes' => $params['excludes']
 				));
 
