@@ -70,12 +70,12 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
 		           $reports->fix_all_issues();
 		        else
-        		   echo "<div class='update-nag'>" . sprintf( __( 'You have '.$this->fail.' failed tests. To have a good time with Runway these should be fixed. See the error details on the <a href="'.$reports->self_url().'">reports page</a>' ) ) . "</div>";				
+        		   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %sreports page%s', 'framework' ), $this->fail, '<a href="'.$reports->self_url().'">', '</a>' ) . "</div>";
 			}
 		}
 		else {
 			global $developer_tools;
-			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the <a href="'.$developer_tools->self_url().'">Runway Themes Manager</a>' ) ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %sRunway Themes Manager%s', 'framework' ), '<a href="'.$developer_tools->self_url().'">', '</a>' ) . "</div>";
 		}
 	}	
 
