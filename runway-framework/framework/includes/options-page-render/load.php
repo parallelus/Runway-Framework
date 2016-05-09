@@ -2,7 +2,7 @@
 /*
     Extension Name: Options Page Render
     Extension URI:
-    Version: 0.8
+    Version: 0.8.1
     Description: Output the content of pages generated using the Options Builder.
     Author: Parallelus
     Author URI:
@@ -14,7 +14,7 @@
 if(!function_exists('WP_Filesystem'))
 	require_once(ABSPATH . 'wp-admin/includes/file.php');
 WP_Filesystem();
-global $wp_filesystem;	
+global $wp_filesystem;
 global $libraries, $page_options;
 $form_builder = $libraries['FormsBuilder'];
 $page_options = array();
@@ -34,11 +34,11 @@ foreach ( $page_files as $page_file ) {
 
 if ( !empty( $pages ) ) {
 	$pages = sort_pages_list($pages);
-	foreach ( $pages as $page ) {
+	foreach ( $pages as $rf_page ) {
 
-		if(!empty($page)) {
-			$alias = $page->settings->alias;
-			$page_options[$alias] = $form_builder->prepare_form( $page );
+		if(!empty($rf_page)) {
+			$alias = $rf_page->settings->alias;
+			$page_options[$alias] = $form_builder->prepare_form( $rf_page );
 			$settings = $form_builder->make_settings( $page_options[$alias] );
 
 			global ${$page_options[$alias]['object']}, ${$page_options[$alias]['admin_object']};
@@ -56,7 +56,7 @@ if ( !empty( $pages ) ) {
 
 			$formsbilder_option = get_option($form_builder->option_key);
 			if(!isset($formsbilder_option) || $formsbilder_option == false) {
-				$form_builder->add_page_to_pages_list( $page );
+				$form_builder->add_page_to_pages_list( $rf_page );
 			}
 
 			do_action( 'options_page_render_is_load' );
