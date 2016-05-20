@@ -28,8 +28,8 @@ if ( !defined( $runway_framework ) ) {
 		* This function is intentionally left blank
 		*
 		* Overwritten by indiviudal plugin admin objects, if needed.
-		**/			
-		function init( $settings ) { }		
+		**/
+		function init( $settings ) { }
 
 		function object_to_array( $data ) {
 			if ( is_object( $data ) ) $data = get_object_vars( $data );
@@ -93,7 +93,7 @@ if ( !defined( $runway_framework ) ) {
 			return $data;
 		}
 	}
-				
+
 }
 
 if ( !is_callable( '__d' ) ) {
