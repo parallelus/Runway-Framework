@@ -1304,4 +1304,19 @@ if( ! function_exists( 'sort_pages_list' ) ) :
 		return $pages_sorted;
 	}
 endif;
+
+/**
+ * Helper function for output escaping. Ensures only strings are returned.
+ *
+ * @since 1.4.4
+ * @param string $text A text value to be cast (string)
+ * @return string A text string.
+ */
+if( ! function_exists( 'rf_string' ) ) :
+	function rf_string( $text = '' ) {
+
+		$new_text = (string) apply_filters('rf_string', $text);
+		return $new_text;
+	}
+endif;
 ?>
