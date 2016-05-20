@@ -4,12 +4,12 @@
         <div class="page-global-settings-wrapper">
 
 			<!-- Test of table based form -->
-			<h3 class="container-title"><?php _e( 'Page Display and Access Options', 'framework' ); ?></h3>
+			<h3 class="container-title"><?php _e( 'Page Display and Access Options', 'runway' ); ?></h3>
 			<table class="form-table">
 				<tbody>
 					<tr>
 						<th scope="row" valign="top">
-							<?php _e( 'Show page title', 'framework' ); ?>
+							<?php _e( 'Show page title', 'runway' ); ?>
 						</th>
 						<td>
 							<label>
@@ -19,25 +19,20 @@
 										$checked = 'checked="checked"';
 									} ?>
 								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo  $checked; ?> value="true">
-								<?php _e('Yes', 'framework'); ?>
+								<?php _e('Yes', 'runway'); ?>
 							</label>
-							<p class="description"><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'framework' ); ?></p>
+							<p class="description"><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'runway' ); ?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row" valign="top">
-							<?php _e( 'Access level', 'framework' ); ?>
-							<em><?php _e( 'Permissions', 'framework' ); ?></em>
+							<?php _e( 'Access level', 'runway' ); ?>
+							<em><?php _e( 'Permissions', 'runway' ); ?></em>
 						</th>
 						<td>
 							<select name="access">
 							<?php
-/*global $wp_roles;
 
-foreach ( $wp_roles->roles as $key => $value ) {
-	$access = ( $page['settings']['access'] == $key ) ? 'selected="true"' : '';
-	echo '<option '. $access .' value="'. $key .'">'. $value['name'] .'</option>';
-}*/
 								$capabilities = array(
 									'Administrator' => array(
 										'edit_theme_options',
@@ -79,12 +74,12 @@ foreach ( $wp_roles->roles as $key => $value ) {
 								}
 							?>
 							</select>
-							<p class="description"><?php _e( 'Set the access permissions needed to view and edit the page.', 'framework' ); ?></p>
+							<p class="description"><?php _e( 'Set the access permissions needed to view and edit the page.', 'runway' ); ?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row" valign="top">
-							<?php _e( 'Parent menu', 'framework' ); ?>
+							<?php _e( 'Parent menu', 'runway' ); ?>
 						</th>
 						<td>
 							<select name="adminMenuTopItem">
@@ -99,25 +94,25 @@ foreach ( $wp_roles->roles as $key => $value ) {
 									}
 								?>
 							</select>
-							<p class="description"><?php _e( 'Select the menu where this page should be added.', 'framework' ); ?></p>
+							<p class="description"><?php _e( 'Select the menu where this page should be added.', 'runway' ); ?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row" valign="top">
-							<?php _e( 'Menu Order', 'framework' ); ?>
+							<?php _e( 'Menu Order', 'runway' ); ?>
 						</th>
 						<td>
 							<input name="menu_order" value="<?php echo (!isset($page['settings']['menu_order']) || empty($page['settings']['menu_order']))? 0 : $page['settings']['menu_order']; ?>">
-							<p class="description"><?php _e( 'Position of the current page in the Option Builder list.', 'framework' ); ?></p>
+							<p class="description"><?php _e( 'Position of the current page in the Option Builder list.', 'runway' ); ?></p>
 						</td>
-					</tr>				
+					</tr>
 					<tr>
 						<th scope="row" valign="top">
-							<?php _e( 'Description', 'framework' ); ?>
+							<?php _e( 'Description', 'runway' ); ?>
 						</th>
 						<td>
 							<textarea name="pageDescription" ID="pageDescription"><?php echo isset( $page['settings']['pageDescription'] ) ? $page['settings']['pageDescription'] : ''; ?></textarea>
-							<p class="description"><?php _e( 'An optional description or help text. This will appear at the top of the page.', 'framework' ); ?></p>
+							<p class="description"><?php _e( 'An optional description or help text. This will appear at the top of the page.', 'runway' ); ?></p>
 						</td>
 					</tr>
 

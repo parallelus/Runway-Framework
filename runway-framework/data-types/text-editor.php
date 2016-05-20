@@ -80,7 +80,7 @@ class Text_editor extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            <?php echo __('Values', 'framework'); ?>:
+            <?php echo __('Values', 'runway'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -94,7 +94,7 @@ class Text_editor extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            <?php echo __('Required', 'framework'); ?>:
+            <?php echo __('Required', 'runway'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -105,14 +105,14 @@ class Text_editor extends Data_Type {
                 {{else}}
                 <input data-set="required" name="required" value="true" type="checkbox">
                 {{/if}}
-                <?php echo __('Yes', 'framework'); ?>
+                <?php echo __('Yes', 'runway'); ?>
             </label>
 
-            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
             <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
         </div>
         <div class="clear"></div>
@@ -144,7 +144,7 @@ class Text_editor extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-                    name: '<?php echo __('Text editor', 'framework'); ?>',
+                    name: '<?php echo __('Text editor', 'runway'); ?>',
                     separate: 'none',
                     alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'

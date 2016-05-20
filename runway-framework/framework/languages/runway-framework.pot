@@ -1,7 +1,8 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Runway Framework\n"
-"POT-Creation-Date: 2014-08-20 15:01-0600\n"
+"POT-Creation-Date: 2016-05-20 07:01-0500\n"
 "PO-Revision-Date: 2014-08-20 15:01-0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -9,8 +10,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.8\n"
-"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -20,61 +21,68 @@ msgstr ""
 #: ../data-types/checkbox-bool-type.php:35
 #: ../data-types/checkbox-bool-type.php:46
 #: ../data-types/checkbox-bool-type.php:59
-#: ../data-types/checkbox-bool-type.php:106
-#: ../data-types/checkbox-type.php:268 ../data-types/checkbox-type.php:292
-#: ../data-types/code-editor/code-editor-type.php:161
-#: ../data-types/code-editor/code-editor-type.php:262
-#: ../data-types/colorpicker-type.php:197
-#: ../data-types/colorpicker-type.php:220
-#: ../data-types/datepicker-type.php:216 ../data-types/datepicker-type.php:238
-#: ../data-types/datepicker-type.php:259 ../data-types/fileupload-type.php:223
-#: ../data-types/fileupload-type.php:248 ../data-types/input-text.php:125
-#: ../data-types/input-text.php:184 ../data-types/multi-select-type.php:197
+#: ../data-types/checkbox-bool-type.php:105 ../data-types/checkbox-type.php:265
+#: ../data-types/checkbox-type.php:290
+#: ../data-types/code-editor/code-editor-type.php:142
+#: ../data-types/code-editor/code-editor-type.php:243
+#: ../data-types/colorpicker-type.php:210
+#: ../data-types/colorpicker-type.php:234 ../data-types/datepicker-type.php:227
+#: ../data-types/datepicker-type.php:248 ../data-types/datepicker-type.php:268
+#: ../data-types/fileupload-type.php:216 ../data-types/fileupload-type.php:242
+#: ../data-types/input-text.php:127 ../data-types/input-text.php:185
+#: ../data-types/multi-select-type.php:196
 #: ../data-types/multi-select-type.php:222
-#: ../data-types/radio-buttons-image.php:239
-#: ../data-types/radio-buttons-image.php:264
-#: ../data-types/radio-buttons.php:172 ../data-types/radio-buttons.php:197
-#: ../data-types/select-type.php:156 ../data-types/text-editor.php:109
+#: ../data-types/radio-buttons-image.php:237
+#: ../data-types/radio-buttons-image.php:263
+#: ../data-types/radio-buttons.php:171 ../data-types/radio-buttons.php:197
+#: ../data-types/select-type.php:156 ../data-types/text-editor.php:108
 #: ../data-types/textarea-type.php:122 ../data-types/textarea-type.php:162
-#: ../framework/includes/load-functions.php:903
-#: includes/load-functions.php:903
+#: ../framework/includes/load-functions.php:1075
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:50
+#: ../framework/libs/formsbuilder/templates/page-settings.php:22
+#: includes/load-functions.php:1075
+#: libs/formsbuilder/templates/container-settings-form.php:50
+#: libs/formsbuilder/templates/page-settings.php:22
 msgid "Yes"
 msgstr ""
 
 #: ../data-types/checkbox-bool-type.php:37
-#: ../data-types/checkbox-bool-type.php:180
-#: ../data-types/checkbox-type.php:117 ../data-types/checkbox-type.php:393
-#: ../data-types/colorpicker-type.php:48
-#: ../data-types/colorpicker-type.php:298 ../data-types/data-type.php:154
-#: ../data-types/datepicker-type.php:53 ../data-types/datepicker-type.php:395
-#: ../data-types/fileupload-type.php:50 ../data-types/fileupload-type.php:326
-#: ../data-types/input-text.php:49 ../data-types/multi-select-type.php:77
-#: ../data-types/multi-select-type.php:334
+#: ../data-types/checkbox-bool-type.php:181 ../data-types/checkbox-type.php:117
+#: ../data-types/checkbox-type.php:393 ../data-types/colorpicker-type.php:48
+#: ../data-types/colorpicker-type.php:314 ../data-types/data-type.php:235
+#: ../data-types/datepicker-type.php:53 ../data-types/datepicker-type.php:406
+#: ../data-types/fileupload-type.php:50 ../data-types/fileupload-type.php:322
+#: ../data-types/input-text.php:50 ../data-types/multi-select-type.php:77
+#: ../data-types/multi-select-type.php:336
 #: ../data-types/radio-buttons-image.php:129
-#: ../data-types/radio-buttons-image.php:383
-#: ../data-types/radio-buttons.php:88 ../data-types/radio-buttons.php:313
-#: ../data-types/select-type.php:87 ../data-types/select-type.php:278
-#: ../data-types/textarea-type.php:48 ../data-types/textarea-type.php:228
+#: ../data-types/radio-buttons-image.php:384 ../data-types/radio-buttons.php:88
+#: ../data-types/radio-buttons.php:315 ../data-types/select-type.php:87
+#: ../data-types/select-type.php:280 ../data-types/textarea-type.php:48
+#: ../data-types/textarea-type.php:230
 #: ../framework/includes/extensions-manager/views/admin-home.php:38
 #: ../framework/includes/extensions-manager/views/admin-home.php:66
-#: ../framework/includes/options-builder/views/list-pages.php:61
-#: ../framework/includes/themes-manager/settings-object.php:943
-#: ../framework/includes/themes-manager/views/download.php:141
-#: ../framework/includes/themes-manager/views/download.php:194
-#: ../framework/includes/themes-manager/views/download.php:208
+#: ../framework/includes/options-builder/views/list-pages.php:42
+#: ../framework/includes/themes-manager/settings-object.php:937
+#: ../framework/includes/themes-manager/views/download.php:144
+#: ../framework/includes/themes-manager/views/download.php:202
+#: ../framework/includes/themes-manager/views/download.php:216
+#: ../framework/includes/themes-manager/views/themes-list.php:236
+#: ../framework/includes/themes-manager/views/themes-list.php:353
 #: ../framework/libs/formsbuilder/templates/base-fields.php:9
-#: ../framework/libs/formsbuilder/templates/base-fields.php:28
-#: ../framework/libs/formsbuilder/templates/base-fields.php:47
+#: ../framework/libs/formsbuilder/templates/base-fields.php:29
+#: ../framework/libs/formsbuilder/templates/base-fields.php:49
 #: includes/extensions-manager/views/admin-home.php:38
 #: includes/extensions-manager/views/admin-home.php:66
-#: includes/options-builder/views/list-pages.php:61
-#: includes/themes-manager/settings-object.php:943
-#: includes/themes-manager/views/download.php:141
-#: includes/themes-manager/views/download.php:194
-#: includes/themes-manager/views/download.php:208
+#: includes/options-builder/views/list-pages.php:42
+#: includes/themes-manager/settings-object.php:937
+#: includes/themes-manager/views/download.php:144
+#: includes/themes-manager/views/download.php:202
+#: includes/themes-manager/views/download.php:216
+#: includes/themes-manager/views/themes-list.php:236
+#: includes/themes-manager/views/themes-list.php:353
 #: libs/formsbuilder/templates/base-fields.php:9
-#: libs/formsbuilder/templates/base-fields.php:28
-#: libs/formsbuilder/templates/base-fields.php:47
+#: libs/formsbuilder/templates/base-fields.php:29
+#: libs/formsbuilder/templates/base-fields.php:49
 msgid "Delete"
 msgstr ""
 
@@ -86,242 +94,374 @@ msgstr ""
 msgid "Checked"
 msgstr ""
 
-#: ../data-types/checkbox-bool-type.php:97 ../data-types/checkbox-type.php:283
-#: ../data-types/colorpicker-type.php:211
-#: ../data-types/datepicker-type.php:250 ../data-types/fileupload-type.php:239
-#: ../data-types/input-text.php:175 ../data-types/multi-select-type.php:213
-#: ../data-types/radio-buttons-image.php:255
+#: ../data-types/checkbox-bool-type.php:96 ../data-types/checkbox-type.php:281
+#: ../data-types/colorpicker-type.php:225 ../data-types/datepicker-type.php:259
+#: ../data-types/fileupload-type.php:233 ../data-types/input-text.php:176
+#: ../data-types/multi-select-type.php:213
+#: ../data-types/radio-buttons-image.php:254
 #: ../data-types/radio-buttons.php:188 ../data-types/select-type.php:147
 #: ../data-types/textarea-type.php:153 ../framework/translations-js.php:32
 #: translations-js.php:32
 msgid "Repeating"
 msgstr ""
 
-#: ../data-types/checkbox-bool-type.php:108
-#: ../data-types/checkbox-type.php:294 ../data-types/colorpicker-type.php:222
-#: ../data-types/datepicker-type.php:261 ../data-types/fileupload-type.php:250
-#: ../data-types/input-text.php:186 ../data-types/multi-select-type.php:224
-#: ../data-types/radio-buttons-image.php:266
+#: ../data-types/checkbox-bool-type.php:107 ../data-types/checkbox-type.php:292
+#: ../data-types/colorpicker-type.php:236 ../data-types/datepicker-type.php:270
+#: ../data-types/fileupload-type.php:244 ../data-types/input-text.php:187
+#: ../data-types/multi-select-type.php:224
+#: ../data-types/radio-buttons-image.php:265
 #: ../data-types/radio-buttons.php:199 ../data-types/select-type.php:158
 #: ../data-types/textarea-type.php:164
 msgid "Can this field repeat with multiple values?"
 msgstr ""
 
-#: ../data-types/checkbox-bool-type.php:136
+#: ../data-types/checkbox-bool-type.php:137
 msgid "Checkbox (true / false)"
 msgstr ""
 
-#: ../data-types/checkbox-bool-type.php:156
-#: ../data-types/checkbox-type.php:363 ../data-types/colorpicker-type.php:270
-#: ../data-types/datepicker-type.php:367 ../data-types/fileupload-type.php:297
-#: ../data-types/multi-select-type.php:294
-#: ../data-types/radio-buttons-image.php:349
-#: ../data-types/radio-buttons.php:279 ../data-types/textarea-type.php:201
+#: ../data-types/checkbox-bool-type.php:157 ../data-types/checkbox-type.php:363
+#: ../data-types/colorpicker-type.php:286 ../data-types/datepicker-type.php:378
+#: ../data-types/fileupload-type.php:293
+#: ../data-types/multi-select-type.php:296
+#: ../data-types/radio-buttons-image.php:350
+#: ../data-types/radio-buttons.php:281 ../data-types/textarea-type.php:203
 msgid "Add Field"
 msgstr ""
 
-#: ../data-types/checkbox-type.php:242
-#: ../data-types/code-editor/code-editor-type.php:135
-#: ../data-types/colorpicker-type.php:175
-#: ../data-types/datepicker-type.php:158 ../data-types/fileupload-type.php:198
-#: ../data-types/input-text.php:103 ../data-types/multi-select-type.php:171
-#: ../data-types/radio-buttons-image.php:213
+#: ../data-types/checkbox-type.php:240
+#: ../data-types/code-editor/code-editor-type.php:117
+#: ../data-types/colorpicker-type.php:188 ../data-types/datepicker-type.php:167
+#: ../data-types/fileupload-type.php:192 ../data-types/input-text.php:105
+#: ../data-types/multi-select-type.php:171
+#: ../data-types/radio-buttons-image.php:212
 #: ../data-types/radio-buttons.php:146 ../data-types/select-type.php:131
-#: ../data-types/text-editor.php:83 ../data-types/textarea-type.php:96
+#: ../data-types/text-editor.php:83 ../data-types/textarea-type.php:97
 msgid "Values"
 msgstr ""
 
-#: ../data-types/checkbox-type.php:257
-#: ../data-types/code-editor/code-editor-type.php:150
-#: ../data-types/colorpicker-type.php:186
-#: ../data-types/datepicker-type.php:178 ../data-types/fileupload-type.php:212
-#: ../data-types/input-text.php:114 ../data-types/multi-select-type.php:186
-#: ../data-types/radio-buttons-image.php:228
-#: ../data-types/radio-buttons.php:161 ../data-types/text-editor.php:98
+#: ../data-types/checkbox-type.php:254
+#: ../data-types/code-editor/code-editor-type.php:131
+#: ../data-types/colorpicker-type.php:199 ../data-types/datepicker-type.php:188
+#: ../data-types/fileupload-type.php:205 ../data-types/input-text.php:116
+#: ../data-types/multi-select-type.php:185
+#: ../data-types/radio-buttons-image.php:226
+#: ../data-types/radio-buttons.php:160 ../data-types/text-editor.php:97
 #: ../data-types/textarea-type.php:111
 #: ../framework/includes/themes-manager/admin.php:6
-#: ../framework/includes/themes-manager/views/theme-conf.php:21
+#: ../framework/includes/themes-manager/views/theme-conf.php:32
 #: includes/themes-manager/admin.php:6
-#: includes/themes-manager/views/theme-conf.php:21
+#: includes/themes-manager/views/theme-conf.php:32
 msgid "Required"
 msgstr ""
 
-#: ../data-types/checkbox-type.php:271
-#: ../data-types/code-editor/code-editor-type.php:164
-#: ../data-types/colorpicker-type.php:200
-#: ../data-types/datepicker-type.php:192 ../data-types/fileupload-type.php:226
-#: ../data-types/input-text.php:128 ../data-types/multi-select-type.php:200
-#: ../data-types/radio-buttons-image.php:242
-#: ../data-types/radio-buttons.php:175 ../data-types/text-editor.php:112
+#: ../data-types/checkbox-type.php:268
+#: ../data-types/code-editor/code-editor-type.php:145
+#: ../data-types/colorpicker-type.php:213 ../data-types/datepicker-type.php:202
+#: ../data-types/fileupload-type.php:219 ../data-types/input-text.php:130
+#: ../data-types/multi-select-type.php:199
+#: ../data-types/radio-buttons-image.php:240
+#: ../data-types/radio-buttons.php:174 ../data-types/text-editor.php:111
 #: ../data-types/textarea-type.php:125
 msgid "Is this a required field?"
 msgstr ""
 
-#: ../data-types/checkbox-type.php:275
-#: ../data-types/code-editor/code-editor-type.php:168
-#: ../data-types/colorpicker-type.php:204
-#: ../data-types/datepicker-type.php:196 ../data-types/fileupload-type.php:230
-#: ../data-types/input-text.php:132 ../data-types/multi-select-type.php:204
-#: ../data-types/radio-buttons-image.php:246
-#: ../data-types/radio-buttons.php:179 ../data-types/text-editor.php:116
+#: ../data-types/checkbox-type.php:272
+#: ../data-types/code-editor/code-editor-type.php:149
+#: ../data-types/colorpicker-type.php:217 ../data-types/datepicker-type.php:206
+#: ../data-types/fileupload-type.php:223 ../data-types/input-text.php:134
+#: ../data-types/multi-select-type.php:203
+#: ../data-types/radio-buttons-image.php:244
+#: ../data-types/radio-buttons.php:178 ../data-types/text-editor.php:115
 #: ../data-types/textarea-type.php:129
-msgid "Optional. Enter a custom error message"
+msgid "Optional. Enter a custom error message."
 msgstr ""
 
 #: ../data-types/checkbox-type.php:310
 msgid "Checkbox List"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:176
-#: ../data-types/range-slider/range-slider-type.php:169
-#: ../data-types/textarea-type.php:137
+#: ../data-types/code-editor/code-editor-type.php:158
+#: ../data-types/font-select/font-select-type.php:368
+#: ../data-types/range-slider/range-slider-type.php:143
+#: ../data-types/textarea-type.php:138
 msgid "CSS Class"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:191
+#: ../data-types/code-editor/code-editor-type.php:172
 msgid "Width"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:206
+#: ../data-types/code-editor/code-editor-type.php:186
 msgid "Height"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:221
+#: ../data-types/code-editor/code-editor-type.php:200
 msgid "Code editor type"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:227
-#: ../data-types/datepicker-type.php:143 ../framework/translations-js.php:34
+#: ../data-types/code-editor/code-editor-type.php:206
+#: ../data-types/datepicker-type.php:152 ../framework/translations-js.php:34
 #: translations-js.php:34
 msgid "Default"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:228
+#: ../data-types/code-editor/code-editor-type.php:207
 msgid "ACE"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:236
+#: ../data-types/code-editor/code-editor-type.php:216
 msgid "Editor language"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:251
+#: ../data-types/code-editor/code-editor-type.php:232
 msgid "Enable Vim keys"
 msgstr ""
 
-#: ../data-types/code-editor/code-editor-type.php:280
+#: ../data-types/code-editor/code-editor-type.php:263
 msgid "Code editor"
 msgstr ""
 
-#: ../data-types/colorpicker-type.php:247
+#: ../data-types/colorpicker-type.php:263
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:66
+#: libs/formsbuilder/templates/field-settings-form.php:66
 msgid "Colorpicker"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:138 ../framework/translations-js.php:30
+#: ../data-types/data-type.php:152
+msgid "Conditional Display"
+msgstr ""
+
+#: ../data-types/data-type.php:153
+msgid ""
+"Use the value of another option to conditionally show or hide this option."
+msgstr ""
+
+#: ../data-types/data-type.php:158
+msgid "Control alias"
+msgstr ""
+
+#: ../data-types/data-type.php:162
+msgid "Alias of the control option."
+msgstr ""
+
+#: ../data-types/data-type.php:168
+msgid "Control value"
+msgstr ""
+
+#: ../data-types/data-type.php:172
+msgid "Value of the control option to trigger display."
+msgstr ""
+
+#: ../data-types/data-type.php:178
+msgid "Display action"
+msgstr ""
+
+#: ../data-types/data-type.php:182 ../data-types/data-type.php:185
+msgid "Show"
+msgstr ""
+
+#: ../data-types/data-type.php:183 ../data-types/data-type.php:186
+msgid "Hide"
+msgstr ""
+
+#: ../data-types/data-type.php:188
+msgid "The action triggered by the conditional value."
+msgstr ""
+
+#: ../data-types/datepicker-type.php:147 ../framework/translations-js.php:30
 #: translations-js.php:30
 msgid "Date format"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:145
+#: ../data-types/datepicker-type.php:154
 msgid "Short"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:146
+#: ../data-types/datepicker-type.php:155
 msgid "Medium"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:147
+#: ../data-types/datepicker-type.php:156
 msgid "Full"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:148
+#: ../data-types/datepicker-type.php:157
 msgid "With text"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:148 ../data-types/datepicker-type.php:295
-#: ../data-types/datepicker-type.php:302
+#: ../data-types/datepicker-type.php:157 ../data-types/datepicker-type.php:306
+#: ../data-types/datepicker-type.php:313
 msgid "day"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:148 ../data-types/datepicker-type.php:296
-#: ../data-types/datepicker-type.php:302
-#: ../framework/includes/dashboard/views/credits.php:25
-#: includes/dashboard/views/credits.php:25
+#: ../data-types/datepicker-type.php:157 ../data-types/datepicker-type.php:307
+#: ../data-types/datepicker-type.php:313
+#: ../framework/includes/dashboard/views/credits.php:26
+#: includes/dashboard/views/credits.php:26
 msgid "of"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:148 ../data-types/datepicker-type.php:297
-#: ../data-types/datepicker-type.php:302 ../data-types/datepicker-type.php:308
+#: ../data-types/datepicker-type.php:157 ../data-types/datepicker-type.php:308
+#: ../data-types/datepicker-type.php:313 ../data-types/datepicker-type.php:319
 msgid "in the year"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:170
-msgid "You can input default value respectively with selected in format field"
+#: ../data-types/datepicker-type.php:179
+msgid "You can input default value respectively with selected in format field."
 msgstr ""
 
-#: ../data-types/datepicker-type.php:204
+#: ../data-types/datepicker-type.php:215
 msgid "Month changer"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:227
+#: ../data-types/datepicker-type.php:237
 msgid "Year changer"
 msgstr ""
 
-#: ../data-types/datepicker-type.php:289
+#: ../data-types/datepicker-type.php:300
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:67
+#: libs/formsbuilder/templates/field-settings-form.php:67
 msgid "Datepicker"
 msgstr ""
 
 #: ../data-types/fileupload-type.php:48 ../data-types/fileupload-type.php:61
-#: ../data-types/fileupload-type.php:131
+#: ../data-types/fileupload-type.php:128
 msgid "Select File"
 msgstr ""
 
-#: ../data-types/fileupload-type.php:278
+#: ../data-types/fileupload-type.php:274
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:65
+#: libs/formsbuilder/templates/field-settings-form.php:65
 msgid "File upload"
 msgstr ""
 
-#: ../data-types/input-text.php:138
+#: ../data-types/font-select/font-select-type.php:109
+msgid "Edit Font Options"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:116
+msgid "Preview text"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:119
+msgid "Preview Test"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:120
+msgid "Preview text."
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:129
+#: ../data-types/font-select/font-select-type.php:379
+msgid "Family"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:138
+msgid "Open Sans"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:147
+msgid "Style"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:151
+msgid "Normal"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:152
+msgid "Italic"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:160
+#: ../data-types/font-select/font-select-type.php:389
+msgid "Weight"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:164
+#: ../data-types/font-select/font-select-type.php:393
+msgid "normal, bold, 300, 600, 800"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:171
+#: ../data-types/font-select/font-select-type.php:400
+msgid "Size"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:175
+#: ../data-types/font-select/font-select-type.php:404
+msgid "12, 24px, 1em, 1.75"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:182
+msgid "Color"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:192
+msgid "Close"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:193
+#: ../framework/includes/themes-manager/views/themes-list.php:31
+#: ../framework/includes/themes-manager/views/themes-list.php:77
+#: ../framework/includes/themes-manager/views/themes-list.php:93
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: includes/themes-manager/views/themes-list.php:31
+#: includes/themes-manager/views/themes-list.php:77
+#: includes/themes-manager/views/themes-list.php:93
+#: libs/formsbuilder/builderview.php:60
+msgid "Cancel"
+msgstr ""
+
+#: ../data-types/font-select/font-select-type.php:429
+msgid "Font select"
+msgstr ""
+
+#: ../data-types/input-text.php:140
 msgid "Validation"
 msgstr ""
 
-#: ../data-types/input-text.php:144
+#: ../data-types/input-text.php:146
 msgid "None"
 msgstr ""
 
-#: ../data-types/input-text.php:145
+#: ../data-types/input-text.php:147
 msgid "Url"
 msgstr ""
 
-#: ../data-types/input-text.php:146
+#: ../data-types/input-text.php:148
 msgid "Email"
 msgstr ""
 
-#: ../data-types/input-text.php:147
+#: ../data-types/input-text.php:149
 msgid "Alpha"
 msgstr ""
 
-#: ../data-types/input-text.php:148
+#: ../data-types/input-text.php:150
 msgid "Alpha num"
 msgstr ""
 
-#: ../data-types/input-text.php:149
+#: ../data-types/input-text.php:151
 msgid "Numeric"
 msgstr ""
 
-#: ../data-types/input-text.php:160
-msgid "Validation error message"
+#: ../data-types/input-text.php:167
+msgid "Optional. Validation error message."
 msgstr ""
 
-#: ../data-types/input-text.php:202
+#: ../data-types/input-text.php:205
 msgid "Input text"
 msgstr ""
 
 #: ../data-types/multi-select-type.php:66
 #: ../data-types/multi-select-type.php:106
-#: ../data-types/multi-select-type.php:318
+#: ../data-types/multi-select-type.php:320 ../framework/libs/Html.php:472
+#: libs/Html.php:472
 msgid "No value"
 msgstr ""
 
-#: ../data-types/multi-select-type.php:240
+#: ../data-types/multi-select-type.php:242
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:64
+#: libs/formsbuilder/templates/field-settings-form.php:64
 msgid "Multiselect"
 msgstr ""
 
@@ -333,119 +473,134 @@ msgstr ""
 msgid "Real size"
 msgstr ""
 
-#: ../data-types/radio-buttons-image.php:297
+#: ../data-types/radio-buttons-image.php:298
 msgid "INSERT LINK TO IMAGE"
 msgstr ""
 
-#: ../data-types/radio-buttons.php:226
+#: ../data-types/radio-buttons.php:228
 #: ../framework/includes/dashboard/views/getting-started.php:57
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:61
 #: includes/dashboard/views/getting-started.php:57
+#: libs/formsbuilder/templates/field-settings-form.php:61
 msgid "Radio buttons"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:184
+#: ../data-types/range-slider/range-slider-type.php:157
 msgid "Start"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:191
-msgid "Set second field empty for one-handle slider"
+#: ../data-types/range-slider/range-slider-type.php:162
+msgid "First handle start position."
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:197
+#: ../data-types/range-slider/range-slider-type.php:164
+msgid "Second handle start position. (optional)"
+msgstr ""
+
+#: ../data-types/range-slider/range-slider-type.php:171
 msgid "Range min"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:207
+#: ../data-types/range-slider/range-slider-type.php:182
 msgid "Range max"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:217
+#: ../data-types/range-slider/range-slider-type.php:193
 msgid "Connect"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:221
+#: ../data-types/range-slider/range-slider-type.php:197
 msgid "False"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:222
+#: ../data-types/range-slider/range-slider-type.php:198
 msgid "True"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:229
+#: ../data-types/range-slider/range-slider-type.php:206
 msgid "Margin"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:234
+#: ../data-types/range-slider/range-slider-type.php:211
 msgid ""
 "When using two handles, the minimum distance between the handles can be set "
 "using the margin option"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:240
+#: ../data-types/range-slider/range-slider-type.php:218
 msgid "Step"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:250
+#: ../data-types/range-slider/range-slider-type.php:229
 msgid "Orientation"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:254
+#: ../data-types/range-slider/range-slider-type.php:233
 msgid "Horizontal"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:255
+#: ../data-types/range-slider/range-slider-type.php:234
 msgid "Vertical"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:262
+#: ../data-types/range-slider/range-slider-type.php:242
 msgid "Direction"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:266
+#: ../data-types/range-slider/range-slider-type.php:246
 msgid "Left-to-right"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:267
+#: ../data-types/range-slider/range-slider-type.php:247
 msgid "Right-to-left"
 msgstr ""
 
-#: ../data-types/range-slider/range-slider-type.php:284
+#: ../data-types/range-slider/range-slider-type.php:266
 msgid "Range slider"
 msgstr ""
 
-#: ../data-types/select-type.php:185
+#: ../data-types/select-type.php:137
+#, php-format
+msgid "Enter options in the format: %s key=>value %s"
+msgstr ""
+
+#: ../data-types/select-type.php:187
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:63
+#: libs/formsbuilder/templates/field-settings-form.php:63
 msgid "Select"
 msgstr ""
 
-#: ../data-types/text-editor.php:146
+#: ../data-types/text-editor.php:147
 msgid "Text editor"
 msgstr ""
 
-#: ../data-types/textarea-type.php:180
+#: ../data-types/textarea-type.php:182
 #: ../framework/includes/dashboard/views/getting-started.php:57
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:58
 #: includes/dashboard/views/getting-started.php:57
+#: libs/formsbuilder/templates/field-settings-form.php:58
 msgid "Textarea"
 msgstr ""
 
 #: ../framework/core/admin-object.php:38
-#: ../framework/libs/formsbuilder/builderview.php:93 core/admin-object.php:38
-#: libs/formsbuilder/builderview.php:93
+#: ../framework/libs/formsbuilder/builderview.php:72 core/admin-object.php:38
+#: libs/formsbuilder/builderview.php:72
 msgid "Options"
 msgstr ""
 
-#: ../framework/core/admin-object.php:536 core/admin-object.php:536
+#: ../framework/core/admin-object.php:538 core/admin-object.php:538
 msgid "Someting has gone awry. Sorry."
 msgstr ""
 
-#: ../framework/core/admin-object.php:591 core/admin-object.php:591
+#: ../framework/core/admin-object.php:593 core/admin-object.php:593
 msgid "Saved!"
 msgstr ""
 
-#: ../framework/core/admin-object.php:598 core/admin-object.php:598
+#: ../framework/core/admin-object.php:600 core/admin-object.php:600
 msgid "Deleted!"
 msgstr ""
 
-#: ../framework/core/admin-object.php:1161 core/admin-object.php:1161
+#: ../framework/core/admin-object.php:1163 core/admin-object.php:1163
 msgid "Are you sure you want to delete?"
 msgstr ""
 
@@ -488,39 +643,33 @@ msgstr ""
 msgid "Welcome to Runway"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:15
-#: includes/dashboard/admin.php:15
+#: ../framework/includes/dashboard/admin.php:15 includes/dashboard/admin.php:15
 msgid ""
 "A better way to create WordPress themes. Runway is a powerful development "
 "environment for making awesome themes"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:24
-#: includes/dashboard/admin.php:24
+#: ../framework/includes/dashboard/admin.php:24 includes/dashboard/admin.php:24
 msgid "Getting Started"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:24
-#: includes/dashboard/admin.php:24
+#: ../framework/includes/dashboard/admin.php:24 includes/dashboard/admin.php:24
 msgid "Help"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:24
-#: includes/dashboard/admin.php:24
+#: ../framework/includes/dashboard/admin.php:24 includes/dashboard/admin.php:24
 msgid "Support"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:24
-#: includes/dashboard/admin.php:24
+#: ../framework/includes/dashboard/admin.php:24 includes/dashboard/admin.php:24
 msgid "Release Notes"
 msgstr ""
 
-#: ../framework/includes/dashboard/admin.php:24
-#: includes/dashboard/admin.php:24
+#: ../framework/includes/dashboard/admin.php:24 includes/dashboard/admin.php:24
 msgid "Credits"
 msgstr ""
 
-#: ../framework/includes/dashboard/load.php:29 includes/dashboard/load.php:29
+#: ../framework/includes/dashboard/load.php:26 includes/dashboard/load.php:26
 msgid "Dashboard"
 msgstr ""
 
@@ -534,12 +683,12 @@ msgstr ""
 
 #: ../framework/includes/dashboard/views/credits.php:9
 #: includes/dashboard/views/credits.php:9
-msgid "Achievement count (from hight to low)"
+msgid "Achievement count (from high to low)"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/credits.php:10
 #: includes/dashboard/views/credits.php:10
-msgid "Achievement count (from low to hight)"
+msgid "Achievement count (from low to high)"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/credits.php:11
@@ -552,10 +701,10 @@ msgstr ""
 msgid "Name (Z-A)"
 msgstr ""
 
-#: ../framework/includes/dashboard/views/credits.php:20
+#: ../framework/includes/dashboard/views/credits.php:21
 #: ../framework/includes/download-directory/views/browse.php:36
 #: ../framework/includes/download-directory/views/browse.php:126
-#: includes/dashboard/views/credits.php:20
+#: includes/dashboard/views/credits.php:21
 #: includes/download-directory/views/browse.php:36
 #: includes/download-directory/views/browse.php:126
 msgid "items"
@@ -592,9 +741,9 @@ msgid "and click"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:11
-#: ../framework/includes/themes-manager/load.php:61
+#: ../framework/includes/themes-manager/load.php:70
 #: includes/dashboard/views/getting-started.php:11
-#: includes/themes-manager/load.php:61
+#: includes/themes-manager/load.php:70
 msgid "New Theme"
 msgstr ""
 
@@ -694,7 +843,9 @@ msgid "Input types include:"
 msgstr ""
 
 #: ../framework/includes/dashboard/views/getting-started.php:57
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:57
 #: includes/dashboard/views/getting-started.php:57
+#: libs/formsbuilder/templates/field-settings-form.php:57
 msgid "Text input"
 msgstr ""
 
@@ -926,52 +1077,127 @@ msgstr ""
 msgid "Runway Framework on Github"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:28
-#: includes/download-directory/load.php:28
-msgid "Directory"
+#: ../framework/includes/download-directory/admin.php:78
+#: includes/download-directory/admin.php:78
+msgid "Theme has been downloaded"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:71
-#: ../framework/includes/download-directory/load.php:72
-#: ../framework/includes/download-directory/load.php:79
-#: ../framework/includes/download-directory/load.php:80
-#: includes/download-directory/load.php:71
-#: includes/download-directory/load.php:72
-#: includes/download-directory/load.php:79
-#: includes/download-directory/load.php:80
+#: ../framework/includes/download-directory/load.php:28
+#: includes/download-directory/load.php:28
+msgid "Add-ons"
+msgstr ""
+
+#: ../framework/includes/download-directory/load.php:74
+#: ../framework/includes/download-directory/load.php:75
+#: ../framework/includes/download-directory/load.php:82
+#: ../framework/includes/download-directory/load.php:83
+#: includes/download-directory/load.php:74
+#: includes/download-directory/load.php:75
+#: includes/download-directory/load.php:82
+#: includes/download-directory/load.php:83
 msgid "Downloads directory"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:71
-#: ../framework/includes/options-builder/load.php:94
-#: includes/download-directory/load.php:71
-#: includes/options-builder/load.php:94
+#: ../framework/includes/download-directory/load.php:74
+#: ../framework/includes/options-builder/load.php:92
+#: includes/download-directory/load.php:74 includes/options-builder/load.php:92
 msgid "is exists"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:72
-#: ../framework/includes/options-builder/load.php:95
-#: includes/download-directory/load.php:72
-#: includes/options-builder/load.php:95
+#: ../framework/includes/download-directory/load.php:75
+#: ../framework/includes/options-builder/load.php:93
+#: includes/download-directory/load.php:75 includes/options-builder/load.php:93
 msgid "is not exists"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:79
+#: ../framework/includes/download-directory/load.php:82
 #: ../framework/includes/extensions-manager/load.php:75
-#: ../framework/includes/options-builder/load.php:102
-#: includes/download-directory/load.php:79
+#: ../framework/includes/options-builder/load.php:100
+#: includes/download-directory/load.php:82
 #: includes/extensions-manager/load.php:75
-#: includes/options-builder/load.php:102
+#: includes/options-builder/load.php:100
 msgid "is writable"
 msgstr ""
 
-#: ../framework/includes/download-directory/load.php:80
+#: ../framework/includes/download-directory/load.php:83
 #: ../framework/includes/extensions-manager/load.php:76
-#: ../framework/includes/options-builder/load.php:103
-#: includes/download-directory/load.php:80
+#: ../framework/includes/options-builder/load.php:101
+#: includes/download-directory/load.php:83
 #: includes/extensions-manager/load.php:76
-#: includes/options-builder/load.php:103
+#: includes/options-builder/load.php:101
 msgid "is not writable"
+msgstr ""
+
+#: ../framework/includes/download-directory/settings-object.php:100
+#: includes/download-directory/settings-object.php:100
+msgid "File <b>"
+msgstr ""
+
+#: ../framework/includes/download-directory/settings-object.php:100
+#: includes/download-directory/settings-object.php:100
+msgid "not found on server"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:74
+#: includes/download-directory/views/add-ons.php:74
+msgid "Themes"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:75
+#: ../framework/includes/extensions-manager/load.php:24
+#: ../framework/includes/theme-updater/settings-object.php:490
+#: includes/download-directory/views/add-ons.php:75
+#: includes/extensions-manager/load.php:24
+#: includes/theme-updater/settings-object.php:490
+msgid "Extensions"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:76
+#: includes/download-directory/views/add-ons.php:76
+msgid "Plugins"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:82
+#: includes/download-directory/views/add-ons.php:82
+msgid "Search "
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:110
+#: ../framework/includes/download-directory/views/add-ons.php:141
+#: ../framework/includes/themes-manager/load.php:70
+#: includes/download-directory/views/add-ons.php:110
+#: includes/download-directory/views/add-ons.php:141
+#: includes/themes-manager/load.php:70
+msgid "Install"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:118
+#: includes/download-directory/views/add-ons.php:118
+msgid "Install child theme"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:121
+#: includes/download-directory/views/add-ons.php:121
+msgid "Install standalone theme"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:125
+#: includes/download-directory/views/add-ons.php:125
+msgid "Download full theme package"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:132
+#: ../framework/includes/download-directory/views/add-ons.php:152
+#: ../framework/includes/download-directory/views/browse.php:94
+#: includes/download-directory/views/add-ons.php:132
+#: includes/download-directory/views/add-ons.php:152
+#: includes/download-directory/views/browse.php:94
+msgid "Details"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/add-ons.php:139
+#: includes/download-directory/views/add-ons.php:139
+msgid "Installed"
 msgstr ""
 
 #: ../framework/includes/download-directory/views/browse.php:18
@@ -1061,16 +1287,16 @@ msgstr ""
 #: ../framework/includes/download-directory/views/search.php:5
 #: ../framework/includes/download-directory/views/search.php:33
 #: ../framework/includes/extensions-manager/views/admin-home.php:77
-#: ../framework/includes/themes-manager/settings-object.php:907
-#: ../framework/includes/themes-manager/views/theme-conf.php:126
+#: ../framework/includes/themes-manager/settings-object.php:890
+#: ../framework/includes/themes-manager/views/theme-conf.php:121
 #: includes/download-directory/views/browse.php:80
 #: includes/download-directory/views/browse.php:100
 #: includes/download-directory/views/browse.php:117
 #: includes/download-directory/views/search.php:5
 #: includes/download-directory/views/search.php:33
 #: includes/extensions-manager/views/admin-home.php:77
-#: includes/themes-manager/settings-object.php:907
-#: includes/themes-manager/views/theme-conf.php:126
+#: includes/themes-manager/settings-object.php:890
+#: includes/themes-manager/views/theme-conf.php:121
 msgid "Version"
 msgstr ""
 
@@ -1079,30 +1305,25 @@ msgstr ""
 #: ../framework/includes/download-directory/views/search.php:6
 #: ../framework/includes/download-directory/views/search.php:34
 #: ../framework/includes/extensions-manager/views/admin-home.php:49
-#: ../framework/includes/options-builder/views/list-pages.php:29
-#: ../framework/includes/options-builder/views/list-pages.php:82
-#: ../framework/includes/themes-manager/views/theme-conf.php:115
-#: ../framework/libs/formsbuilder/templates/page-settings.php:107
+#: ../framework/includes/options-builder/views/list-pages.php:10
+#: ../framework/includes/options-builder/views/list-pages.php:65
+#: ../framework/includes/themes-manager/views/theme-conf.php:110
+#: ../framework/libs/formsbuilder/templates/page-settings.php:111
 #: includes/download-directory/views/browse.php:81
 #: includes/download-directory/views/browse.php:118
 #: includes/download-directory/views/search.php:6
 #: includes/download-directory/views/search.php:34
 #: includes/extensions-manager/views/admin-home.php:49
-#: includes/options-builder/views/list-pages.php:29
-#: includes/options-builder/views/list-pages.php:82
-#: includes/themes-manager/views/theme-conf.php:115
-#: libs/formsbuilder/templates/page-settings.php:107
+#: includes/options-builder/views/list-pages.php:10
+#: includes/options-builder/views/list-pages.php:65
+#: includes/themes-manager/views/theme-conf.php:110
+#: libs/formsbuilder/templates/page-settings.php:111
 msgid "Description"
 msgstr ""
 
 #: ../framework/includes/download-directory/views/browse.php:94
 #: includes/download-directory/views/browse.php:94
 msgid "More information"
-msgstr ""
-
-#: ../framework/includes/download-directory/views/browse.php:94
-#: includes/download-directory/views/browse.php:94
-msgid "Details"
 msgstr ""
 
 #: ../framework/includes/download-directory/views/browse.php:95
@@ -1132,6 +1353,11 @@ msgstr ""
 #: includes/download-directory/views/browse.php:110
 #: includes/extensions-manager/views/admin-home.php:129
 msgid "Extensions not found"
+msgstr ""
+
+#: ../framework/includes/download-directory/views/error-msg.php:3
+#: includes/download-directory/views/error-msg.php:3
+msgid "Unknown"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/admin.php:13
@@ -1169,12 +1395,12 @@ msgstr ""
 #: ../framework/includes/extensions-manager/admin.php:57
 #: ../framework/includes/extensions-manager/admin.php:110
 #: ../framework/includes/extensions-manager/admin.php:193
-#: ../framework/includes/extensions-manager/settings-object.php:530
+#: ../framework/includes/extensions-manager/settings-object.php:534
 #: includes/extensions-manager/admin.php:44
 #: includes/extensions-manager/admin.php:57
 #: includes/extensions-manager/admin.php:110
 #: includes/extensions-manager/admin.php:193
-#: includes/extensions-manager/settings-object.php:530
+#: includes/extensions-manager/settings-object.php:534
 msgid "ERROR"
 msgstr ""
 
@@ -1222,13 +1448,6 @@ msgstr ""
 msgid "Please, select the action"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/load.php:24
-#: ../framework/includes/theme-updater/settings-object.php:444
-#: includes/extensions-manager/load.php:24
-#: includes/theme-updater/settings-object.php:444
-msgid "Extensions"
-msgstr ""
-
 #: ../framework/includes/extensions-manager/load.php:52
 #: ../framework/includes/extensions-manager/views/add-extension.php:5
 #: includes/extensions-manager/load.php:52
@@ -1263,10 +1482,10 @@ msgid "Extension deactivated"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/settings-object.php:258
-#: ../framework/includes/extensions-manager/settings-object.php:516
+#: ../framework/includes/extensions-manager/settings-object.php:520
 #: ../framework/includes/extensions-manager/views/admin-home.php:48
 #: includes/extensions-manager/settings-object.php:258
-#: includes/extensions-manager/settings-object.php:516
+#: includes/extensions-manager/settings-object.php:520
 #: includes/extensions-manager/views/admin-home.php:48
 msgid "Extension"
 msgstr ""
@@ -1293,47 +1512,47 @@ msgstr ""
 msgid "Extension was deleted"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:507
-#: ../framework/includes/extensions-manager/settings-object.php:519
-#: ../framework/includes/extensions-manager/settings-object.php:552
-#: includes/extensions-manager/settings-object.php:507
-#: includes/extensions-manager/settings-object.php:519
-#: includes/extensions-manager/settings-object.php:552
+#: ../framework/includes/extensions-manager/settings-object.php:511
+#: ../framework/includes/extensions-manager/settings-object.php:523
+#: ../framework/includes/extensions-manager/settings-object.php:556
+#: includes/extensions-manager/settings-object.php:511
+#: includes/extensions-manager/settings-object.php:523
+#: includes/extensions-manager/settings-object.php:556
 msgid "Install error"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:516
-#: includes/extensions-manager/settings-object.php:516
-msgid "has been installed. Do you want to activate it"
+#: ../framework/includes/extensions-manager/settings-object.php:520
+#: includes/extensions-manager/settings-object.php:520
+msgid "has been installed. Do you want to activate it? "
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:516
-#: includes/extensions-manager/settings-object.php:516
-msgid "activate it"
+#: ../framework/includes/extensions-manager/settings-object.php:520
+#: includes/extensions-manager/settings-object.php:520
+msgid "Activate it"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:524
-#: includes/extensions-manager/settings-object.php:524
+#: ../framework/includes/extensions-manager/settings-object.php:528
+#: includes/extensions-manager/settings-object.php:528
 msgid "Extensions directory must be writable"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:544
-#: includes/extensions-manager/settings-object.php:544
+#: ../framework/includes/extensions-manager/settings-object.php:548
+#: includes/extensions-manager/settings-object.php:548
 msgid "Extension has already installed"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:549
-#: includes/extensions-manager/settings-object.php:549
+#: ../framework/includes/extensions-manager/settings-object.php:553
+#: includes/extensions-manager/settings-object.php:553
 msgid "The extension"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:549
-#: includes/extensions-manager/settings-object.php:549
+#: ../framework/includes/extensions-manager/settings-object.php:553
+#: includes/extensions-manager/settings-object.php:553
 msgid "installed successfully. Would you like to"
 msgstr ""
 
-#: ../framework/includes/extensions-manager/settings-object.php:549
-#: includes/extensions-manager/settings-object.php:549
+#: ../framework/includes/extensions-manager/settings-object.php:553
+#: includes/extensions-manager/settings-object.php:553
 msgid "activate it now"
 msgstr ""
 
@@ -1355,7 +1574,8 @@ msgid "Plugin zip file"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:22
-#: includes/extensions-manager/views/admin-home.php:22
+#: ../framework/translations-js.php:43
+#: includes/extensions-manager/views/admin-home.php:22 translations-js.php:43
 msgid "All"
 msgstr ""
 
@@ -1365,7 +1585,9 @@ msgid "Inactive"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:27
+#: ../framework/includes/extensions-manager/views/admin-home.php:29
 #: includes/extensions-manager/views/admin-home.php:27
+#: includes/extensions-manager/views/admin-home.php:29
 msgid "Search Extensions"
 msgstr ""
 
@@ -1376,12 +1598,18 @@ msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:36
 #: ../framework/includes/extensions-manager/views/admin-home.php:65
-#: ../framework/includes/themes-manager/settings-object.php:935
-#: ../framework/includes/themes-manager/views/themes-list.php:91
+#: ../framework/includes/themes-manager/settings-object.php:929
+#: ../framework/includes/themes-manager/views/themes-list.php:76
+#: ../framework/includes/themes-manager/views/themes-list.php:203
+#: ../framework/includes/themes-manager/views/themes-list.php:215
+#: ../framework/includes/themes-manager/views/themes-list.php:346
 #: includes/extensions-manager/views/admin-home.php:36
 #: includes/extensions-manager/views/admin-home.php:65
-#: includes/themes-manager/settings-object.php:935
-#: includes/themes-manager/views/themes-list.php:91
+#: includes/themes-manager/settings-object.php:929
+#: includes/themes-manager/views/themes-list.php:76
+#: includes/themes-manager/views/themes-list.php:203
+#: includes/themes-manager/views/themes-list.php:215
+#: includes/themes-manager/views/themes-list.php:346
 msgid "Activate"
 msgstr ""
 
@@ -1390,6 +1618,19 @@ msgstr ""
 #: includes/extensions-manager/views/admin-home.php:37
 #: includes/extensions-manager/views/admin-home.php:68
 msgid "Deactivate"
+msgstr ""
+
+#: ../framework/includes/extensions-manager/views/admin-home.php:79
+#: ../framework/includes/extensions-manager/views/admin-home.php:81
+#: ../framework/includes/themes-manager/settings-object.php:884
+#: ../framework/includes/themes-manager/views/themes-list.php:156
+#: ../framework/includes/themes-manager/views/themes-list.php:196
+#: includes/extensions-manager/views/admin-home.php:79
+#: includes/extensions-manager/views/admin-home.php:81
+#: includes/themes-manager/settings-object.php:884
+#: includes/themes-manager/views/themes-list.php:156
+#: includes/themes-manager/views/themes-list.php:196
+msgid "By"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:81
@@ -1409,11 +1650,13 @@ msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:96
 #: includes/extensions-manager/views/admin-home.php:96
-msgid "Dependences"
+msgid "Dependencies"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/views/admin-home.php:118
+#: ../framework/includes/themes-manager/views/themes-list.php:158
 #: includes/extensions-manager/views/admin-home.php:118
+#: includes/themes-manager/views/themes-list.php:158
 msgid "Active"
 msgstr ""
 
@@ -1427,6 +1670,13 @@ msgstr ""
 msgid "You are about to remove the following extension from server"
 msgstr ""
 
+#: ../framework/includes/extensions-manager/views/del-extension-confirmation.php:4
+#: ../framework/includes/themes-manager/views/del-theme-confirmation.php:4
+#: includes/extensions-manager/views/del-extension-confirmation.php:4
+#: includes/themes-manager/views/del-theme-confirmation.php:4
+msgid "by"
+msgstr ""
+
 #: ../framework/includes/extensions-manager/views/del-extension-confirmation.php:7
 #: ../framework/includes/themes-manager/views/del-theme-confirmation.php:7
 #: includes/extensions-manager/views/del-extension-confirmation.php:7
@@ -1436,25 +1686,63 @@ msgstr ""
 
 #: ../framework/includes/extensions-manager/views/del-extension-confirmation.php:8
 #: ../framework/includes/themes-manager/views/del-package-confirmation.php:9
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:9
 #: ../framework/includes/themes-manager/views/del-theme-confirmation.php:8
 #: includes/extensions-manager/views/del-extension-confirmation.php:8
 #: includes/themes-manager/views/del-package-confirmation.php:9
+#: includes/themes-manager/views/del-packages-confirmation-all.php:9
 #: includes/themes-manager/views/del-theme-confirmation.php:8
 msgid "Yes, Delete these files"
 msgstr ""
 
 #: ../framework/includes/extensions-manager/views/del-extension-confirmation.php:9
 #: ../framework/includes/themes-manager/views/del-package-confirmation.php:10
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:10
 #: ../framework/includes/themes-manager/views/del-theme-confirmation.php:9
 #: includes/extensions-manager/views/del-extension-confirmation.php:9
 #: includes/themes-manager/views/del-package-confirmation.php:10
+#: includes/themes-manager/views/del-packages-confirmation-all.php:10
 #: includes/themes-manager/views/del-theme-confirmation.php:9
 msgid "No, Return me to the theme list"
 msgstr ""
 
-#: ../framework/includes/load-functions.php:904
-#: includes/load-functions.php:904
+#: ../framework/includes/load-functions.php:1071
+#: includes/load-functions.php:1071
+msgid "We noticed this theme was previously named"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1071
+#: includes/load-functions.php:1071
+msgid "but is now named"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1072
+#: includes/load-functions.php:1072
+msgid ""
+"If this is a new theme you should create a new unique ID for the data file "
+"to avoid any data collisions"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1073
+#: includes/load-functions.php:1073
+msgid ""
+"If this is the same theme and you are just renaming it, you should keep this "
+"ID the same"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1074
+#: includes/load-functions.php:1074
+msgid "Do you want to create a new ID now?"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1076
+#: includes/load-functions.php:1076
 msgid "No"
+msgstr ""
+
+#: ../framework/includes/load-functions.php:1105
+#: includes/load-functions.php:1105
+msgid "Unknown Theme (Theme Name in style.css is empty)"
 msgstr ""
 
 #: ../framework/includes/options-builder/admin.php:7
@@ -1467,16 +1755,16 @@ msgstr ""
 msgid "New Options Page"
 msgstr ""
 
-#: ../framework/includes/options-builder/admin.php:53
-#: ../framework/includes/options-builder/admin.php:82
-#: ../framework/includes/options-builder/admin.php:120
-#: includes/options-builder/admin.php:53 includes/options-builder/admin.php:82
-#: includes/options-builder/admin.php:120
+#: ../framework/includes/options-builder/admin.php:52
+#: ../framework/includes/options-builder/admin.php:80
+#: ../framework/includes/options-builder/admin.php:116
+#: includes/options-builder/admin.php:52 includes/options-builder/admin.php:80
+#: includes/options-builder/admin.php:116
 msgid "Page not found"
 msgstr ""
 
-#: ../framework/includes/options-builder/admin.php:107
-#: includes/options-builder/admin.php:107
+#: ../framework/includes/options-builder/admin.php:104
+#: includes/options-builder/admin.php:104
 msgid "copy"
 msgstr ""
 
@@ -1494,156 +1782,187 @@ msgid ""
 "or in a single post"
 msgstr ""
 
-#: ../framework/includes/options-builder/load.php:80
+#: ../framework/includes/options-builder/fields/field.php:46
+#: includes/options-builder/fields/field.php:46
+msgid "This is empty field"
+msgstr ""
+
+#: ../framework/includes/options-builder/load.php:78
 #: ../framework/includes/options-builder/views/page-builder.php:8
-#: includes/options-builder/load.php:80
+#: includes/options-builder/load.php:78
 #: includes/options-builder/views/page-builder.php:8
 msgid "New Admin Page"
 msgstr ""
 
-#: ../framework/includes/options-builder/load.php:94
-#: ../framework/includes/options-builder/load.php:95
-#: ../framework/includes/options-builder/load.php:102
-#: ../framework/includes/options-builder/load.php:103
-#: includes/options-builder/load.php:94 includes/options-builder/load.php:95
-#: includes/options-builder/load.php:102 includes/options-builder/load.php:103
+#: ../framework/includes/options-builder/load.php:92
+#: ../framework/includes/options-builder/load.php:93
+#: ../framework/includes/options-builder/load.php:100
+#: ../framework/includes/options-builder/load.php:101
+#: includes/options-builder/load.php:92 includes/options-builder/load.php:93
+#: includes/options-builder/load.php:100 includes/options-builder/load.php:101
 msgid "Pages dir"
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:163
-#: includes/options-builder/settings-object.php:163
+#: ../framework/includes/options-builder/settings-object.php:162
+#: includes/options-builder/settings-object.php:162
 msgid "I can not save icon"
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:182
-#: includes/options-builder/settings-object.php:182
+#: ../framework/includes/options-builder/settings-object.php:181
+#: includes/options-builder/settings-object.php:181
 msgid "Unsupported file type"
+msgstr ""
+
+#: ../framework/includes/options-builder/settings-object.php:201
+#: includes/options-builder/settings-object.php:201
+msgid "Page saved."
 msgstr ""
 
 #: ../framework/includes/options-builder/settings-object.php:203
 #: includes/options-builder/settings-object.php:203
-msgid "Page saved."
-msgstr ""
-
-#: ../framework/includes/options-builder/settings-object.php:205
-#: includes/options-builder/settings-object.php:205
 msgid "Saving error"
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:205
-#: includes/options-builder/settings-object.php:205
-msgid "most be a writable directory"
+#: ../framework/includes/options-builder/settings-object.php:203
+#: includes/options-builder/settings-object.php:203
+msgid "must be a writable directory"
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:227
-#: includes/options-builder/settings-object.php:227
+#: ../framework/includes/options-builder/settings-object.php:225
+#: includes/options-builder/settings-object.php:225
 msgid "The page has not changed."
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:308
-#: includes/options-builder/settings-object.php:308
+#: ../framework/includes/options-builder/settings-object.php:341
+#: includes/options-builder/settings-object.php:341
 msgid "Error"
 msgstr ""
 
-#: ../framework/includes/options-builder/settings-object.php:308
-#: includes/options-builder/settings-object.php:308
+#: ../framework/includes/options-builder/settings-object.php:341
+#: includes/options-builder/settings-object.php:341
 msgid ""
 "\"data\" and it's sub-folder \"pages\" must both exists and be writable. "
 "Please check these folders and their permissions in your child theme"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:26
-#: ../framework/includes/options-builder/views/list-pages.php:79
-#: includes/options-builder/views/list-pages.php:26
-#: includes/options-builder/views/list-pages.php:79
+#: ../framework/includes/options-builder/views/list-pages.php:7
+#: ../framework/includes/options-builder/views/list-pages.php:62
+#: includes/options-builder/views/list-pages.php:7
+#: includes/options-builder/views/list-pages.php:62
 msgid "Page name"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:27
-#: ../framework/includes/options-builder/views/list-pages.php:80
-#: ../framework/libs/formsbuilder/templates/field-settings-form.php:38
-#: includes/options-builder/views/list-pages.php:27
-#: includes/options-builder/views/list-pages.php:80
-#: libs/formsbuilder/templates/field-settings-form.php:38
+#: ../framework/includes/options-builder/views/list-pages.php:8
+#: ../framework/includes/options-builder/views/list-pages.php:63
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:35
+#: ../framework/translations-js.php:55
+#: includes/options-builder/views/list-pages.php:8
+#: includes/options-builder/views/list-pages.php:63
+#: libs/formsbuilder/templates/field-settings-form.php:35
+#: translations-js.php:55
 msgid "Alias"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:51
-#: includes/options-builder/views/list-pages.php:51
+#: ../framework/includes/options-builder/views/list-pages.php:11
+#: ../framework/includes/options-builder/views/list-pages.php:66
+#: includes/options-builder/views/list-pages.php:11
+#: includes/options-builder/views/list-pages.php:66
+msgid "Order"
+msgstr ""
+
+#: ../framework/includes/options-builder/views/list-pages.php:32
+#: includes/options-builder/views/list-pages.php:32
 msgid "Edit this item"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:51
-#: ../framework/includes/themes-manager/settings-object.php:939
-#: ../framework/includes/themes-manager/views/download.php:140
-#: ../framework/includes/themes-manager/views/download.php:190
-#: ../framework/includes/themes-manager/views/download.php:207
-#: ../framework/includes/themes-manager/views/theme-conf.php:17
-#: ../framework/libs/formsbuilder/builderview.php:82
+#: ../framework/includes/options-builder/views/list-pages.php:32
+#: ../framework/includes/themes-manager/settings-object.php:933
+#: ../framework/includes/themes-manager/views/download.php:143
+#: ../framework/includes/themes-manager/views/download.php:198
+#: ../framework/includes/themes-manager/views/download.php:215
+#: ../framework/includes/themes-manager/views/theme-conf.php:28
+#: ../framework/includes/themes-manager/views/themes-list.php:162
+#: ../framework/includes/themes-manager/views/themes-list.php:230
+#: ../framework/libs/formsbuilder/builderview.php:60
 #: ../framework/libs/formsbuilder/templates/base-fields.php:8
 #: ../framework/libs/formsbuilder/templates/base-fields.php:27
-#: ../framework/libs/formsbuilder/templates/base-fields.php:46
-#: includes/options-builder/views/list-pages.php:51
-#: includes/themes-manager/settings-object.php:939
-#: includes/themes-manager/views/download.php:140
-#: includes/themes-manager/views/download.php:190
-#: includes/themes-manager/views/download.php:207
-#: includes/themes-manager/views/theme-conf.php:17
-#: libs/formsbuilder/builderview.php:82
+#: ../framework/libs/formsbuilder/templates/base-fields.php:47
+#: ../framework/translations-js.php:47
+#: includes/options-builder/views/list-pages.php:32
+#: includes/themes-manager/settings-object.php:933
+#: includes/themes-manager/views/download.php:143
+#: includes/themes-manager/views/download.php:198
+#: includes/themes-manager/views/download.php:215
+#: includes/themes-manager/views/theme-conf.php:28
+#: includes/themes-manager/views/themes-list.php:162
+#: includes/themes-manager/views/themes-list.php:230
+#: libs/formsbuilder/builderview.php:60
 #: libs/formsbuilder/templates/base-fields.php:8
 #: libs/formsbuilder/templates/base-fields.php:27
-#: libs/formsbuilder/templates/base-fields.php:46
+#: libs/formsbuilder/templates/base-fields.php:47 translations-js.php:47
 msgid "Edit"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:53
-#: includes/options-builder/views/list-pages.php:53
+#: ../framework/includes/options-builder/views/list-pages.php:34
+#: includes/options-builder/views/list-pages.php:34
 msgid "View this page"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:54
-#: includes/options-builder/views/list-pages.php:54
+#: ../framework/includes/options-builder/views/list-pages.php:35
+#: ../framework/translations-js.php:44
+#: includes/options-builder/views/list-pages.php:35 translations-js.php:44
 msgid "View"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:55
-#: includes/options-builder/views/list-pages.php:55
+#: ../framework/includes/options-builder/views/list-pages.php:36
+#: includes/options-builder/views/list-pages.php:36
 msgid "Duplicate this item"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:56
-#: ../framework/includes/themes-manager/settings-object.php:941
-#: includes/options-builder/views/list-pages.php:56
-#: includes/themes-manager/settings-object.php:941
+#: ../framework/includes/options-builder/views/list-pages.php:37
+#: ../framework/includes/themes-manager/settings-object.php:935
+#: ../framework/includes/themes-manager/views/themes-list.php:93
+#: ../framework/includes/themes-manager/views/themes-list.php:165
+#: ../framework/includes/themes-manager/views/themes-list.php:233
+#: ../framework/libs/formsbuilder/templates/base-fields.php:28
+#: ../framework/libs/formsbuilder/templates/base-fields.php:48
+#: ../framework/translations-js.php:50
+#: includes/options-builder/views/list-pages.php:37
+#: includes/themes-manager/settings-object.php:935
+#: includes/themes-manager/views/themes-list.php:93
+#: includes/themes-manager/views/themes-list.php:165
+#: includes/themes-manager/views/themes-list.php:233
+#: libs/formsbuilder/templates/base-fields.php:28
+#: libs/formsbuilder/templates/base-fields.php:48 translations-js.php:50
 msgid "Duplicate"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:59
-#: includes/options-builder/views/list-pages.php:59
+#: ../framework/includes/options-builder/views/list-pages.php:40
+#: includes/options-builder/views/list-pages.php:40
 msgid ""
 "Reset default field values. This will clear any data added while testing the "
 "page."
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:59
+#: ../framework/includes/options-builder/views/list-pages.php:40
 #: ../framework/includes/options-page-render/load.php:85
-#: includes/options-builder/views/list-pages.php:59
+#: includes/options-builder/views/list-pages.php:40
 #: includes/options-page-render/load.php:85
 msgid "Reset Defaults"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:60
-#: includes/options-builder/views/list-pages.php:60
+#: ../framework/includes/options-builder/views/list-pages.php:41
+#: includes/options-builder/views/list-pages.php:41
 msgid "Delete this item"
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:88
-#: includes/options-builder/views/list-pages.php:88
+#: ../framework/includes/options-builder/views/list-pages.php:72
+#: includes/options-builder/views/list-pages.php:72
 msgid "No pages have been created."
 msgstr ""
 
-#: ../framework/includes/options-builder/views/list-pages.php:91
-#: includes/options-builder/views/list-pages.php:91
+#: ../framework/includes/options-builder/views/list-pages.php:75
+#: includes/options-builder/views/list-pages.php:75
 msgid "Create new admin page"
 msgstr ""
 
@@ -1694,34 +2013,44 @@ msgstr ""
 msgid "Show PHP references used to output options in theme files"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:24
-#: includes/options-page-render/settings-object.php:24
+#: ../framework/includes/options-page-render/settings-object.php:37
+#: includes/options-page-render/settings-object.php:37
 msgid "may be url"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:25
-#: includes/options-page-render/settings-object.php:25
+#: ../framework/includes/options-page-render/settings-object.php:38
+#: includes/options-page-render/settings-object.php:38
 msgid "may be email"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:26
-#: includes/options-page-render/settings-object.php:26
+#: ../framework/includes/options-page-render/settings-object.php:39
+#: includes/options-page-render/settings-object.php:39
 msgid "may be only letters"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:27
-#: includes/options-page-render/settings-object.php:27
+#: ../framework/includes/options-page-render/settings-object.php:40
+#: includes/options-page-render/settings-object.php:40
 msgid "may be only letters or digits"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:28
-#: includes/options-page-render/settings-object.php:28
+#: ../framework/includes/options-page-render/settings-object.php:41
+#: includes/options-page-render/settings-object.php:41
 msgid "may be only digits"
 msgstr ""
 
-#: ../framework/includes/options-page-render/settings-object.php:30
-#: includes/options-page-render/settings-object.php:30
+#: ../framework/includes/options-page-render/settings-object.php:43
+#: includes/options-page-render/settings-object.php:43
 msgid "is required"
+msgstr ""
+
+#: ../framework/includes/options-page-render/settings-object.php:235
+#: includes/options-page-render/settings-object.php:235
+msgid "Validation error"
+msgstr ""
+
+#: ../framework/includes/report-manager/admin.php:27
+#: includes/report-manager/admin.php:27
+msgid "No assigned reports!"
 msgstr ""
 
 #: ../framework/includes/report-manager/load.php:24
@@ -1734,40 +2063,44 @@ msgstr ""
 msgid "Fix all issues"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:65
-#: includes/report-manager/settings-object.php:65
-msgid "You have "
+#: ../framework/includes/report-manager/settings-object.php:73
+#: includes/report-manager/settings-object.php:73
+#, php-format
+msgid ""
+"You have %s failed tests. To have a good time with Runway these should be "
+"fixed. See the error details on the %sreports page%s"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:70
-#: includes/report-manager/settings-object.php:70
+#: ../framework/includes/report-manager/settings-object.php:78
+#: includes/report-manager/settings-object.php:78
+#, php-format
 msgid ""
 "A Runway child theme has not been activated. You can create or activate one "
-"from the <a href=\""
+"from the %sRunway Themes Manager%s"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:83
-#: includes/report-manager/settings-object.php:83
+#: ../framework/includes/report-manager/settings-object.php:93
+#: includes/report-manager/settings-object.php:93
 msgid "Your PHP version is good! You are running version"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:84
-#: includes/report-manager/settings-object.php:84
+#: ../framework/includes/report-manager/settings-object.php:94
+#: includes/report-manager/settings-object.php:94
 msgid "Your PHP version is"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:84
-#: includes/report-manager/settings-object.php:84
+#: ../framework/includes/report-manager/settings-object.php:94
+#: includes/report-manager/settings-object.php:94
 msgid "Your PHP version id is"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:84
-#: includes/report-manager/settings-object.php:84
+#: ../framework/includes/report-manager/settings-object.php:94
+#: includes/report-manager/settings-object.php:94
 msgid "You must have PHP version"
 msgstr ""
 
-#: ../framework/includes/report-manager/settings-object.php:84
-#: includes/report-manager/settings-object.php:84
+#: ../framework/includes/report-manager/settings-object.php:94
+#: includes/report-manager/settings-object.php:94
 msgid "or later"
 msgstr ""
 
@@ -1923,157 +2256,150 @@ msgstr ""
 msgid "Theme Updater"
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:301
-#: includes/theme-updater/settings-object.php:301
+#: ../framework/includes/theme-updater/settings-object.php:359
+#: includes/theme-updater/settings-object.php:359
 msgid "Executing upgrader_source_selection_filter function..."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:309
-#: includes/theme-updater/settings-object.php:309
-msgid "Theme name not found. Unable to rename downloaded theme."
-msgstr ""
-
-#: ../framework/includes/theme-updater/settings-object.php:314
-#: includes/theme-updater/settings-object.php:314
+#: ../framework/includes/theme-updater/settings-object.php:363
+#: includes/theme-updater/settings-object.php:363
 msgid "Renamed theme folder successfully."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:317
-#: includes/theme-updater/settings-object.php:317
+#: ../framework/includes/theme-updater/settings-object.php:366
+#: includes/theme-updater/settings-object.php:366
 msgid "**Unable to rename downloaded theme."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:322
-#: includes/theme-updater/settings-object.php:322
+#: ../framework/includes/theme-updater/settings-object.php:371
+#: includes/theme-updater/settings-object.php:371
 msgid "**Source or Remote Source is unavailable."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:370
-#: includes/theme-updater/settings-object.php:370
+#: ../framework/includes/theme-updater/settings-object.php:416
+#: includes/theme-updater/settings-object.php:416
 msgid "You do not have sufficient permissions to update this site."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:386
-#: includes/theme-updater/settings-object.php:386
+#: ../framework/includes/theme-updater/settings-object.php:432
+#: includes/theme-updater/settings-object.php:432
 msgid "Update Extension"
-msgstr ""
-
-#: ../framework/includes/theme-updater/settings-object.php:399
-#: includes/theme-updater/settings-object.php:399
-msgid ""
-"You do not have sufficient permissions to update extensions for this site."
-msgstr ""
-
-#: ../framework/includes/theme-updater/settings-object.php:436
-#: includes/theme-updater/settings-object.php:436
-msgid "Runway Extensions"
-msgstr ""
-
-#: ../framework/includes/theme-updater/settings-object.php:437
-#: includes/theme-updater/settings-object.php:437
-msgid "Your extensions are all up to date."
 msgstr ""
 
 #: ../framework/includes/theme-updater/settings-object.php:445
 #: includes/theme-updater/settings-object.php:445
 msgid ""
+"You do not have sufficient permissions to update extensions for this site."
+msgstr ""
+
+#: ../framework/includes/theme-updater/settings-object.php:482
+#: includes/theme-updater/settings-object.php:482
+msgid "Runway Extensions"
+msgstr ""
+
+#: ../framework/includes/theme-updater/settings-object.php:483
+#: includes/theme-updater/settings-object.php:483
+msgid "Your extensions are all up to date."
+msgstr ""
+
+#: ../framework/includes/theme-updater/settings-object.php:491
+#: includes/theme-updater/settings-object.php:491
+msgid ""
 "The following extensdions have new versions available. Check the ones you "
 "want to update and then click &#8220;Update Extensions&#8221;."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:446
-#: includes/theme-updater/settings-object.php:446
+#: ../framework/includes/theme-updater/settings-object.php:492
+#: includes/theme-updater/settings-object.php:492
 msgid ""
 "<strong>Please Note:</strong> Any customizations you have made to extension "
 "files will be lost."
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:455
-#: ../framework/includes/theme-updater/settings-object.php:462
-#: includes/theme-updater/settings-object.php:455
-#: includes/theme-updater/settings-object.php:462
+#: ../framework/includes/theme-updater/settings-object.php:501
+#: ../framework/includes/theme-updater/settings-object.php:508
+#: includes/theme-updater/settings-object.php:501
+#: includes/theme-updater/settings-object.php:508
 msgid "Select All"
 msgstr ""
 
-#: ../framework/includes/theme-updater/settings-object.php:471
-#: includes/theme-updater/settings-object.php:471
+#: ../framework/includes/theme-updater/settings-object.php:517
+#: includes/theme-updater/settings-object.php:517
 #, php-format
 msgid "You have version %1$s installed. Update to %2$s."
 msgstr ""
 
-#: ../framework/includes/themes-manager/load.php:61
-#: includes/themes-manager/load.php:61
-msgid "Install"
-msgstr ""
-
-#: ../framework/includes/themes-manager/settings-object.php:122
-#: includes/themes-manager/settings-object.php:122
+#: ../framework/includes/themes-manager/settings-object.php:120
+#: includes/themes-manager/settings-object.php:120
 msgid "Theme title is required"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:125
-#: includes/themes-manager/settings-object.php:125
+#: ../framework/includes/themes-manager/settings-object.php:123
+#: includes/themes-manager/settings-object.php:123
 msgid "Theme title need to have at least one character"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:135
-#: includes/themes-manager/settings-object.php:135
+#: ../framework/includes/themes-manager/settings-object.php:133
+#: includes/themes-manager/settings-object.php:133
 msgid "Please choose another theme folder"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:621
-#: ../framework/includes/themes-manager/settings-object.php:699
-#: includes/themes-manager/settings-object.php:621
-#: includes/themes-manager/settings-object.php:699
+#: ../framework/includes/themes-manager/settings-object.php:587
+#: ../framework/includes/themes-manager/settings-object.php:661
+#: includes/themes-manager/settings-object.php:587
+#: includes/themes-manager/settings-object.php:661
 msgid "Please set write permissions for"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:621
-#: ../framework/includes/themes-manager/settings-object.php:699
-#: includes/themes-manager/settings-object.php:621
-#: includes/themes-manager/settings-object.php:699
+#: ../framework/includes/themes-manager/settings-object.php:587
+#: ../framework/includes/themes-manager/settings-object.php:661
+#: includes/themes-manager/settings-object.php:587
+#: includes/themes-manager/settings-object.php:661
 msgid "and then refresh page"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:672
-#: includes/themes-manager/settings-object.php:672
+#: ../framework/includes/themes-manager/settings-object.php:634
+#: ../framework/includes/themes-manager/settings-object.php:731
+#: includes/themes-manager/settings-object.php:634
+#: includes/themes-manager/settings-object.php:731
 msgid "You must have ZipArchive class"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:892
-#: includes/themes-manager/settings-object.php:892
+#: ../framework/includes/themes-manager/settings-object.php:875
+#: includes/themes-manager/settings-object.php:875
 msgid "No theme name"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:901
-#: includes/themes-manager/settings-object.php:901
-msgid "By"
-msgstr ""
-
-#: ../framework/includes/themes-manager/settings-object.php:937
-#: includes/themes-manager/settings-object.php:937
+#: ../framework/includes/themes-manager/settings-object.php:931
+#: ../framework/includes/themes-manager/views/themes-list.php:222
+#: ../framework/includes/themes-manager/views/themes-list.php:349
+#: includes/themes-manager/settings-object.php:931
+#: includes/themes-manager/views/themes-list.php:222
+#: includes/themes-manager/views/themes-list.php:349
 msgid "Preview"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:945
-#: includes/themes-manager/settings-object.php:945
+#: ../framework/includes/themes-manager/settings-object.php:939
+#: includes/themes-manager/settings-object.php:939
 msgid "Packages &amp; Downloads"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:947
-#: ../framework/includes/themes-manager/views/download.php:131
-#: includes/themes-manager/settings-object.php:947
-#: includes/themes-manager/views/download.php:131
+#: ../framework/includes/themes-manager/settings-object.php:941
+#: ../framework/includes/themes-manager/views/download.php:134
+#: includes/themes-manager/settings-object.php:941
+#: includes/themes-manager/views/download.php:134
 msgid "History"
 msgstr ""
 
-#: ../framework/includes/themes-manager/settings-object.php:959
-#: includes/themes-manager/settings-object.php:959
+#: ../framework/includes/themes-manager/settings-object.php:953
+#: includes/themes-manager/settings-object.php:953
 msgid "Folder location:"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/del-package-confirmation.php:1
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:1
 #: includes/themes-manager/views/del-package-confirmation.php:1
+#: includes/themes-manager/views/del-packages-confirmation-all.php:1
 msgid "You are about to remove the following packages from server"
 msgstr ""
 
@@ -2085,6 +2411,23 @@ msgstr ""
 #: ../framework/includes/themes-manager/views/del-package-confirmation.php:5
 #: includes/themes-manager/views/del-package-confirmation.php:5
 msgid "Child package from"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/del-package-confirmation.php:8
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:8
+#: includes/themes-manager/views/del-package-confirmation.php:8
+#: includes/themes-manager/views/del-packages-confirmation-all.php:8
+msgid "Are you sure you wish to delete these files?"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:4
+#: includes/themes-manager/views/del-packages-confirmation-all.php:4
+msgid "All Standalone packages"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/del-packages-confirmation-all.php:5
+#: includes/themes-manager/views/del-packages-confirmation-all.php:5
+msgid "All Child packages"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/del-theme-confirmation.php:1
@@ -2103,61 +2446,63 @@ msgid "Most Recent"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/download.php:55
-#: ../framework/includes/themes-manager/views/download.php:95
-#: ../framework/includes/themes-manager/views/download.php:136
-#: ../framework/includes/themes-manager/views/download.php:203
+#: ../framework/includes/themes-manager/views/download.php:100
+#: ../framework/includes/themes-manager/views/download.php:139
+#: ../framework/includes/themes-manager/views/download.php:211
 #: includes/themes-manager/views/download.php:55
-#: includes/themes-manager/views/download.php:95
-#: includes/themes-manager/views/download.php:136
-#: includes/themes-manager/views/download.php:203
+#: includes/themes-manager/views/download.php:100
+#: includes/themes-manager/views/download.php:139
+#: includes/themes-manager/views/download.php:211
 msgid "Date"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/download.php:56
-#: ../framework/includes/themes-manager/views/download.php:96
-#: ../framework/includes/themes-manager/views/download.php:137
-#: ../framework/includes/themes-manager/views/download.php:204
+#: ../framework/includes/themes-manager/views/download.php:101
+#: ../framework/includes/themes-manager/views/download.php:140
+#: ../framework/includes/themes-manager/views/download.php:212
+#: ../framework/includes/themes-manager/views/themes-list.php:168
+#: ../framework/includes/themes-manager/views/themes-list.php:239
 #: includes/themes-manager/views/download.php:56
-#: includes/themes-manager/views/download.php:96
-#: includes/themes-manager/views/download.php:137
-#: includes/themes-manager/views/download.php:204
+#: includes/themes-manager/views/download.php:101
+#: includes/themes-manager/views/download.php:140
+#: includes/themes-manager/views/download.php:212
+#: includes/themes-manager/views/themes-list.php:168
+#: includes/themes-manager/views/themes-list.php:239
 msgid "Standalone Theme"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/download.php:57
-#: ../framework/includes/themes-manager/views/download.php:97
-#: ../framework/includes/themes-manager/views/download.php:138
-#: ../framework/includes/themes-manager/views/download.php:205
+#: ../framework/includes/themes-manager/views/download.php:102
+#: ../framework/includes/themes-manager/views/download.php:141
+#: ../framework/includes/themes-manager/views/download.php:213
 #: includes/themes-manager/views/download.php:57
-#: includes/themes-manager/views/download.php:97
-#: includes/themes-manager/views/download.php:138
-#: includes/themes-manager/views/download.php:205
+#: includes/themes-manager/views/download.php:102
+#: includes/themes-manager/views/download.php:141
+#: includes/themes-manager/views/download.php:213
 msgid "Child Theme"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/download.php:58
-#: ../framework/includes/themes-manager/views/download.php:98
-#: ../framework/includes/themes-manager/views/download.php:115
-#: ../framework/includes/themes-manager/views/download.php:139
-#: ../framework/includes/themes-manager/views/download.php:206
-#: ../framework/includes/themes-manager/views/theme-conf.php:136
+#: ../framework/includes/themes-manager/views/download.php:103
+#: ../framework/includes/themes-manager/views/download.php:142
+#: ../framework/includes/themes-manager/views/download.php:214
+#: ../framework/includes/themes-manager/views/theme-conf.php:131
 #: includes/themes-manager/views/download.php:58
-#: includes/themes-manager/views/download.php:98
-#: includes/themes-manager/views/download.php:115
-#: includes/themes-manager/views/download.php:139
-#: includes/themes-manager/views/download.php:206
-#: includes/themes-manager/views/theme-conf.php:136
+#: includes/themes-manager/views/download.php:103
+#: includes/themes-manager/views/download.php:142
+#: includes/themes-manager/views/download.php:214
+#: includes/themes-manager/views/theme-conf.php:131
 msgid "Tags"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/download.php:69
 #: ../framework/includes/themes-manager/views/download.php:81
-#: ../framework/includes/themes-manager/views/download.php:171
-#: ../framework/includes/themes-manager/views/download.php:180
+#: ../framework/includes/themes-manager/views/download.php:174
+#: ../framework/includes/themes-manager/views/download.php:183
 #: includes/themes-manager/views/download.php:69
 #: includes/themes-manager/views/download.php:81
-#: includes/themes-manager/views/download.php:171
-#: includes/themes-manager/views/download.php:180
+#: includes/themes-manager/views/download.php:174
+#: includes/themes-manager/views/download.php:183
 msgid "Download"
 msgstr ""
 
@@ -2168,227 +2513,213 @@ msgstr ""
 msgid "Checksum"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/download.php:106
-#: includes/themes-manager/views/download.php:106
+#: ../framework/includes/themes-manager/views/download.php:75
+#: includes/themes-manager/views/download.php:75
+msgid "Not found"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/download.php:111
+#: includes/themes-manager/views/download.php:111
 msgid "Rebuild Download Packages"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/download.php:114
-#: includes/themes-manager/views/download.php:114
-msgid "Show in the package history"
+#: ../framework/includes/themes-manager/views/download.php:118
+#: includes/themes-manager/views/download.php:118
+msgid "Add tags to this package? (optional)"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/download.php:120
-#: ../framework/includes/themes-manager/views/theme-conf.php:196
-#: ../framework/libs/formsbuilder/builderview.php:74
-#: includes/themes-manager/views/download.php:120
-#: includes/themes-manager/views/theme-conf.php:196
-#: libs/formsbuilder/builderview.php:74
+#: ../framework/includes/themes-manager/views/download.php:123
+#: ../framework/includes/themes-manager/views/theme-conf.php:197
+#: ../framework/libs/formsbuilder/builderview.php:52
+#: ../framework/translations-js.php:48
+#: includes/themes-manager/views/download.php:123
+#: includes/themes-manager/views/theme-conf.php:197
+#: libs/formsbuilder/builderview.php:52 translations-js.php:48
 msgid "Update"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/download.php:174
-#: ../framework/includes/themes-manager/views/download.php:183
-#: includes/themes-manager/views/download.php:174
-#: includes/themes-manager/views/download.php:183
+#: ../framework/includes/themes-manager/views/download.php:154
+#: includes/themes-manager/views/download.php:154
+msgid "Have no packages to download"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/download.php:177
+#: ../framework/includes/themes-manager/views/download.php:186
+#: includes/themes-manager/views/download.php:177
+#: includes/themes-manager/views/download.php:186
 msgid "Package Not Found"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:17
-#: includes/themes-manager/views/theme-conf.php:17
+#: ../framework/includes/themes-manager/views/download.php:222
+#: includes/themes-manager/views/download.php:222
+msgid "Delete All Old Download Packages"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:28
+#: includes/themes-manager/views/theme-conf.php:28
 msgid "Edit Theme"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:18
-#: includes/themes-manager/views/theme-conf.php:18
+#: ../framework/includes/themes-manager/views/theme-conf.php:29
+#: includes/themes-manager/views/theme-conf.php:29
 msgid "Create new"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:25
-#: includes/themes-manager/views/theme-conf.php:25
+#: ../framework/includes/themes-manager/views/theme-conf.php:36
+#: includes/themes-manager/views/theme-conf.php:36
 msgid ""
 "Fill out the options below to create a new Runway child theme. The new child "
 "theme folder will be created in the"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:25
-#: includes/themes-manager/views/theme-conf.php:25
+#: ../framework/includes/themes-manager/views/theme-conf.php:36
+#: includes/themes-manager/views/theme-conf.php:36
 msgid "folder"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:72
+#: ../framework/includes/themes-manager/views/theme-conf.php:58
 #: ../framework/libs/formsbuilder/templates/field-settings-form.php:8
-#: includes/themes-manager/views/theme-conf.php:72
+#: includes/themes-manager/views/theme-conf.php:58
 #: libs/formsbuilder/templates/field-settings-form.php:8
 msgid "Title"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:76
-#: includes/themes-manager/views/theme-conf.php:76
+#: ../framework/includes/themes-manager/views/theme-conf.php:62
+#: includes/themes-manager/views/theme-conf.php:62
 msgid "Menu icon"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:79
-#: includes/themes-manager/views/theme-conf.php:79
-msgid "Default Generic icon"
+#: ../framework/includes/themes-manager/views/theme-conf.php:66
+#: includes/themes-manager/views/theme-conf.php:66
+msgid "Default WordPress Icon"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:80
-#: includes/themes-manager/views/theme-conf.php:80
-msgid "Dashboard icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:81
-#: includes/themes-manager/views/theme-conf.php:81
-msgid "Posts icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:82
-#: includes/themes-manager/views/theme-conf.php:82
-msgid "Media icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:83
-#: includes/themes-manager/views/theme-conf.php:83
-msgid "Links icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:84
-#: includes/themes-manager/views/theme-conf.php:84
-msgid "Page icon"
-msgstr ""
-
+#: ../framework/includes/themes-manager/views/theme-conf.php:67
 #: ../framework/includes/themes-manager/views/theme-conf.php:85
-#: includes/themes-manager/views/theme-conf.php:85
-msgid "Comments icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:86
-#: includes/themes-manager/views/theme-conf.php:86
-msgid "Appearance icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:87
-#: includes/themes-manager/views/theme-conf.php:87
-msgid "Plugins icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:88
-#: includes/themes-manager/views/theme-conf.php:88
-msgid "Users icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:89
-#: includes/themes-manager/views/theme-conf.php:89
-msgid "Tools icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:90
-#: includes/themes-manager/views/theme-conf.php:90
-msgid "Settings icon"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:91
 #: ../framework/includes/themes-manager/views/theme-conf.php:98
-#: ../framework/includes/themes-manager/views/theme-conf.php:104
-#: includes/themes-manager/views/theme-conf.php:91
+#: includes/themes-manager/views/theme-conf.php:67
+#: includes/themes-manager/views/theme-conf.php:85
 #: includes/themes-manager/views/theme-conf.php:98
-#: includes/themes-manager/views/theme-conf.php:104
 msgid "Custom icon"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:100
-#: includes/themes-manager/views/theme-conf.php:100
+#: ../framework/includes/themes-manager/views/theme-conf.php:91
+#: includes/themes-manager/views/theme-conf.php:91
 msgid "Choose Another Icon"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:110
-#: includes/themes-manager/views/theme-conf.php:110
+#: ../framework/includes/themes-manager/views/theme-conf.php:93
+#: includes/themes-manager/views/theme-conf.php:93
+msgid "Choose Custom Icon"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:101
+#: includes/themes-manager/views/theme-conf.php:101
+msgid "Recommended size 36x36px for HiDPI screens. Icon displayed at 16x16px."
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:105
+#: includes/themes-manager/views/theme-conf.php:105
 msgid "An optional webpage associated with the theme."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:112
-#: includes/themes-manager/views/theme-conf.php:112
+#: ../framework/includes/themes-manager/views/theme-conf.php:107
+#: includes/themes-manager/views/theme-conf.php:107
 msgid "Theme URI"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:113
+#: includes/themes-manager/views/theme-conf.php:113
+msgid "Author name"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:116
+#: includes/themes-manager/views/theme-conf.php:116
+msgid "An optional link to the author's website."
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/theme-conf.php:118
 #: includes/themes-manager/views/theme-conf.php:118
-msgid "Author name"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:121
-#: includes/themes-manager/views/theme-conf.php:121
-msgid "An optional link to the author's website."
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:123
-#: includes/themes-manager/views/theme-conf.php:123
 msgid "Author URI"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:129
+#: includes/themes-manager/views/theme-conf.php:129
+msgid "Keywords and template tags associated with this theme"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/theme-conf.php:134
 #: includes/themes-manager/views/theme-conf.php:134
-msgid "Keywords and template tags associated with this theme"
+msgid "Optional notes to leave in the style.css file."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:139
-#: includes/themes-manager/views/theme-conf.php:139
-msgid "Optional notes to leave in the style.css file."
+#: ../framework/includes/themes-manager/views/theme-conf.php:136
+#: includes/themes-manager/views/theme-conf.php:136
+msgid "Comments"
 msgstr ""
 
 #: ../framework/includes/themes-manager/views/theme-conf.php:141
 #: includes/themes-manager/views/theme-conf.php:141
-msgid "Comments"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/theme-conf.php:146
-#: includes/themes-manager/views/theme-conf.php:146
 msgid "Screenshot"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:150
-#: includes/themes-manager/views/theme-conf.php:150
+#: ../framework/includes/themes-manager/views/theme-conf.php:145
+#: includes/themes-manager/views/theme-conf.php:145
 msgid "View Screenshot"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:161
-#: includes/themes-manager/views/theme-conf.php:161
+#: ../framework/includes/themes-manager/views/theme-conf.php:148
+#: includes/themes-manager/views/theme-conf.php:148
+msgid "Recommended size: 600&#215;450 for HiDPI. Displayed at 300&#215;225."
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:157
+#: includes/themes-manager/views/theme-conf.php:157
 msgid "Advanced"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:172
-#: includes/themes-manager/views/theme-conf.php:172
+#: ../framework/includes/themes-manager/views/theme-conf.php:168
+#: includes/themes-manager/views/theme-conf.php:168
 msgid "Select the folder name for the theme."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:174
-#: includes/themes-manager/views/theme-conf.php:174
+#: ../framework/includes/themes-manager/views/theme-conf.php:170
+#: includes/themes-manager/views/theme-conf.php:170
 msgid "Folder name"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:177
-#: includes/themes-manager/views/theme-conf.php:177
+#: ../framework/includes/themes-manager/views/theme-conf.php:173
+#: includes/themes-manager/views/theme-conf.php:173
 msgid "Optional. Specify a license for the theme."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:179
-#: includes/themes-manager/views/theme-conf.php:179
+#: ../framework/includes/themes-manager/views/theme-conf.php:175
+#: includes/themes-manager/views/theme-conf.php:175
 msgid "License"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:182
-#: includes/themes-manager/views/theme-conf.php:182
+#: ../framework/includes/themes-manager/views/theme-conf.php:178
+#: includes/themes-manager/views/theme-conf.php:178
 msgid "An optional link to the license details."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:184
-#: includes/themes-manager/views/theme-conf.php:184
+#: ../framework/includes/themes-manager/views/theme-conf.php:180
+#: includes/themes-manager/views/theme-conf.php:180
 msgid "License URI"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/theme-conf.php:196
-#: includes/themes-manager/views/theme-conf.php:196
+#: ../framework/includes/themes-manager/views/theme-conf.php:183
+#: includes/themes-manager/views/theme-conf.php:183
+msgid "Google Web Fonts Developer API Key"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:185
+#: includes/themes-manager/views/theme-conf.php:185
+msgid "Google API Key"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/theme-conf.php:197
+#: includes/themes-manager/views/theme-conf.php:197
 msgid "Create Theme"
 msgstr ""
 
@@ -2397,65 +2728,40 @@ msgstr ""
 msgid "Activate new theme?"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:11
-#: includes/themes-manager/views/themes-list.php:11
+#: ../framework/includes/themes-manager/views/themes-list.php:12
+#: includes/themes-manager/views/themes-list.php:12
 msgid "Welcome to Runway!"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:11
-#: includes/themes-manager/views/themes-list.php:11
+#: ../framework/includes/themes-manager/views/themes-list.php:12
+#: includes/themes-manager/views/themes-list.php:12
 msgid ""
 "We recommend using Runway with an active child theme. Would you like to "
 "automatically activate the default child theme?"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:43
-#: includes/themes-manager/views/themes-list.php:43
+#: ../framework/includes/themes-manager/views/themes-list.php:27
+#: includes/themes-manager/views/themes-list.php:27
 msgid "Enable default theme for a network"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:46
-#: includes/themes-manager/views/themes-list.php:46
+#: ../framework/includes/themes-manager/views/themes-list.php:30
+#: includes/themes-manager/views/themes-list.php:30
 msgid "Enable"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:47
-#: ../framework/includes/themes-manager/views/themes-list.php:92
-#: ../framework/includes/themes-manager/views/themes-list.php:105
-#: includes/themes-manager/views/themes-list.php:47
-#: includes/themes-manager/views/themes-list.php:92
-#: includes/themes-manager/views/themes-list.php:105
-msgid "Cancel"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/themes-list.php:103
-#: includes/themes-manager/views/themes-list.php:103
+#: ../framework/includes/themes-manager/views/themes-list.php:87
+#: includes/themes-manager/views/themes-list.php:87
 msgid "Enter a new folder name:"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:105
-#: includes/themes-manager/views/themes-list.php:105
-msgid "Submit"
+#: ../framework/includes/themes-manager/views/themes-list.php:99
+#: includes/themes-manager/views/themes-list.php:99
+msgid "Loading..."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:105
-#: includes/themes-manager/views/themes-list.php:105
-msgid "X"
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/themes-list.php:111
-#: includes/themes-manager/views/themes-list.php:111
-msgid "Loading ..."
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/themes-list.php:204
-#: includes/themes-manager/views/themes-list.php:204
-msgid ""
-"This theme folder name is already in use. Please choose a different name."
-msgstr ""
-
-#: ../framework/includes/themes-manager/views/themes-list.php:242
-#: includes/themes-manager/views/themes-list.php:242
+#: ../framework/includes/themes-manager/views/themes-list.php:113
+#: includes/themes-manager/views/themes-list.php:113
 msgid ""
 "A child theme can be run on any WordPress install with the Runway framework "
 "active. You can use Runway to setup custom theme options, menus and many "
@@ -2464,24 +2770,121 @@ msgid ""
 "WordPress install regardless of having Runway active"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:245
-#: includes/themes-manager/views/themes-list.php:245
-msgid "Current Theme"
+#: ../framework/includes/themes-manager/views/themes-list.php:132
+#: includes/themes-manager/views/themes-list.php:132
+msgid ""
+"Are you sure you want to delete this theme?\n"
+"\n"
+"Click 'Cancel' to go back, 'OK' to confirm the delete."
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:290
-#: includes/themes-manager/views/themes-list.php:290
-msgid "Available Runway themes"
+#: ../framework/includes/themes-manager/views/themes-list.php:136
+#: includes/themes-manager/views/themes-list.php:136
+msgid "Add New Theme"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:353
-#: includes/themes-manager/views/themes-list.php:353
+#: ../framework/includes/themes-manager/views/themes-list.php:137
+#: includes/themes-manager/views/themes-list.php:137
+msgid "Search Installed Themes"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:138
+#: includes/themes-manager/views/themes-list.php:138
+msgid "Search installed themes..."
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:155
+#: ../framework/includes/themes-manager/views/themes-list.php:195
+#: includes/themes-manager/views/themes-list.php:155
+#: includes/themes-manager/views/themes-list.php:195
+msgid "Theme Details"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:213
+#: includes/themes-manager/views/themes-list.php:213
 msgid "Network Enable"
 msgstr ""
 
-#: ../framework/includes/themes-manager/views/themes-list.php:368
-#: includes/themes-manager/views/themes-list.php:368
-msgid "Please wait until an administrator activates theme for the network"
+#: ../framework/includes/themes-manager/views/themes-list.php:251
+#: includes/themes-manager/views/themes-list.php:251
+msgid "Create New Theme"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:261
+#: includes/themes-manager/views/themes-list.php:261
+msgid "Other Runway Themes"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:261
+#: includes/themes-manager/views/themes-list.php:261
+msgid "More Themes"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:288
+#: includes/themes-manager/views/themes-list.php:288
+msgid "Find More Themes"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:302
+#: includes/themes-manager/views/themes-list.php:302
+msgid "Show previous theme"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:303
+#: includes/themes-manager/views/themes-list.php:303
+msgid "Show next theme"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:304
+#: includes/themes-manager/views/themes-list.php:304
+msgid "Close overlay"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:317
+#: includes/themes-manager/views/themes-list.php:317
+msgid "Current Theme"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:319
+#: includes/themes-manager/views/themes-list.php:319
+#, php-format
+msgid "Version: %s"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:320
+#: includes/themes-manager/views/themes-list.php:320
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:324
+#: includes/themes-manager/views/themes-list.php:324
+msgid "Update Available"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:331
+#: includes/themes-manager/views/themes-list.php:331
+#, php-format
+msgid "This is a child theme of %s."
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:335
+#: includes/themes-manager/views/themes-list.php:335
+msgid "Tags:"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:342
+#: includes/themes-manager/views/themes-list.php:342
+msgid "Customize"
+msgstr ""
+
+#: ../framework/includes/themes-manager/views/themes-list.php:348
+#: includes/themes-manager/views/themes-list.php:348
+msgid "Live Preview"
+msgstr ""
+
+#: ../framework/libs/FormsBuilder.php:136 libs/FormsBuilder.php:136
+msgid "Error: data types"
 msgstr ""
 
 #: ../framework/libs/Html.php:317 libs/Html.php:317
@@ -2489,102 +2892,183 @@ msgid "Apply Color"
 msgstr ""
 
 #: ../framework/libs/Html.php:394 libs/Html.php:394
+#, php-format
 msgid ""
 "Permalinks are currently not enabled! To use this feature, enable permalinks "
-"in the <a href=\"options-permalink.php\">Permalink Settings</a>."
+"in the %sPermalink Settings%s."
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:78
-#: libs/formsbuilder/builderview.php:78
+#: ../framework/libs/formsbuilder/builderview.php:35
+#: libs/formsbuilder/builderview.php:35
+msgid "New element added"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/builderview.php:38
+#: libs/formsbuilder/builderview.php:38
+msgid "New element duplicated"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/builderview.php:56
+#: libs/formsbuilder/builderview.php:56
 msgid "Enter title here"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:82
-#: libs/formsbuilder/builderview.php:82
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: libs/formsbuilder/builderview.php:60
 msgid "Alias:"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:82
-#: libs/formsbuilder/builderview.php:82
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: libs/formsbuilder/builderview.php:60
 msgid "Click to edit the page alias."
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:82
-#: libs/formsbuilder/builderview.php:82
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: libs/formsbuilder/builderview.php:60
 msgid "Make slug from title"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:82
-#: libs/formsbuilder/builderview.php:82
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: libs/formsbuilder/builderview.php:60
 msgid "Ok"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:93
-#: libs/formsbuilder/builderview.php:93
+#: ../framework/libs/formsbuilder/builderview.php:60
+#: libs/formsbuilder/builderview.php:60
+msgid "Reset"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/builderview.php:72
+#: libs/formsbuilder/builderview.php:72
 msgid "Settings"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:93
-#: libs/formsbuilder/builderview.php:93
+#: ../framework/libs/formsbuilder/builderview.php:72
+#: libs/formsbuilder/builderview.php:72
 msgid "Help tabs"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:103
-#: libs/formsbuilder/builderview.php:103
+#: ../framework/libs/formsbuilder/builderview.php:82
+#: libs/formsbuilder/builderview.php:82
 msgid "Tab"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:106
-#: libs/formsbuilder/builderview.php:106
+#: ../framework/libs/formsbuilder/builderview.php:85
+#: libs/formsbuilder/builderview.php:85
 msgid "Container"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:109
-#: libs/formsbuilder/builderview.php:109
+#: ../framework/libs/formsbuilder/builderview.php:88
+#: libs/formsbuilder/builderview.php:88
 msgid "Field"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:112
-#: libs/formsbuilder/builderview.php:112
+#: ../framework/libs/formsbuilder/builderview.php:91
+#: libs/formsbuilder/builderview.php:91
 msgid "Drag or click to add elements to the page below."
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:120
-#: ../framework/libs/formsbuilder/builderview.php:146
-#: ../framework/libs/formsbuilder/render-form.php:151
-#: libs/formsbuilder/builderview.php:120 libs/formsbuilder/builderview.php:146
-#: libs/formsbuilder/render-form.php:151
+#: ../framework/libs/formsbuilder/builderview.php:94
+#: libs/formsbuilder/builderview.php:94
+msgid "Collapse all"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/builderview.php:99
+#: ../framework/libs/formsbuilder/builderview.php:125
+#: ../framework/libs/formsbuilder/render-form.php:154
+#: libs/formsbuilder/builderview.php:99 libs/formsbuilder/builderview.php:125
+#: libs/formsbuilder/render-form.php:154
 msgid "Save Settings"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/builderview.php:134
-#: libs/formsbuilder/builderview.php:134
+#: ../framework/libs/formsbuilder/builderview.php:113
+#: libs/formsbuilder/builderview.php:113
 msgid "Page settings"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/render-form.php:85
+#: ../framework/libs/formsbuilder/render-form.php:84
 #: ../framework/libs/formsbuilder/templates/base-fields.php:6
 #: ../framework/libs/formsbuilder/templates/base-fields.php:25
-#: ../framework/libs/formsbuilder/templates/base-fields.php:44
-#: libs/formsbuilder/render-form.php:85
+#: ../framework/libs/formsbuilder/templates/base-fields.php:45
+#: libs/formsbuilder/render-form.php:84
 #: libs/formsbuilder/templates/base-fields.php:6
 #: libs/formsbuilder/templates/base-fields.php:25
-#: libs/formsbuilder/templates/base-fields.php:44
+#: libs/formsbuilder/templates/base-fields.php:45
 msgid "Click to toggle"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/field-settings-form.php:23
-#: libs/formsbuilder/templates/field-settings-form.php:23
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:9
+#: libs/formsbuilder/templates/container-settings-form.php:9
+msgid "Container title"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:22
+#: libs/formsbuilder/templates/container-settings-form.php:22
+msgid "Container type"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:27
+#: libs/formsbuilder/templates/container-settings-form.php:27
+msgid "Visible"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:28
+#: libs/formsbuilder/templates/container-settings-form.php:28
+msgid "Invisible"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:29
+#: libs/formsbuilder/templates/container-settings-form.php:29
+msgid "Show / hide"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:39
+#: libs/formsbuilder/templates/container-settings-form.php:39
+msgid "Theme customizer"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/container-settings-form.php:52
+#: libs/formsbuilder/templates/container-settings-form.php:52
+msgid "Include this section in the Theme Customizer options panel."
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:22
+#: libs/formsbuilder/templates/field-settings-form.php:22
 msgid "Title caption"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/field-settings-form.php:53
-#: libs/formsbuilder/templates/field-settings-form.php:53
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:49
+#: libs/formsbuilder/templates/field-settings-form.php:49
 msgid "Field type"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/field-settings-form.php:89
-#: libs/formsbuilder/templates/field-settings-form.php:89
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:56
+#: libs/formsbuilder/templates/field-settings-form.php:56
+msgid "Hidden"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:59
+#: libs/formsbuilder/templates/field-settings-form.php:59
+msgid "Checkbox"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:60
+#: libs/formsbuilder/templates/field-settings-form.php:60
+msgid "Checkbox boolean"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:62
+#: libs/formsbuilder/templates/field-settings-form.php:62
+msgid "Image radio buttons"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:68
+#: libs/formsbuilder/templates/field-settings-form.php:68
+msgid "Blog editor"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/field-settings-form.php:86
+#: libs/formsbuilder/templates/field-settings-form.php:86
 msgid "Field caption"
 msgstr ""
 
@@ -2614,26 +3098,71 @@ msgstr ""
 msgid "Permissions"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/page-settings.php:82
-#: libs/formsbuilder/templates/page-settings.php:82
+#: ../framework/libs/formsbuilder/templates/page-settings.php:77
+#: libs/formsbuilder/templates/page-settings.php:77
 msgid "Set the access permissions needed to view and edit the page."
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/page-settings.php:87
-#: libs/formsbuilder/templates/page-settings.php:87
+#: ../framework/libs/formsbuilder/templates/page-settings.php:82
+#: libs/formsbuilder/templates/page-settings.php:82
 msgid "Parent menu"
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/page-settings.php:97
+#: libs/formsbuilder/templates/page-settings.php:97
+msgid "Select the menu where this page should be added."
 msgstr ""
 
 #: ../framework/libs/formsbuilder/templates/page-settings.php:102
 #: libs/formsbuilder/templates/page-settings.php:102
-msgid "Select the menu where this page should be added."
+msgid "Menu Order"
 msgstr ""
 
-#: ../framework/libs/formsbuilder/templates/page-settings.php:111
-#: libs/formsbuilder/templates/page-settings.php:111
+#: ../framework/libs/formsbuilder/templates/page-settings.php:106
+#: libs/formsbuilder/templates/page-settings.php:106
+msgid "Position of the current page in the Option Builder list."
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/page-settings.php:115
+#: libs/formsbuilder/templates/page-settings.php:115
 msgid ""
 "An optional description or help text. This will appear at the top of the "
 "page."
+msgstr ""
+
+#: ../framework/libs/formsbuilder/templates/tab-settings-form.php:9
+#: libs/formsbuilder/templates/tab-settings-form.php:9
+msgid "Tab title"
+msgstr ""
+
+#: ../framework/load.php:180 load.php:180
+msgid "Localization directory not exists or empty. Textdomain hasn't loaded."
+msgstr ""
+
+#: ../framework/load.php:204 load.php:204
+msgid "Start Here"
+msgstr ""
+
+#: ../framework/load.php:204 load.php:204
+msgid ""
+"Visit the dashboard and learn how Runway works to start making awesome "
+"themes today."
+msgstr ""
+
+#: ../framework/load.php:216 load.php:216
+msgid "You must have PHP v5.3.1 or later to use this theme."
+msgstr ""
+
+#: ../framework/load.php:217 load.php:217
+msgid ""
+"You can try adding the following to the top of your .htaccess file in the "
+"WordPress root directory"
+msgstr ""
+
+#: ../framework/load.php:219 load.php:219
+msgid ""
+"If that does not work, contact your host and ask them to update your PHP "
+"version. The theme will not be functional until this issue is corrected."
 msgstr ""
 
 #: ../framework/templates/delete-confirmation.php:3
@@ -2799,6 +3328,34 @@ msgstr ""
 
 #: ../framework/translations-js.php:42 translations-js.php:42
 msgid "Gallery Post Format"
+msgstr ""
+
+#: ../framework/translations-js.php:45 translations-js.php:45
+msgid "Add New"
+msgstr ""
+
+#: ../framework/translations-js.php:46 translations-js.php:46
+msgid "Add"
+msgstr ""
+
+#: ../framework/translations-js.php:49 translations-js.php:49
+msgid "Parent"
+msgstr ""
+
+#: ../framework/translations-js.php:51 translations-js.php:51
+msgid "Create Duplicate Layout Title"
+msgstr ""
+
+#: ../framework/translations-js.php:52 translations-js.php:52
+msgid "Add Row"
+msgstr ""
+
+#: ../framework/translations-js.php:53 translations-js.php:53
+msgid "Add Column"
+msgstr ""
+
+#: ../framework/translations-js.php:54 translations-js.php:54
+msgid "Add Cell"
 msgstr ""
 
 #: ../index.php:28

@@ -12,7 +12,7 @@
  * 9. before_build_alone_theme - takes theme name
  * 10. after_build_alone_theme - takes theme name and download path
  */
- 
+
 class Themes_Manager_Admin extends Runway_Admin_Object {
 	public $extensions_dir;
 
@@ -29,8 +29,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 	function add_actions() {
 
 		add_action( 'init', array( $this, 'init' ) );
-		add_action('wp_ajax_get_package_tags', array($this, 'ajax_get_package_tags'));		
-		add_action('wp_ajax_update_package_tags', array($this, 'ajax_update_package_tags'));			
+		add_action('wp_ajax_get_package_tags', array($this, 'ajax_get_package_tags'));
+		add_action('wp_ajax_update_package_tags', array($this, 'ajax_update_package_tags'));
 	}
 
 	function init() {
@@ -63,9 +63,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			WP_Filesystem();
 			global $wp_filesystem;
 			$tags = $wp_filesystem->get_contents($tags_file);
-			return $tags; 	
+			return $tags;
 		}
-		
+
 		return false;
 	}
 
@@ -92,7 +92,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		    mkdir($packages_dir, 0755, true);
 
 		$tags_file = $packages_dir.'/package_'.$tags['id'];
-		
+
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
@@ -117,10 +117,10 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		// Theme title validation
 		if ( !isset( $settings['Name'] ) || empty( $settings['Name'] ) )
-			$errors[] = __('Theme title is required', 'framework');
+			$errors[] = __('Theme title is required', 'runway');
 
 		if ( !preg_match( '/([a-zA-Z])/', $settings['Name'] ) ) {
-			$errors[] = __('Theme title need to have at least one character', 'framework');
+			$errors[] = __('Theme title need to have at least one character', 'runway');
 		}
 
 		if ( empty( $settings['Folder'] ) && isset( $settings['Name'] ) && !empty( $settings['Name'] ) ) {
@@ -130,7 +130,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$_REQUEST['base_name'] = ( isset( $_REQUEST['base_name'] ) ) ? $_REQUEST['base_name'] : '';
 		if ( $_REQUEST['base_name'] != $settings['Folder'] ) {
 			if ( file_exists( $this->themes_path . '/' . $settings['Folder'] ) ) {
-				$errors[] = __('Please choose another theme folder', 'framework');
+				$errors[] = __('Please choose another theme folder', 'runway');
 			}
 		}
 
@@ -169,7 +169,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		$themeInfo   	= rw_get_theme_data();
 		$themeTitle  	= trim( $themeInfo['Title'] );
-		
+
 		// copy source theme
 		$this->copy_r( $this->themes_path . '/' . $name, $this->themes_path . '/' . $new_name );
 
@@ -178,7 +178,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		WP_Filesystem();
 		global $wp_filesystem;
 		$settings = $wp_filesystem->get_contents($this->themes_path . '/' . $new_name . '/data/settings.json');
-		
+
 		$settings = json_decode($settings, true);
 		$settings['Folder'] = $new_name;
 		$theme_prefix_old = isset($settings['ThemeID'])? $settings['ThemeID'] : apply_filters( 'shortname', sanitize_title( $themeTitle ) );
@@ -231,7 +231,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 		do_action( 'before_save_theme_settings', $settings );
 		$json = json_encode( $settings );
-		
+
 		if(!function_exists('WP_Filesystem'))
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
@@ -248,7 +248,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-		
+
 		$settings = array();
 		$settings_file = $this->themes_path . '/' . $theme_folder . '/data/settings.json';
 		if ( file_exists( $this->themes_path . '/' . $theme_folder . '/data/settings.json' ) ) {
@@ -378,18 +378,18 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 				$functions = '<?php /* child theme functions */ ?>';
 			}
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/functions.php', $functions, FS_CHMOD_FILE);
-			
+
 			// save settings into wordpress style.css
 			$wp_filesystem->put_contents($this->themes_path . '/' . $options['Folder'] . '/style.css', $this->build_theme_css( $options ), FS_CHMOD_FILE);
 		}
 		else {
 			$matches = array();
 			$css = $wp_filesystem->get_contents($this->themes_path . '/' . $options['Folder'] . '/style.css');
-			
+
 			if(preg_match('/^\s*\/\*\*!/i', $css))
 				$is_sass = true;
 			else
-				$is_sass = false;			
+				$is_sass = false;
 			$css = preg_replace( '/\/\*\*?!?([^\*]*)\*?\*\//i', '', $css );
 			$new_css = $this->build_theme_css( $options, false, $is_sass ).$css;
 
@@ -465,7 +465,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			$lines[] = "License URI: {$LicenseURI}\n";
 		if ( isset( $Comments ) )
 			$lines[] = "{$Comments}\n";
-		
+
 		$lines[] = $is_sass? '**/' : '*/';
 		$string = '';
 
@@ -578,13 +578,13 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-			
+
 		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_child_package' );
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( __('Please set write permissions for', 'framework').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'framework') );
+				wp_die( __('Please set write permissions for', 'runway').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'runway') );
 			}
 
 			$zip = new ZipArchive();
@@ -631,7 +631,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
-			wp_die( __('You must have ZipArchive class', 'framework') );
+			wp_die( __('You must have ZipArchive class', 'runway') );
 		}
 	}
 
@@ -651,14 +651,14 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-		
+
 		if ( class_exists( 'ZipArchive' ) ) {
 			do_action( 'before_build_alone_theme', $theme_name );
 			global $extm;
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( __('Please set write permissions for', 'framework').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'framework') );
+				wp_die( __('Please set write permissions for', 'runway').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'runway') );
 			}
 
 			$zip = new ZipArchive();
@@ -728,7 +728,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			return home_url() . "/wp-content/themes/{$theme_name}/download/child/{$zip_file_name}";
 		}
 		else {
-			wp_die( __('You must have ZipArchive class', 'framework') );
+			wp_die( __('You must have ZipArchive class', 'runway') );
 		}
 	}
 
@@ -842,10 +842,10 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 
 	}
-	
+
 	function get_other_runway_themes() {
 		global $directory, $theme_updater_admin, $auth_manager_admin;
-		
+
 		$postdata = array(
 			'extensions' => '',
 			'type' => 'Themes',
@@ -858,9 +858,9 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			'timeout' => 10,
 			'body' => $postdata
 		);
-		
+
 		$response = wp_remote_post($theme_updater_admin->url_update_exts.'/wp-admin/admin-ajax.php?action=sync_downloads', $post_args);
-		
+
 		return json_decode($response['body']);
 	}
 
@@ -872,7 +872,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// --------------------------------------------
 
 	// Name
-	$t['name'] = ( isset( $theme['Name'] ) ) ? $theme['Name'] : '['. __( 'No theme name', 'framework' ) .']';
+	$t['name'] = ( isset( $theme['Name'] ) ) ? $theme['Name'] : '['. __( 'No theme name', 'runway' ) .']';
 	// Description
 	$t['description'] = ( isset( $theme['Description'] ) ) ? '<p class="theme-description">'. $theme['Description'] .'<p>' : false;
 	// Author
@@ -881,13 +881,13 @@ function runway_admin_themes_list_prepare( $theme ) {
 		if ( isset( $theme['AuthorURI'] ) ) {
 			$t['author'] = '<a href="'. $theme['AuthorURI'] .'">'. $t['author'] .'</a>';
 		}
-		$t['author'] = '<li>'. __( 'By', 'framework' ) .' '. $t['author'] .'</li>';
+		$t['author'] = '<li>'. __( 'By', 'runway' ) .' '. $t['author'] .'</li>';
 	} else {
 		$t['author'] = '';
 	}
 
 	// Version
-	$t['version'] = ( isset( $theme['Version'] ) ) ? '<li><strong>'. __( 'Version', 'framework' ) .'</strong> '. $theme['Version'] : false;
+	$t['version'] = ( isset( $theme['Version'] ) ) ? '<li><strong>'. __( 'Version', 'runway' ) .'</strong> '. $theme['Version'] : false;
 	// Folder
 	$t['folder'] = ( isset( $theme['Folder'] ) ) ? $theme['Folder'] : false;
 	// Image
@@ -901,17 +901,17 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Preview URL
 	$t['previewURL'] = home_url();
 	if ( is_ssl() ) $t['previewURL'] = str_replace( 'http://', 'https://', $t['previewURL'] );
-	$t['previewURL'] = esc_url(htmlspecialchars( 
-		add_query_arg( 
-			array( 
-				'preview' => 1, 
-				'template' => strtolower( urlencode( $theme['Template'] ) ), 
-				'stylesheet' => strtolower( urlencode( $t['folder'] ) ), 
-				'preview_iframe' => false, 
-				'TB_iframe' => 'false' 
-			), 
-			$t['previewURL'] 
-		) 
+	$t['previewURL'] = esc_url(htmlspecialchars(
+		add_query_arg(
+			array(
+				'preview' => 1,
+				'template' => strtolower( urlencode( $theme['Template'] ) ),
+				'stylesheet' => strtolower( urlencode( $t['folder'] ) ),
+				'preview_iframe' => false,
+				'TB_iframe' => 'false'
+			),
+			$t['previewURL']
+		)
 	));
 	// Edit URL
 	$t['editURL'] = esc_url('admin.php?page=themes&navigation=edit-theme&name='. $t['folder']);
@@ -926,19 +926,19 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// --------------------------------------------
 
 	// Activate Link
-	$t['activateLink'] = '<a class="activate-theme" href="'. $t['activateURL'] .'">'. __( 'Activate', 'framework' ) .'</a>';
+	$t['activateLink'] = '<a class="activate-theme" href="'. $t['activateURL'] .'">'. __( 'Activate', 'runway' ) .'</a>';
 	// Preview Link
-	$t['previewLink'] = '<a target="_blank" href="'. $t['previewURL'] .'">'. __( 'Preview', 'framework' ) .'</a>';
+	$t['previewLink'] = '<a target="_blank" href="'. $t['previewURL'] .'">'. __( 'Preview', 'runway' ) .'</a>';
 	// Edit Link
-	$t['editLink'] = '<a href="'. $t['editURL'] .'">'. __( 'Edit', 'framework' ) .'</a>';
+	$t['editLink'] = '<a href="'. $t['editURL'] .'">'. __( 'Edit', 'runway' ) .'</a>';
 	// Duplicate link
-	$t['duplicateLink'] = '<a class="duplicate-theme" data-theme-folder="'. $t['folder'] .'" data-theme-name="'. $t['name'] .'" href="javascript: void(0);">'. __( 'Duplicate', 'framework' ) .'</a>';
+	$t['duplicateLink'] = '<a class="duplicate-theme" data-theme-folder="'. $t['folder'] .'" data-theme-name="'. $t['name'] .'" href="javascript: void(0);">'. __( 'Duplicate', 'runway' ) .'</a>';
 	// Delete link
-	$t['deleteLink'] = '<a href="'. $t['deleteURL'] .'" class="submitdelete deletion">'. __( 'Delete', 'framework' ) .'</a>';
+	$t['deleteLink'] = '<a href="'. $t['deleteURL'] .'" class="submitdelete deletion">'. __( 'Delete', 'runway' ) .'</a>';
 	// Download / History
-	$t['downloadLink'] = '<a class="get-package" href="'. $t['downloadURL'] .'">'. __( 'Packages &amp; Downloads', 'framework' ) .'</a>';
+	$t['downloadLink'] = '<a class="get-package" href="'. $t['downloadURL'] .'">'. __( 'Packages &amp; Downloads', 'runway' ) .'</a>';
 	if ( isset( $theme['History'] ) && $theme['History'] ) {
-		$t['downloadLink'] .= ' | <a class="get-download" href="'. $t['historyURL'] .'">'. __( 'History', 'framework' ) .'</a>';
+		$t['downloadLink'] .= ' | <a class="get-download" href="'. $t['historyURL'] .'">'. __( 'History', 'runway' ) .'</a>';
 	}
 	$t['downloadLink'] = '<span>'. $t['downloadLink'] .'</span>';
 
@@ -950,7 +950,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	$screenshotLink = ( strtolower( $t['name'] ) != 'runway' ) ? $t['editURL'] : '#' ;
 	$t['screenshot'] = '<a href="'. $screenshotLink .'" class="screenshot"><img src="'. $t['image'] .'" alt=""></a>';
 	// Theme Info Block
-	$t['themeInfo'] = '<div><ul class="theme-info">'. $t['author'] . $t['version'] .'</ul>'. $t['description'] .'</div><p class="theme-options">'. __( 'Folder location:', 'framework' ) .'<code>/themes/'. $t['folder'] .'</code></p>';
+	$t['themeInfo'] = '<div><ul class="theme-info">'. $t['author'] . $t['version'] .'</ul>'. $t['description'] .'</div><p class="theme-options">'. __( 'Folder location:', 'runway' ) .'<code>/themes/'. $t['folder'] .'</code></p>';
 
 	return $t;
 

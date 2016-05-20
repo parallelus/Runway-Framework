@@ -6,7 +6,7 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                <?php _e('Container title', 'framework'); ?>:<br>
+                <?php _e('Container title', 'runway'); ?>:<br>
                 <span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
@@ -19,14 +19,14 @@
 
         <div class="settings-container">
             <label class="settings-title">
-                <?php _e('Container type', 'framework'); ?>: <br>
+                <?php _e('Container type', 'runway'); ?>: <br>
                 <span class="settings-title-caption"></span>
             </label>
             <div class="settings-in">
                 <select name="type" class="settings-select">
-                    <option {{if type == 'visible'}} selected="selected" {{/if}} value="visible"><?php _e('Visible', 'framework'); ?></option>
-                    <option {{if type == 'invisible'}} selected="selected" {{/if}} value="invisible"><?php _e('Invisible', 'framework'); ?></option>
-                    <option {{if type == 'show-hide'}} selected="selected" {{/if}} value="show-hide"><?php _e('Show / hide', 'framework'); ?></option>
+                    <option {{if type == 'visible'}} selected="selected" {{/if}} value="visible"><?php _e('Visible', 'runway'); ?></option>
+                    <option {{if type == 'invisible'}} selected="selected" {{/if}} value="invisible"><?php _e('Invisible', 'runway'); ?></option>
+                    <option {{if type == 'show-hide'}} selected="selected" {{/if}} value="show-hide"><?php _e('Show / hide', 'runway'); ?></option>
                 </select><br>
                 <span class="settings-field-caption"></span>
             </div>
@@ -36,7 +36,7 @@
 
         <div class="settings-container">
         <label class="settings-title">
-            <?php _e('Theme customizer', 'framework'); ?>:
+            <?php _e('Theme customizer', 'runway'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -47,9 +47,9 @@
                 {{else}}
                     <input data-set="display_on_customization_page" name="display_on_customization_page" value="true" type="checkbox">
                 {{/if}}
-                <?php _e('Yes', 'framework'); ?>
+                <?php _e('Yes', 'runway'); ?>
             </label>
-            <p><?php _e('Include this section in the Theme Customizer options panel.', 'framework'); ?></p>
+            <p><?php _e('Include this section in the Theme Customizer options panel.', 'runway'); ?></p>
 
         </div>
 

@@ -16,8 +16,8 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		global $shortname;
 		/* nothing */
 
-		wp_enqueue_script('rw_nouislider');		
-		wp_enqueue_style('rw_nouislider_css');	
+		wp_enqueue_script('rw_nouislider');
+		wp_enqueue_style('rw_nouislider_css');
 		$option_key = $shortname.$this->slug;
 		$options = get_option($option_key);
 
@@ -34,13 +34,13 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		$message_template = null;
 
 		$default_errors_messages = array(
-			'url' => '%field_name% ' . __('may be url', 'framework'),
-			'email' => '%field_name% ' . __('may be email', 'framework'),
-			'alpha_only' => '%field_name% ' . __('may be only letters', 'framework'),
-			'alpha_num_only' => '%field_name% ' . __('may be only letters or digits', 'framework'),
-			'num_only' => '%field_name% ' . __('may be only digits', 'framework'),
+			'url' => '%field_name% ' . __('may be url', 'runway'),
+			'email' => '%field_name% ' . __('may be email', 'runway'),
+			'alpha_only' => '%field_name% ' . __('may be only letters', 'runway'),
+			'alpha_num_only' => '%field_name% ' . __('may be only letters or digits', 'runway'),
+			'num_only' => '%field_name% ' . __('may be only digits', 'runway'),
 		);
-		$default_required_messages = __('is required', 'framework');
+		$default_required_messages = __('is required', 'runway');
 
 		if ( !$message_template ) {
 			if ( isset( $field_information->validation ) && !empty( $field_information->validation ) && !empty( $field_information->validationMessage ) ) {
@@ -52,23 +52,23 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		if(isset($field_information->repeating) && $field_information->repeating === 'Yes' && is_array($field_information->value)) {
 			$hasEmpty = false;
-			
+
 			foreach($field_information->value as $tmp_key => $tmp_val) {
 				if($field_information->type === 'checkbox-type') {
 					if(is_array($tmp_val)) {
 						foreach($tmp_val as $tmp_checkbox_sub_key => $tmp_checkbox_sub_value) {
-							if(empty($tmp_checkbox_sub_value)) { 
+							if(empty($tmp_checkbox_sub_value)) {
 								$hasEmpty = true;
 							}
 						}
 					}
 				} else {
-					if(empty($tmp_val)) { 
+					if(empty($tmp_val)) {
 						$hasEmpty = true;
 					}
 				}
 			}
-			
+
 			if($hasEmpty) {
 				$br = empty( $message_template )? '' : '<br>';
 				if ( ! empty( $field_information->requiredMessage ) )
@@ -151,12 +151,12 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 					$value = null;
 					$field_settings->value = $value;
 				}
-				
+
 				if(is_object($value)) {
 					$value = '';
 					$field_settings->value = '';
 				}
-				
+
 				if($field_settings->type === 'checkbox-type') {
 					$value = $this->updateRepeatingCheckbox($value);
 					$field_settings->value = $value;
@@ -173,7 +173,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 				if ( has_filter( "{$field_settings->type}_validation" ) ) {
 					$is_valid = do_action( "{$field_settings->type}_validation", $this, $field_settings );
 				}
-				
+
 				if(isset($field_settings->repeating) && $field_settings->repeating === 'Yes' && is_array($value)) {
 					if(isset( $field_settings->validation ) && isset( $validation_rules[$field_settings->validation] )) {
 						foreach($value as $tmp_key => $tmp_val) {
@@ -186,7 +186,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 						if($field_settings->type === 'checkbox-type') {
 							if(is_array($tmp_val)) {
 								foreach($tmp_val as $tmp_checkbox_sub_key => $tmp_checkbox_sub_value) {
-									if(empty($tmp_checkbox_sub_value)) { 
+									if(empty($tmp_checkbox_sub_value)) {
 										if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
 											$is_valid = false;
 										} else {
@@ -196,7 +196,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 								}
 							}
 						} else {
-							if(empty($tmp_val)) { 
+							if(empty($tmp_val)) {
 								if ( isset( $field_settings->required ) && in_array( $field_settings->required, array( 'true', 'Yes' ) ) ) {
 									$is_valid = false;
 								} else {
@@ -232,7 +232,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		if ( $is_error ) {
 			// output validation messages
-			$this->message = __('Validation error', 'framework').': <br>';
+			$this->message = __('Validation error', 'runway').': <br>';
 			foreach ( $errors as $error ) {
 				$this->message .= $error;
 			}
@@ -246,11 +246,11 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		return true;
 
 	}
-    
+
     /**
      * The save function called from an options page using the Options Builder such as a
      * custom theme options page.
-     * 
+     *
      * @param  array  $data The data being passed to the update_option function.
      * @return        no return value.
      *
@@ -262,7 +262,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 			$data = $this->data['_framework'];
 		if ($this->dynamic && isset($data[$this->option_key]))
 			$data = $data[$this->option_key];
-		
+
 		if (is_array($data) && isset($data['field_types'])) {
 			foreach ($data['field_types'] as $field_type_key => $field_type_value) {
 				switch ($field_type_value) {
@@ -287,7 +287,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 
 		update_option( $this->option_key, $data );
 	}
-	
+
 	//function for correct saving repeated checkboxes
 	private function updateRepeatingCheckbox($field_values) {
 		if(is_array($field_values)) {
@@ -310,7 +310,7 @@ class Generic_Admin_Object extends Runway_Admin_Object {
 		}
 		return $field_values;
 	}
-	
+
 	//function for correct saving repeated radiobuttons
 	private function updateRepeatingRadio($field_values) {
 		if(is_array($field_values)) {

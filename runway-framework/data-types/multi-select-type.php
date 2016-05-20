@@ -44,27 +44,27 @@ class Multi_select_type extends Data_Type {
 		<?php
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
 		$vals = ( $vals != null ) ? $this->field->saved : $this->get_value();
-             
+
 		if(isset($vals) && is_array($vals)) {
 			foreach($vals as $key=>$tmp_value) {
 				if(!is_array($tmp_value) || is_string($key))
 					unset($vals[$key]);
 			}
 		}
-            
+
 		$count = isset($vals) ? count((array)$vals) : 1;
-		if($count == 0) 
+		if($count == 0)
 			$count = 1;
 		?>
 		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 		<?php
 		for( $key = 0; $key < $count; $key++ ) {
 		?>
-			<select multiple class="input-select custom-data-type" <?php echo  $section; // escaped above ?> data-type="multi-select-type" 
+			<select multiple class="input-select custom-data-type" <?php echo  $section; // escaped above ?> data-type="multi-select-type"
 				name="<?php echo esc_attr($this->field->alias);?>[<?php echo esc_attr($key);?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
-                    
-				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'framework'); ?></option>
-				<?php foreach ( $key_values as $select_value_key => $val ) { 
+
+				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'runway'); ?></option>
+				<?php foreach ( $key_values as $select_value_key => $val ) {
 					if(is_array($vals[$key])) {
 						$checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
 					}
@@ -74,7 +74,7 @@ class Multi_select_type extends Data_Type {
 				<option value='<?php echo esc_attr($select_value_key);?>' <?php echo esc_attr($checked);?>><?php echo stripslashes( $val );?></option>
 				<?php } ?>
 			</select>
-		<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a><br>
+		<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'runway'); ?></a><br>
 		<?php
 		}
 
@@ -102,8 +102,8 @@ class Multi_select_type extends Data_Type {
 		}
 
 		$key_values = apply_filters( $this->field->alias . '_data_options', $key_values ); // allow filters to alter values
-            
-		$html .= '<option value="no">'.__('No value', 'framework').'</option>';
+
+		$html .= '<option value="no">'.__('No value', 'runway').'</option>';
 		foreach ( $key_values as $key => $val ) {
 			if ( is_array( $value ) ) {
 				$checked = ( in_array( $key, $value ) ) ? ' selected="selected"' : '';
@@ -118,7 +118,7 @@ class Multi_select_type extends Data_Type {
 		$html .= '</select>';
 
 		echo  $html;
-            
+
 		/* dirty hack to make multiple elms on customize.php page */
 		if ( $this->is_customize_theme_page ) { ?>
 
@@ -130,7 +130,7 @@ class Multi_select_type extends Data_Type {
 						$(this).parent().children("option:selected").each(function(){
 							values_array.push($(this).val());
 						});
-						
+
 						var api = wp.customize;
 						api.instance('<?php echo esc_js($this->field->alias);?>').set(values_array);
 					});
@@ -140,7 +140,7 @@ class Multi_select_type extends Data_Type {
 		<?php }
 		/* dirty hack to make multiple elms on customize.php page */
 	}
-            
+
 		do_action( self::$type_slug . '_after_render_content', $this );
 	}
 
@@ -148,14 +148,14 @@ class Multi_select_type extends Data_Type {
 		/* dirty hack to make multiple elms on customize.php page */
 		$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 		$value = $submited_value->{$this->field->alias};
-		
+
 		if(is_string($value))
 			$value = explode( ',', $value );
-		
+
 		if(is_object($value)) {
 			$value = "";
 		}
-		
+
 		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
 		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 	}
@@ -168,7 +168,7 @@ class Multi_select_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Values', 'framework'); ?>:
+				<?php echo __('Values', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -182,7 +182,7 @@ class Multi_select_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Required', 'framework'); ?>:
+				<?php echo __('Required', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -193,14 +193,14 @@ class Multi_select_type extends Data_Type {
 				    {{else}}
 				    <input data-set="required" name="required" value="true" type="checkbox">
 				    {{/if}}
-				    <?php echo __('Yes', 'framework'); ?>
+				    <?php echo __('Yes', 'runway'); ?>
 				</label>
 
-				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 				<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 			    </div>
 		    <div class="clear"></div>
@@ -210,18 +210,18 @@ class Multi_select_type extends Data_Type {
 		<!-- Repeating settings -->
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Repeating', 'framework'); ?>:
+				<?php echo __('Repeating', 'runway'); ?>:
 		    </label>
 		    <div class="settings-in">
-			<label> 
+			<label>
 			    {{if repeating == 'Yes'}}
 				<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 			    {{else}}
 				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
+			    <?php echo __('Yes', 'runway'); ?>
 			</label>
-			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		    </div>
 		    <div class="clear"></div>
 		</div>
@@ -239,7 +239,7 @@ class Multi_select_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: '<?php echo __('Multiselect', 'framework'); ?>',
+		            name: '<?php echo __('Multiselect', 'runway'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -282,7 +282,7 @@ class Multi_select_type extends Data_Type {
         </script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array(), $default_values = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -293,16 +293,16 @@ class Multi_select_type extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 					var start_radio_groups_index = <?php echo esc_js($start_number);?>;
-                                                
+
 					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<select>', {
@@ -311,19 +311,19 @@ class Multi_select_type extends Data_Type {
 							name: '<?php echo esc_js($field_name); ?>['+start_radio_groups_index+'][]',
 							value: "",
 							multiple: ""
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>').
 						css({'height': '103px'});
 						start_radio_groups_index++;
-                                                
-						field.append('<option value="no"><?php echo __('No value', 'framework'); ?></option>');
-						<?php foreach($default_values as $val_key=>$val) { 
+
+						field.append('<option value="no"><?php echo __('No value', 'runway'); ?></option>');
+						<?php foreach($default_values as $val_key=>$val) {
 							$html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
 						?>
 						field.append('<?php echo esc_js($html);?>');
 						<?php } ?>
-                                                            
+
 						field.insertBefore($(this));
 
 						field.click(function(e){
@@ -333,8 +333,8 @@ class Multi_select_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'framework'); ?></a>');
-                                                        
+						field.next().after('<a href="#" class="delete_multiselect_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
 							reinitialize_customize_multiselect_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -346,12 +346,12 @@ class Multi_select_type extends Data_Type {
 						$(this).prev().remove();
 						$(this).next('br').remove();
 						$(this).remove();
-                                                        
+
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
 							reinitialize_customize_multiselect_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-                                                        
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_multiselect_instance == 'function') {
 							var api = wp.customize;
@@ -366,7 +366,7 @@ class Multi_select_type extends Data_Type {
 		<?php
 	endif;
 	}
-    
+
 	public function wp_customize_js() {
 	?>
 		<script type="text/javascript">
@@ -375,7 +375,7 @@ class Multi_select_type extends Data_Type {
 					reinitialize_customize_multiselect_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
-                
+
 			if(typeof reinitialize_customize_multiselect_instance !== 'function') {
 				function reinitialize_customize_multiselect_instance(alias) {
 					(function($){

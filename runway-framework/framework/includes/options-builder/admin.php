@@ -4,7 +4,7 @@ global $apm, $alias_;
 $pages_dir = $apm->pages_dir;
 
 if ( get_stylesheet_directory() == get_template_directory() ) {
-	echo '<br>'. __('You must create or activate a Runway child theme to add options pages', 'framework').': <a href="'.admin_url('admin.php?page=themes').'">'.__('Runway Themes', 'framework').'</a>';
+	echo '<br>'. __('You must create or activate a Runway child theme to add options pages', 'runway').': <a href="'.admin_url('admin.php?page=themes').'">'.__('Runway Themes', 'runway').'</a>';
 }
 else {
 	if ( !isset( $this->navigation ) || empty( $this->navigation ) )
@@ -17,7 +17,7 @@ else {
 			$page = array(
 				'settings' => array(
 					'page_id' => $new_page_id,
-					'title' => __('New Options Page', 'framework'),
+					'title' => __('New Options Page', 'runway'),
 					'alias' => 'options-page',
 					'adminMenuTopItem' => 'current-theme',
 					'showPageTitle' => 'true',
@@ -37,7 +37,7 @@ else {
 				require_once(ABSPATH . 'wp-admin/includes/file.php');
 			WP_Filesystem();
 			global $wp_filesystem;
-				
+
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
@@ -49,7 +49,7 @@ else {
 
 				include_once 'views/page-builder.php';
 			} else {
-				wp_die( __('Page not found', 'framework') );
+				wp_die( __('Page not found', 'runway') );
 			}
 		} break;
 		// list available pages
@@ -77,7 +77,7 @@ else {
 
 				require_once(get_template_directory().'/framework/templates/delete-confirmation.php');
 			} else {
-				wp_die( __('Page not found', 'framework') );
+				wp_die( __('Page not found', 'runway') );
 			}
 	} break;
 
@@ -101,7 +101,7 @@ else {
 				$page = json_decode( $page_json );
 
 				$page->settings->page_id = time();
-				$page->settings->title = $page->settings->title . ' ('.__('copy', 'framework').')';
+				$page->settings->title = $page->settings->title . ' ('.__('copy', 'runway').')';
 				$new_alias = sanitize_title( $page->settings->title );
 				$alias_ = $new_alias;
 				get_copy_alias( $new_alias );
@@ -113,7 +113,7 @@ else {
 				$pages = $apm->get_pages_list();
 				include_once 'views/list-pages.php';
 			} else {
-				wp_die( __('Page not found', 'framework') );
+				wp_die( __('Page not found', 'runway') );
 			}
 
 			include_once 'views/list-pages.php';

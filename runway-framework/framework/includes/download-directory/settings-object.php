@@ -3,12 +3,12 @@
 class Directory_Admin extends Runway_Admin_Object {
 
 	public $downloads_dir, $extensions_server_url;
-	
+
 	// Add hooks & crooks
 	function add_actions() {
 		$upload_dir = wp_upload_dir( );
 		$this->downloads_dir = $upload_dir['basedir'].'/downloads-directory/';
-		$this->edd_dir = $upload_dir['basedir'].'/edd/'; 
+		$this->edd_dir = $upload_dir['basedir'].'/edd/';
 		$this->extensions_server_url = 'http://runwaywp.com/sites/main/wp-admin/admin-ajax.php?action=';
 
 		add_action( 'init', array( $this, 'init' ) );
@@ -44,7 +44,7 @@ class Directory_Admin extends Runway_Admin_Object {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
 		WP_Filesystem();
 		global $wp_filesystem;
-				
+
 		//$responce = json_decode( file_get_contents( $url, false ) );
 		$responce = json_decode( $wp_filesystem->get_contents( $url, false ) );
 
@@ -66,7 +66,7 @@ class Directory_Admin extends Runway_Admin_Object {
 	function build_extensions_list() {
 		global $settingshortname;
 
-		$this->option_key = $settingshortname.'extensions-server';		
+		$this->option_key = $settingshortname.'extensions-server';
 		$this->server_extensions = get_option( $this->option_key );
 
 		return $this->server_extensions;
@@ -79,8 +79,8 @@ class Directory_Admin extends Runway_Admin_Object {
 
 		if ( isset( $item ) ) {
 			//$extension_file_name = (isset($_REQUEST['zip'])) ? $_REQUEST['zip']."/{$item}.zip" : $this->downloads_dir."/{$item}.zip";
-			//$extension_file_name = $this->edd_dir."{$item}.zip";    			
-			$extension_file_name = $this->edd_dir."{$item}";    			
+			//$extension_file_name = $this->edd_dir."{$item}.zip";
+			$extension_file_name = $this->edd_dir."{$item}";
 			//$extension_file_name = file_exists( $extension_file_name )? $extension_file_name : "{$this->downloads_dir}{$item}.zip";
 
 			$body = array();
@@ -97,7 +97,7 @@ class Directory_Admin extends Runway_Admin_Object {
 			} else {
 				$body['success'] = false;
 				$body['content'] = '';
-				$body['error_message'] = __('File <b>', 'framework') . $item . '</b> ' . __('not found on server', 'framework');
+				$body['error_message'] = __('File <b>', 'runway') . $item . '</b> ' . __('not found on server', 'runway');
 			}
 			echo json_encode($body);
 		}
@@ -132,8 +132,8 @@ class Directory_Admin extends Runway_Admin_Object {
 
 		$on_page = 20;
 
-		if ( !isset( $page ) && empty( $page ) ) { 
-			$page = 0; 
+		if ( !isset( $page ) && empty( $page ) ) {
+			$page = 0;
 		}
 		$total = count( $extensions );
 

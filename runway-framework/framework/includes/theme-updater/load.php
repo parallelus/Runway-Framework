@@ -3,7 +3,7 @@
     Extension Name: Theme Updater
     Extension URI:
     Version: 0.1
-    Description: 
+    Description:
     Author: Parallelus
     Author URI: http://para.llel.us
 */
@@ -16,7 +16,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => __('Theme Updater', 'framework'), 
+	'name' => __('Theme Updater', 'runway'),
 	'option_key' => $shortname.'theme_updater',
 	'fields' => $fields,
 	'default' => $default,

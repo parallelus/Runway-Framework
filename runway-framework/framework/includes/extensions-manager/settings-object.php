@@ -33,7 +33,7 @@ class Extm_Admin extends Runway_Admin_Object {
 
 		$this->extensions_List = $this->get_extensions_list( $this->extensions_dir );
 	}
-	
+
 	function get_admin_data( $option_key ) {
 
 		return get_option( $option_key.'extensions-manager' );
@@ -230,7 +230,7 @@ class Extm_Admin extends Runway_Admin_Object {
 						}
 					}
 					do_action( 'after_deactivate_extension' );
-					return __( 'Extension deactivated', 'framework' );
+					return __( 'Extension deactivated', 'runway' );
 				}
 			}
 		} else {
@@ -255,7 +255,7 @@ class Extm_Admin extends Runway_Admin_Object {
 			$extension = $this->get_extension_data( $this->extensions_dir . $extension );
 			$act_exts[] = $extension['Name'];
 		}
-		return __( 'Extension', 'framework' ).': <b>' . implode( ',', $act_exts ) . '</b> '.__( 'activated', 'framework' );
+		return __( 'Extension', 'runway' ).': <b>' . implode( ',', $act_exts ) . '</b> '.__( 'activated', 'runway' );
 
 	}
 
@@ -285,9 +285,9 @@ class Extm_Admin extends Runway_Admin_Object {
 			update_option( $this->option_key, $this->admin_settings );
 
 			do_action( 'after_activate_extension' );
-			return __( 'Extension activate', 'framework' );
+			return __( 'Extension activate', 'runway' );
 		} else {
-			$deps_list = '<b>' . $ext_data['Name'] . '</b> - '.__( 'extension not activate. To activate this extension you must activate next extensions', 'framework' ).':<ul>';
+			$deps_list = '<b>' . $ext_data['Name'] . '</b> - '.__( 'extension not activate. To activate this extension you must activate next extensions', 'runway' ).':<ul>';
 			$dep_exts = array();
 			foreach ( $ext_data['DepsExts'] as $dep ) {
 				$dep_info = explode( '|', $dep );
@@ -319,7 +319,7 @@ class Extm_Admin extends Runway_Admin_Object {
 			}
 
 			$deps_list .= '</ul>';
-			$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts=' . implode( ',', $dep_exts ) . '">'.__( 'Activate dependencies and selected extensions', 'framework' ).'</a></b>';
+			$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts=' . implode( ',', $dep_exts ) . '">'.__( 'Activate dependencies and selected extensions', 'runway' ).'</a></b>';
 			return $deps_list;
 		}
 
@@ -439,17 +439,17 @@ class Extm_Admin extends Runway_Admin_Object {
 	 */
 	function del_extension( $ext ) {
 		global $wp_filesystem;
-		
+
 		do_action( 'before_delete_extension' );
 
 		$del_ext = explode( '/', $ext );
-		
+
 		if ( is_dir( $this->extensions_dir . $del_ext[0] ) ) {
 			$wp_filesystem->delete($this->extensions_dir . $del_ext[0], true);
 		} elseif ( is_file( $this->extensions_dir . $del_ext[0] ) ) {
 			unlink( $this->extensions_dir . $del_ext[0] );
 		}
-		
+
 		foreach ( $this->admin_settings as $key => $value ) {
 			if ( $value == urldecode( $ext ) ) {
 				unset( $this->admin_settings );
@@ -458,7 +458,7 @@ class Extm_Admin extends Runway_Admin_Object {
 		}
 
 		do_action( 'after_delete_extension' );
-		return __( 'Extension was deleted', 'framework' );
+		return __( 'Extension was deleted', 'runway' );
 
 	}
 
@@ -469,12 +469,12 @@ class Extm_Admin extends Runway_Admin_Object {
 			$theme = wp_get_theme( $theme_name );
 			$option_key = apply_filters( 'shortname', sanitize_title( $theme->Name . '_' ) );
 			$admin_data = $this->get_admin_data( $option_key );
-			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ? 
+			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ?
 				$admin_data['extensions'][$theme_name]['active'] :
 				array();
 		}
 		else {
-			$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ? 
+			$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ?
 				$this->admin_settings['extensions'][$theme_name]['active'] :
 				array();
 		}
@@ -508,7 +508,7 @@ class Extm_Admin extends Runway_Admin_Object {
 		if ( file_exists( $file ) ) {
 			if ( is_writable( $this->extensions_dir ) ) {
 				if(unzip_file($file, $this->extensions_dir) !== true) {
-					return __( 'Install error', 'framework' ).': '.$zip->getStatusString();
+					return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
 				}
 				else {
 					$ext = explode( '/', $zip->getNameIndex( 0 ) );
@@ -517,27 +517,27 @@ class Extm_Admin extends Runway_Admin_Object {
 
 					if ( $zip->status == 0 ) {
 						do_action( 'after_load_extension' );
-						return __( 'Extension', 'framework' ).' <b>'.$ext_info['Name'].'</b> '.__( 'has been installed. Do you want to activate it? ', 'framework' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it', 'framework' ).'</a>?';
+						return __( 'Extension', 'runway' ).' <b>'.$ext_info['Name'].'</b> '.__( 'has been installed. Do you want to activate it? ', 'runway' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it', 'runway' ).'</a>?';
 					}
 					else {
-						return __( 'Install error', 'framework' ).': '.$zip->getStatusString();
+						return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
 					}
 
 				}
 			}
-			else return __( 'Extensions directory must be writable', 'framework' );
+			else return __( 'Extensions directory must be writable', 'runway' );
 		}
 
 		$overrides = array( 'test_form' => false, 'test_type' => false );
 		$ext_file = wp_handle_upload( $file, $overrides );
 		if ( isset( $ext_file['error'] ) ) {
-			return '<b>'.__( 'ERROR', 'framework' ).':</b>'.$ext_file['error'];
+			return '<b>'.__( 'ERROR', 'runway' ).':</b>'.$ext_file['error'];
 		}
 		else {
 			if ( is_writable( $this->extensions_dir ) ) {
 				$exploded = $exploded = explode( '.', $file['name'] );
 				$ext = $exploded[0].'/load.php';
-				
+
 				if ( !file_exists( $this->extensions_dir.$ext ) ) {
 					unzip_file($ext_file['file'], $this->extensions_dir);
 					$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
@@ -545,15 +545,15 @@ class Extm_Admin extends Runway_Admin_Object {
 				}
 				else {
 					unlink( $ext_file['file'] );
-					return __( 'Extension has already installed', 'framework' );
+					return __( 'Extension has already installed', 'runway' );
 				}
 
 				if ( $zip->status == 0 ) {
 					do_action( 'after_load_extension' );
-					return __( 'The extension', 'framework' ).' <b>'.$ext_info['Name'].'</b> '.__( 'installed successfully. Would you like to', 'framework' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'framework' ).'</a>?';
+					return __( 'The extension', 'runway' ).' <b>'.$ext_info['Name'].'</b> '.__( 'installed successfully. Would you like to', 'runway' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>?';
 				}
 				else {
-					return __( 'Install error', 'framework' ).': '.$zip->getStatusString();
+					return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
 				}
 			}
 		}

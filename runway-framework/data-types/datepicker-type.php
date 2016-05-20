@@ -50,7 +50,7 @@ class Datepicker_type extends Data_Type {
 					data-changeMonth="<?php echo esc_attr(stripslashes($this->field->changeMonth)); ?>"
 					data-changeYear="<?php echo esc_attr(stripslashes($this->field->changeYear)); ?>"
 					data-type="datepicker-type" />
-				<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
+				<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'runway'); ?></a><br>
 			<?php
 			}
 
@@ -85,7 +85,7 @@ class Datepicker_type extends Data_Type {
 				})(jQuery);
 			</script>
 		<?php
-		} else { 
+		} else {
 			$input_value = ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : '';
 			//$input_value_unformatted =date_format(date_create($input_value), 'm/d/Y') );
 			if(!is_string($input_value) && !is_numeric($input_value)) {
@@ -116,7 +116,7 @@ class Datepicker_type extends Data_Type {
 					});
 				})(jQuery);
 			</script>
-			
+
 			<legend class="customize-control-title"><span><?php echo esc_attr(stripslashes( $this->field->title )) ?></span></legend>
 			<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
 				name="<?php echo esc_attr($this->field->alias); ?>"
@@ -128,9 +128,9 @@ class Datepicker_type extends Data_Type {
 				data-changeYear="<?php echo esc_attr(stripslashes( $this->field->changeYear )); ?>"
 				data-type="datepicker-type" />
 			<div id="datapicker-dialog" name="<?php echo isset( $alias )? esc_attr($alias) : ''; ?>" title="<?php echo isset( $title )? esc_attr(stripslashes( $title )) : ''; ?>" style="display:none;"></div>
-                    
+
 		<?php } ?>
-                
+
 		<?php
 
 		do_action( self::$type_slug . '_after_render_content', $this );
@@ -144,17 +144,17 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Date format', 'framework'); ?>:
+		            <?php echo __('Date format', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 		            <select name="format" class="format">
-		                <option {{if format == "mm/dd/yy"}} selected="true" {{/if}} value="mm/dd/yy"><?php echo __('Default', 'framework'); ?> - mm/dd/yy</option>
+		                <option {{if format == "mm/dd/yy"}} selected="true" {{/if}} value="mm/dd/yy"><?php echo __('Default', 'runway'); ?> - mm/dd/yy</option>
 		                <option {{if format == "yy-mm-dd"}} selected="true" {{/if}} value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
-		                <option {{if format == "dd M, y"}} selected="true" {{/if}} value="dd M, y"><?php echo __('Short', 'framework'); ?> - dd M, y</option>
-		                <option {{if format == "dd MM, y"}} selected="true" {{/if}} value="dd MM, y"><?php echo __('Medium', 'framework'); ?> - dd MM, y</option>
-		                <option {{if format == "DD, dd MM, yy"}} selected="true" {{/if}} value="DD, dd MM, yy"><?php echo __('Full', 'framework'); ?> - DD, dd MM, yy</option>
-		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy"><?php echo __('With text', 'framework'); ?> - '<?php echo __("day", "framework"); ?>' d '<?php echo __("of", "framework"); ?>' MM '<?php echo __("in the year", "framework"); ?>' yy</option>
+		                <option {{if format == "dd M, y"}} selected="true" {{/if}} value="dd M, y"><?php echo __('Short', 'runway'); ?> - dd M, y</option>
+		                <option {{if format == "dd MM, y"}} selected="true" {{/if}} value="dd MM, y"><?php echo __('Medium', 'runway'); ?> - dd MM, y</option>
+		                <option {{if format == "DD, dd MM, yy"}} selected="true" {{/if}} value="DD, dd MM, yy"><?php echo __('Full', 'runway'); ?> - DD, dd MM, yy</option>
+		                <option {{if format == "'day' d 'of' MM 'in the year' yy"}} selected="true" {{/if}} value="'day' d 'of' MM 'in the year' yy"><?php echo __('With text', 'runway'); ?> - '<?php echo __('day', 'runway'); ?>' d '<?php echo __('of', 'runway'); ?>' MM '<?php echo __('in the year', 'runway'); ?>' yy</option>
 		            </select>
 
 		        </div>
@@ -164,7 +164,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'framework'); ?>:
+		            <?php echo __('Values', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -176,7 +176,7 @@ class Datepicker_type extends Data_Type {
 		                       data-changeYear="true"/>
 		                <input type="hidden" id="datepicker-custom-format" value="${values}" />
 		            </div>
-		            <span class="settings-field-caption"><?php echo __('You can input default value respectively with selected in format field.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('You can input default value respectively with selected in format field.', 'runway'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -185,7 +185,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Required', 'framework'); ?>:
+		            <?php echo __('Required', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -199,11 +199,11 @@ class Datepicker_type extends Data_Type {
 		                Yes
 		            </label>
 
-		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -212,7 +212,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Month changer', 'framework'); ?>:
+		            <?php echo __('Month changer', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -224,7 +224,7 @@ class Datepicker_type extends Data_Type {
 		                {{else}}
 		                <input data-set="changeMonth" name="changeMonth" value="true" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
 
 		        </div>
@@ -234,7 +234,7 @@ class Datepicker_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Year changer', 'framework'); ?>:
+		            <?php echo __('Year changer', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -245,7 +245,7 @@ class Datepicker_type extends Data_Type {
 		                {{else}}
 		                <input data-set="changeYear" name="changeYear" value="true" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
 
 		        </div>
@@ -256,18 +256,18 @@ class Datepicker_type extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'framework'); ?>:
+		            <?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label> 
+		            <label>
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -297,26 +297,26 @@ class Datepicker_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: '<?php echo __('Datepicker', 'framework'); ?>',
+		            name: '<?php echo __('Datepicker', 'runway'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
 
 				function convertCustomFormatDate(date){
-					date = date.replace("<?php echo __('day', 'framework'); ?>", "");
-				    date = date.replace("<?php echo __('of', 'framework'); ?>", "");
-				    date = date.replace("<?php echo __('in the year', 'framework'); ?>", "");
+					date = date.replace("<?php echo __('day', 'runway'); ?>", "");
+				    date = date.replace("<?php echo __('of', 'runway'); ?>", "");
+				    date = date.replace("<?php echo __('in the year', 'runway'); ?>", "");
 				   return date;
 				}
 
 				function isCustomFormat(date){     // check custom format of date
-					if($('.format').val() == "'<?php echo __('day', 'framework'); ?>' d '<?php echo __('of', 'framework'); ?>' MM '<?php echo __('in the year', 'framework'); ?>' yy" )
+					if($('.format').val() == "'<?php echo __('day', 'runway'); ?>' d '<?php echo __('of', 'runway'); ?>' MM '<?php echo __('in the year', 'runway'); ?>' yy" )
 		            	date = convertCustomFormatDate(date);
 				    return date;
 				}
 
 				function isCustomDate(date){       // check custom value of date field
-					if (date.indexOf("<?php echo __('in the year', 'framework'); ?>") >= 0) {
+					if (date.indexOf("<?php echo __('in the year', 'runway'); ?>") >= 0) {
 		        		date = convertCustomFormatDate(date);
 		                $('#datepicker-custom-format').val(date);
 		        	}
@@ -364,7 +364,7 @@ class Datepicker_type extends Data_Type {
         </script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -375,9 +375,9 @@ class Datepicker_type extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
@@ -391,7 +391,7 @@ class Datepicker_type extends Data_Type {
 							class: '<?php echo esc_js($class); ?>',
 							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
 						.insertBefore($(this));
@@ -403,8 +403,8 @@ class Datepicker_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'framework'); ?></a>');
-                                                        
+						field.next().after('<a href="#" class="delete_datepicker_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						field.datepicker({
 							autoSize: false,
 							dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
@@ -417,7 +417,7 @@ class Datepicker_type extends Data_Type {
 								}
 							}
 						});
-                                                        
+
 						if(typeof reinitialize_customize_instance == 'function') {
 							reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -429,12 +429,12 @@ class Datepicker_type extends Data_Type {
 						$(this).prev().remove();
 						$(this).next('br').remove();
 						$(this).remove();
-                                                        
+
 						if(typeof reinitialize_customize_instance == 'function') {
 							reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-                                                        
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_instance == 'function') {
 							var api = wp.customize;

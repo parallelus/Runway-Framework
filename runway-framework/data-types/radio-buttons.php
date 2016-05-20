@@ -85,7 +85,7 @@ class Radio_buttons extends Data_Type {
 				}
 				echo  $html . "</div>";
 				?>
-					<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
+					<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
 			}
 			$field = array(
@@ -143,7 +143,7 @@ class Radio_buttons extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'framework'); ?>:
+		            <?php echo __('Values', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -157,7 +157,7 @@ class Radio_buttons extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Required', 'framework'); ?>:
+		            <?php echo __('Required', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -168,14 +168,14 @@ class Radio_buttons extends Data_Type {
 		                {{else}}
 		                <input data-set="required" name="required" value="true" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
 
-		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -185,18 +185,18 @@ class Radio_buttons extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'framework'); ?>:
+		            <?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label> 
+		            <label>
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -225,7 +225,7 @@ class Radio_buttons extends Data_Type {
 
             jQuery(document).ready(function ($) {
 	            builder.registerDataType({
-		            name: '<?php echo __('Radio buttons', 'framework'); ?>',
+		            name: '<?php echo __('Radio buttons', 'runway'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                 settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 	        	});
@@ -268,7 +268,7 @@ class Radio_buttons extends Data_Type {
         </script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array(), $default_values = array()) {
 		if (!empty($field)) :
 			extract($field);
@@ -278,9 +278,9 @@ class Radio_buttons extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
@@ -298,7 +298,7 @@ class Radio_buttons extends Data_Type {
 							class: '<?php echo esc_js($class); ?>',
 							name: '<?php echo esc_js($field_name); ?>['+start_radio_groups_index+']',
 							value: "<?php echo esc_js($val_key); ?>"
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
 
@@ -312,8 +312,8 @@ class Radio_buttons extends Data_Type {
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'framework'); ?></a>');
-						
+						field.next().after('<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						if(typeof reinitialize_customize_radio_instance == 'function') {
 							reinitialize_customize_radio_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -326,7 +326,7 @@ class Radio_buttons extends Data_Type {
 						$(this).next('br').remove();
 						$(this).next('br').remove();
 						$(this).remove();
-						
+
 						if(typeof reinitialize_customize_radio_instance == 'function') {
 							reinitialize_customize_radio_instance('<?php echo esc_js($field_name) ?>');
 						}

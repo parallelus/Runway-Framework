@@ -23,7 +23,7 @@ $default = array();
 global $settingshortname;
 
 $settings = array(
-	'name' => __('Runway Themes', 'framework'),
+	'name' => __('Runway Themes', 'runway'),
 	'alias' => 'themes',
 	'option_key' => $settingshortname.'developer-tools',
 	'fields' => $fields,
@@ -67,7 +67,7 @@ function title_button_themes( $title ) {
     }
 
 	if ( $_GET['page'] == 'themes' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'framework' ) .'</a> <a href="'. admin_url($install_url).'" class="add-new-h2">'. __( 'Install', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=themes&navigation=new-theme').'" class="add-new-h2">'. __( 'New Theme', 'runway' ) .'</a> <a href="'. admin_url($install_url).'" class="add-new-h2">'. __( 'Install', 'runway' ) .'</a>';
 	}
 	return $title;
 }

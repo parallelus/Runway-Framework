@@ -32,9 +32,9 @@ class Checkbox_bool_type extends Data_Type {
 
 		<?php for( $key = 0; $key < $count; $key++ ) { ?>
 			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> />
-			<span class="field_label"><?php _e( 'Yes', 'framework' ) ?></span>
+			<span class="field_label"><?php _e( 'Yes', 'runway' ) ?></span>
 
-			<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a><br>
+			<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'runway'); ?></a><br>
 		<?php } ?>
 		<?php
 			$field = array(
@@ -43,7 +43,7 @@ class Checkbox_bool_type extends Data_Type {
 				'class' => 'input-check custom-data-type',
 				'data_section' =>  isset( $this->page->section ) ? $this->page->section : '',
 				'data_type' => 'checkbox-bool-type',
-				'after_field' => __( 'Yes', 'framework' )
+				'after_field' => __( 'Yes', 'runway' )
 			);
 			$this->enable_repeating($field);
 			$this->wp_customize_js();
@@ -56,7 +56,7 @@ class Checkbox_bool_type extends Data_Type {
 				<legend class="customize-control-title"><span><?php echo rf__(stripslashes( $this->field->title )); ?></span></legend>
 				<input type="hidden" value="false" name="<?php echo esc_attr($this->field->alias) ?>"  />
 				<label>
-					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'framework' ) ?>
+					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'runway' ) ?>
 				</label>
 			</fieldset>
 		<?php
@@ -73,7 +73,7 @@ class Checkbox_bool_type extends Data_Type {
 
 			<div class="settings-container">
 				<label class="settings-title">
-					<?php echo __('Value', 'framework'); ?>:
+					<?php echo __('Value', 'runway'); ?>:
 					<br><span class="settings-title-caption"></span>
 				</label>
 				<div class="settings-in">
@@ -84,7 +84,7 @@ class Checkbox_bool_type extends Data_Type {
 						{{else}}
 						<input name="values" value="true" type="checkbox">
 						{{/if}}
-						<?php echo __('Checked', 'framework'); ?>
+						<?php echo __('Checked', 'runway'); ?>
 					</label>
 				</div>
 				<div class="clear"></div>
@@ -93,7 +93,7 @@ class Checkbox_bool_type extends Data_Type {
 			 <!-- Repeating settings -->
 		    <div class="settings-container">
 		    	<label class="settings-title">
-					<?php echo __('Repeating', 'framework'); ?>:
+					<?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
 		        	<label>
@@ -102,9 +102,9 @@ class Checkbox_bool_type extends Data_Type {
 		                {{else}}
 		                	<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-						<?php echo __('Yes', 'framework'); ?>
+						<?php echo __('Yes', 'runway'); ?>
 	                </label>
-	                <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+	                <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -134,7 +134,7 @@ class Checkbox_bool_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: '<?php echo __('Checkbox (true / false)', 'framework'); ?>',
+					name: '<?php echo __('Checkbox (true / false)', 'runway'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 				});
@@ -154,7 +154,7 @@ class Checkbox_bool_type extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
 		</div>
 
@@ -178,7 +178,7 @@ class Checkbox_bool_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'framework'); ?></a>');
+						field.next().after('<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'runway'); ?></a>');
 
 						if(typeof reinitialize_customize_checkbox_bool_instance == 'function') {
 							reinitialize_customize_checkbox_bool_instance('<?php echo esc_js($field_name) ?>');

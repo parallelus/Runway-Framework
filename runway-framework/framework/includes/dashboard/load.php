@@ -23,7 +23,7 @@ $default = array();
 global $settingshortname;
 
 $settings = array(
-	'name' => __('Dashboard', 'framework'),
+	'name' => __('Dashboard', 'runway'),
 	'option_key' => $settingshortname.'dashboard',
 	'fields' => $fields,
 	'default' => $default,

@@ -314,7 +314,7 @@ class Html {
 		$html .= '<div id="colorpick-dialog" name = "' . $name . '" style="text-align:center;" title="' . $additional_options->title . '">';
 		$html .= '<input type="text" id="color-colorpick" maxlength="7" name="'.$name.'" value="'.$value.'" style="background-color:'.$value.'; visibility: hidden; position:absolute;" />';
 		$html .= '<div id="colorpicker" align="center" name = "'.$name.'"></div>';
-		$html .= '<br><button class="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;">'. __( 'Apply Color', 'framework' ) .'</button>';
+		$html .= '<br><button class="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;">'. __( 'Apply Color', 'runway' ) .'</button>';
 		// $html .= '<input type="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;" value="Done pick color" /></div>';
 
 		$html .= '
@@ -391,7 +391,7 @@ class Html {
 
 		if ( empty( $wp_rewrite->permalink_structure ) ) {
 			$html = '<em class="warning">';
-			$html .= __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the <a href="options-permalink.php">Permalink Settings</a>.', 'framework' );
+			$html .= sprintf( __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the %sPermalink Settings%s.', 'runway' ), '<a href="options-permalink.php">', '</a>');
 			$html .= '</em>';
 			return $html;
 		} else {
@@ -469,7 +469,7 @@ class Html {
 
 		$html = '<select multiple class="input-select" name="' . $name . ( $_name ? "[{$_name}]" : '' ) . '[]" size="5" style="height: 103px;">';
 
-		$html .= '<option value="no">'.__('No value', 'framework').'</option>';
+		$html .= '<option value="no">'.__('No value', 'runway').'</option>';
 
 		foreach ( $vars as $key => $val ) {
 			if ( is_array( $values ) ) {

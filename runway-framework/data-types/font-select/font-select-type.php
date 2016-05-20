@@ -5,12 +5,12 @@ class Font_select_type extends Data_Type {
 	public $type = 'font-select-type';
 	public static $type_slug = 'font-select-type';
 	public $label = 'Font select (beta)';
-	
+
 	public function __construct($page, $field, $wp_customize = null, $alias = null, $params = null) {
-		
+
 		parent::__construct($page, $field, $wp_customize, $alias, $params);
 	}
-	
+
 	private function wp_get_google_webfonts_list($key = '', $sort = 'alpha') {
 		/*
 		  $key = Web Fonts Developer API
@@ -24,7 +24,7 @@ class Font_select_type extends Data_Type {
 
 		global $wp_filesystem;
 		$font_list = array();
-		
+
 		$google_api_url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key . '&sort=' . $sort;
 		//lets fetch it
 		$response = wp_remote_retrieve_body(wp_remote_get($google_api_url, array('sslverify' => false)));
@@ -45,7 +45,7 @@ class Font_select_type extends Data_Type {
 				}
 			}
 		}
-	
+
 		//Return the saved lit of Google Web Fonts
 		return $font_list;
 	}
@@ -58,7 +58,7 @@ class Font_select_type extends Data_Type {
 		$font_style = (isset($this->field->style) && $this->field->style != '') ? $this->field->style: 'normal';
 		$font_color = (isset($this->field->color) && $this->field->color != '') ? $this->field->color : '#000000';
 		$previewText = isset($this->field->previewText)? $this->field->previewText : '';
-		
+
 		global $developer_tools;
 		$current_theme = rw_get_theme_data();
 		$t = runway_admin_themes_list_prepare( $current_theme );
@@ -79,19 +79,19 @@ class Font_select_type extends Data_Type {
 				$font_color = $input_value['color'];
 			if(isset($input_value['previewText']))
 				$previewText = $input_value['previewText'];
-			
+
 		}
 		?>
 
 		<div class="<?php echo esc_attr($this->field->alias); ?> custom-data-type">
 
-			<div style="font-family: 
-					<?php echo esc_attr($font_family);?>; 
+			<div style="font-family:
+					<?php echo esc_attr($font_family);?>;
 					<?php if(isset($font_style) && !empty($font_style)): ?>
-						font-style: <?php echo esc_attr($font_style);?>; 
+						font-style: <?php echo esc_attr($font_style);?>;
 					<?php endif; ?>
 					font-weight: <?php echo esc_attr($font_weight);?>;
-					font-size: <?php echo esc_attr($font_size);?>; 
+					font-size: <?php echo esc_attr($font_size);?>;
 					<?php if(isset($font_color) && !empty($font_color)): ?>
 						color: <?php echo esc_attr($font_color); ?>
 					<?php endif; ?>">
@@ -106,18 +106,18 @@ class Font_select_type extends Data_Type {
 			<input class="custom-data-type" <?php echo parent::add_data_conditional_display($this->field); ?> data-set="<?php echo esc_attr($this->field->alias);?>[color]" name="<?php echo esc_attr($this->field->alias);?>[color]" value="<?php echo esc_attr($font_color); ?>" type="hidden"/>
 
 			<div class="<?php echo esc_attr($this->field->alias); ?>">
-				<a href="#" onclick="return false" class="edit-font-options-a button"><?php echo __('Edit Font Options', 'framework'); ?></a>
+				<a href="#" onclick="return false" class="edit-font-options-a button"><?php echo __('Edit Font Options', 'runway'); ?></a>
 				<div class="font-options-container pop" style="display:none">
 				<div class="settings-font-options-dialog">
 					<div class="toogle-font-select-container">
 
 						<div class="settings-container preview-text-input">
 							<label class="settings-title">
-								<?php echo __('Preview text', 'framework'); ?>:
+								<?php echo __('Preview text', 'runway'); ?>:
 							</label>
 							<div class="settings-in">
-								<input data-set="<?php echo esc_attr($this->field->alias);?>[_previewText]" name="<?php echo esc_attr($this->field->alias);?>[_previewText]" value="<?php echo esc_attr($previewText); ?>" type="text" placeholder="<?php echo __('Preview Test', 'framework'); ?>"/>
-								<p class="settings-field-caption description"><?php echo __('Preview text.', 'framework'); ?></p>
+								<input data-set="<?php echo esc_attr($this->field->alias);?>[_previewText]" name="<?php echo esc_attr($this->field->alias);?>[_previewText]" value="<?php echo esc_attr($previewText); ?>" type="text" placeholder="<?php echo __('Preview Test', 'runway'); ?>"/>
+								<p class="settings-field-caption description"><?php echo __('Preview text.', 'runway'); ?></p>
 							</div>
 							<div class="clear"></div>
 						</div>
@@ -126,7 +126,7 @@ class Font_select_type extends Data_Type {
 
 							<div class="settings-container">
 								<label class="settings-title">
-									<?php echo __('Family', 'framework'); ?>:
+									<?php echo __('Family', 'runway'); ?>:
 								</label>
 								<div class="settings-in">
 									<select data-set="<?php echo esc_attr($this->field->alias);?>[_family]" name="<?php echo esc_attr($this->field->alias);?>[_family]" data-type="font-select" class="settings-select">
@@ -135,7 +135,7 @@ class Font_select_type extends Data_Type {
 										<option <?php if($font_family == $font) echo "selected='true'"; ?>value="<?php echo esc_attr($font); ?>"><?php echo esc_attr($font); ?></option>
 										<?php } ?>
 										<?php } else { ?>
-										<option selected="true" value="open sans"><?php echo __('Open Sans', 'framework'); ?></option>
+										<option selected="true" value="open sans"><?php echo __('Open Sans', 'runway'); ?></option>
 										<?php } ?>
 									</select>
 								</div>
@@ -144,12 +144,12 @@ class Font_select_type extends Data_Type {
 
 							<div class="settings-container">
 								<label class="settings-title">
-									<?php echo __('Style', 'framework'); ?>:
+									<?php echo __('Style', 'runway'); ?>:
 								</label>
 								<div class="settings-in">
 									<select data-set="<?php echo esc_attr($this->field->alias);?>[_style]" name="<?php echo esc_attr($this->field->alias);?>[_style]" data-type="font-select" class="settings-select">
-										<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'framework'); ?></option>
-										<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'framework'); ?></option>
+										<option <?php if($font_style  == '' || $font_style  == 'normal') { ?>selected="true" <?php } ?>value="normal"><?php echo __('Normal', 'runway'); ?></option>
+										<option <?php if($font_style  == 'italic') { ?> selected="true" <?php } ?> value="italic"><?php echo __('Italic', 'runway'); ?></option>
 									</select>
 								</div>
 								<div class="clear"></div>
@@ -157,29 +157,29 @@ class Font_select_type extends Data_Type {
 
 							<div class="settings-container">
 								<label class="settings-title">
-									<?php echo __('Weight', 'framework'); ?>:
+									<?php echo __('Weight', 'runway'); ?>:
 								</label>
 								<div class="settings-in">
 									<input data-set="<?php echo esc_attr($this->field->alias);?>[_weight]" name="<?php echo esc_attr($this->field->alias);?>[_weight]" value="<?php if( $this->field->weight == '') { ?>bold<?php } else { echo esc_attr($font_weight); }?>" type="text" data-type="font-select"  />
-									<p class="settings-field-caption description"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></p>
+									<p class="settings-field-caption description"><?php echo __('normal, bold, 300, 600, 800', 'runway'); ?></p>
 								</div>
 								<div class="clear"></div>
 							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
-									<?php echo __('Size', 'framework'); ?>:
+									<?php echo __('Size', 'runway'); ?>:
 								</label>
 								<div class="settings-in">
 									<input data-set="<?php echo esc_attr($this->field->alias);?>[_size]" name="<?php echo esc_attr($this->field->alias);?>[_size]" value="<?php if( $this->field->size == '') { ?>32px<?php } else { echo esc_attr($font_size); }?>" type="text" data-type="font-select" />
-									<p class="settings-field-caption description"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></p>
+									<p class="settings-field-caption description"><?php echo __('12, 24px, 1em, 1.75', 'runway'); ?></p>
 								</div>
 								<div class="clear"></div>
 							</div>
 
 							<div class="settings-container">
 								<label class="settings-title">
-									<?php echo __('Color', 'framework'); ?>:
+									<?php echo __('Color', 'runway'); ?>:
 								</label>
 								<div class="settings-in">
 									<input data-set="<?php echo esc_attr($this->field->alias);?>[_color]" name="<?php echo esc_attr($this->field->alias);?>[_color]" value="<?php echo ($font_color != '') ? $font_color : '#000000'; ?>" type="text" class="color-picker-hex" data-type="font-select" />
@@ -189,8 +189,8 @@ class Font_select_type extends Data_Type {
 
 						</div>
 
-						<input class="button" type="button" value="<?php _e('Close', 'framework'); ?>" name="<?php echo esc_attr($this->field->alias);?>_save"/>
-						<!-- <a href="#" class="<?php echo esc_attr($this->field->alias);?>_cancel"><?php _e('Cancel', 'framework'); ?></a> -->
+						<input class="button" type="button" value="<?php _e('Close', 'runway'); ?>" name="<?php echo esc_attr($this->field->alias);?>_save"/>
+						<!-- <a href="#" class="<?php echo esc_attr($this->field->alias);?>_cancel"><?php _e('Cancel', 'runway'); ?></a> -->
 
 					</div>
 					<script type="text/javascript">
@@ -200,7 +200,7 @@ class Font_select_type extends Data_Type {
 							function deselect(e) {
 							  $('.<?php echo esc_js($this->field->alias); ?> .pop').slideFadeToggle(function() {
 							    e.removeClass('font-edit');
-							  });    
+							  });
 							}
 
 							$.fn.slideFadeToggle = function(easing, callback) {
@@ -209,7 +209,7 @@ class Font_select_type extends Data_Type {
 
 							jQuery('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
 									var hexcolor = jQuery( this ).wpColorPicker( 'color' );
-									
+
 									//setTimeout(function () {
 										$('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
 									//}, 50);
@@ -233,10 +233,10 @@ class Font_select_type extends Data_Type {
 								if ( wp.customize ) {
 									var api = wp.customize;
 									var values_array = {};
-									
+
 									$('.<?php echo esc_js($this->field->alias); ?> .settings-font-options-dialog .toogle-font-select-container input[type=text]').each(function(){
 										var name = $(this).attr('name').replace(alias, '').replace("[", "").replace("]", "");
-										
+
 										values_array[name] = $(this).val();
 
 										//api.instance($(this).attr('name')).set($(this).val());
@@ -258,7 +258,7 @@ class Font_select_type extends Data_Type {
 
 							$('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({ change: function () {
 								var hexcolor = jQuery( this ).wpColorPicker( 'color' );
-						
+
 									//setTimeout(function () {
 										$('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
 									//}, 50);
@@ -269,9 +269,9 @@ class Font_select_type extends Data_Type {
 							$('.<?php echo esc_js($this->field->alias); ?> a.edit-font-options-a').on('click', function(e){console.log('11111');
 								e.preventDefault();
 								e.stopPropagation();
- 	
+
     							if($(this).hasClass('font-edit')) {
-      								deselect($(this));               
+      								deselect($(this));
     							} else {
       								$(this).addClass('font-edit');
       								$('.<?php echo esc_js($this->field->alias); ?> .pop').slideFadeToggle();
@@ -285,33 +285,33 @@ class Font_select_type extends Data_Type {
 						    //return false;
 						  	});*/
 						});
-					</script>					
+					</script>
 				</div>
 			</div>
-			</div>	
+			</div>
 
 		</div>
 
 		<?php
 	}
-	
+
 	public static function assign_actions_and_filters() {
 		add_action( 'admin_print_scripts', array( 'Font_select_type', 'include_scripts_styles' ) );
 		add_action( 'customize_register', array( 'Font_select_type', 'include_scripts_styles' ) );
 	}
-	
+
 	public static function include_scripts_styles() {
 		$data_type_directory = __DIR__;
 		$framework_dir = basename(FRAMEWORK_DIR);
 		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
 		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
-		
+
 		wp_register_style('font_select_type_css', FRAMEWORK_URL . $current_data_type_dir . '/css/font-select-type.css');
 		wp_enqueue_style('font_select_type_css');
 	}
-	
+
 	public function get_value() {
-		$this->field->value = $this->page->get_val( $this->field->alias );		
+		$this->field->value = $this->page->get_val( $this->field->alias );
 
 		if ( is_array($this->field->value) && empty( $this->field->value ) ) {
 			$this->field->value = ( isset( $this->field->values ) ) ? $this->field->values : ''; // error check for notice "Undefined property: stdClass::$values"
@@ -320,16 +320,16 @@ class Font_select_type extends Data_Type {
 		if(is_object($this->field->value)) {
 			$this->field->value = "";
 		}
-		
+
 		$this->field = apply_filters( self::$type_slug . '_get_value_filter', $this->field );
-		
+
 		return $this->field->value;
 	}
-	
+
 	public function save( $value = '' ) {
 		if(is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting'))
 			$value = null;
-		
+
 		if(!isset($_REQUEST['customized'])) {
 			$page_options = get_option( $this->page->option_key );
 			if(is_object($value)) {
@@ -344,15 +344,15 @@ class Font_select_type extends Data_Type {
 		else {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 			$value = $submited_value->{$this->field->alias};
-			
+
 			if(is_object($value)) {
 				$arr = array();
 				foreach($value as $k => $v) {
 					$arr[$k] = $v;
 				}
 				$value = $arr;
-			}			
-						
+			}
+
 			SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
 			SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 		}
@@ -365,47 +365,47 @@ class Font_select_type extends Data_Type {
 
 		<div class="settings-container">
 			<label class="settings-title">
-				<?php echo __('CSS Class', 'framework'); ?>:
+				<?php echo __('CSS Class', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 			</label>
 			<div class="settings-in">
-				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">			
+				<input data-set="cssClass" name="cssClass" value="${cssClass}" class="settings-input" type="text">
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<div class="settings-container">
 			<label class="settings-title">
-				<?php echo __('Family', 'framework'); ?>:
+				<?php echo __('Family', 'runway'); ?>:
 			</label>
 			<div class="settings-in">
 				<input data-set="family" name="family" value="{{if family == ''}}Open Sans{{else}}${family}{{/if}}" type="text" />
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<div class="settings-container">
 			<label class="settings-title">
-				<?php echo __('Weight', 'framework'); ?>:
+				<?php echo __('Weight', 'runway'); ?>:
 			</label>
 			<div class="settings-in">
 				<input data-set="weight" name="weight" value="{{if weight == ''}}bold{{else}}${weight}{{/if}}" type="text" />
-				<span class="settings-field-caption"><?php echo __('normal, bold, 300, 600, 800', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('normal, bold, 300, 600, 800', 'runway'); ?></span>
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<div class="settings-container">
 			<label class="settings-title">
-				<?php echo __('Size', 'framework'); ?>:
+				<?php echo __('Size', 'runway'); ?>:
 			</label>
 			<div class="settings-in">
 				<input data-set="size" name="size" value="{{if size == '' }}32px{{else}}${size}{{/if}}" type="text" />
-				<span class="settings-field-caption"><?php echo __('12, 24px, 1em, 1.75', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('12, 24px, 1em, 1.75', 'runway'); ?></span>
 			</div>
 			<div class="clear"></div>
 		</div>
-		
+
 		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
@@ -426,7 +426,7 @@ class Font_select_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: '<?php echo __('Font select', 'framework'); ?>',
+					name: '<?php echo __('Font select', 'runway'); ?>',
 					separate: 'none',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>',
@@ -437,9 +437,9 @@ class Font_select_type extends Data_Type {
 			});
 
 		</script>
-		
+
 	<?php }
-	
+
 	public function wp_customize_js($double = false) { ?>
 
 	<?php }

@@ -21,7 +21,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => __('Extensions', 'framework'),
+	'name' => __('Extensions', 'runway'),
 	'option_key' => $shortname.'extensions-manager',
 	'fields' => $fields,
 	'default' => $default,
@@ -49,7 +49,7 @@ do_action( 'extension_manager_is_load' );
 // Setup a custom button in the title
 function title_button_new_extension( $title ) {
 	if ( $_GET['page'] == 'extensions' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=extensions&navigation=add-extension').'" class="add-new-h2">'. __( 'Upload New', 'framework' ) .'</a> <a href="'.admin_url('admin.php?page=directory').'" class="add-new-h2">'. __( 'Search Directory', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=extensions&navigation=add-extension').'" class="add-new-h2">'. __( 'Upload New', 'runway' ) .'</a> <a href="'.admin_url('admin.php?page=directory').'" class="add-new-h2">'. __( 'Search Directory', 'runway' ) .'</a>';
 	}
 	return $title;
 }
@@ -64,16 +64,16 @@ function extensions_manager_report( $reports_object ) {
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_exists',
 			'path' => $extensions_dir,
-			'success_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'exists', 'framework' ).'.',
-			'fail_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'does not exist', 'framework' ).'.',			
+			'success_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'exists', 'runway' ).'.',
+			'fail_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'does not exist', 'runway' ).'.',
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_writable',
 			'path' => $extensions_dir,
-			'success_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'is writable', 'framework' ).'.',
-			'fail_message' => __( 'Extensions directory', 'framework' ) .' ('.$extensions_dir.') '.__( 'is not writable', 'framework' ).'.',				
+			'success_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'is writable', 'runway' ).'.',
+			'fail_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'is not writable', 'runway' ).'.',
 		), 'IS_WRITABLE' );
 }
 

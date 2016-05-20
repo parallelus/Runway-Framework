@@ -16,7 +16,7 @@ class Textarea_type extends Data_Type {
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		$customize_title = stripslashes($this->field->title);
-		
+
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 			$this->get_value();
 			if (isset($this->field->value) && is_array($this->field->value)) {
@@ -45,7 +45,7 @@ class Textarea_type extends Data_Type {
 					name="<?php echo esc_attr($this->field->alias); ?>[]"
 					<?php echo  $section; // escaped above ?>
 					data-type='textarea-image'><?php echo isset($this->field->value[$key]) && is_string($this->field->value[$key]) ? $this->field->value[$key] : ''; ?></textarea>
-				<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a><br>
+				<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'runway'); ?></a><br>
 			<?php
 			}
 
@@ -64,13 +64,13 @@ class Textarea_type extends Data_Type {
 			<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
 				<textarea
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
-					<?php $this->link() ?> 
+					<?php $this->link() ?>
 					<?php echo parent::add_data_conditional_display($this->field); ?>
 					name="<?php echo esc_attr($this->field->alias); ?>"
 					<?php echo  $section; // escaped above ?>
 					data-type='textarea-image'><?php echo is_string( $value )? html_entity_decode(esc_textarea($value)) : ''; ?></textarea><?php
 		}
-        
+
 		do_action( self::$type_slug . '_after_render_content', $this );
 
 	}
@@ -94,7 +94,7 @@ class Textarea_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Values', 'framework'); ?>:
+				<?php echo __('Values', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -108,7 +108,7 @@ class Textarea_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Required', 'framework'); ?>:
+				<?php echo __('Required', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -119,14 +119,14 @@ class Textarea_type extends Data_Type {
 			    {{else}}
 			    <input data-set="required" name="required" value="true" type="checkbox">
 			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
+			    <?php echo __('Yes', 'runway'); ?>
 			</label>
 
-			<span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+			<span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 			<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-			<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+			<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 		    </div>
 		    <div class="clear"></div>
@@ -135,7 +135,7 @@ class Textarea_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('CSS Class', 'framework'); ?>:
+				<?php echo __('CSS Class', 'runway'); ?>:
 				<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -150,23 +150,23 @@ class Textarea_type extends Data_Type {
 		<!-- Repeating settings -->
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Repeating', 'framework'); ?>:
+				<?php echo __('Repeating', 'runway'); ?>:
 		    </label>
 		    <div class="settings-in">
-			<label> 
+			<label>
 			    {{if repeating == 'Yes'}}
 				<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 			    {{else}}
 				<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 			    {{/if}}
-			    <?php echo __('Yes', 'framework'); ?>
+			    <?php echo __('Yes', 'runway'); ?>
 			</label>
-			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		    </div>
 		    <div class="clear"></div>
 		</div>
 
-		<?php parent::render_conditional_display(); ?>		
+		<?php parent::render_conditional_display(); ?>
 		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
 
 	    </script>
@@ -179,7 +179,7 @@ class Textarea_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: '<?php echo __('Textarea', 'framework'); ?>',
+					name: '<?php echo __('Textarea', 'runway'); ?>',
 					separate: 'none',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
@@ -189,7 +189,7 @@ class Textarea_type extends Data_Type {
 		</script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array(), $default_values = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -200,9 +200,9 @@ class Textarea_type extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
@@ -215,7 +215,7 @@ class Textarea_type extends Data_Type {
 							class: '<?php echo esc_js($class); ?>',
 							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>');
 						field.insertBefore($(this));
@@ -227,8 +227,8 @@ class Textarea_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'framework'); ?></a>');
-                                                        
+						field.next().after('<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
 							reinitialize_customize_textarea_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -240,12 +240,12 @@ class Textarea_type extends Data_Type {
 						$(this).prev().remove();
 						$(this).next('br').remove();
 						$(this).remove();
-                                                        
+
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
 							reinitialize_customize_textarea_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-                                                        
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_textarea_instance == 'function') {
 							var api = wp.customize;
@@ -260,7 +260,7 @@ class Textarea_type extends Data_Type {
 		<?php
         endif;
     }
-    
+
 	public function wp_customize_js() {
 	?>
 		<script type="text/javascript">
@@ -269,7 +269,7 @@ class Textarea_type extends Data_Type {
 					reinitialize_customize_textarea_instance('<?php echo esc_js($this->field->alias); ?>');
 				});
 			})(jQuery);
-                
+
 			if(typeof reinitialize_customize_textarea_instance !== 'function') {
 				function reinitialize_customize_textarea_instance(alias) {
 					(function($){

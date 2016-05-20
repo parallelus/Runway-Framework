@@ -53,7 +53,7 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 			if ( $report_info['state'] == 'fail' ) {
 				$this->fail++;
 			}
-		}	
+		}
 	}
 
 	function site_admin_notice() {
@@ -70,28 +70,28 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
 		           $reports->fix_all_issues();
 		        else
-        		   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %sreports page%s', 'framework' ), $this->fail, '<a href="'.$reports->self_url().'">', '</a>' ) . "</div>";
+        		   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %sreports page%s', 'runway' ), $this->fail, '<a href="'.$reports->self_url().'">', '</a>' ) . "</div>";
 			}
 		}
 		else {
 			global $developer_tools;
-			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %sRunway Themes Manager%s', 'framework' ), '<a href="'.$developer_tools->self_url().'">', '</a>' ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %sRunway Themes Manager%s', 'runway' ), '<a href="'.$developer_tools->self_url().'">', '</a>' ) . "</div>";
 		}
-	}	
+	}
 
 	public function system_reports() {
 		// check php version compare
 		if(!defined('MIN_PHP_VERSION_ID'))
 			define('MIN_PHP_VERSION_ID', 50301);
-		
+
 		$min_version_display = "5.3.1";
 		$current_php_version = (!defined('PHP_VERSION')) ? "5.3.1" : PHP_VERSION;
 
 		$settings = array(
 			'source' => 'Runway System',
 			'report_key' => 'runway_min_php_version_compare',
-			'success_message' => __('Your PHP version is good! You are running version', 'framework').' '. $current_php_version,
-			'fail_message' => __('Your PHP version is', 'framework').': '.PHP_VERSION.'. '.__('Your PHP version id is', 'framework').': '.PHP_VERSION_ID.'. '.__('You must have PHP version', 'framework').' '. $min_version_display .' '.__('or later', 'framework').'.',
+			'success_message' => __('Your PHP version is good! You are running version', 'runway').' '. $current_php_version,
+			'fail_message' => __('Your PHP version is', 'runway').': '.PHP_VERSION.'. '.__('Your PHP version id is', 'runway').': '.PHP_VERSION_ID.'. '.__('You must have PHP version', 'runway').' '. $min_version_display .' '.__('or later', 'runway').'.',
 			'type' => 'SYSTEM',
 		);
 		if ( MIN_PHP_VERSION_ID <= runway_php_version(true) ) {
@@ -133,7 +133,7 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 						WP_Filesystem();
 						global $wp_filesystem;
 						$wp_filesystem->put_contents($report['path'], '', FS_CHMOD_FILE);
-						
+
 						chmod( $report['path'], 0755 );
 						return file_exists( $report['path'] );
 					}

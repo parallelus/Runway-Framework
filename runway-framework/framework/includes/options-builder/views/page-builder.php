@@ -1,14 +1,14 @@
-<?php 
+<?php
 global $help_tabs_admin;
 // Breadcrumbs
 //................................................................
 
 if ( $_GET['navigation'] == 'new-page' ) {
 	// New page
-	$breadcrumb = __( 'New Admin Page', 'framework' );
+	$breadcrumb = __( 'New Admin Page', 'runway' );
 } else {
 	// Edit page
-	$breadcrumb = __( 'Edit: ', 'framework' ). $page['settings']['title'];
+	$breadcrumb = __( 'Edit: ', 'runway' ). $page['settings']['title'];
 }
 // Set breadcrumbs
 $this->navigation_bar( array( $breadcrumb ) );
@@ -18,11 +18,11 @@ $this->navigation_bar( array( $breadcrumb ) );
 <?php if ( isset( $message ) ): ?>
 	<div id="message" class="updated below-h2"><p><?php echo  $message; ?></p></div>
 <?php else: ?>
-	<div id="message" class="updated below-h2" style="display: none;"></div>	
-<?php endif; 
-	
+	<div id="message" class="updated below-h2" style="display: none;"></div>
+<?php endif;
+
 	// $this->load_data_types();
-	global $libraries;	
+	global $libraries;
 	$form_builder = $libraries['FormsBuilder'];
 
 	// Set builder options

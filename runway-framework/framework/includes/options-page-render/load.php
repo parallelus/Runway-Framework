@@ -77,17 +77,17 @@ if ( !empty( $pages ) ) {
 			// - Only when still working on child thme, could later test against a "developer mode" variable.
 			if ( $template == 'runway-framework' && $current ) {
 				// Append the button ot the title
-				$title .= ' <a href="'.admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='. $current['id']) .'" title="'. __( 'Edit this page', 'framework' ) .'" class="add-new-h2">'. __( 'Edit Page', 'framework' ) .'</a>';
+				$title .= ' <a href="'.admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='. $current['id']) .'" title="'. __( 'Edit this page', 'runway' ) .'" class="add-new-h2">'. __( 'Edit Page', 'runway' ) .'</a>';
 			}
 			if ( IS_CHILD && $developerMode && $current ) {
 
 				// Reset defaults
-				$title .= ' <a href="'.esc_url(admin_url('admin.php?page=options-builder&navigation=reset-fields-page&page_id='. $current['id'])) .'" onclick="return confirm(\''. __( 'This will delete all saved settings on this page.\nAre you sure you want to to continue?', 'framework' ) .'\')" title="'. __( 'Reset all fields to defaults values.', 'framework' ) .'" class="add-new-h2">'. __( 'Reset Defaults', 'framework' ) .'</a>';
+				$title .= ' <a href="'.esc_url(admin_url('admin.php?page=options-builder&navigation=reset-fields-page&page_id='. $current['id'])) .'" onclick="return confirm(\''. __( 'This will delete all saved settings on this page.\nAre you sure you want to to continue?', 'runway' ) .'\')" title="'. __( 'Reset all fields to defaults values.', 'runway' ) .'" class="add-new-h2">'. __( 'Reset Defaults', 'runway' ) .'</a>';
 
 				// Toggle Developer Info
-				$title .= ' <a href="#" title="'. __( 'Show or hide the developer information.', 'framework' ) .'" class="add-new-h2" id="ToggleDevMode">'. __( 'Toggle Developer Info', 'framework' ) .'</a>';
+				$title .= ' <a href="#" title="'. __( 'Show or hide the developer information.', 'runway' ) .'" class="add-new-h2" id="ToggleDevMode">'. __( 'Toggle Developer Info', 'runway' ) .'</a>';
 				// Add a pointer describing the function of the developer toggle
-				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => __( 'Developer Functions', 'framework' ), 'body' => '<p>'.__('Show PHP references used to output options in theme files', 'framework').'.</p>' ), 'edge: "top", align: "left"' );
+				WP_Pointers::add_pointer( 'all', '#ToggleDevMode', array( 'title' => __( 'Developer Functions', 'runway' ), 'body' => '<p>'.__('Show PHP references used to output options in theme files', 'runway').'.</p>' ), 'edge: "top", align: "left"' );
 
 			}
 

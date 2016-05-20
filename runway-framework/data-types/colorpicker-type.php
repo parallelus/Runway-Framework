@@ -20,7 +20,7 @@ class Colorpicker_type extends Data_Type {
 	<label>
 		<div class="customize-control-content">
 		<?php if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-                    
+
 			$this->get_value();
 			if (isset($this->field->value) && is_array($this->field->value)) {
 				foreach ($this->field->value as $key => $tmp_value) {
@@ -41,11 +41,11 @@ class Colorpicker_type extends Data_Type {
 				else
 					$repeat_value = "";
 			?>
-				<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?> 
-					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?> 
-					name="<?php echo esc_attr($this->field->alias) ?>[]" 
+				<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?>
+					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?>
+					name="<?php echo esc_attr($this->field->alias) ?>[]"
 					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? esc_attr($repeat_value) : ''; ?>" />
-				<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a><br>
+				<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'runway'); ?></a><br>
 				<?php
 			}
 
@@ -83,7 +83,7 @@ class Colorpicker_type extends Data_Type {
 				})();
 			</script>
 		<?php
-		} else { 
+		} else {
 			$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 			if(!is_string($input_value) && !is_numeric($input_value)) {
 				if(is_array($input_value) && isset($input_value[0]))
@@ -106,13 +106,13 @@ class Colorpicker_type extends Data_Type {
 						    if (e.keyCode == 13) {
 						    	e.preventDefault();
 						    }
-						});                        
-                        $('input[name="'+name+'"]').wpColorPicker({ 
+						});
+                        $('input[name="'+name+'"]').wpColorPicker({
                             change: function (event, ui) {
                                 var hexcolor = $(this).wpColorPicker( 'color' );
                                 $('[name="'+name+'"]').attr('value', hexcolor).trigger('change');
                             },
-                            clear: function() { 
+                            clear: function() {
                               $('[name="'+name+'"]').attr('value', '');
                               if ( wp.customize ) {
                                 var alias = name.replace(/\[\d*\]$/, "");
@@ -134,13 +134,13 @@ class Colorpicker_type extends Data_Type {
 	}
 
 	public function save( $value = '' ) {
-		
+
 		if ( $value == '' || is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting')) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 			$value = $submited_value->{$this->field->alias};
-			
+
 		}
-		
+
 		if(is_string($value)) {
 			if ( strstr( $value, '#' ) == false ) {
 				$value = '#' . $value;
@@ -157,7 +157,7 @@ class Colorpicker_type extends Data_Type {
 		if(is_object($value)) {
 			$value = "";
 		}
-		
+
 		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
 		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 
@@ -166,7 +166,7 @@ class Colorpicker_type extends Data_Type {
 	public function get_value() {
 
 		$value = parent::get_value();
-	
+
 		if ( is_array( $value ) )
 			$value = ( isset( $this->field->values ) ) ? $this->field->values : '';
 		if ( strstr( $value, '#' ) === false ) {
@@ -185,7 +185,7 @@ class Colorpicker_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-			<?php echo __('Values', 'framework'); ?>:
+			<?php echo __('Values', 'runway'); ?>:
 			<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -196,7 +196,7 @@ class Colorpicker_type extends Data_Type {
 
 		<div class="settings-container">
 		    <label class="settings-title">
-			<?php echo __('Required', 'framework'); ?>:
+			<?php echo __('Required', 'runway'); ?>:
 			<br><span class="settings-title-caption"></span>
 		    </label>
 		    <div class="settings-in">
@@ -207,14 +207,14 @@ class Colorpicker_type extends Data_Type {
 				    {{else}}
 				    <input data-set="required" name="required" value="Yes" type="checkbox">
 				    {{/if}}
-				    <?php echo __('Yes', 'framework'); ?>
+				    <?php echo __('Yes', 'runway'); ?>
 				</label>
 
-				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 				<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 		    </div>
 		    <div class="clear"></div>
 		</div>
@@ -222,18 +222,18 @@ class Colorpicker_type extends Data_Type {
 		<!-- Repeating settings -->
 		<div class="settings-container">
 		    <label class="settings-title">
-				<?php echo __('Repeating', 'framework'); ?>:
+				<?php echo __('Repeating', 'runway'); ?>:
 		    </label>
 		    <div class="settings-in">
-				<label> 
+				<label>
 				    {{if repeating == 'Yes'}}
 					<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 				    {{else}}
 					<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 				    {{/if}}
-				    <?php echo __('Yes', 'framework'); ?>
+				    <?php echo __('Yes', 'runway'); ?>
 				</label>
-			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		    </div>
 		    <div class="clear"></div>
 		</div>
@@ -260,7 +260,7 @@ class Colorpicker_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: '<?php echo __('Colorpicker', 'framework'); ?>',
+					name: '<?php echo __('Colorpicker', 'runway'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>',
 					onSettingsDialogOpen: function () {
@@ -272,7 +272,7 @@ class Colorpicker_type extends Data_Type {
 		</script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -283,15 +283,15 @@ class Colorpicker_type extends Data_Type {
 			?>
 			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
-					<?php echo __('Add Field', 'framework'); ?>
+					<?php echo __('Add Field', 'runway'); ?>
 				</a>
-			</div>			
+			</div>
 
 			<script type="text/javascript">
 				(function($){
 					$(document).ready(function(){
 						var field = $.parseJSON('<?php echo json_encode($field); ?>');
-                                                
+
 						$('#<?php echo esc_js($add_id); ?>').click(function(e){
 							e.preventDefault();
 							var field = $('<input/>', {
@@ -299,7 +299,7 @@ class Colorpicker_type extends Data_Type {
 								class: '<?php echo esc_js($class); ?>',
 								name: '<?php echo esc_js($field_name); ?>[]',
 								value: ""
-							})							
+							})
 							.attr('data-type', '<?php echo esc_js($data_type); ?>')
 							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
 							.insertBefore($(this)).focus();
@@ -311,14 +311,14 @@ class Colorpicker_type extends Data_Type {
 							$('#header').focus();
 							field.after('<br>');
 							field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'framework'); ?></a>');
-                                                        
+							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 							field.wpColorPicker({ change: function () {
 								setTimeout(function () {
 									field.trigger('change');
 								}, 50);
 							}});
-                                                    
+
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
@@ -330,12 +330,12 @@ class Colorpicker_type extends Data_Type {
 							$(this).prev().remove();
 							$(this).next('br').remove();
 							$(this).remove();
-                                                        
+
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
-                                                        
+
 						if ( wp.customize ) {
 							if(typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;

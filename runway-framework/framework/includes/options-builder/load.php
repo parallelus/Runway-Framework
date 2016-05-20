@@ -36,7 +36,7 @@ $fields = array(
 $default = array();
 
 $settings = array(
-	'name' => __('Options Builder', 'framework'),
+	'name' => __('Options Builder', 'runway'),
 	'option_key' => $shortname.'options-builder',
 	'fields' => $fields,
 	'default' => $default,
@@ -75,7 +75,7 @@ do_action( 'options_builder_is_load' );
 // Setup a custom button in the title
 function title_button_add( $title ) {
 	if ( $_GET['page'] == 'options-builder' ) {
-		$title .= ' <a href="'.admin_url('admin.php?page=options-builder&navigation=new-page').'" class="add-new-h2">'. __( 'New Admin Page', 'framework' ) .'</a>';
+		$title .= ' <a href="'.admin_url('admin.php?page=options-builder&navigation=new-page').'" class="add-new-h2">'. __( 'New Admin Page', 'runway' ) .'</a>';
 	}
 	return $title;
 }
@@ -89,16 +89,16 @@ function options_page_render_report( $reports_object ) {
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_exists',
 			'path' => $pages_dir,
-            'success_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is exists', 'framework') . '.',     
-            'fail_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is not exists', 'framework') . '.',  			
+            'success_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is exists', 'runway') . '.',
+            'fail_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is not exists', 'runway') . '.',
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_writable',
 			'path' => $pages_dir,
-            'success_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is writable', 'framework') . '.',     
-            'fail_message' => __('Pages dir', 'framework') . ' (' . $pages_dir . ') ' . __('is not writable', 'framework') . '.',  			
+            'success_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is writable', 'runway') . '.',
+            'fail_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is not writable', 'runway') . '.',
 		), 'IS_WRITABLE' );
 }
 ?>

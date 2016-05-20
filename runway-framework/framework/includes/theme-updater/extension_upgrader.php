@@ -9,7 +9,7 @@ class Bulk_Extension_Upgrader_Skin extends Bulk_Upgrader_Skin {
 
 	function add_strings() {
 		parent::add_strings();
-		$this->upgrader->strings['skin_before_update_header'] = __('Updating Extension %1$s (%2$d/%3$d)', 'framework');
+		$this->upgrader->strings['skin_before_update_header'] = __('Updating Extension %1$s (%2$d/%3$d)', 'runway');
 	}
 
 	function before($title = '') {
@@ -23,8 +23,8 @@ class Bulk_Extension_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	function bulk_footer() {
 		parent::bulk_footer();
 		$update_actions =  array(
-			'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page', 'framework') . '" target="_parent">' . __('Return to Themes page', 'framework') . '</a>',
-			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page', 'framework') . '" target="_parent">' . __('Return to WordPress Updates', 'framework') . '</a>'
+			'themes_page' => '<a href="' . self_admin_url('themes.php') . '" title="' . esc_attr__('Go to themes page', 'runway') . '" target="_parent">' . __('Return to Themes page', 'runway') . '</a>',
+			'updates_page' => '<a href="' . self_admin_url('update-core.php') . '" title="' . esc_attr__('Go to WordPress Updates page', 'runway') . '" target="_parent">' . __('Return to WordPress Updates', 'runway') . '</a>'
 		);
 		if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) )
 			unset( $update_actions['themes_page'] );
@@ -41,36 +41,36 @@ class Extension_Upgrader extends Theme_Upgrader {
 	var $bulk = false;
 
 	function upgrade_strings() {
-		$this->strings['up_to_date'] = __('The extension is at the latest version.', 'framework');
-		$this->strings['no_package'] = __('Update package not available.', 'framework');
-		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;', 'framework');
-		$this->strings['unpack_package'] = __('Unpacking the update&#8230;', 'framework');
-		$this->strings['remove_old'] = __('Removing the old version of the extension&#8230;', 'framework');
-		$this->strings['remove_old_failed'] = __('Could not remove the old extension.', 'framework');
-		$this->strings['process_failed'] = __('Extension update failed.', 'framework');
-		$this->strings['process_success'] = __('Extension updated successfully.', 'framework');
+		$this->strings['up_to_date'] = __('The extension is at the latest version.', 'runway');
+		$this->strings['no_package'] = __('Update package not available.', 'runway');
+		$this->strings['downloading_package'] = __('Downloading update from <span class="code">%s</span>&#8230;', 'runway');
+		$this->strings['unpack_package'] = __('Unpacking the update&#8230;', 'runway');
+		$this->strings['remove_old'] = __('Removing the old version of the extension&#8230;', 'runway');
+		$this->strings['remove_old_failed'] = __('Could not remove the old extension.', 'runway');
+		$this->strings['process_failed'] = __('Extension update failed.', 'runway');
+		$this->strings['process_success'] = __('Extension updated successfully.', 'runway');
 	}
 
 	function install_strings() {
-		$this->strings['no_package'] = __('Install package not available.', 'framework');
-		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;', 'framework');
-		$this->strings['unpack_package'] = __('Unpacking the package&#8230;', 'framework');
-		$this->strings['installing_package'] = __('Installing the extension&#8230;', 'framework');
-		$this->strings['no_files'] = __('The extension contains no files.', 'framework');
-		$this->strings['process_failed'] = __('Extension install failed.', 'framework');
-		$this->strings['process_success'] = __('Extension installed successfully.', 'framework');
+		$this->strings['no_package'] = __('Install package not available.', 'runway');
+		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;', 'runway');
+		$this->strings['unpack_package'] = __('Unpacking the package&#8230;', 'runway');
+		$this->strings['installing_package'] = __('Installing the extension&#8230;', 'runway');
+		$this->strings['no_files'] = __('The extension contains no files.', 'runway');
+		$this->strings['process_failed'] = __('Extension install failed.', 'runway');
+		$this->strings['process_success'] = __('Extension installed successfully.', 'runway');
 		/* translators: 1: theme name, 2: version */
-		$this->strings['process_success_specific'] = __('Successfully installed the extension <strong>%1$s %2$s</strong>.', 'framework');
-		$this->strings['parent_theme_search'] = __('This extension requires a parent extension. Checking if it is installed&#8230;', 'framework');
+		$this->strings['process_success_specific'] = __('Successfully installed the extension <strong>%1$s %2$s</strong>.', 'runway');
+		$this->strings['parent_theme_search'] = __('This extension requires a parent extension. Checking if it is installed&#8230;', 'runway');
 		/* translators: 1: theme name, 2: version */
-		$this->strings['parent_theme_prepare_install'] = __('Preparing to install <strong>%1$s %2$s</strong>&#8230;', 'framework');
+		$this->strings['parent_theme_prepare_install'] = __('Preparing to install <strong>%1$s %2$s</strong>&#8230;', 'runway');
 		/* translators: 1: theme name, 2: version */
-		$this->strings['parent_theme_currently_installed'] = __('The parent extension, <strong>%1$s %2$s</strong>, is currently installed.', 'framework');
+		$this->strings['parent_theme_currently_installed'] = __('The parent extension, <strong>%1$s %2$s</strong>, is currently installed.', 'runway');
 		/* translators: 1: theme name, 2: version */
-		$this->strings['parent_theme_install_success'] = __('Successfully installed the parent extension, <strong>%1$s %2$s</strong>.', 'framework');
-		$this->strings['parent_theme_not_found'] = __('<strong>The parent extension could not be found.</strong> You will need to install the parent extension, <strong>%s</strong>, before you can use this child extension.', 'framework');
+		$this->strings['parent_theme_install_success'] = __('Successfully installed the parent extension, <strong>%1$s %2$s</strong>.', 'runway');
+		$this->strings['parent_theme_not_found'] = __('<strong>The parent extension could not be found.</strong> You will need to install the parent extension, <strong>%s</strong>, before you can use this child extension.', 'runway');
 	}
-	
+
 	function bulk_upgrade( $extensions ,$args = array() ) {
 
 		$defaults = array(
@@ -113,7 +113,7 @@ class Extension_Upgrader extends Theme_Upgrader {
 
 		$this->update_count = count($extensions);
 		$this->update_current = 0;
-		
+
 		foreach ( $extensions as $extension ) {
 			$this->update_current++;
 
@@ -171,5 +171,5 @@ class Extension_Upgrader extends Theme_Upgrader {
 
 		return $results;
 	}
-	
+
 }

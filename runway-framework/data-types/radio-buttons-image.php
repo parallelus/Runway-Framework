@@ -14,7 +14,7 @@ class Radio_buttons_image extends Data_Type {
 		if(is_object($value)) {
 			$value = "";
 		}
-		
+
 		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
 		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 	}
@@ -73,7 +73,7 @@ class Radio_buttons_image extends Data_Type {
 		$vars = $key_values;
 		$checked = 1;
 		$customize_title = stripslashes($this->field->title);
-		
+
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 			?>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
@@ -126,7 +126,7 @@ class Radio_buttons_image extends Data_Type {
 				}
 				echo  $html . "</div>";
 				?>
-					<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
+					<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
 			}
 			$field = array(
@@ -178,7 +178,7 @@ class Radio_buttons_image extends Data_Type {
 			echo  $html;
 		}
 		do_action(self::$type_slug . '_after_render_content', $this);
-		
+
 	}
 
 	public static function render_settings() { ?>
@@ -189,12 +189,12 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Image size', 'framework'); ?>:
+		            <?php echo __('Image size', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 		            <select name="image_size" class="settings-select">
-		                <option {{if image_size == ''}} selected="true" {{/if}} value=""><?php echo __('Real size', 'framework'); ?></option>
+		                <option {{if image_size == ''}} selected="true" {{/if}} value=""><?php echo __('Real size', 'runway'); ?></option>
 		                <option {{if image_size == '16'}} selected="true" {{/if}} value="16">16x16</option>
 		                <option {{if image_size == '24'}} selected="true" {{/if}} value="24">24x24</option>
 		                <option {{if image_size == '32'}} selected="true" {{/if}} value="32">32x32</option>
@@ -209,7 +209,7 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'framework'); ?>:
+		            <?php echo __('Values', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -223,7 +223,7 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Required', 'framework'); ?>:
+		            <?php echo __('Required', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -234,14 +234,14 @@ class Radio_buttons_image extends Data_Type {
 		                {{else}}
 		                <input data-set="required" name="required" value="true" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
 
-		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -251,18 +251,18 @@ class Radio_buttons_image extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'framework'); ?>:
+		            <?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label> 
+		            <label>
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -295,7 +295,7 @@ class Radio_buttons_image extends Data_Type {
 	                    str_render[key] = new String(str_render[key]);
 	                    str_render[key] = str_render[key].split('=>');
 	                    if(str_render[key].length == 1){
-	                        result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=><?php echo __('INSERT LINK TO IMAGE', 'framework'); ?>!');
+	                        result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=><?php echo __('INSERT LINK TO IMAGE', 'runway'); ?>!');
 	                    }
 	                    else if(str_render[key].length == 2){
 	                        if(str_render[key][1] != ''){
@@ -332,7 +332,7 @@ class Radio_buttons_image extends Data_Type {
 	</script>
 
 	<?php }
-        
+
 	public function enable_repeating($field = array(), $default_values = array()) {
 		if (!empty($field)) :
 			extract($field);
@@ -347,9 +347,9 @@ class Radio_buttons_image extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
@@ -381,7 +381,7 @@ class Radio_buttons_image extends Data_Type {
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'framework'); ?></a>');
+						field.next().after('<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'runway'); ?></a>');
 
 						if(typeof reinitialize_customize_radio_image_instance == 'function') {
 							reinitialize_customize_radio_image_instance('<?php echo esc_js($field_name) ?>');
@@ -415,7 +415,7 @@ class Radio_buttons_image extends Data_Type {
 		<?php
 		endif;
 	}
-	
+
 	public function wp_customize_js() {
 	?>
 		<script type="text/javascript">

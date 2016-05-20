@@ -58,7 +58,7 @@ class Checkbox_type extends Data_Type {
 		if (isset($this->field->values[0]) && $this->field->values[0] == 'Array') {
 			$this->field->values = array(0 => $options['values']);
 		}
-		
+
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 		?>
 		<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ); ?></span></legend>
@@ -114,7 +114,7 @@ class Checkbox_type extends Data_Type {
 
 				echo  $html . "</div>";
 				?>
-					<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a><br><br>
+					<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
 			}
 
@@ -130,7 +130,7 @@ class Checkbox_type extends Data_Type {
 			);
 			$this->enable_repeating($field, $key_values);
 			$this->wp_customize_js();
-            
+
 		} else {
 			$html = '';
 			$len = count($key_values);
@@ -210,21 +210,21 @@ class Checkbox_type extends Data_Type {
 	}
 
 	do_action( self::$type_slug . '_after_render_content', $this );
-		
-	}	
+
+	}
 
 	public function save( $value = null ) {
 		/* dirty hack to make multiple elms on customize.php page */
 		$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 		$value = $submited_value->{$this->field->alias};
-		
+
 		if(is_string($value))
 			$value = explode( ',', $value );
-		
+
 		if(is_object($value)) {
 			$value = "";
 		}
-		
+
 		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
 		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
 	}
@@ -237,7 +237,7 @@ class Checkbox_type extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            <?php echo __('Values', 'framework'); ?>:
+            <?php echo __('Values', 'runway'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -251,7 +251,7 @@ class Checkbox_type extends Data_Type {
 
     <div class="settings-container">
         <label class="settings-title">
-            <?php echo __('Required', 'framework'); ?>:        
+            <?php echo __('Required', 'runway'); ?>:
             <br><span class="settings-title-caption"></span>
         </label>
         <div class="settings-in">
@@ -262,14 +262,14 @@ class Checkbox_type extends Data_Type {
                 {{else}}
                 <input data-set="required" name="required" value="true" type="checkbox">
                 {{/if}}
-                <?php echo __('Yes', 'framework'); ?>
+                <?php echo __('Yes', 'runway'); ?>
             </label>
 
-            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
             <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
         </div>
         <div class="clear"></div>
@@ -278,18 +278,18 @@ class Checkbox_type extends Data_Type {
     <!-- Repeating settings -->
     <div class="settings-container">
     	<label class="settings-title">
-            <?php echo __('Repeating', 'framework'); ?>:
+            <?php echo __('Repeating', 'runway'); ?>:
         </label>
         <div class="settings-in">
-        	<label> 
+        	<label>
             	{{if repeating == 'Yes'}}
                 	<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
                 {{else}}
                 	<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
                 {{/if}}
-                <?php echo __('Yes', 'framework'); ?>
+                <?php echo __('Yes', 'runway'); ?>
             </label>
-            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
         </div>
         <div class="clear"></div>
     </div>
@@ -307,7 +307,7 @@ class Checkbox_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
         		builder.registerDataType({
-		            name: '<?php echo __('Checkbox List', 'framework'); ?>',
+		            name: '<?php echo __('Checkbox List', 'runway'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -350,7 +350,7 @@ class Checkbox_type extends Data_Type {
         </script>
 
 	<?php }
-        
+
 	public function enable_repeating($field = array(), $default_values = array()) {
 		if (!empty($field)) :
 			extract($field);
@@ -360,38 +360,38 @@ class Checkbox_type extends Data_Type {
 		?>
 		<div id="<?php echo esc_attr($add_id); ?>">
 			<a href="#">
-				<?php echo __('Add Field', 'framework'); ?>
+				<?php echo __('Add Field', 'runway'); ?>
 			</a>
-		</div>			
+		</div>
 
 		<script type="text/javascript">
 			(function($){
 				$(document).ready(function(){
 					var field = $.parseJSON('<?php echo json_encode($field); ?>');
 					var start_radio_groups_index = <?php echo esc_js($start_number); ?>;
-						                                                
+
 					$('#<?php echo esc_js($add_id); ?>').click(function(e){
 						e.preventDefault();
 						var field = $('<div class="checkbox_group">');
-						                                                        
+
 						<?php foreach ($default_values as $val_key => $val) { ?>
-								                                                        
+
 						var child_field = $('<label>'+
 							'<input class="<?php echo esc_attr($class); ?>" data-type="<?php echo esc_attr($data_type); ?>" data-section="<?php echo esc_attr($data_section); ?>" type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($field_name); ?>['+start_radio_groups_index+'][]" value="<?php echo esc_attr($val_key); ?>"/>'+
 							'<?php echo  $val; ?> '+
 						'</label>');
-								                                                       
+
 						field.append(child_field);
 						<?php } ?>
 						start_radio_groups_index++;
-						                                                            
+
 						field.insertBefore($(this));
 
 						$('#header').focus();
 						field.after('<br><br>');
 						field.after('<span class="field_label"> <?php echo  $after_field ?> </span>');
-						field.next().after('<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'framework'); ?></a>');
-								
+						field.next().after('<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
 							reinitialize_customize_checkbox_list_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -399,18 +399,18 @@ class Checkbox_type extends Data_Type {
 
 					$('body').on('click', '.delete__checkbox_group_field', function(e){
 						e.preventDefault();
-						                                                        
+
 						$(this).prev('.field_label').remove();
 						$(this).prev('.checkbox_group').remove();
 						$(this).next('br').remove();
 						$(this).next('br').remove();
 						$(this).remove();
-								
+
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
 							reinitialize_customize_checkbox_list_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-							
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {
 							var api = wp.customize;
@@ -434,14 +434,14 @@ class Checkbox_type extends Data_Type {
 					reinitialize_customize_checkbox_list_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
-                
+
 			if(typeof reinitialize_customize_checkbox_list_instance !== 'function') {
 				function reinitialize_customize_checkbox_list_instance(alias) {
 					(function($){
 						if ( wp.customize ) {
 							var values_array = [];
 							var current_index = -1;
-							
+
 							alias = alias.replace(/(\[\d*\])?\[\d*\]$/, "");
 							$('input[name^="'+alias+'"]').each(function(){
 								var matched = $(this).attr('name').match(/\[(\d*)\]\[\]$/);
@@ -449,7 +449,7 @@ class Checkbox_type extends Data_Type {
 									values_array.push([]);
 									current_index = parseInt(matched[1], 10);
 								}
-								
+
 								if($('input[name="'+$(this).attr('name')+'"]:checked').length === 0) {
 									values_array[values_array.length - 1] = [];
 									values_array[values_array.length - 1].push('');
@@ -458,7 +458,7 @@ class Checkbox_type extends Data_Type {
 									values_array[values_array.length - 1].push($(this).val());
 								}
 							});
-							
+
 							var api = wp.customize;
 							api.instance(alias).set(values_array);
 						}

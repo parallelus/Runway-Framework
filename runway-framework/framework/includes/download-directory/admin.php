@@ -30,7 +30,7 @@ switch ($addons_type) {
 
 	case 'plugins':
 		break;
-	
+
 	default:
 		break;
 }
@@ -75,11 +75,11 @@ if ( isset( $_GET['action'] ) && ($_GET['action'] == 'install' || $_GET['action'
 			if($addons_type == 'extensions')
 				echo '<div id="message" class="updated"><p>' . $extm->load_new_extension( $extension_zip_file_name ) . '</p></div>';
 			else
-				echo '<div id="message" class="updated"><p>' . __('Theme has been downloaded', 'framework') . '</p></div>';
+				echo '<div id="message" class="updated"><p>' . __('Theme has been downloaded', 'runway') . '</p></div>';
 		}
 		else {
 			include_once 'views/error-msg.php';
-		}		
+		}
 	}
 	else {
 		include_once 'views/error-msg.php';

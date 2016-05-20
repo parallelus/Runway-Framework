@@ -20,7 +20,7 @@ class Select_type extends Data_Type {
 		if ( isset( $this->field->values ) && !empty( $this->field->values ) ) {
 			if(is_array($this->field->values))
 				$this->field->values = "";
-			
+
 			if ( strstr( $this->field->values, "\r\n" ) ) {
 				$rows = explode( "\r\n", $this->field->values );
 			}
@@ -51,18 +51,18 @@ class Select_type extends Data_Type {
                 <?php
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
 			$vals = isset($this->field->value) ? $this->field->value : array();
-            
+
 			if(isset($vals) && is_array($vals)) {
 				foreach($vals as $key=>$tmp_value) {
 					if(is_string($key))
 						unset($vals[$key]);
 				}
 			}
-            
+
 			$count = isset($vals) ? count((array)$vals) : 1;
-			if($count == 0) 
+			if($count == 0)
 				$count = 1;
-            
+
 			for( $key = 0; $key < $count; $key++ ) {
 			?>
 			<select <?php $this->link();?>
@@ -70,7 +70,7 @@ class Select_type extends Data_Type {
 				<?php echo  $section; // escaped above ?>
 				data-type='select-type'
 				name="<?php echo esc_attr($this->field->alias); ?>[]">
-			<?php foreach($key_values as $select_value_key=>$val) { 
+			<?php foreach($key_values as $select_value_key=>$val) {
 				$html = "";
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
 					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$select_value_key.'">' : '</optgroup>';
@@ -84,7 +84,7 @@ class Select_type extends Data_Type {
 				echo  $html;
 			} ?>
 			</select>
-			<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a><br>
+			<a href="#" class="delete_select_field"><?php echo __('Delete', 'runway'); ?></a><br>
 			<?php
 			}
 
@@ -115,7 +115,7 @@ class Select_type extends Data_Type {
 
 			echo  $html;
 		}
-        
+
 		do_action( self::$type_slug . '_after_render_content', $this );
 
 	}
@@ -128,13 +128,13 @@ class Select_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'framework'); ?>:
+		            <?php echo __('Values', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 
 		            <textarea data-set="values" name="values" class="settings-textarea select-type" id="select-values">${values}</textarea>
-		            <span class="settings-field-caption"><?php printf( __('Enter options in the format: %s key=>value %s', 'framework'), '<code>', '</code>'); ?></span>
+		            <span class="settings-field-caption"><?php printf( __('Enter options in the format: %s key=>value %s', 'runway'), '<code>', '</code>'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -144,18 +144,18 @@ class Select_type extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'framework'); ?>:
+		            <?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label> 
+		            <label>
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -184,7 +184,7 @@ class Select_type extends Data_Type {
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-		            name: '<?php echo __('Select', 'framework'); ?>',
+		            name: '<?php echo __('Select', 'runway'); ?>',
 		            alias: '<?php echo self::$type_slug ?>',
                 settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 		        });
@@ -226,7 +226,7 @@ class Select_type extends Data_Type {
         </script>
 
 	<?php }
-    
+
 	public function enable_repeating($field = array(), $default_values = array() ){
 		if(!empty($field)) :
 			extract($field);
@@ -239,8 +239,8 @@ class Select_type extends Data_Type {
 			<a href="#">
 				Add Field
 			</a>
-		</div>			
-	
+		</div>
+
 		<script type="text/javascript">
 			(function($){
 				$(document).ready(function(){
@@ -253,11 +253,11 @@ class Select_type extends Data_Type {
 							class: '<?php echo esc_js($class); ?>',
 							name: '<?php echo esc_js($field_name); ?>[]',
 							value: ""
-						})							
+						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>');
-                                                
-						<?php foreach($default_values as $val_key=>$val) { 
+
+						<?php foreach($default_values as $val_key=>$val) {
 							$html = "";
 							if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
 								$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$val_key.'">' : '</optgroup>';
@@ -267,7 +267,7 @@ class Select_type extends Data_Type {
 						?>
 						field.append('<?php echo esc_js($html);?>');
 						<?php } ?>
-                                                            
+
 						field.insertBefore($(this));
 
 						field.click(function(e){
@@ -277,8 +277,8 @@ class Select_type extends Data_Type {
 						$('#header').focus();
 						field.after('<br>');
 						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_select_field"><?php echo __('Delete', 'framework'); ?></a>');
-                                                        
+						field.next().after('<a href="#" class="delete_select_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 						if(typeof reinitialize_customize_select_instance == 'function') {
 							reinitialize_customize_select_instance('<?php echo esc_js($field_name) ?>');
 						}
@@ -290,12 +290,12 @@ class Select_type extends Data_Type {
 						$(this).prev().remove();
 						$(this).next('br').remove();
 						$(this).remove();
-                                                        
+
 						if(typeof reinitialize_customize_select_instance == 'function') {
 							reinitialize_customize_select_instance('<?php echo esc_js($field_name) ?>');
 						}
 					});
-                                                        
+
 					if ( wp.customize ) {
 						if(typeof reinitialize_customize_select_instance == 'function') {
 							var api = wp.customize;
@@ -310,7 +310,7 @@ class Select_type extends Data_Type {
 		<?php
 	endif;
 	}
-    
+
 	public function wp_customize_js() {
 	?>
 		<script type="text/javascript">
@@ -319,7 +319,7 @@ class Select_type extends Data_Type {
 					reinitialize_customize_select_instance('<?php echo esc_js($this->field->alias);?>');
 				});
 			})(jQuery);
-                
+
 			if(typeof reinitialize_customize_select_instance !== 'function') {
 				function reinitialize_customize_select_instance(alias) {
 					(function($){

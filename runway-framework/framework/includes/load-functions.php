@@ -96,13 +96,13 @@ if ( ! function_exists( 'r_option' ) ) :
 endif;
 
 if ( ! function_exists( 'rf__' ) ) :
-	function rf__( $var, $domain = 'framework' ) {
+	function rf__( $var, $domain = 'runway' ) {
 		return call_user_func( '__', $var, $domain );
 	}
 endif;
 
 if ( ! function_exists( 'rf_e' ) ) :
-	function rf_e( $var, $domain = 'framework' ) {
+	function rf_e( $var, $domain = 'runway' ) {
 		call_user_func( '_e', $var, $domain );
 	}
 endif;
@@ -930,7 +930,7 @@ function create_translate_files( $translation_dir, $json_dir, $option_prefix, $j
 			if( ! empty( $translation_array ) ) {
 				$translation_string = "<?php \r\n// Translation strings\r\n";
 				foreach( $translation_array as $text )
-					$translation_string.= "__('".$text."', 'framework');\r\n";
+					$translation_string.= "__('".$text."', 'runway');\r\n";
 				$translation_string.= "?>";
 				$wp_filesystem->put_contents( $translation_file, $translation_string, FS_CHMOD_FILE );
 			}
@@ -1068,12 +1068,12 @@ function ask_new_theme( $old_theme, $new_theme, $link ) {
 	?>
 	<div class="error">
 		<p><strong>
-		<?php echo __( 'We noticed this theme was previously named', 'framework' ) . '<i> ' . $old_theme. '</i> '. __( 'but is now named', 'framework' ) . ' <i>' . $new_theme . '</i>.<br>' .
-		__( 'If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'framework' ) . '.<br>' .
-		__( 'If this is the same theme and you are just renaming it, you should keep this ID the same' , 'framework' ) . '.<br>' .
-		__( 'Do you want to create a new ID now?', 'framework' ) . '</strong>'; ?>
-		<a href="<?php echo esc_url( add_query_arg( 'create-theme-id', 1, $link ) ); ?>"><?php _e( 'Yes', 'framework' ) ?></a>
-		<a href="<?php echo esc_url( add_query_arg( 'create-theme-id', 0, $link ) ); ?>"><?php _e( 'No', 'framework' ) ?></a>
+		<?php echo __( 'We noticed this theme was previously named', 'runway' ) . '<i> ' . $old_theme. '</i> '. __( 'but is now named', 'runway' ) . ' <i>' . $new_theme . '</i>.<br>' .
+		__( 'If this is a new theme you should create a new unique ID for the data file to avoid any data collisions', 'runway' ) . '.<br>' .
+		__( 'If this is the same theme and you are just renaming it, you should keep this ID the same' , 'runway' ) . '.<br>' .
+		__( 'Do you want to create a new ID now?', 'runway' ) . '</strong>'; ?>
+		<a href="<?php echo esc_url( add_query_arg( 'create-theme-id', 1, $link ) ); ?>"><?php _e( 'Yes', 'runway' ) ?></a>
+		<a href="<?php echo esc_url( add_query_arg( 'create-theme-id', 0, $link ) ); ?>"><?php _e( 'No', 'runway' ) ?></a>
 		</p>
 	</div>
 	<?php
@@ -1102,7 +1102,7 @@ function check_theme_ID( $folder = false ) {
 		}
 
 		if( empty( $theme_name_stylecss ) )
-			$theme_name_stylecss = __( 'Unknown Theme (Theme Name in style.css is empty)', 'framework' );
+			$theme_name_stylecss = __( 'Unknown Theme (Theme Name in style.css is empty)', 'runway' );
 
 		if( isset( $settings['Name'] ) && $theme_name_stylecss != $settings['Name'] ) {
 
@@ -1303,5 +1303,5 @@ if( ! function_exists( 'sort_pages_list' ) ) :
 
 		return $pages_sorted;
 	}
-endif;	
+endif;
 ?>

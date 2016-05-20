@@ -16,7 +16,7 @@ class Fileupload_type extends Data_Type {
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
-                
+
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 			$this->get_value();
 
@@ -40,14 +40,14 @@ class Fileupload_type extends Data_Type {
 			<?php
 				for ($key = 0; $key < $count; $key++) {
 			?>
-				<input id="upload_image-<?php echo esc_attr($this->field->alias); ?>_<?php echo esc_attr($key); ?>" class="custom-file-upload custom-data-type" <?php echo  $section; // escaped above ?> 
-					data-type="fileupload-type" type="text" size="36" name="<?php echo esc_attr($this->field->alias); ?>[]" 
+				<input id="upload_image-<?php echo esc_attr($this->field->alias); ?>_<?php echo esc_attr($key); ?>" class="custom-file-upload custom-data-type" <?php echo  $section; // escaped above ?>
+					data-type="fileupload-type" type="text" size="36" name="<?php echo esc_attr($this->field->alias); ?>[]"
 					value="<?php echo @stripslashes(isset($this->field->value[$key]) ? $this->field->value[$key] : '' ); ?>" <?php $this->link(); ?> />
 
 					<span class="field_label">
-						<button id="upload_image_button-<?php echo esc_attr($this->field->alias.'_'.$key); ?>" class="custom-file-upload-button button"><?php _e('Select File', 'framework'); ?></button>
+						<button id="upload_image_button-<?php echo esc_attr($this->field->alias.'_'.$key); ?>" class="custom-file-upload-button button"><?php _e('Select File', 'runway'); ?></button>
 					</span>
-					<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a><br>
+					<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'runway'); ?></a><br>
 			<?php
 				}
 
@@ -58,7 +58,7 @@ class Fileupload_type extends Data_Type {
 				'size' => '36',
 				'data_section' => isset($this->page->section) ? $this->page->section : '',
 				'data_type' => 'fileupload-type',
-				'after_field' => __('Select File', 'framework'),
+				'after_field' => __('Select File', 'runway'),
 				'value' => '#'
 			);
 			$this->enable_repeating($field);
@@ -67,7 +67,7 @@ class Fileupload_type extends Data_Type {
                     var file_frame;
 			var current_button;
 			var attached_input;
-			                    
+
 			(function($){
 				$('body').on('click', '.custom-file-upload-button', function(e){
 					e.preventDefault();
@@ -111,7 +111,7 @@ class Fileupload_type extends Data_Type {
 		</script>
 	<?php
 	} else {
-            
+
 		$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 		if(!is_string($input_value) && !is_numeric($input_value))
 		{
@@ -125,9 +125,9 @@ class Fileupload_type extends Data_Type {
 		<input id="upload_image-<?php echo esc_attr($this->field->alias); ?>" class="custom-data-type" <?php echo  $section; // escaped above ?> data-type="fileupload-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" size="36" name="<?php echo esc_attr($this->field->alias); ?>" value="<?php echo esc_attr(@stripslashes( $input_value )); ?>" <?php $this->link(); ?> />
 
 		<span class="field_label">
-			<button id="upload_image_button-<?php echo esc_attr($this->field->alias); ?>" class="button"><?php _e( 'Select File', 'framework' ); ?></button>
+			<button id="upload_image_button-<?php echo esc_attr($this->field->alias); ?>" class="button"><?php _e( 'Select File', 'runway' ); ?></button>
 		</span>
-		
+
 		<script type="text/javascript">
 			var file_frame;
 			var current_button;
@@ -137,9 +137,9 @@ class Fileupload_type extends Data_Type {
 
 				$("#upload_image-<?php echo esc_js($this->field->alias); ?>").keydown(function(e){
 					console.log('Yes keydown triggered. ' + e.which)
-				});	
+				});
 
-				
+
 					$("#upload_image_button-<?php echo esc_js($this->field->alias); ?>").click(function(e) {
 						e.preventDefault();
 						current_button = $(this);
@@ -158,7 +158,7 @@ class Fileupload_type extends Data_Type {
 							attachment = file_frame.state().get('selection').first().toJSON();
 							attached_input.val(attachment.url);
 							attached_input.trigger('change');
-							
+
 							if ( wp.customize ) {
 								var api = wp.customize;
 								var mysetting = api.instance(attached_input.attr('name'));
@@ -173,11 +173,11 @@ class Fileupload_type extends Data_Type {
 
 						file_frame.open();
 					});
-				
+
 			})(jQuery);
 		</script><?php
 		}
-                
+
 		do_action( self::$type_slug . '_after_render_content', $this );
 	}
 
@@ -189,7 +189,7 @@ class Fileupload_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'framework'); ?>:
+		            <?php echo __('Values', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -202,7 +202,7 @@ class Fileupload_type extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Required', 'framework'); ?>:
+		            <?php echo __('Required', 'runway'); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
@@ -213,14 +213,14 @@ class Fileupload_type extends Data_Type {
 		                {{else}}
 		                <input data-set="required" name="required" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
 
-		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -230,18 +230,18 @@ class Fileupload_type extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'framework'); ?>:
+		            <?php echo __('Repeating', 'runway'); ?>:
 		        </label>
 		        <div class="settings-in">
-		            <label> 
+		            <label>
 		                {{if repeating == 'Yes'}}
 		                    <input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'framework'); ?>
+		                <?php echo __('Yes', 'runway'); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'framework'); ?></span>
+		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
@@ -271,7 +271,7 @@ class Fileupload_type extends Data_Type {
 			jQuery(document).ready(function ($) {
 
 				builder.registerDataType({
-					name: '<?php echo __('File upload', 'framework'); ?>',
+					name: '<?php echo __('File upload', 'runway'); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
 				});
@@ -280,7 +280,7 @@ class Fileupload_type extends Data_Type {
 		</script>
 
 	<?php }
-        
+
 	public function enable_repeating($field = array()) {
 		if (!empty($field)) :
 			extract($field);
@@ -290,9 +290,9 @@ class Fileupload_type extends Data_Type {
 		?>
 			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
-					<?php echo __('Add Field', 'framework'); ?>
+					<?php echo __('Add Field', 'runway'); ?>
 				</a>
-			</div>			
+			</div>
 
 			<script type="text/javascript">
 				(function($){
@@ -306,7 +306,7 @@ class Fileupload_type extends Data_Type {
 								class: '<?php echo esc_js($class); ?>',
 								name: '<?php echo esc_js($field_name); ?>[]',
 								value: ""
-							})					
+							})
 							.attr('size', '<?php echo esc_js($size); ?>')
 							.attr('data-type', '<?php echo esc_js($data_type); ?>')
 							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
@@ -319,8 +319,8 @@ class Fileupload_type extends Data_Type {
 							$('#header').focus();
 							field.after('<br>');
 							field.after('<span class="field_label"> <button class="custom-file-upload-button button"><?php echo esc_js($after_field) ?></button> </span>');
-							field.next().after('<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'framework'); ?></a>');
-			                                                                
+							field.next().after('<a href="#" class="delete_fileupload_field"><?php echo __('Delete', 'runway'); ?></a>');
+
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
@@ -332,13 +332,13 @@ class Fileupload_type extends Data_Type {
 							$(this).prev('input').remove();
 							$(this).next('br').remove();
 							$(this).remove();
-			                                                                
+
 							if(typeof reinitialize_customize_instance == 'function') {
 								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
 							}
 						});
-			                                                        
-						if ( wp.customize ) { 
+
+						if ( wp.customize ) {
 							if(typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;
 								api.bind('ready', function(){
