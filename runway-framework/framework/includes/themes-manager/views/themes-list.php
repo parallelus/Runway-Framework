@@ -71,7 +71,7 @@ if ( isset( $options ) ) {
 			</script>
 
 			<div class="activate-theme-popup themeActionsPupup">
-				<?php echo  $popup_message; ?>
+				<?php echo rf_string($popup_message); ?>
 				<p class="bottom-panel">
 					<a href="<?php echo esc_url($activate_link); ?>" class="activate-theme button"><?php _e( 'Activate', 'runway' ); ?></a>
 					&nbsp;<a href="javascript: void(0);" class="button  cancel-activate-theme"><?php _e( 'Cancel', 'runway' ); ?></a>
@@ -153,20 +153,20 @@ if ( isset( $options ) ) {
 					<img alt="" src="<?php echo esc_url( (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 				</div>
 				<span id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'runway'); ?></span><span class="action-text" style="display: none"></span></span>
-				<div class="theme-author"><?php echo __('By', 'runway'); ?> <?php echo  $current_theme['AuthorName']; ?></div>
+				<div class="theme-author"><?php echo __('By', 'runway'); ?> <?php echo wp_kses_post($current_theme['AuthorName']); ?></div>
 				<h3 id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-name" class="theme-name">
-					<span><?php echo __('Active', 'runway'); ?>:</span> <?php echo  $t['name']; ?>
+					<span><?php echo __('Active', 'runway'); ?>:</span> <?php echo wp_kses_post($t['name']); ?>
 				</h3>
 				<div class="runway-theme-actions">
 					<?php if ( strtolower( $t['name'] ) != 'runway' ) { ?>
 					<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'runway'); ?>">
-						<div class="dashicons dashicons-edit" data-code="f105"><?php echo  $t['editLink']; ?></div>
+						<div class="dashicons dashicons-edit" data-code="f105"><?php echo wp_kses_post($t['editLink']); ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'runway'); ?>">
-						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo  $t['duplicateLink']; ?></div>
+						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo wp_kses_post($t['duplicateLink']); ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'runway'); ?>">
-						<div class="dashicons dashicons-download" data-code="f316"><?php echo  $t['downloadLink']; ?></div>
+						<div class="dashicons dashicons-download" data-code="f316"><?php echo wp_kses_post($t['downloadLink']); ?></div>
 					</div>
 					<?php } ?>
 				</div>
@@ -193,15 +193,15 @@ if ( isset( $options ) ) {
 					<img alt="" src="<?php echo esc_url( (isset($t['image']) && $t['image'] != "") ? $t['image'] : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 				</div>
 				<span id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-action" class="more-details"><span class="primary-text"><?php echo __('Theme Details', 'runway'); ?></span><span class="action-text" style="display: none"></span></span>
-				<div class="theme-author"><?php echo __('By', 'runway'); ?> <?php echo  $theme['AuthorName']; ?></div>
+				<div class="theme-author"><?php echo __('By', 'runway'); ?> <?php echo wp_kses_post($theme['AuthorName']); ?></div>
 				<h3 id="<?php echo esc_attr(strtolower( $t['name'] )); ?>-name" class="theme-name">
-					<?php echo  $t['name']; ?>
+					<?php echo wp_kses_post($t['name']); ?>
 				</h3>
 				<div class="runway-theme-notactive-actions">
 					<div class="runway-theme-actions">
 						<?php if($allowed){ ?>
 						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'runway'); ?>">
-							<div class="dashicons dashicons-yes" data-code="f147"><?php echo  $t['activateLink']; ?></div>
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo wp_kses_post($t['activateLink']); ?></div>
 						</div>
 						<?php } else { ?>
 						<?php
@@ -213,14 +213,14 @@ if ( isset( $options ) ) {
 								$link .= 'href="'. $ms_enable_theme_link .'">'. __( 'Network Enable', 'runway' ) .'</a>';
 						?>
 						<div class="dashicons-container dashicons-container-yes" data-action-text="<?php _e('Activate', 'runway'); ?>">
-							<div class="dashicons dashicons-yes" data-code="f147"><?php echo  $link; ?></div>
+							<div class="dashicons dashicons-yes" data-code="f147"><?php echo wp_kses_post($link); ?></div>
 						</div>
 						<?php	} ?>
 						<?php } ?>
 
 						<?php if($allowed || (!$allowed && is_admin())) { ?>
 						<div class="dashicons-container dashicons-container-visibility" data-action-text="<?php _e('Preview', 'runway'); ?>">
-							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo  $t['previewLink']; ?></div>
+							<div class="dashicons dashicons-visibility" data-code="f177"><?php echo rf_string($t['previewLink']); ?></div>
 						</div>
 						<?php } ?>
 					</div>
@@ -228,16 +228,16 @@ if ( isset( $options ) ) {
 					<?php	if(strtolower( $theme['Name'] ) != 'runway') { ?>
 					<div class="runway-theme-actions-bottom">
 						<div class="dashicons-container dashicons-container-edit" data-action-text="<?php _e('Edit', 'runway'); ?>">
-							<div class="dashicons dashicons-edit" data-code="f105"><?php echo  $t['editLink']; ?></div>
+							<div class="dashicons dashicons-edit" data-code="f105"><?php echo rf_string($t['editLink']); ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'runway'); ?>">
-							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo  $t['duplicateLink']; ?></div>
+							<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo rf_string($t['duplicateLink']); ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-no" data-action-text="<?php _e('Delete', 'runway'); ?>">
-							<div class="dashicons dashicons-no" data-code="f158"><?php echo  $t['deleteLink']; ?></div>
+							<div class="dashicons dashicons-no" data-code="f158"><?php echo rf_string($t['deleteLink']); ?></div>
 						</div>
 						<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'runway'); ?>">
-							<div class="dashicons dashicons-download" data-code="f316"><?php echo  $t['downloadLink']; ?></div>
+							<div class="dashicons dashicons-download" data-code="f316"><?php echo rf_string($t['downloadLink']); ?></div>
 						</div>
 					</div>
 					<?php	} ?>
@@ -273,7 +273,7 @@ if ( isset( $options ) ) {
 						<div class="theme-screenshot">
 							<img alt="" src="<?php echo esc_url( (isset($theme->Screenshot) && $theme->Screenshot != "") ? $theme->Screenshot : FRAMEWORK_URL.'framework/images/runway-child-theme-default-background.png' ); ?>" />
 						</div>
-						<h3 id="<?php echo esc_attr(strtolower($theme->Name )) ;?>-name" class="theme-name"><?php echo  $theme->Name; ?></h3>
+						<h3 id="<?php echo esc_attr(strtolower($theme->Name )) ;?>-name" class="theme-name"><?php echo rf_string($theme->Name); ?></h3>
 						<div class="runway-theme-other-actions"></div>
 					</a>
 				</div>

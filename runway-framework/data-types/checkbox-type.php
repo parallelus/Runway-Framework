@@ -45,7 +45,7 @@ class Checkbox_type extends Data_Type {
 		$checked_list = array();
 
 		$this->field->values = ( $vals != null ) ? $this->field->saved : (array) $this->get_value();
-		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 
 		if (isset($this->field->value[$this->field->alias]) && isset($this->field->value) && in_array('field_types', (array) $this->field->value)) {
 			$this->field->value = $this->field->value[$this->field->alias];
@@ -93,7 +93,7 @@ class Checkbox_type extends Data_Type {
 						$options[$key] = array('class' => '', 'disabled' => '');
 					}
 
-					$class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
+					$class = ( $a = $options[$key]['class'] ) ? 'class="' . esc_attr($a) . '"' : '';
 					$readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
 
 					if (isset($this->field->values[$key_val]) && is_array($this->field->values[$key_val])) {
@@ -107,12 +107,12 @@ class Checkbox_type extends Data_Type {
 							' . $section . '
 							type="checkbox"
 							data-type="checkbox-type"
-							value="' . $key . '"
-							name="' . $this->field->alias . '[' . $key_val . '][]" ' . (isset($this->field->class) ? $this->field->class : "") . ' ' .
+							value="' . esc_attr($key) . '"
+							name="' . esc_attr($this->field->alias) . '[' . esc_attr($key_val) . '][]" ' . (isset($this->field->class) ? $this->field->class : "") . ' ' .
 						$readonly . ' ' . $checked . '/>' . stripslashes($val) . '</label>';
 				}
 
-				echo  $html . "</div>";
+				echo rf_string($html) . "</div>";
 				?>
 					<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
@@ -145,7 +145,7 @@ class Checkbox_type extends Data_Type {
 					$options[$key] = array('class' => '', 'disabled' => '');
 				}
 
-				$class = ( $a = $options[$key]['class'] ) ? 'class="' . $a . '"' : '';
+				$class = ( $a = $options[$key]['class'] ) ? 'class="' . esc_attr($a) . '"' : '';
 				$readonly = ( $options[$key]['disabled'] ) ? ' disabled="disabled"' : '';
 
 				if (array_key_exists('value', (array) $options[$key])) {
@@ -157,7 +157,7 @@ class Checkbox_type extends Data_Type {
 				if (!isset($this->field->class)) {
 					$this->field->class = '';
 				}
-				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 				$html .= '<label>
 						<input
 						class="input-check custom-data-type" ' .
@@ -165,8 +165,8 @@ class Checkbox_type extends Data_Type {
 						$section . '
 						type="checkbox"
 						data-type="checkbox-type"
-						value="' . $key . '"
-						name="' . $this->field->alias . '[]" ' . (isset($this->field->class) ? $this->field->class : "") . ' ' .
+						value="' . esc_attr($key) . '"
+						name="' . esc_attr($this->field->alias) . '[]" ' . (isset($this->field->class) ? $this->field->class : "") . ' ' .
 					$readonly . ' ' . $checked . '/>' . stripslashes($val) . '</label>';
 
 				if (isset($options[$key]['text'])) {
@@ -181,9 +181,9 @@ class Checkbox_type extends Data_Type {
 			}
 
 			// Add the fieldset container
-			$html = '<legend class="customize-control-title"><span>' . $this->field->title . '</span></legend><fieldset><legend class="screen-reader-text"><span>' . $this->field->title . '</span></legend>' . $html . '</fieldset>';
+			$html = '<legend class="customize-control-title"><span>' . wp_kses_post($this->field->title) . '</span></legend><fieldset><legend class="screen-reader-text"><span>' . wp_kses_post($this->field->title) . '</span></legend>' . $html . '</fieldset>';
 
-			echo  $html;
+			echo rf_string($html);
 
 			/* dirty hack to make multiple elms on customize.php page */
 			if ($this->is_customize_theme_page) {
@@ -378,7 +378,7 @@ class Checkbox_type extends Data_Type {
 
 						var child_field = $('<label>'+
 							'<input class="<?php echo esc_attr($class); ?>" data-type="<?php echo esc_attr($data_type); ?>" data-section="<?php echo esc_attr($data_section); ?>" type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($field_name); ?>['+start_radio_groups_index+'][]" value="<?php echo esc_attr($val_key); ?>"/>'+
-							'<?php echo  $val; ?> '+
+							'<?php echo rf_string($val); ?> '+
 						'</label>');
 
 						field.append(child_field);
@@ -389,7 +389,7 @@ class Checkbox_type extends Data_Type {
 
 						$('#header').focus();
 						field.after('<br><br>');
-						field.after('<span class="field_label"> <?php echo  $after_field ?> </span>');
+						field.after('<span class="field_label"> <?php echo rf_string($after_field) ?> </span>');
 						field.next().after('<a href="#" class="delete__checkbox_group_field"><?php echo __('Delete', 'runway'); ?></a>');
 
 						if(typeof reinitialize_customize_checkbox_list_instance == 'function') {

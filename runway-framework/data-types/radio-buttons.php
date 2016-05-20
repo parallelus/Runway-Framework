@@ -78,12 +78,12 @@ class Radio_buttons extends Data_Type {
 					$cnt++;
 
 					$checked = ( isset($this->field->value[$key_val]) && $key == trim($this->field->value[$key_val]) ) ? 'checked="checked"' : '';
-					$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
-					$html .= '<label><input ' . $this->return_link() . ' class="input-radio custom-data-type" ' . $section . ' data-type="radio-buttons" type="radio" name="' . $this->field->alias . '[' . $key_val . ']" value="' . $key . '" ' . $checked . ' />' . stripslashes($val) . '</label>';
+					$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
+					$html .= '<label><input ' . $this->return_link() . ' class="input-radio custom-data-type" ' . $section . ' data-type="radio-buttons" type="radio" name="' . esc_attr($this->field->alias) . '[' . esc_attr($key_val) . ']" value="' . esc_attr($key) . '" ' . $checked . ' />' . stripslashes($val) . '</label>';
 					if ($cnt < $len)
 						$html .= '<br>';
 				}
-				echo  $html . "</div>";
+				echo rf_string($html) . "</div>";
 				?>
 					<a href="#" class="delete__radio_buttons_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
@@ -126,9 +126,9 @@ class Radio_buttons extends Data_Type {
 			}
 
 			// Add the fieldset container
-			$html = '<fieldset><legend class="screen-reader-text"><span>' . stripslashes($this->field->title) . '</span></legend>' . stripslashes($html) . '</fieldset>';
+			$html = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post(stripslashes($this->field->title)) . '</span></legend>' . wp_kses_post(stripslashes($html)) . '</fieldset>';
 
-			echo  $html;
+			echo rf_string($html);
 		}
 
 		do_action( self::$type_slug . '_after_render_content', $this );

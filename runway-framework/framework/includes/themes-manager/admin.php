@@ -75,8 +75,7 @@ case 'duplicate-theme': {
 			$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
 
 			$link = admin_url('admin.php?page=themes&navigation=edit-theme&name='.$_REQUEST['new_name']);
-			$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
-			echo  $redirect; // escaped above
+			echo '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
 		}
 	} break;
 
@@ -103,8 +102,7 @@ case 'edit-theme': {
 				$developer_tools->make_package_info_from_ts( $options['Folder'], $ts );
 
 				$link = admin_url('admin.php?page=themes');
-    			$redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link).'";</script>';
-    			echo  $redirect; // escaped above
+    			echo '<script type="text/javascript">window.location = "'. esc_url_raw($link).'";</script>';
 			}
 		} else {
 			$this->view( 'theme-conf' );

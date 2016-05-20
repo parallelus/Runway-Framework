@@ -13,11 +13,11 @@ if ( isset( $_GET['action'] ) && $_GET['action'] == 'fix-all-issues' ) {
 			<tr class="<?php echo esc_attr($report_info['state']); ?>">
 				<td>
 					<div class="status-message">
-						<span><?php echo  $report_info[$report_info['state'].'_message']; ?></span>
+						<span><?php echo rf_string($report_info[$report_info['state'].'_message']); ?></span>
 					</div>
 				</td>
 				<td class="source">
-					<?php echo  $report_info['source']; ?>
+					<?php echo rf_string($report_info['source']); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

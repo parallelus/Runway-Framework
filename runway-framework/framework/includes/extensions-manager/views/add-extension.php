@@ -9,7 +9,7 @@ $this->navigation_bar( array( __( 'Upload New', 'runway' ) ) );
 <?php if ( $info_message != '' ): ?>
 	<div id="message" class="updated">
 		<p>
-			<?php echo  $info_message; ?>
+			<?php echo rf_string($info_message); ?>
 		</p>
 	</div>
 	<?php endif; ?>

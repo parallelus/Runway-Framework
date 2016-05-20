@@ -847,7 +847,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			// Page title
 			if ( !isset( $this->builder_page ) || $this->builder_page->settings->showPageTitle ) {
-				$adminPageTitle = '<h2 class="adminTitle">'.apply_filters( 'framework_admin_title', $this->name ).'</h2>';
+				$adminPageTitle = '<h2 class="adminTitle">'.apply_filters( 'framework_admin_title',  wp_kses_post($this->name) ) .'</h2>';
 				$hasTitleClass = 'hasPageTitle';
 			}
 
@@ -875,8 +875,8 @@ if ( !defined( $runway_framework_admin ) ) {
 				<div id="icon-options-general" class="icon32"><br /></div>
 
 			<?php
-			echo  $adminPageTitle . PHP_EOL; // The title
-			echo  $adminPageDesc . PHP_EOL; // The description
+			echo rf_string($adminPageTitle) . PHP_EOL; // The title
+			echo rf_string($adminPageDesc) . PHP_EOL; // The description
 ?>
 
 			<?php
@@ -919,7 +919,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				<div id="theme-framework" class="has-right-sidebar <?php echo esc_attr($this->slug); ?> <?php echo esc_attr($this->slug . '-' . $this->navigation); ?>">
 
 					<div id="icon-options-general" class="icon32"><br /></div>
-					<h2><?php echo  $this->name; ?></h2>
+					<h2><?php echo wp_kses_post($this->name); ?></h2>
 
 					<div class="inner-sidebar metabox-holder">
 
@@ -1140,7 +1140,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		function navigation_bar( $levels ) {
 
 			?><ul class="nav-bar-trail">
-			<li><a href="<?php echo esc_url($this->settings_url); ?>"><?php echo  $this->name; ?></a></li>
+			<li><a href="<?php echo esc_url($this->settings_url); ?>"><?php echo wp_kses_post($this->name); ?></a></li>
 			<?php
 			for ( $i = 0; $i < count( $levels ); $i++ ) {
 				$selected = ( $i == count( $levels ) - 1 ) ? ' selected="selected"' : '';

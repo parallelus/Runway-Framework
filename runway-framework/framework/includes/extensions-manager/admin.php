@@ -44,7 +44,7 @@ case 'extension-activate':{ // Activate extension
 			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
 				'. '.__('All your actions not be saved', 'runway');
 		}
-		echo  $redirect; // escaped above
+		echo rf_string($redirect); // escaped above
 	} break;
 case 'extension-deactivate':{ // Deactivate extension
 		if ( !$no_writable ) {
@@ -57,7 +57,7 @@ case 'extension-deactivate':{ // Deactivate extension
 			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
 				'. '.__('All your actions not be saved', 'runway');
 		}
-		echo  $redirect; // escaped above
+		echo rf_string($redirect); // escaped above
 
 	} break;
 	// Add new extension
@@ -110,7 +110,7 @@ case 'del-extension':{
 			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
 				'. '.__('All your actions not be saved', 'runway');
 		}
-		echo  $redirect; // escaped above
+		echo rf_string($redirect); // escaped above
 	} break;
 	// Bulk operations with extensions
 case 'bulk-actions':{
@@ -194,7 +194,7 @@ case 'bulk-actions':{
 					'. '.__('All your actions not be saved', 'runway');
 			}
 		}
-		echo  $redirect; // escaped above
+		echo rf_string($redirect); // escaped above
 	} break;
 case 'search':{
 		if ( $_POST['exts-search-input'] != '' && isset( $_POST['exts-search-input'] ) ) {

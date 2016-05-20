@@ -35,7 +35,7 @@ class Textarea_type extends Data_Type {
 			if ($count == 0)
 				$count = 1;
 			?>
-			<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
+			<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
 			<?php
 			for ($key = 0; $key < $count; $key++) {
 			?>
@@ -43,7 +43,7 @@ class Textarea_type extends Data_Type {
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 					<?php $this->link() ?>
 					name="<?php echo esc_attr($this->field->alias); ?>[]"
-					<?php echo  $section; // escaped above ?>
+					<?php echo rf_string($section); // escaped above ?>
 					data-type='textarea-image'><?php echo isset($this->field->value[$key]) && is_string($this->field->value[$key]) ? $this->field->value[$key] : ''; ?></textarea>
 				<a href="#" class="delete_textarea_field"><?php echo __('Delete', 'runway'); ?></a><br>
 			<?php
@@ -61,13 +61,13 @@ class Textarea_type extends Data_Type {
 			$this->wp_customize_js();
 		} else {
 			?>
-			<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
+			<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
 				<textarea
 					class="input-textarea<?php echo " " . $this->field->cssClass; ?> custom-data-type"
 					<?php $this->link() ?>
 					<?php echo parent::add_data_conditional_display($this->field); ?>
 					name="<?php echo esc_attr($this->field->alias); ?>"
-					<?php echo  $section; // escaped above ?>
+					<?php echo rf_string($section); // escaped above ?>
 					data-type='textarea-image'><?php echo is_string( $value )? html_entity_decode(esc_textarea($value)) : ''; ?></textarea><?php
 		}
 

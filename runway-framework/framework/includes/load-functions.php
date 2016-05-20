@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * Class Auto-Loader
+ *
+ * @since 1.0
+ */
 spl_autoload_register( function( $class ) {
-		// out(LIBS_DIR);
-		if ( file_exists( LIBS_DIR.$class.'.php' ) ) {
-			require_once LIBS_DIR.$class.'.php';
-		}
-	} );
+	// out(LIBS_DIR);
+	if ( file_exists( LIBS_DIR.$class.'.php' ) ) {
+		require_once LIBS_DIR.$class.'.php';
+	}
+} );
 
 //-----------------------------------------------------------------
 // Load data-types
@@ -1122,8 +1127,8 @@ function check_theme_ID( $folder = false ) {
 					$settings['Name'] = $theme_name_stylecss;
 					$wp_filesystem->put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode( $settings ), FS_CHMOD_FILE );
 			  	}
-				$redirect = '<script type="text/javascript">window.location = "'. esc_url( $link ) .'";</script>';
-				echo  $redirect; // escaped above
+				echo '<script type="text/javascript">window.location = "'. esc_url( $link ) .'";</script>';
+
 			}
 			add_action( 'admin_notices', 'ask_new_theme', 10, 3 );
 			do_action( 'admin_notices', $settings['Name'], $theme_name_stylecss, $link );
@@ -1304,19 +1309,3 @@ if( ! function_exists( 'sort_pages_list' ) ) :
 		return $pages_sorted;
 	}
 endif;
-
-/**
- * Helper function for output escaping. Ensures only strings are returned.
- *
- * @since 1.4.4
- * @param string $text A text value to be cast (string)
- * @return string A text string.
- */
-if( ! function_exists( 'rf_string' ) ) :
-	function rf_string( $text = '' ) {
-
-		$new_text = (string) apply_filters('rf_string', $text);
-		return $new_text;
-	}
-endif;
-?>

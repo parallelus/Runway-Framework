@@ -41,7 +41,7 @@ class Colorpicker_type extends Data_Type {
 				else
 					$repeat_value = "";
 			?>
-				<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?>
+				<input class="color-picker-hex custom-data-type" <?php echo rf_string($section); // escaped above ?>
 					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?>
 					name="<?php echo esc_attr($this->field->alias) ?>[]"
 					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? esc_attr($repeat_value) : ''; ?>" />
@@ -93,7 +93,7 @@ class Colorpicker_type extends Data_Type {
 			}
 		?>
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-			<input class="color-picker-hex custom-data-type" <?php echo  $section; // escaped above ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias) ?>" value="<?php echo esc_attr($input_value); ?>" />
+			<input class="color-picker-hex custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias) ?>" value="<?php echo esc_attr($input_value); ?>" />
 			<script type="text/javascript">
 				(function () {
 

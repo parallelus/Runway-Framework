@@ -24,7 +24,7 @@
 
 		<tr class="<?php echo esc_attr($trClass); ?>">
 			<td class="plugin-title">
-				<strong><a href="<?php echo esc_url(admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id)); ?>"><?php echo  $page->settings->title ?></a></strong>
+				<strong><a href="<?php echo esc_url(admin_url('admin.php?page=options-builder&navigation=edit-page&page_id='.$page->settings->page_id)); ?>"><?php echo wp_kses_post($page->settings->title) ?></a></strong>
 
 				<div class="row-actions">
 					<span class="edit"><a
@@ -43,10 +43,10 @@
 				</div>
 			</td>
 			<td class="column-alias">
-				<?php echo  $page->settings->alias ?>
+				<?php echo wp_kses_post($page->settings->alias) ?>
 			</td>
 			<td class="column-description desc">
-				<?php echo  $page->settings->pageDescription ?>
+				<?php echo wp_kses_post($page->settings->pageDescription) ?>
 			</td>
 			<td class="column-order">
 				<?php echo (!isset($page->settings->menu_order) || empty($page->settings->menu_order))? 0 : $page->settings->menu_order ?>

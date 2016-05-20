@@ -18,7 +18,7 @@ class Input_text extends Data_Type {
 		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
 		?>
 			<label>
-				<span class="customize-control-title"><?php echo  $this->field->title ?></span>
+				<span class="customize-control-title"><?php echo wp_kses_post($this->field->title) ?></span>
 				<div class="customize-control-content">
 			<?php
 			if (isset($this->field->value) && is_array($this->field->value)) {
@@ -40,7 +40,7 @@ class Input_text extends Data_Type {
 				<input
 					type="text"
 					class="input-text custom-data-type"
-					<?php echo  $section; // escaped above ?>
+					<?php echo rf_string($section); // escaped above ?>
 					data-type="input-text"
 					<?php echo parent::add_data_conditional_display($this->field); ?>
 					<?php $this->link(); ?>
@@ -73,7 +73,7 @@ class Input_text extends Data_Type {
 		else{
 			?>
 			<label>
-				<span class="customize-control-title"><?php echo  $this->field->title ?></span>
+				<span class="customize-control-title"><?php echo wp_kses_post($this->field->title) ?></span>
 				<?php
 					$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 					if(!is_string($input_value) && !is_numeric($input_value)) {
@@ -86,7 +86,7 @@ class Input_text extends Data_Type {
 
 				<div class="customize-control-content">
 					<input type="text"
-						class="input-text custom-data-type" <?php echo  $section; // escaped above ?> data-type="input-text" <?php echo parent::add_data_conditional_display($this->field); // escaped above ?> <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias); ?>" value="<?php echo esc_attr($input_value); ?>"/>
+						class="input-text custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="input-text" <?php echo parent::add_data_conditional_display($this->field); // escaped above ?> <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias); ?>" value="<?php echo esc_attr($input_value); ?>"/>
 				</div>
 			</label>
 			<?php

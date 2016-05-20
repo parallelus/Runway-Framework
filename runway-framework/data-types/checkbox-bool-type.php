@@ -31,7 +31,7 @@ class Checkbox_bool_type extends Data_Type {
 			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ); ?></span></legend>
 
 		<?php for( $key = 0; $key < $count; $key++ ) { ?>
-			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> />
+			<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="checkbox-bool-type" type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>[]" <?php  if ( isset($this->field->value[$key]) && $this->field->value[$key] == 'true' ) echo 'checked '; ?> />
 			<span class="field_label"><?php _e( 'Yes', 'runway' ) ?></span>
 
 			<a href="#" class="delete_checkbox_bool_field"><?php echo __('Delete', 'runway'); ?></a><br>
@@ -56,7 +56,7 @@ class Checkbox_bool_type extends Data_Type {
 				<legend class="customize-control-title"><span><?php echo rf__(stripslashes( $this->field->title )); ?></span></legend>
 				<input type="hidden" value="false" name="<?php echo esc_attr($this->field->alias) ?>"  />
 				<label>
-					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo  $section; // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'runway' ) ?>
+					<input <?php $this->link(); ?> class="input-check custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="checkbox-bool-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="checkbox" value="true" name="<?php echo esc_attr($this->field->alias) ?>" <?php  if ( $this->get_value() == 'true' || $this->get_value() === true || $this->get_value() === '1' ) echo 'checked '; ?> /> <?php _e( 'Yes', 'runway' ) ?>
 				</label>
 			</fieldset>
 		<?php

@@ -33,7 +33,7 @@
 		</form>
 	</div>
 	<div class="tablenav-pages <?php // if one page, add class 'one-page' ?>">
-		<span class="displaying-num"><?php echo  $response->total_count ?> <?php _e( 'items', 'runway' ) ?></span>
+		<span class="displaying-num"><?php echo wp_kses_post($response->total_count) ?> <?php _e( 'items', 'runway' ) ?></span>
 		<span class="pagination-links">
 
 			<?php if ( $current_page == 1 ) { ?>
@@ -89,7 +89,7 @@ if ( isset($response->extensions) && $response->extensions )
 {
 	foreach ( $response->extensions as $token => $extension ) {	?>
 			<tr>
-				<td class="name column-name"><strong><?php echo  $extension->Name ?></strong>
+				<td class="name column-name"><strong><?php echo wp_kses_post($extension->Name) ?></strong>
 					<div class="action-links">
 						<a href="#" class="details" token="<?php echo esc_attr($token); ?>" title="<?php echo __('More information', 'runway'); ?>"><?php echo __('Details', 'runway'); ?></a> |
 						<a class="install-now" href="<?php echo esc_url( admin_url('admin.php?page=directory&amp;action=install&amp;item='.$token.'&amp;_wpnonce=') ); ?>" title="<?php echo ($extm->is_install($token)) ? __('Reinstall', 'runway') : __('Install Now', 'runway') ?>">
@@ -97,12 +97,12 @@ if ( isset($response->extensions) && $response->extensions )
 						</a>
 					</div>
 					<div class = "details-dialog" token="<?php echo esc_attr($token); ?>" style="display:none">
-						<strong><?php echo  $extension->Name ?></strong> (<?php echo __('Version', 'runway') . ': ' . $extension->Version ?>)<hr>
+						<strong><?php echo wp_kses_post($extension->Name) ?></strong> (<?php echo __('Version', 'runway') . ': ' . $extension->Version ?>)<hr>
 						<?php rf_e($extension->Description); ?>
 					</div>
 				</td>
-				<td class="vers column-version"><?php echo  $extension->Version ?></td>
-				<td class="desc column-description"><?php rf_e($extension->Description); ?></td>
+				<td class="vers column-version"><?php echo wp_kses_post($extension->Version) ?></td>
+				<td class="desc column-description"><?php echo wp_kses_post($extension->Description); ?></td>
 			</tr>
 		<?php }
 	}
@@ -123,7 +123,7 @@ else {
 
 <div class="tablenav bottom">
 	<div class="tablenav-pages <?php // if one page, add class 'one-page' ?>">
-		<span class="displaying-num"><?php echo  $response->total_count ?> <?php _e( 'items', 'runway' ) ?></span>
+		<span class="displaying-num"><?php echo wp_kses_post($response->total_count) ?> <?php _e( 'items', 'runway' ) ?></span>
 		<span class="pagination-links">
 
 			<?php if ( $current_page == 1 ) { ?>

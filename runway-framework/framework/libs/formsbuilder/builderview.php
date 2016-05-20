@@ -3,10 +3,10 @@
 
 		<script type="text/javascript">
 		// output the page in JSON format
-		var pageJSON = '<?php echo  $page_json; ?>';
+		var pageJSON = '<?php echo rf_string($page_json); ?>';
 
 		// output the page in JSON format
-		var SAVE_ACTION = '<?php echo  $this->save_action ?>';
+		var SAVE_ACTION = '<?php echo rf_string($this->save_action) ?>';
 		</script>
 		<style type="text/css">
 			#new-item-added, #new-item-duplicated{
@@ -41,7 +41,7 @@
 		<?php if ( isset( $message ) ): ?>
 		<div id="message" class="updated below-h2">
 			<p>
-				<?php echo  $message; ?>
+				<?php echo rf_string($message); ?>
 			</p>
 		</div><?php else: ?>
 		<div id="message2" class="updated below-h2" style="display: none;"></div><?php endif; ?>
@@ -57,7 +57,7 @@
 			</div>
 			<div class="inside" style="min-height: auto !important;">
 				<div id="edit-slug-box" <?php if(!$this->resolutions['alias']){ echo 'style="display:none;"'; } ?>> <input type="hidden" name="primary-page-slug" value="<?php echo esc_attr($page['settings']['alias']); ?>">
-					<strong><?php _e( 'Alias:', 'runway' ); ?></strong> <span id="slug-static"><span id="editable-post-name" class="dynamic-page-title edit-slug" title="<?php _e( 'Click to edit the page alias.', 'runway' ); ?>"><?php echo  $page['settings']['alias'] ?></span> <span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js"><?php _e( 'Edit', 'runway' ); ?></a></span> <button class="button make-from-title"><?php _e( 'Make slug from title', 'runway' ); ?></button></span> <span id="slug-editor" style="display:none;"><input class="slug-editor-input" id="slug-editor-input" value=""><button class="button slug-editor-save"><span id="slug-editor2"><?php _e( 'Ok', 'runway' ); ?></span></button> <button class="button slug-editor-cancel"><?php _e( 'Cancel', 'runway' ); ?></button> <button class="button make-from-title"><?php _e( 'Make slug from title', 'runway' ); ?></button> <button class="button get-primary-slug"><?php _e('Reset', 'runway'); ?></button></span> <span id="editable-post-name-full">???</span>
+					<strong><?php _e( 'Alias:', 'runway' ); ?></strong> <span id="slug-static"><span id="editable-post-name" class="dynamic-page-title edit-slug" title="<?php _e( 'Click to edit the page alias.', 'runway' ); ?>"><?php echo rf_string($page['settings']['alias']) ?></span> <span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button hide-if-no-js"><?php _e( 'Edit', 'runway' ); ?></a></span> <button class="button make-from-title"><?php _e( 'Make slug from title', 'runway' ); ?></button></span> <span id="slug-editor" style="display:none;"><input class="slug-editor-input" id="slug-editor-input" value=""><button class="button slug-editor-save"><span id="slug-editor2"><?php _e( 'Ok', 'runway' ); ?></span></button> <button class="button slug-editor-cancel"><?php _e( 'Cancel', 'runway' ); ?></button> <button class="button make-from-title"><?php _e( 'Make slug from title', 'runway' ); ?></button> <button class="button get-primary-slug"><?php _e('Reset', 'runway'); ?></button></span> <span id="editable-post-name-full">???</span>
 				<span id="alias-error-text"></span>
 				</div>
 			</div>
@@ -113,7 +113,7 @@
 									<?php _e( 'Page settings', 'runway' ); ?>
 								</div><?php if(isset($help_tabs_admin)) { ?>
 								<div class="page-help-tabs tabIn" style="display: none">
-									<?php echo  $help_tabs_admin->render_options_builder_page("admin.php?page={$page['settings']['alias']}"); ?>
+									<?php echo rf_string($help_tabs_admin->render_options_builder_page("admin.php?page={$page['settings']['alias']}")); ?>
 								</div><?php } ?>
 							</div>
 							<div class="clear"></div>

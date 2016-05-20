@@ -5,6 +5,21 @@ function out( $what ) {
 	echo '<br><br>' . $bt[0]['file'] . '[' . $bt[0]['line'] . ']: <br><pre>' . print_r( $what, true ) . '</pre><br>';
 }
 
+/**
+ * Helper function for output escaping. Ensures only strings are returned.
+ *
+ * @since 1.4.4
+ * @param string $text A text value to be cast (string)
+ * @return string A text string.
+ */
+if( ! function_exists( 'rf_string' ) ) :
+	function rf_string( $text = '' ) {
+
+		$new_text = (string) apply_filters('rf_string', $text);
+		return $new_text;
+	}
+endif;
+
 define('MIN_PHP_VERSION_ID', 50301);
 
 function runway_php_version( $version = false ) {

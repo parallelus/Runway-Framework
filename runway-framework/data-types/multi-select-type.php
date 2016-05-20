@@ -56,11 +56,11 @@ class Multi_select_type extends Data_Type {
 		if($count == 0)
 			$count = 1;
 		?>
-		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
 		<?php
 		for( $key = 0; $key < $count; $key++ ) {
 		?>
-			<select multiple class="input-select custom-data-type" <?php echo  $section; // escaped above ?> data-type="multi-select-type"
+			<select multiple class="input-select custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="multi-select-type"
 				name="<?php echo esc_attr($this->field->alias);?>[<?php echo esc_attr($key);?>][]" size="5" style="height: 103px;" <?php $this->link();?>>
 
 				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'runway'); ?></option>
@@ -112,12 +112,12 @@ class Multi_select_type extends Data_Type {
 				$checked = '';
 
 			if ( $val != '' ) {
-				$html .= '<option value="'.$key.'"'.$checked.'>'.stripslashes( $val ).'</option>';
+				$html .= '<option value="'.esc_attr($key).'"'.$checked.'>'.stripslashes( $val ).'</option>';
 			}
 		}
 		$html .= '</select>';
 
-		echo  $html;
+		echo rf_string($html);
 
 		/* dirty hack to make multiple elms on customize.php page */
 		if ( $this->is_customize_theme_page ) { ?>

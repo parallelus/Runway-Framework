@@ -18,7 +18,7 @@
 									if ( isset( $page['settings']['showPageTitle'] ) && $page['settings']['showPageTitle'] == 'true' ) {
 										$checked = 'checked="checked"';
 									} ?>
-								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo  $checked; ?> value="true">
+								<input class="input-check" type="checkbox" name="showPageTitle" <?php echo rf_string($checked); ?> value="true">
 								<?php _e('Yes', 'runway'); ?>
 							</label>
 							<p class="description"><?php _e( 'Removing the title can produce a nice result on pages with multiple tabs.', 'runway' ); ?></p>
@@ -140,7 +140,7 @@
 									);
 
 									foreach ( $icons as $icon_type => $icon_name ) { ?>
-							        	<option value="<?php echo esc_attr($icon_type); ?>" <?php echo ( $page['settings']['icon'] == $icon_type ) ? 'selected="true"' : ''; ?>><?php echo  $icon_name; ?></option>
+							        	<option value="<?php echo esc_attr($icon_type); ?>" <?php echo ( $page['settings']['icon'] == $icon_type ) ? 'selected="true"' : ''; ?>><?php echo rf_string($icon_name); ?></option>
 							    <?php } ?>
 
 							</select>

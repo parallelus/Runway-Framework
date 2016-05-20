@@ -47,7 +47,7 @@ class Select_type extends Data_Type {
 		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
 		$customize_title = stripslashes( $this->field->title );
                 ?>
-		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
                 <?php
 		if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
 			$vals = isset($this->field->value) ? $this->field->value : array();
@@ -67,21 +67,21 @@ class Select_type extends Data_Type {
 			?>
 			<select <?php $this->link();?>
 				class='input-select custom-data-type'
-				<?php echo  $section; // escaped above ?>
+				<?php echo rf_string($section); // escaped above ?>
 				data-type='select-type'
 				name="<?php echo esc_attr($this->field->alias); ?>[]">
 			<?php foreach($key_values as $select_value_key=>$val) {
 				$html = "";
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$select_value_key.'">' : '</optgroup>';
+					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.esc_attr($select_value_key).'">' : '</optgroup>';
 				} else {
 					if($vals[$key] == trim($select_value_key))
 						$checked = ' selected="selected"';
 					else
 					$checked = '';
-					$html .= '<option value="'.$select_value_key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
+					$html .= '<option value="'.esc_attr($select_value_key).'" '.$checked.'>'. esc_attr(stripslashes( $val )) .'</option>';
 				}
-				echo  $html;
+				echo rf_string($html);
 			} ?>
 			</select>
 			<a href="#" class="delete_select_field"><?php echo __('Delete', 'runway'); ?></a><br>
@@ -104,16 +104,16 @@ class Select_type extends Data_Type {
 
 			foreach ( $key_values as $key => $val ) {
 				if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$key.'">' : '</optgroup>';
+					$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.esc_attr($key).'">' : '</optgroup>';
 				} else {
 					$checked = ( is_string( $vals ) && $key == trim( $vals ) ) ? ' selected="selected"' : '';
-					$html .= '<option value="'.$key.'" '.$checked.'>'.stripslashes( $val ).'</option>';
+					$html .= '<option value="'.esc_attr($key).'" '.$checked.'>'.esc_attr(stripslashes( $val )).'</option>';
 				}
 			}
 
 			$html .= '</select>';
 
-			echo  $html;
+			echo rf_string($html);
 		}
 
 		do_action( self::$type_slug . '_after_render_content', $this );

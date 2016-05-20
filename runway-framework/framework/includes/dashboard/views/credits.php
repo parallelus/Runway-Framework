@@ -18,7 +18,7 @@
 					<input name="state" type="hidden" value="<?php echo esc_attr($Dashboard_Admin->state); ?>">
 
 					<div class="tablenav-pages">
-						<span class="displaying-num"><?php echo  $Dashboard_Admin->credits['totalResults'];?> <?php echo __('items', 'runway'); ?></span>
+						<span class="displaying-num"><?php echo rf_string($Dashboard_Admin->credits['totalResults']);?> <?php echo __('items', 'runway'); ?></span>
 						<button class="first-page disabled pagination" name="first_page">&laquo;</button>
 						<button class="prev-page disabled pagination" name="prev_page">‹</button>
 						<span class="paging-input">
@@ -39,8 +39,8 @@
 									<img src="<?php echo esc_url($credit['avatar_url']); ?>" width="60" height="60" alt="<?php echo esc_attr($credit['displayname']);?>"/>
 								</span>
 								<span class="user-name">
-									<span class="name"><?php echo  $credit['displayname'];?></span>
-									<span class="user"><?php echo  $credit['username'];?></span>
+									<span class="name"><?php echo rf_string($credit['displayname']);?></span>
+									<span class="user"><?php echo rf_string($credit['username']);?></span>
 								</span>
 							</div>
 						</div>

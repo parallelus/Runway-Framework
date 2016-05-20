@@ -63,7 +63,7 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	public function check_is_options_page_alias_unique_ajax() {
-		echo  $this->check_is_options_page_alias_unique( $_POST['alias'] );
+		echo rf_string($this->check_is_options_page_alias_unique( $_POST['alias'] ));
 		die();
 	}
 

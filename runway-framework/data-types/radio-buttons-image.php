@@ -112,19 +112,19 @@ class Radio_buttons_image extends Data_Type {
 
 					$image_size = isset($this->field->image_size) ? $this->field->image_size : '';
 					$comment = isset($comments[$key]) ? $comments[$key] : '';
-					$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+					$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 					$html .= "
 						<div style='width: {$image_size}px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;' class='" . stripslashes($class) . "'>
 							<label>
 								<dt class='wp-caption-dt'>
-									<img src='" . stripslashes($val) . "' width='$image_size' height='" . $image_size . "'>
+									<img src='" . stripslashes($val) . "' width='$image_size' height='" . esc_attr($image_size) . "'>
 								</dt>
-								<p>" . stripslashes($comment) . "</p>
-								<input " . $this->get_link() . " class='input-radio custom-data-type' " . $section . " data-type='radio-buttons-image' type='radio' name='" . $this->field->alias . "[" . $key_val . "]' value='$key' $checked style='display: none;'/>
+								<p>" . wp_kses_post(stripslashes($comment)) . "</p>
+								<input " . $this->get_link() . " class='input-radio custom-data-type' " . $section . " data-type='radio-buttons-image' type='radio' name='" . esc_attr($this->field->alias) . "[" . esc_attr($key_val) . "]' value='". esc_attr($key) ."' $checked style='display: none;'/>
 							</label>
 						</div>";
 				}
-				echo  $html . "</div>";
+				echo rf_string($html) . "</div>";
 				?>
 					<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
 				<?php
@@ -173,9 +173,9 @@ class Radio_buttons_image extends Data_Type {
 			}
 
 			$title = isset($title) ? $title : '';
-			$html = '<fieldset><legend class="screen-reader-text"><span>' . stripslashes($title) . '</span></legend><legend class="customize-control-title"><span>' . $customize_title . '</span></legend>' . stripslashes($html) . '</fieldset>';
+			$html = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post(stripslashes($title)) . '</span></legend><legend class="customize-control-title"><span>' . wp_kses_post($customize_title) . '</span></legend>' . stripslashes($html) . '</fieldset>';
 
-			echo  $html;
+			echo rf_string($html);
 		}
 		do_action(self::$type_slug . '_after_render_content', $this);
 

@@ -45,7 +45,7 @@ class Datepicker_type extends Data_Type {
 				<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
 					name="<?php echo esc_attr($this->field->alias); ?>[]"
 					value="<?php echo esc_attr($repeat_value) ?>"
-					<?php echo  $section; // escaped above ?>
+					<?php echo rf_string($section); // escaped above ?>
 					data-format="<?php echo esc_attr(stripslashes($this->field->format)); ?>"
 					data-changeMonth="<?php echo esc_attr(stripslashes($this->field->changeMonth)); ?>"
 					data-changeYear="<?php echo esc_attr(stripslashes($this->field->changeYear)); ?>"
@@ -121,7 +121,7 @@ class Datepicker_type extends Data_Type {
 			<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
 				name="<?php echo esc_attr($this->field->alias); ?>"
 				value="<?php echo esc_attr($input_value) ?>"
-				<?php echo  $section; // escaped above ?>
+				<?php echo rf_string($section); // escaped above ?>
 				data-format="<?php echo esc_attr(stripslashes( $this->field->format )); ?>"
 				<?php echo parent::add_data_conditional_display($this->field); ?>
 				data-changeMonth="<?php echo esc_attr(stripslashes( $this->field->changeMonth )); ?>"

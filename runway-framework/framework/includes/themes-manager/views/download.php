@@ -60,7 +60,7 @@ $current_tag = ($current_data && $current_data->tags_show == "true" )? $current_
 	</thead>
 	<tbody>
 		<tr>
-			<td><p><?php echo  $current_package['date'] .", ". $current_package['time']; ?></p></td>
+			<td><p><?php echo wp_kses_post($current_package['date'] .", ". $current_package['time']); ?></p></td>
 			<td>
 <?php
 if ( $current_package['a_hash'] ) {
@@ -88,7 +88,7 @@ else { ?>Not found<?php } ?>
                 <span class="text-display" title="<?php echo esc_attr(substr($current_tag, 0, 50)); if(strlen($current_tag) > 50) echo '...'; ?>">
                     <?php
                     if(strlen($current_tag) > 12) echo substr($current_tag, 0, 12) . '...';
-                    else echo  $current_tag;
+                    else echo rf_string($current_tag);
                     ?>
                 </span>
 			</td>
@@ -111,7 +111,7 @@ else { ?>Not found<?php } ?>
 $rebuild_button = $html->settings_link(__('Rebuild Download Packages', 'runway'), array('class'=>'button-primary rebuild-package','action'=>'rebuild','navigation'=>'do-package','name'=>$nameKey));
 ?>
 
-<p><?php echo  $rebuild_button; ?></p>
+<p><?php echo rf_string($rebuild_button); ?></p>
 
 <div class="tags-dialog">
 	<fieldset>
@@ -167,11 +167,11 @@ if ( $history ) { ?>
 				}
 				?>
 				<tr>
-					<td><p><?php echo  $package['date'] .", ". $package['time']; ?></p></td>
+					<td><p><?php echo wp_kses_post($package['date'] .", ". $package['time']); ?></p></td>
 					<td>
 				<?php
 				if ( $package['a_hash'] ) { ?>
-						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file'] ); ?>"><?php _e('Download', 'runway') ?></a> &nbsp;(<span class="code"><?php echo  $package['a_hash']; ?></span>)</p>
+						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['a_file'] ); ?>"><?php _e('Download', 'runway') ?></a> &nbsp;(<span class="code"><?php echo rf_string($package['a_hash']); ?></span>)</p>
 						<?php
 				} else {
 					_e('Package Not Found', 'runway');
@@ -180,7 +180,7 @@ if ( $history ) { ?>
 					<td>
 				<?php
 				if ( $package['c_hash'] ) { ?>
-						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file'] ); ?>"><?php _e('Download', 'runway') ?></a> &nbsp;(<span class="code"><?php echo  $package['c_hash']; ?></span>)</p>
+						<p><a href="<?php echo esc_url( home_url() . '/wp-content/themes/' . $_REQUEST['name'] . '/download/' . $package['c_file'] ); ?>"><?php _e('Download', 'runway') ?></a> &nbsp;(<span class="code"><?php echo rf_string($package['c_hash']); ?></span>)</p>
 				<?php
 				} else {
 					_e('Package Not Found', 'runway');
@@ -190,7 +190,7 @@ if ( $history ) { ?>
                         <p title="<?php echo esc_attr(substr($tag, 0, 50)); if(strlen($tag) > 50) echo '...'; ?>">
                             <?php
                                 if(strlen($tag) > 12) echo substr($tag, 0, 12) . '...';
-                                else echo  $tag;
+                                else echo rf_string($tag);
                             ?>
 						</p>
 					</td>
@@ -220,5 +220,5 @@ if ( $history ) { ?>
 	<?php
 	// Delete all button
     $rebuild_button = $html->settings_link(__('Delete All Old Download Packages', 'runway'), array('class'=>'button-primary','navigation'=>'confirm-del-packages-all','name'=>$_REQUEST['name'])); ?>
-    <p><?php echo  $rebuild_button; ?></p>
+    <p><?php echo rf_string($rebuild_button); ?></p>
 	<?php } ?>

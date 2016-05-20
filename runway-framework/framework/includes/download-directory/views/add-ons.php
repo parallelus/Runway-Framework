@@ -68,7 +68,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 
 <div class="wp-filter">
 	<div class="filter-count">
-		<span class="count theme-count"><?php echo  $total_count; ?></span>
+		<span class="count theme-count"><?php echo wp_kses_post($total_count); ?></span>
 	</div>
 	<ul class="filter-links">
 		<li><a href="<?php echo admin_url('admin.php?page=directory&addons=themes'); ?>" data-sort="themes" class="<?php echo ($addons_type == 'themes')? 'current' : ''; ?>"><?php echo __('Themes', 'runway'); ?></a></li>
@@ -97,10 +97,10 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 			<?php else : ?>)
 				<img src="http://runwaywp.com/sites/main/wp-content/uploads/item-placeholder-preview-1-2197-640x316.png" alt="<?php echo esc_attr($item_addons->Name); ?>">
 			<?php endif; ?>
-			<div class="more-details-rf white-gradient"><p><?php echo  $item_addons->content; ?></p></div>
+			<div class="more-details-rf white-gradient"><p><?php echo rf_string($item_addons->content); ?></p></div>
 		</div>
 
-		<h3 class="theme-name-rf white-gradient-left-right"><?php echo  $item_addons->Name; ?></h3>
+		<h3 class="theme-name-rf white-gradient-left-right"><?php echo rf_string($item_addons->Name); ?></h3>
 		<div class="theme-actions add-ons-init">
 			<?php if( (isset($item_addons->isFree) && $item_addons->isFree) || (isset($item_addons->isPaid) && $item_addons->isPaid) ):
 					switch ($addons_type) {

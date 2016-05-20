@@ -16,7 +16,7 @@ $this->navigation_bar( array( $breadcrumb ) );
 ?>
 
 <?php if ( isset( $message ) ): ?>
-	<div id="message" class="updated below-h2"><p><?php echo  $message; ?></p></div>
+	<div id="message" class="updated below-h2"><p><?php echo rf_string($message); ?></p></div>
 <?php else: ?>
 	<div id="message" class="updated below-h2" style="display: none;"></div>
 <?php endif;

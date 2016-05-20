@@ -43,16 +43,16 @@ class Range_slider_type extends Data_Type {
 			$connect = '"'.$this->field->connect.'"'
 		?>
 
-		<legend class='customize-control-title'><span><?php echo  $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
 
 		<div id="<?php echo esc_attr($this->field->alias); ?>" class="range-slider">
 			<div id="slider-<?php echo esc_attr($this->field->alias);?>" <?php if($this->field->orientation == 'vertical') { ?>style="height: 250px;"<?php } ?>></div>
 			<div class="slider-values">
 				Slider values: <?php if($double) { ?>
-					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startFirstEntry; ?></span>
-					<span class="slider-end-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startSecondEntry; ?></span>
+					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo rf_string($this->field->startFirstEntry); ?></span>
+					<span class="slider-end-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo rf_string($this->field->startSecondEntry); ?></span>
 					<?php } else { ?>
-					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo  $this->field->startFirstEntry; ?></span>
+					<span class="slider-start-<?php echo esc_attr($this->field->alias);?> slider-value"><?php echo rf_string($this->field->startFirstEntry); ?></span>
 					<?php } ?>
 
 					<input type="hidden"
@@ -61,7 +61,7 @@ class Range_slider_type extends Data_Type {
 					       name="<?php echo esc_attr($this->field->alias);?>"
 					       value="<?php echo esc_attr($value); ?>"
 					       <?php $this->link() ?>
-					       <?php echo  $section; // escaped above ?>
+					       <?php echo rf_string($section); // escaped above ?>
 					       id="hidden-<?php echo esc_attr($this->field->alias); ?>"
 					       data-type="range-slider"/>
 			</div>

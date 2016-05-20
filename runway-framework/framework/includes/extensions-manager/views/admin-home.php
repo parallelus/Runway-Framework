@@ -19,8 +19,8 @@ switch ( $this->navigation ) {
 }
 ?>
 <ul class="subsubsub">
-	<li class="all"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'runway' );?> <span class="count">(<?php echo  $ext_all_total; ?>)</span></a> |</li>
-	<li class="inactive"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'runway' );?> <span class="count">(<?php echo  $ext_inactive_total; ?>)</span></a></li>
+	<li class="all"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=all'); ?>" <?php echo isset($ext_all_status) ? $ext_all_status : ""; ?>><?php echo __( 'All', 'runway' );?> <span class="count">(<?php echo wp_kses_post($ext_all_total); ?>)</span></a> |</li>
+	<li class="inactive"><a href="<?php echo admin_url('admin.php?page=extensions&navigation=inactive'); ?>" <?php echo isset($ext_inactive_status) ? $ext_inactive_status : ''; ?>><?php echo __( 'Inactive', 'runway' );?> <span class="count">(<?php echo wp_kses_post($ext_inactive_total); ?>)</span></a></li>
 </ul>
 <form method="post" action="<?php echo admin_url('admin.php?page=extensions&navigation=search#add-exts'); ?>" class="clear">
 	<p class="search-box">
@@ -60,7 +60,7 @@ if ( !empty( $exts ) ):
 				<input type="checkbox" name="ext_chk[]" value="<?php echo esc_attr($ext); ?>" />
 			</th>
 			<td class="plugin-title">
-				<strong><?php echo  $ext_info['Name']; ?></strong>
+				<strong><?php echo wp_kses_post($ext_info['Name']); ?></strong>
 				<?php if ( $ext_cnt ): ?>
 					<br><a href="<?php echo admin_url('admin.php?page=extensions&navigation=extension-activate&ext='.urlencode( $ext )); ?>"><?php echo __( 'Activate', 'runway' );?></a> |
 					<a style="color: #BC0B0B;" href="<?php echo admin_url('admin.php?page=extensions&navigation=del-extension-confirm&ext='.urlencode( $ext )); ?>"><?php echo __( 'Delete', 'runway' );?></a>
@@ -71,7 +71,7 @@ if ( !empty( $exts ) ):
 			<td class="column-description desc">
 				<?php
 // Item description
-$description = '<div class="plugin-description"><p>'. $ext_info['Description'] .'</p></div>';
+$description = '<div class="plugin-description"><p>'. wp_kses_post($ext_info['Description']) .'</p></div>';
 // Item info
 $class = ( $ext_cnt ) ? 'inactive' : 'active' ;
 $version = ( $ext_info['Version'] ) ? __( 'Version', 'runway' ).': '.$ext_info['Version'] : '';
@@ -88,8 +88,8 @@ $plugin_link = ( $ext_info['ExtensionURI'] ) ? ' | <a href="'. esc_url($ext_info
 $info = '<div class="'. esc_attr($class) .'second plugin-version-author-uri">'. $version . $author . $plugin_link .'</div>';
 
 // Print details
-echo  $description;
-echo  $info; // escaped above
+echo rf_string($description);
+echo rf_string($info); // escaped above
 ?>
 
 				<?php if ( count( $ext_info['DepsExts'] ) > 0 && isset( $ext_info['DepsExts'] ) && !empty( $ext_info['DepsExts'] ) ): ?>
@@ -118,7 +118,7 @@ $coma = ( $i == $deps_count ) ? '' : ',';
 $active = $active ? '<i style="color: green;">' . __( 'Active', 'runway' ) .'</i>' :
 '<i style="color: red;">' . __( 'Disabled', 'runway' ) . '</i>';
 ?>
-							<?php echo  $ext_data['Name']; ?>(<?php echo  $active; ?>)<?php echo  $coma; ?>
+							<?php echo wp_kses_post($ext_data['Name']); ?>(<?php echo wp_kses_post($active); ?>)<?php echo wp_kses_post($coma); ?>
 					<?php endforeach; ?>
 				<?php endif; ?>
 			</td>

@@ -44,7 +44,7 @@ $required = '<p class="description required">' . __( 'Required', 'runway' ) . '<
 	foreach ( $errors as $error ) {
 		?>
 
-				<li><?php echo  $error; ?></li>
+				<li><?php echo rf_string( $error); ?></li>
 
 			<?php } ?>
 		</ul>

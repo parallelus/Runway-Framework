@@ -14,7 +14,7 @@ class Text_editor extends Data_Type {
         }
 
         $value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
         ob_start();
 
         wp_editor( htmlspecialchars_decode( is_string( $value )? $value : '' ), $this->field->alias, array(
@@ -24,7 +24,7 @@ class Text_editor extends Data_Type {
         $html = ob_get_contents();
         ob_end_clean();
 
-        echo  $html; ?>
+        echo rf_string($html); ?>
         <script type="text/javascript">
             jQuery(document).ready(function($){
                 $('textarea.wp-editor-area').addClass('custom-data-type');
@@ -63,7 +63,7 @@ class Text_editor extends Data_Type {
 
         (function () {
 
-            var name = '<?php echo  $this->field->alias; ?>';
+            var name = '<?php echo esc_attr($this->field->alias); ?>';
 
             jQuery('[name="'+name+'"]')
                 .attr('data-customize-setting-link', name);
