@@ -45,7 +45,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			if(isset($this->builder_page)) {
 				$this->pref = $this->get_menu_adapt($this->builder_page->settings->adminMenuTopItem);
 			} else {
-				$this->pref = $this->pref . strtolower('runway');
+				$this->pref = $this->pref . strtolower('framework');
 			}
 
 			$this->page_hook = $this->pref . "_page_" . $this->slug;
