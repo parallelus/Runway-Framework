@@ -22,7 +22,7 @@ class Code_editor_type extends Data_Type {
 		$customize_title = stripslashes($this->field->title);
 		?>
 
-		<legend class='customize-control-title'><span><?php echo rf_string($customize_title(); ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo rf_string($customize_title()); ?></span></legend>
 
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
 
