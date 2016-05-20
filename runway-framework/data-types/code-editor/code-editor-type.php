@@ -22,16 +22,16 @@ class Code_editor_type extends Data_Type {
 		$customize_title = stripslashes($this->field->title);
 		?>
 
-		<legend class='customize-control-title'><span><?php echo rf_string($customize_title()); ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
 
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
 
 		<div id="<?php echo esc_attr($this->field->alias); ?>" class="code-editor"
-		     style="<?php echo isset($this->field->editorWidth) ? 'width: '.$this->field->editorWidth.'px; ': ' '; ?>
-			    <?php echo isset($this->field->editorHeight) ? 'height: '.$this->field->editorHeight.'px; ': ''; ?>"><?php echo is_string( $value )? $value : ''; ?></div>
+		     style="<?php echo isset($this->field->editorWidth) ? 'width: '.esc_attr($this->field->editorWidth).'px; ': ' '; ?>
+			    <?php echo isset($this->field->editorHeight) ? 'height: '.esc_attr($this->field->editorHeight).'px; ': ''; ?>"><?php echo is_string( $value )? $value : ''; ?></div>
 		<input  type="hidden"
-			class="code-editor<?php echo " " . esc_attr($this->field->cssClass); ?> custom-data-type ace_editor"
-			name="<?php echo rf_string($this->field->alias); ?>"
+			class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type ace_editor"
+			name="<?php echo esc_attr($this->field->alias); ?>"
 			<?php $this->link() ?>
 			id="hidden-<?php echo esc_attr($this->field->alias); ?>"
 			<?php echo rf_string($section); ?>
@@ -39,12 +39,12 @@ class Code_editor_type extends Data_Type {
 			data-type='code-editor'/>
 			<script>
 				jQuery(document).ready(function() {
-					var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
+					var editor = ace.edit("<?php echo esc_js($this->field->alias); ?>");
 
 					<?php if(isset($this->field->enableVim) && ($this->field->enableVim === 'true' || $this->field->enableVim === true)) { ?>
 					ace.require("ace/lib/net").loadScript("https://rawgithub.com/ajaxorg/ace-builds/master/src-min-noconflict/keybinding-vim.js",
 					function() {
-					    e = document.querySelector("#<?php echo esc_attr($this->field->alias); ?>").env.editor;
+					    e = document.querySelector("#<?php echo esc_js($this->field->alias); ?>").env.editor;
 					    e.setKeyboardHandler(ace.require("ace/keyboard/vim").handler);
 					});
 					<?php } ?>
@@ -52,9 +52,9 @@ class Code_editor_type extends Data_Type {
 					editor.setTheme("ace/theme/chrome");
 					editor.getSession().setMode("ace/mode/<?php echo (isset($this->field->editorLanguage)) ? strtolower($this->field->editorLanguage) : 'javascript'; ?>");
 					editor.getSession().on('change', function(e) {
-						var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
+						var editor = ace.edit("<?php echo esc_js($this->field->alias); ?>");
 						var code = editor.getSession().getValue();
-						jQuery('#hidden-<?php echo esc_attr($this->field->alias); ?>').val(code);
+						jQuery('#hidden-<?php echo esc_js($this->field->alias); ?>').val(code);
 					});
 				});
 			</script>
@@ -275,16 +275,16 @@ class Code_editor_type extends Data_Type {
 		<script type="text/javascript">
 			(function($){
 				$(document).ready(function(){
-					var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
+					var editor = ace.edit("<?php echo esc_js($this->field->alias); ?>");
 					editor.getSession().on('change', function(e) {
-						var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
+						var editor = ace.edit("<?php echo esc_js($this->field->alias); ?>");
 						var code = editor.getSession().getValue();
 						if ( wp.customize ) {
-							var alias = "<?php echo esc_attr($this->field->alias); ?>";
+							var alias = "<?php echo esc_js($this->field->alias); ?>";
 							var api = wp.customize;
-							api.instance(alias).set($('#hidden-<?php echo esc_attr($this->field->alias); ?>').val());
+							api.instance(alias).set($('#hidden-<?php echo esc_js($this->field->alias); ?>').val());
 						}
-						$('#hidden-<?php echo esc_attr($this->field->alias); ?>').trigger('change');
+						$('#hidden-<?php echo esc_js($this->field->alias); ?>').trigger('change');
 					});
 					editor.setShowPrintMargin(false);
 				});
