@@ -18,33 +18,33 @@ class Code_editor_type extends Data_Type {
 		}
 
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+		$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
 		$customize_title = stripslashes($this->field->title);
 		?>
 
-		<legend class='customize-control-title'><span><?php echo $customize_title; ?></span></legend>
+		<legend class='customize-control-title'><span><?php echo rf_string($customize_title(); ?></span></legend>
 
 		<?php if(isset($this->field->editorType) && $this->field->editorType === 'ace') { ?>
 
-		<div id="<?php echo $this->field->alias; ?>" class="code-editor"
+		<div id="<?php echo esc_attr($this->field->alias); ?>" class="code-editor"
 		     style="<?php echo isset($this->field->editorWidth) ? 'width: '.$this->field->editorWidth.'px; ': ' '; ?>
 			    <?php echo isset($this->field->editorHeight) ? 'height: '.$this->field->editorHeight.'px; ': ''; ?>"><?php echo is_string( $value )? $value : ''; ?></div>
 		<input  type="hidden"
-			class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type ace_editor"
-			name="<?php echo $this->field->alias; ?>"
+			class="code-editor<?php echo " " . esc_attr($this->field->cssClass); ?> custom-data-type ace_editor"
+			name="<?php echo rf_string($this->field->alias); ?>"
 			<?php $this->link() ?>
-			id="hidden-<?php echo $this->field->alias; ?>"
-			<?php echo $section; ?>
+			id="hidden-<?php echo esc_attr($this->field->alias); ?>"
+			<?php echo rf_string($section); ?>
 			value="<?php echo is_string( $value )? $value : ''; ?>"
 			data-type='code-editor'/>
 			<script>
 				jQuery(document).ready(function() {
-					var editor = ace.edit("<?php echo $this->field->alias; ?>");
+					var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
 
 					<?php if(isset($this->field->enableVim) && ($this->field->enableVim === 'true' || $this->field->enableVim === true)) { ?>
 					ace.require("ace/lib/net").loadScript("https://rawgithub.com/ajaxorg/ace-builds/master/src-min-noconflict/keybinding-vim.js",
 					function() {
-					    e = document.querySelector("#<?php echo $this->field->alias; ?>").env.editor;
+					    e = document.querySelector("#<?php echo esc_attr($this->field->alias); ?>").env.editor;
 					    e.setKeyboardHandler(ace.require("ace/keyboard/vim").handler);
 					});
 					<?php } ?>
@@ -52,19 +52,19 @@ class Code_editor_type extends Data_Type {
 					editor.setTheme("ace/theme/chrome");
 					editor.getSession().setMode("ace/mode/<?php echo (isset($this->field->editorLanguage)) ? strtolower($this->field->editorLanguage) : 'javascript'; ?>");
 					editor.getSession().on('change', function(e) {
-						var editor = ace.edit("<?php echo $this->field->alias; ?>");
+						var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
 						var code = editor.getSession().getValue();
-						jQuery('#hidden-<?php echo $this->field->alias; ?>').val(code);
+						jQuery('#hidden-<?php echo esc_attr($this->field->alias); ?>').val(code);
 					});
 				});
 			</script>
 		<?php
 			$this->wp_customize_js();
 		} else { ?>
-			<textarea id="<?php echo $this->field->alias; ?>" class="code-editor<?php echo " " . $this->field->cssClass; ?> custom-data-type"
+			<textarea id="<?php echo esc_attr($this->field->alias); ?>" class="code-editor<?php echo " " . esc_attr($this->field->cssClass); ?> custom-data-type"
 			<?php $this->link() ?>
-			name="<?php echo $this->field->alias; ?>"
-			<?php echo $section; ?>
+			name="<?php echo esc_attr($this->field->alias); ?>"
+			<?php echo rf_string($section); ?>
 			data-type='code-editor' <?php echo parent::add_data_conditional_display($this->field); ?> ><?php echo is_string( $value )? $value : ''; ?></textarea>
 		<?php } ?>
 		<?php
@@ -275,16 +275,16 @@ class Code_editor_type extends Data_Type {
 		<script type="text/javascript">
 			(function($){
 				$(document).ready(function(){
-					var editor = ace.edit("<?php echo $this->field->alias; ?>");
+					var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
 					editor.getSession().on('change', function(e) {
-						var editor = ace.edit("<?php echo $this->field->alias; ?>");
+						var editor = ace.edit("<?php echo esc_attr($this->field->alias); ?>");
 						var code = editor.getSession().getValue();
 						if ( wp.customize ) {
-							var alias = "<?php echo $this->field->alias; ?>";
+							var alias = "<?php echo esc_attr($this->field->alias); ?>";
 							var api = wp.customize;
-							api.instance(alias).set($('#hidden-<?php echo $this->field->alias; ?>').val());
+							api.instance(alias).set($('#hidden-<?php echo esc_attr($this->field->alias); ?>').val());
 						}
-						$('#hidden-<?php echo $this->field->alias; ?>').trigger('change');
+						$('#hidden-<?php echo esc_attr($this->field->alias); ?>').trigger('change');
 					});
 					editor.setShowPrintMargin(false);
 				});
