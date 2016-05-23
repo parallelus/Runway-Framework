@@ -8,7 +8,7 @@ if ( $_GET['navigation'] == 'new-page' ) {
 	$breadcrumb = __( 'New Admin Page', 'runway' );
 } else {
 	// Edit page
-	$breadcrumb = __( 'Edit: ', 'runway' ). $page['settings']['title'];
+	$breadcrumb = sprintf( __( 'Edit: %s', 'runway' ), $page['settings']['title'] );
 }
 // Set breadcrumbs
 $this->navigation_bar( array( $breadcrumb ) );

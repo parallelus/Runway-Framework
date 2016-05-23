@@ -74,9 +74,9 @@ if ( !empty( $exts ) ):
 $description = '<div class="plugin-description"><p>'. wp_kses_post($ext_info['Description']) .'</p></div>';
 // Item info
 $class = ( $ext_cnt ) ? 'inactive' : 'active' ;
-$version = ( $ext_info['Version'] ) ? __( 'Version', 'runway' ).': '.$ext_info['Version'] : '';
+$version = ( $ext_info['Version'] ) ? sprintf( __( 'Version: %s', 'runway' ), $ext_info['Version'] ) : '';
 if ( $ext_info['Author'] ) {
-	$author = ' | '. __('By', 'runway') .' '. $ext_info['Author'];
+	$author = ' | '. sprintf( __('By %s', 'runway'), $ext_info['Author'] );
 	if ( $ext_info['AuthorURI'] ) {
 		$author = ' | '.__('By', 'runway').' <a href="'. $ext_info['AuthorURI'] .'" title="' . __( 'Visit author homepage', 'runway' ) .'">'. $ext_info['Author'] .'</a>';
 	}

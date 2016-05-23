@@ -71,16 +71,16 @@ function download_directory_report( $reports_object ) {
             'source' => 'Download Directory',
             'report_key' => 'download_tmp_dir_exists',
             'path' => $downloads_tmp_dir,
-            'success_message' => __('Downloads directory', 'runway') . ' (' . $downloads_tmp_dir . ') ' . __('is exists', 'runway') . '.',
-            'fail_message' => __('Downloads directory', 'runway') . ' (' . $downloads_tmp_dir . ') ' . __('is not exists', 'runway') . '.',
+            'success_message' => sprintf( __('Downloads directory (%s) is exists.', 'runway'), $downloads_tmp_dir),
+            'fail_message' => sprintf( __('Downloads directory (%s) is not exists.', 'runway'), $downloads_tmp_dir),
         ), 'DIR_EXISTS' );
 
     $reports_object->assign_report( array(
             'source' => 'Download Directory',
             'report_key' => 'download_tmp_dir_writable',
             'path' => $downloads_tmp_dir,
-            'success_message' => __('Downloads directory', 'runway') . ' (' . $downloads_tmp_dir . ') ' . __('is writable', 'runway') . '.',
-            'fail_message' => __('Downloads directory', 'runway') . ' (' . $downloads_tmp_dir . ') ' . __('is not writable', 'runway') . '.',
+            'success_message' => sprintf( __('Downloads directory (%s) is writable.', 'runway'), $downloads_tmp_dir),
+            'fail_message' => sprintf( __('Downloads directory (%s) is not writable.', 'runway'), $downloads_tmp_dir),
         ), 'IS_WRITABLE' );
 }
 ?>

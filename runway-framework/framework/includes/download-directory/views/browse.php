@@ -97,7 +97,7 @@ if ( isset($response->extensions) && $response->extensions )
 						</a>
 					</div>
 					<div class = "details-dialog" token="<?php echo esc_attr($token); ?>" style="display:none">
-						<strong><?php echo wp_kses_post($extension->Name) ?></strong> (<?php echo __('Version', 'runway') . ': ' . $extension->Version ?>)<hr>
+						<strong><?php echo wp_kses_post($extension->Name) ?></strong> (<?php echo sprintf( __('Version: %s', 'runway'), $extension->Version); ?>)<hr>
 						<?php rf_e($extension->Description); ?>
 					</div>
 				</td>

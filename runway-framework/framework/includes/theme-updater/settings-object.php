@@ -514,7 +514,7 @@ class Theme_Updater_Admin_Object extends Runway_Admin_Object {
 							echo "
 						<tr>
 							<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
-							<td class='plugin-title'><img src='" . $extension['screenshot'] . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $extension['name'] . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.', 'runway' ), $extension['old_version'], $extension['new_version'] ) . "</td>
+							<td class='plugin-title'><img src='" . $extension['screenshot'] . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $extension['name'] . '</strong> ' . sprintf( __( 'You have version %s installed. Update to %s.', 'runway' ), $extension['old_version'], $extension['new_version'] ) . "</td>
 						</tr>";
 						}
 					?>

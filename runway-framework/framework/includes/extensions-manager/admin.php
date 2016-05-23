@@ -10,8 +10,7 @@ $link = admin_url('admin.php?page=extensions');
 $redirect = '<script type="text/javascript">window.location = "'. esc_url_raw($link) .'";</script>';
 
 if ( !is_writable( $extm->extensions_dir ) && !is_writable( $extm->data_dir ) ) {
-	$info_message = '<b>'.__('NOTIFICATION', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
-		'. '.__('All your actions not be saved', 'runway');
+	$info_message = sprintf( __('<b>NOTIFICATION</b>: You must have write permissions for %s. All your actions not be saved.', 'runway'), $extm->extensions_dir );
 	$no_writable = TRUE;
 }
 
@@ -41,8 +40,7 @@ case 'extension-activate':{ // Activate extension
 			}
 		}
 		else {
-			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
-				'. '.__('All your actions not be saved', 'runway');
+			$info_message = sprintf( __('<b>ERROR</b>: You must have write permissions for %s. All your actions not be saved.', 'runway'), $extm->extensions_dir );
 		}
 		echo rf_string($redirect); // escaped above
 	} break;
@@ -54,8 +52,7 @@ case 'extension-deactivate':{ // Deactivate extension
 			}
 		}
 		else {
-			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
-				'. '.__('All your actions not be saved', 'runway');
+			$info_message = sprintf( __('<b>ERROR</b>: You must have write permissions for %s. All your actions not be saved.', 'runway'), $extm->extensions_dir );
 		}
 		echo rf_string($redirect); // escaped above
 
@@ -72,7 +69,7 @@ case 'add-extension':{
 		}
 		else {
 			if ( empty( $_POST ) || !wp_verify_nonce( $_POST['extension-upload-field'], 'extension-upload-action' ) ) {
-				print __('Sorry, your nonce did not verify', 'runway').'.';
+				print __('Sorry, your nonce did not verify.', 'runway');
 				exit;
 			}
 			else {
@@ -85,7 +82,7 @@ case 'add-extension':{
 						include_once 'views/admin-home.php';
 					}
 					else {
-						$info_message = __('File must have', 'runway').' <b>.zip</b> '.__('extension Please choose another file', 'runway').'.';
+						$info_message = __('File must have <b>.zip</b> extension. Please choose another file.', 'runway');
 						include_once 'views/add-extension.php';
 					}
 				}
@@ -107,8 +104,7 @@ case 'del-extension':{
 			}
 		}
 		else {
-			$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
-				'. '.__('All your actions not be saved', 'runway');
+			$info_message = sprintf( __('<b>ERROR</b>: You must have write permissions for %s. All your actions not be saved.', 'runway'), $extm->extensions_dir );
 		}
 		echo rf_string($redirect); // escaped above
 	} break;
@@ -190,8 +186,7 @@ case 'bulk-actions':{
 				}
 			}
 			else {
-				$info_message = '<b>'.__('ERROR', 'runway').'</b>: '.__('You must have write permissions for', 'runway').' '. $extm->extensions_dir.
-					'. '.__('All your actions not be saved', 'runway');
+				$info_message = sprintf( __('<b>ERROR</b>: You must have write permissions for %s. All your actions not be saved.', 'runway'), $extm->extensions_dir );
 			}
 		}
 		echo rf_string($redirect); // escaped above

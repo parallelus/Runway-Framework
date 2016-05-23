@@ -64,16 +64,16 @@ function extensions_manager_report( $reports_object ) {
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_exists',
 			'path' => $extensions_dir,
-			'success_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'exists', 'runway' ).'.',
-			'fail_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'does not exist', 'runway' ).'.',
+			'success_message' => sprintf( __( 'Extensions directory (%s) exists.', 'runway' ), $extensions_dir ),
+			'fail_message' => sprintf( __( 'Extensions directory (%s) does not exist.', 'runway' ), $extensions_dir ),
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Extensions Manager',
 			'report_key' => 'extension_dir_writable',
 			'path' => $extensions_dir,
-			'success_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'is writable', 'runway' ).'.',
-			'fail_message' => __( 'Extensions directory', 'runway' ) .' ('.$extensions_dir.') '.__( 'is not writable', 'runway' ).'.',
+			'success_message' => sprintf( __( 'Extensions directory (%s) is writable.', 'runway' ), $extensions_dir ),
+			'fail_message' => sprintf( __( 'Extensions directory (%s) is not writable.', 'runway' ), $extensions_dir ),
 		), 'IS_WRITABLE' );
 }
 

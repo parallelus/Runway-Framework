@@ -89,16 +89,16 @@ function options_page_render_report( $reports_object ) {
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_exists',
 			'path' => $pages_dir,
-            'success_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is exists', 'runway') . '.',
-            'fail_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is not exists', 'runway') . '.',
+            'success_message' => sprintf( __('Pages dir (%s) is exists.', 'runway'), $pages_dir ),
+            'fail_message' => sprintf( __('Pages dir (%s) is not exists.', 'runway'), $pages_dir ),
 		), 'DIR_EXISTS' );
 
 	$reports_object->assign_report( array(
 			'source' => 'Options Builder',
 			'report_key' => 'pages_dir_writable',
 			'path' => $pages_dir,
-            'success_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is writable', 'runway') . '.',
-            'fail_message' => __('Pages dir', 'runway') . ' (' . $pages_dir . ') ' . __('is not writable', 'runway') . '.',
+            'success_message' => sprintf( __('Pages dir (%s) is writable.', 'runway'), $pages_dir ),
+            'fail_message' => sprintf( __('Pages dir (%s) is not writable.', 'runway'), $pages_dir ),
 		), 'IS_WRITABLE' );
 }
 ?>

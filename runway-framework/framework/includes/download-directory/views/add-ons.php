@@ -79,7 +79,7 @@ $total_count = isset($extensions_addons_search)? count($extensions_addons_search
 	<div class="search-form">
 		<?php $url = 'admin.php?page=directory&addons='.$addons_type; ?>
 		<form id="search-plugins" method="post" action="<?php echo admin_url($url); ?>">
-			<input placeholder="<?php echo __('Search ', 'runway') . strtolower(rf__($addons_type)) . '...'; ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? esc_attr($_REQUEST['s']) : ''; ?>" class="wp-filter-search-rf">
+			<input placeholder="<?php echo sprintf( __('Search %s...', 'runway'), strtolower(rf__($addons_type))); ?>" type="search" name="s" id="wp-filter-search-rf-input" value="<?php echo isset($_REQUEST['s']) ? esc_attr($_REQUEST['s']) : ''; ?>" class="wp-filter-search-rf">
 			<input class="button button-primary" type="submit" name="plugin-search-input" id="plugin-search-input" value="Search">
 		</form>
 	</div>

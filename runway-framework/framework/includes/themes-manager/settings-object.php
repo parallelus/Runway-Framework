@@ -584,7 +584,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( __('Please set write permissions for', 'runway').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'runway') );
+				wp_die( sprintf( __('Please set write permissions for %s and then refresh page', 'runway'), $this->themes_path ) );
 			}
 
 			$zip = new ZipArchive();
@@ -658,7 +658,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 			if ( !$theme_name || !$ts ) return false;
 
 			if ( !is_writable( $this->themes_path.'/'.$theme_name ) ) {
-				wp_die( __('Please set write permissions for', 'runway').' ' . $this->themes_path.'/'.$theme_name . '  '.__('and then refresh page', 'runway') );
+				wp_die( sprintf( __('Please set write permissions for %s and then refresh page', 'runway'), $this->themes_path.'/'.$theme_name ) );
 			}
 
 			$zip = new ZipArchive();
@@ -881,7 +881,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 		if ( isset( $theme['AuthorURI'] ) ) {
 			$t['author'] = '<a href="'. $theme['AuthorURI'] .'">'. $t['author'] .'</a>';
 		}
-		$t['author'] = '<li>'. __( 'By', 'runway' ) .' '. $t['author'] .'</li>';
+		$t['author'] = '<li>'. sprintf( __( 'By %s', 'runway' ), $t['author'] ) .'</li>';
 	} else {
 		$t['author'] = '';
 	}

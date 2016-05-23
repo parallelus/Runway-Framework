@@ -97,7 +97,7 @@ class Directory_Admin extends Runway_Admin_Object {
 			} else {
 				$body['success'] = false;
 				$body['content'] = '';
-				$body['error_message'] = __('File <b>', 'runway') . $item . '</b> ' . __('not found on server', 'runway');
+				$body['error_message'] = sprintf( __('File <b>%s</b> not found on server', 'runway'), $item);
 			}
 			echo json_encode($body);
 		}

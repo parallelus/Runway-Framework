@@ -200,7 +200,7 @@ class Apm_Admin extends Runway_Admin_Object {
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'runway' ) .'</div>';
 					} else {
-						$message = '<p>'.__( 'Saving error', 'runway' ).': '.$pages_dir.' '.__( 'must be a writable directory', 'runway' ).'.</p>';
+						$message = '<p>'.sprintf( __( 'Saving error: %s must be a writable directory.', 'runway' ), $pages_dir ).'</p>';
 					}
 
 					// reset page data if it have changes
@@ -338,7 +338,7 @@ class Apm_Admin extends Runway_Admin_Object {
 		global $wp_filesystem;
 
 		$error_flag = true;
-		$error_message = '<b>'. __( 'Error', 'runway' ) .':</b> '. __( '"data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme', 'runway' ).' .';
+		$error_message = __( '<b>Error</b>: "data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme.', 'runway' );
 		if ( !file_exists( $this->data_dir ) && !file_exists( $this->pages_dir ) ) {
 			if ( mkdir( $this->data_dir, 0777, true ) && mkdir( $this->pages_dir, 0777, true ) ) {
 				$error_flag = true;

@@ -255,7 +255,7 @@ class Extm_Admin extends Runway_Admin_Object {
 			$extension = $this->get_extension_data( $this->extensions_dir . $extension );
 			$act_exts[] = $extension['Name'];
 		}
-		return __( 'Extension', 'runway' ).': <b>' . implode( ',', $act_exts ) . '</b> '.__( 'activated', 'runway' );
+		return sprintf( __( 'Extension: <b>%s</b> activated', 'runway' ), implode( ',', $act_exts ) );
 
 	}
 
@@ -508,7 +508,7 @@ class Extm_Admin extends Runway_Admin_Object {
 		if ( file_exists( $file ) ) {
 			if ( is_writable( $this->extensions_dir ) ) {
 				if(unzip_file($file, $this->extensions_dir) !== true) {
-					return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
+					return sprintf( __( 'Install error: %s', 'runway' ), $zip->getStatusString() );
 				}
 				else {
 					$ext = explode( '/', $zip->getNameIndex( 0 ) );
@@ -517,10 +517,10 @@ class Extm_Admin extends Runway_Admin_Object {
 
 					if ( $zip->status == 0 ) {
 						do_action( 'after_load_extension' );
-						return __( 'Extension', 'runway' ).' <b>'.$ext_info['Name'].'</b> '.__( 'has been installed. Do you want to activate it? ', 'runway' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it', 'runway' ).'</a>?';
+						return sprintf( __( 'Extension <b>%s</b> has been installed. Do you want to activate it? %s ', 'runway' ), $ext_info['Name'], '<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it?', 'runway' ).'</a>');
 					}
 					else {
-						return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
+						return sprintf( __( 'Install error %s', 'runway' ), $zip->getStatusString() );
 					}
 
 				}
@@ -531,7 +531,7 @@ class Extm_Admin extends Runway_Admin_Object {
 		$overrides = array( 'test_form' => false, 'test_type' => false );
 		$ext_file = wp_handle_upload( $file, $overrides );
 		if ( isset( $ext_file['error'] ) ) {
-			return '<b>'.__( 'ERROR', 'runway' ).':</b>'.$ext_file['error'];
+			return sprintf( __( '<b>ERROR</b>: %s', 'runway' ), $ext_file['error'] );
 		}
 		else {
 			if ( is_writable( $this->extensions_dir ) ) {
@@ -550,10 +550,10 @@ class Extm_Admin extends Runway_Admin_Object {
 
 				if ( $zip->status == 0 ) {
 					do_action( 'after_load_extension' );
-					return __( 'The extension', 'runway' ).' <b>'.$ext_info['Name'].'</b> '.__( 'installed successfully. Would you like to', 'runway' ).' <a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>?';
+					return sprintf( __( 'The extension <b>%s</b> installed successfully. Would you like to %s ?', 'runway' ), $ext_info['Name'], '<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>');
 				}
 				else {
-					return __( 'Install error', 'runway' ).': '.$zip->getStatusString();
+					return sprintf( __( 'Install error %s', 'runway' ), $zip->getStatusString() );
 				}
 			}
 		}

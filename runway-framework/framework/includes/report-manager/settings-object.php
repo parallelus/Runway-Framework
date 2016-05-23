@@ -70,12 +70,12 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
 		           $reports->fix_all_issues();
 		        else
-        		   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %sreports page%s', 'runway' ), $this->fail, '<a href="'.$reports->self_url().'">', '</a>' ) . "</div>";
+				   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %s', 'runway' ), $this->fail, '<a href="'.$reports->self_url().'">'.__( 'reports page', 'runway' ).'</a>' ) . "</div>";
 			}
 		}
 		else {
 			global $developer_tools;
-			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %sRunway Themes Manager%s', 'runway' ), '<a href="'.$developer_tools->self_url().'">', '</a>' ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %s', 'runway' ), '<a href="'.$developer_tools->self_url().'">'.__( 'Runway Themes Manager', 'runway' ).'</a>' ) . "</div>";
 		}
 	}
 
@@ -90,8 +90,8 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 		$settings = array(
 			'source' => 'Runway System',
 			'report_key' => 'runway_min_php_version_compare',
-			'success_message' => __('Your PHP version is good! You are running version', 'runway').' '. $current_php_version,
-			'fail_message' => __('Your PHP version is', 'runway').': '.PHP_VERSION.'. '.__('Your PHP version id is', 'runway').': '.PHP_VERSION_ID.'. '.__('You must have PHP version', 'runway').' '. $min_version_display .' '.__('or later', 'runway').'.',
+			'success_message' => sprintf( __( 'Your PHP version is good! You are running version %s', 'runway' ), $current_php_version ),
+			'fail_message' => sprintf( __( 'Your PHP version is: %s. Your PHP version id is: %s. You must have PHP version %s or later.', 'runway' ), PHP_VERSION, PHP_VERSION_ID, $min_version_display ),
 			'type' => 'SYSTEM',
 		);
 		if ( MIN_PHP_VERSION_ID <= runway_php_version(true) ) {

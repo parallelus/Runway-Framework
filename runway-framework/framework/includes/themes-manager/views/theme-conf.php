@@ -25,7 +25,7 @@ $custom_icon_src = isset($Folder)? (file_exists(get_home_path() . 'wp-content/th
 $Name = (isset($Name)) ? $Name : '';
 
 // Beadcrumbs
-$navEdit = ($Name) ? __( 'Edit', 'runway' ) .": ". $Name : __( 'Edit Theme', 'runway' );
+$navEdit = ($Name) ? sprintf( __( 'Edit: %s', 'runway' ), $Name ) : __( 'Edit Theme', 'runway' );
 $navText = ($developer_tools->navigation == 'edit-theme') ? $navEdit  : __( 'Create new', 'runway' );
 $developer_tools->navigation_bar( array($navText) );
 
