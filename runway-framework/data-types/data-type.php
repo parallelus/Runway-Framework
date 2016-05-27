@@ -178,13 +178,18 @@ class Data_Type extends WP_Customize_Control {
 				<label class="settings-title"><?php echo __('Display action', 'runway'); ?>:
 				</label>
 				<div class="settings-in">
-					{{if conditionalAction == 'show'}}
-		            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" checked="true" type="radio"><?php echo __('Show', 'runway'); ?></label><br>
-		            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" type="radio"><?php echo __('Hide', 'runway'); ?></label>
-		            {{else}}
-		            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" type="radio"><?php echo __('Show', 'runway'); ?></label><br>
-		            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" checked="true" type="radio"><?php echo __('Hide', 'runway'); ?></label>
-		            {{/if}}
+					<?php if( isset( $conditionalAction ) ): ?>
+							{{if conditionalAction == 'show'}}
+				            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" checked="true" type="radio"><?php echo __('Show', 'runway'); ?></label><br>
+				            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" type="radio"><?php echo __('Hide', 'runway'); ?></label>
+				            {{else}}
+				            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" type="radio"><?php echo __('Show', 'runway'); ?></label><br>
+				            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" checked="true" type="radio"><?php echo __('Hide', 'runway'); ?></label>
+				            {{/if}}
+					<?php else: ?>
+			            	<label><input data-set="conditionalAction" name="conditionalAction" value="show" type="radio"><?php echo __('Show', 'runway'); ?></label><br>
+			            	<label><input data-set="conditionalAction" name="conditionalAction" value="hide" checked="true" type="radio"><?php echo __('Hide', 'runway'); ?></label>
+					<?php endif; ?>	
 		            <span class="settings-field-caption"><?php echo __('The action triggered by the conditional value.', 'runway'); ?></span>
 				</div>
 				<div class="clear"></div>
