@@ -91,7 +91,10 @@ class FormsBuilder {
 		}
 		else {
 			$this->options_pages[$page->settings->alias] = $page;
-			update_option( $this->option_key, $this->options_pages );
+			$old_options_pages = get_option( $this->option_key );
+			if ( $old_options_pages != $this->options_pages ) {
+				update_option( $this->option_key, $this->options_pages );
+			}
 		}
 	}
 
