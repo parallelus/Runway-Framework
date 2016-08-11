@@ -41,7 +41,7 @@ $postdata = array(
 );
 $post_args = array(
 	'method' => 'POST',
-	'header'=> "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n",
+	'headers'=> array('Accept' => 'text/html'),
 	'timeout' => 10,
 	'body' => $postdata
     );
