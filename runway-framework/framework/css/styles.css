@@ -496,3 +496,5 @@ These need to be included by the theme instead. Still working on the best way to
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
+
+.wp-customizer .accordion-section-content { overflow-x: auto; }
