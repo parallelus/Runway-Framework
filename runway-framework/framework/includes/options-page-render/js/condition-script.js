@@ -1,16 +1,17 @@
 jQuery(function() {
 
     var $ = jQuery;
+    var isWPCustomize = ( wp.customize ) ? true : false;
 
     function init_conditional_display(el, action) {
 
             switch(action) {
                 case 'show': {
-                    el.closest('tr').hide();
+                    isWPCustomize ? el.closest('.customize-control').hide() : el.closest('tr').hide();
                 } break;
 
                 case 'hide': {
-                    el.closest('tr').show();
+                    isWPCustomize ? el.closest('.customize-control').show() : el.closest('tr').show();
                 } break;
 
                 default: {} break;
@@ -25,11 +26,11 @@ jQuery(function() {
         if( toggle ) {
             switch(action) {
                 case 'show': {
-                    el.closest('tr').show();
+                    isWPCustomize ? el.closest('.customize-control').show() : el.closest('tr').show();
                 } break;
 
                 case 'hide': {
-                    el.closest('tr').hide();
+                    isWPCustomize ? el.closest('.customize-control').hide() : el.closest('tr').hide();
                 } break;
 
                 default: {} break;
@@ -37,11 +38,11 @@ jQuery(function() {
         } else {
             switch(action) {
                 case 'show': {
-                    el.closest('tr').hide();
+                    isWPCustomize ? el.closest('.customize-control').hide() : el.closest('tr').hide();
                 } break;
 
                 case 'hide': {
-                    el.closest('tr').show();
+                    isWPCustomize ? el.closest('.customize-control').show() : el.closest('tr').show();
                 } break;
 
                 default: {} break;
@@ -106,7 +107,7 @@ jQuery(function() {
                 return el_watch_value;
     }
 
-    $('.custom-data-type').each(function(){
+    $.fn.setConditions = function() {
         var alias = $(this).attr('data-conditionalAlias');
         var value = $(this).attr('data-conditionalValue');
         var action = $(this).attr('data-conditionalAction');
@@ -137,10 +138,10 @@ jQuery(function() {
                 el_watch.attr('data-targetaction', JSON.stringify(targetaction));
 
                 init_conditional_display($(this), action);
-                
+
                 var alias_watch_value = get_watch_value( alias, el_watch );
                 conditional_action($(this), action, value, alias_watch_value);
-                
+
                 switch( el_watch.attr('data-type') ) {
 
                     case 'datepicker-type': {
@@ -174,10 +175,14 @@ jQuery(function() {
                                 }
                             }
                         }); } break;
-                }  
+                }
 
             }
         }
+    };
+
+    $('.custom-data-type').each(function () {
+        $(this).setConditions();
     });
     
 });

@@ -197,6 +197,17 @@ class Font_select_type extends Data_Type {
 						var alias = '<?php echo esc_js($this->field->alias); ?>';
 						jQuery(document).ready(function($){
 
+							// Customize screen
+							if ( wp.customize ) {
+								window.setTimeout(function() {
+									if(typeof $.fn.setConditions !== 'undefined') {
+										$('.custom-data-type').each(function() {
+											$(this).setConditions();
+										});
+									}
+								}, 0);
+							}
+
 							function deselect(e) {
 							  $('.<?php echo esc_js($this->field->alias); ?> .pop').slideFadeToggle(function() {
 							    e.removeClass('font-edit');
@@ -233,24 +244,21 @@ class Font_select_type extends Data_Type {
 								if ( wp.customize ) {
 									var api = wp.customize;
 									var values_array = {};
+									var $parent = $('.<?php echo esc_attr($this->field->alias); ?>.custom-data-type');
 
-									$('.<?php echo esc_js($this->field->alias); ?> .settings-font-options-dialog .toogle-font-select-container input[type=text]').each(function(){
-										var name = $(this).attr('name').replace(alias, '').replace("[", "").replace("]", "");
+									$parent.find('input, select, textarea').not('[type="button"], [type="submit"]').each(function () {
+										var $this = $(this);
+										var name = $this.attr('name');
 
-										values_array[name] = $(this).val();
+										if (name !== undefined) {
+											name = name.replace(alias, '').replace("[", "").replace("]", "");
+											values_array[name] = $this.val();
+										}
 
-										//api.instance($(this).attr('name')).set($(this).val());
 									});
-									$('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container select option:selected').each(function(){
-										var name = $(this).parent('select').attr('name').replace(alias, '').replace("[", "").replace("]", "");
-										values_array[name] = $(this).attr('value');
-
-										//api.instance($(this).parent('select').attr('name')).set($(this).attr('value'));
-									});
-									var name = $('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').attr('name').replace(alias, '').replace("[", "").replace("]", "");
-									values_array[name] = $('.<?php echo esc_js($this->field->alias); ?> .toogle-font-select-container .color-picker-hex').val();
 
 									api.instance(alias).set(values_array);
+
 									//api.instance($('.<?php echo esc_js($this->field->alias); ?> .edit-font-options-inner .color-picker-hex').attr('name')).set($('.<?php echo esc_js($this->field->alias); ?> .edit-font-options-inner .color-picker-hex').val());
 								}
 								deselect($(this));
@@ -278,12 +286,6 @@ class Font_select_type extends Data_Type {
     							}
   							});
 
-						    /*$('.<?php echo esc_js($this->field->alias); ?>_cancel').on('click', function(e) {
-						    	e.preventDefault();
-								e.stopPropagation();
-						    	deselect($(this));
-						    //return false;
-						  	});*/
 						});
 					</script>
 				</div>
