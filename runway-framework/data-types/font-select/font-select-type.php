@@ -274,7 +274,7 @@ class Font_select_type extends Data_Type {
 							}});
 
 
-							$('.<?php echo esc_js($this->field->alias); ?> a.edit-font-options-a').on('click', function(e){console.log('11111');
+							$('.<?php echo esc_js($this->field->alias); ?> a.edit-font-options-a').on('click', function(e){
 								e.preventDefault();
 								e.stopPropagation();
 
@@ -310,6 +310,14 @@ class Font_select_type extends Data_Type {
 
 		wp_register_style('font_select_type_css', FRAMEWORK_URL . $current_data_type_dir . '/css/font-select-type.css');
 		wp_enqueue_style('font_select_type_css');
+	}
+
+	public function sanitize_value( $value ) {
+		if ( is_object( $value ) ) {
+			$value = json_decode( json_encode( $value ), true );
+		}
+
+		return $value;
 	}
 
 	public function get_value() {

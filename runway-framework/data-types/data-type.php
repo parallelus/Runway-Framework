@@ -79,6 +79,10 @@ class Data_Type extends WP_Customize_Control {
 		}
 	}
 
+	public function sanitize_value( $value ) {
+		return $value;
+	}
+
 	public function get_value() {
 
 		$this->field->value = $this->page->get_val( $this->field->alias );

@@ -203,6 +203,7 @@ class FormsBuilder {
 
 														add_action( 'customize_save_' .$field->alias, array( $option_field, 'save' ) );
 														add_filter( 'customize_value_' . $field->alias, array( $option_field, 'get_value' ) );
+														add_filter( 'customize_sanitize_' . $field->alias, array( $option_field, 'sanitize_value' ) );
 
 														$wp_customize->add_control( $option_field );
 													}

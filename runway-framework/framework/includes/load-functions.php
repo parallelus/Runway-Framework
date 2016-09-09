@@ -157,7 +157,7 @@ if ( ! function_exists( 'get_options_data' ) ) :
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
 			if ( isset( $submited_value->{$option} ) ) {
 				$value = $submited_value->{$option};
-				return $value;
+				return apply_filters( 'customize_sanitize_' . $option, $value );
 			}
 		}
 
