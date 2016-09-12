@@ -68,7 +68,7 @@
 									echo '<optgroup label="'.$roll.'">';
 									foreach ( $capability as $level ) {
 										$name = ($level == 'edit_theme_options') ? 'edit_theme_options (default)' : $level; // set custom name for default
-										$access = ( $page['settings']['access'] == $level ) ? 'selected="true"' : '';
+										$access = isset( $page['settings']['access'] ) ? selected( $page['settings']['access'], $level, false ) : '';
 										echo '<option '. $access .' value="'. $level .'">'. $name .'</option>';
 									}
 								}
@@ -140,7 +140,10 @@
 									);
 
 									foreach ( $icons as $icon_type => $icon_name ) { ?>
-							        	<option value="<?php echo esc_attr($icon_type); ?>" <?php echo ( $page['settings']['icon'] == $icon_type ) ? 'selected="true"' : ''; ?>><?php echo rf_string($icon_name); ?></option>
+							        	<option value="<?php echo esc_attr($icon_type); ?>"
+							        	    <?php selected( isset( $page['settings']['icon'] ) ? $page['settings']['icon'] : '', $icon_type ); ?>>
+							        	    <?php echo rf_string($icon_name); ?>
+							        	</option>
 							    <?php } ?>
 
 							</select>
