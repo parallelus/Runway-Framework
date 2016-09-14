@@ -197,17 +197,6 @@ class Font_select_type extends Data_Type {
 						var alias = '<?php echo esc_js($this->field->alias); ?>';
 						jQuery(document).ready(function($){
 
-							// Customize screen
-							if ( wp.customize ) {
-								window.setTimeout(function() {
-									if(typeof $.fn.setConditions !== 'undefined') {
-										$('.custom-data-type').each(function() {
-											$(this).setConditions();
-										});
-									}
-								}, 0);
-							}
-
 							function deselect(e) {
 							  $('.<?php echo esc_js($this->field->alias); ?> .pop').slideFadeToggle(function() {
 							    e.removeClass('font-edit');

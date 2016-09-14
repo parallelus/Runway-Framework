@@ -108,81 +108,87 @@ jQuery(function() {
     }
 
     $.fn.setConditions = function() {
-        var alias = $(this).attr('data-conditionalAlias');
-        var value = $(this).attr('data-conditionalValue');
-        var action = $(this).attr('data-conditionalAction');
 
-        if(typeof alias !== 'undefined') {
+        return this.each(function() {
 
-            var el_watch = $(".custom-data-type[name^='" + alias + "']");
+            var alias = $(this).attr('data-conditionalAlias');
+            var value = $(this).attr('data-conditionalValue');
+            var action = $(this).attr('data-conditionalAction');
 
-            if( el_watch.length > 0 ) {
-                var targetalias = [],
-                    targetvalue = [],
-                    targetaction = [];
+            if(typeof alias !== 'undefined') {
 
-                if( el_watch.is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' ) {
-                    targetalias = $.parseJSON(el_watch.attr('data-targetalias'));
-                }
-                targetalias.push($(this).attr('name'));
-                el_watch.attr('data-targetalias', JSON.stringify(targetalias));
+                var el_watch = $(".custom-data-type[name^='" + alias + "']");
 
-                if( el_watch.is('[data-targetvalue]') && typeof el_watch.attr('data-targetvalue') !== 'undefined' )
-                    targetvalue = $.parseJSON(el_watch.attr('data-targetvalue'));
-                targetvalue.push(value);
-                el_watch.attr('data-targetvalue', JSON.stringify(targetvalue));
+                if( el_watch.length > 0 ) {
+                    var targetalias = [],
+                        targetvalue = [],
+                        targetaction = [];
 
-                if( el_watch.is('[data-targetaction]') && typeof el_watch.attr('data-targetaction') !== 'undefined' )
-                    targetaction = $.parseJSON(el_watch.attr('data-targetaction'));
-                targetaction.push(action);
-                el_watch.attr('data-targetaction', JSON.stringify(targetaction));
+                    if( el_watch.is('[data-targetalias]') && typeof el_watch.attr('data-targetalias') !== 'undefined' ) {
+                        targetalias = $.parseJSON(el_watch.attr('data-targetalias'));
+                    }
+                    targetalias.push($(this).attr('name'));
+                    el_watch.attr('data-targetalias', JSON.stringify(targetalias));
 
-                init_conditional_display($(this), action);
+                    if( el_watch.is('[data-targetvalue]') && typeof el_watch.attr('data-targetvalue') !== 'undefined' )
+                        targetvalue = $.parseJSON(el_watch.attr('data-targetvalue'));
+                    targetvalue.push(value);
+                    el_watch.attr('data-targetvalue', JSON.stringify(targetvalue));
 
-                var alias_watch_value = get_watch_value( alias, el_watch );
-                conditional_action($(this), action, value, alias_watch_value);
+                    if( el_watch.is('[data-targetaction]') && typeof el_watch.attr('data-targetaction') !== 'undefined' )
+                        targetaction = $.parseJSON(el_watch.attr('data-targetaction'));
+                    targetaction.push(action);
+                    el_watch.attr('data-targetaction', JSON.stringify(targetaction));
 
-                switch( el_watch.attr('data-type') ) {
+                    init_conditional_display($(this), action);
 
-                    case 'datepicker-type': {
-                        el_watch.datepicker("option", "onSelect", function(){
-                            var data_alias = $.parseJSON(el_watch.attr('data-targetalias'), true);
-                            var data_value = $.parseJSON(el_watch.attr('data-targetvalue'), true);
-                            var data_action = $.parseJSON(el_watch.attr('data-targetaction'), true);
-                            var el_target, el_new_value;
+                    var alias_watch_value = get_watch_value( alias, el_watch );
+                    conditional_action($(this), action, value, alias_watch_value);
 
-                            for (var i = 0; i < data_alias.length; i++) {
-                                if( data_alias[i].length > 0 ) {
-                                    el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
-                                    el_new_value = get_watch_value( alias, el_watch );
-                                    conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                    switch( el_watch.attr('data-type') ) {
+
+                        case 'datepicker-type': {
+                            el_watch.datepicker("option", "onSelect", function(){
+                                var data_alias = $.parseJSON(el_watch.attr('data-targetalias'), true);
+                                var data_value = $.parseJSON(el_watch.attr('data-targetvalue'), true);
+                                var data_action = $.parseJSON(el_watch.attr('data-targetaction'), true);
+                                var el_target, el_new_value;
+
+                                for (var i = 0; i < data_alias.length; i++) {
+                                    if( data_alias[i].length > 0 ) {
+                                        el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
+                                        el_new_value = get_watch_value( alias, el_watch );
+                                        conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                                    }
                                 }
-                            }
-                        }); } break;
+                            }); } break;
 
-                    default: {
-                        $(document).on("change", el_watch, function(){
-                            var data_alias = JSON.parse(el_watch.attr('data-targetalias'), true);
-                            var data_value = JSON.parse(el_watch.attr('data-targetvalue'), true);
-                            var data_action = JSON.parse(el_watch.attr('data-targetaction'), true);
-                            var el_target, el_new_value;
+                        default: {
+                            $(document).on("change", el_watch, function(){
+                                var data_alias = JSON.parse(el_watch.attr('data-targetalias'), true);
+                                var data_value = JSON.parse(el_watch.attr('data-targetvalue'), true);
+                                var data_action = JSON.parse(el_watch.attr('data-targetaction'), true);
+                                var el_target, el_new_value;
 
-                            for (var i = 0; i < data_alias.length; i++) {
-                                if( data_alias[i].length > 0 ) {
-                                    el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
-                                    el_new_value = get_watch_value( alias, el_watch );
-                                    conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                                for (var i = 0; i < data_alias.length; i++) {
+                                    if( data_alias[i].length > 0 ) {
+                                        el_target = $(".custom-data-type[name^='" + data_alias[i] + "']");
+                                        el_new_value = get_watch_value( alias, el_watch );
+                                        conditional_action(el_target, data_action[i], data_value[i], el_new_value);
+                                    }
                                 }
-                            }
-                        }); } break;
-                }
+                            }); } break;
+                    }
 
+                }
             }
-        }
+
+        });
+
     };
 
-    $('.custom-data-type').each(function () {
-        $(this).setConditions();
-    });
+    window.setTimeout(function() {
+        $('.custom-data-type').setConditions();
+    }, 0);
     
 });
