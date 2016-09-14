@@ -164,7 +164,8 @@ jQuery(function() {
                             }); } break;
 
                         default: {
-                            $(document).on("change", el_watch, function(){
+                            // It is enough to attach only one handler
+                            $(document).off('change.rw_conditions', el_watch).on('change.rw_conditions', el_watch, function(){
                                 var data_alias = JSON.parse(el_watch.attr('data-targetalias'), true);
                                 var data_value = JSON.parse(el_watch.attr('data-targetvalue'), true);
                                 var data_action = JSON.parse(el_watch.attr('data-targetaction'), true);
