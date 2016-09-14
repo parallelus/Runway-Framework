@@ -209,7 +209,7 @@ class Data_Type extends WP_Customize_Control {
 		?>
 			<div id="<?php echo esc_attr($add_id); ?>">
 				<a href="#">
-					Add Field
+					<?php _e( 'Add Field', 'runway' ); ?>
 				</a>
 			</div>
 
