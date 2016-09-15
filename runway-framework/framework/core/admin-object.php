@@ -1173,9 +1173,10 @@ if ( !defined( $runway_framework_admin ) ) {
 				});
 			//]]>
 			</script>
-			<?php $css = FRAMEWORK_URL . 'framework/css/styles.css'; ?>
-			<link rel='stylesheet' type='text/css' href='<?php echo esc_url($css); ?>' />
-			<?php
+			<?php 
+			$css = FRAMEWORK_URL . 'framework/css/styles.css';
+			wp_enqueue_style( 'styles.css', $css );
+			
 		}
 
 		function field_template_path($field) {
