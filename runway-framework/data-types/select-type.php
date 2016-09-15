@@ -260,12 +260,12 @@ class Select_type extends Data_Type {
 						<?php foreach($default_values as $val_key=>$val) {
 							$html = "";
 							if ( $val == 'OPTION_GROUP_START' || $val == 'OPTION_GROUP_END' ) {
-								$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'.$val_key.'">' : '</optgroup>';
+								$html .= ( $val == 'OPTION_GROUP_START' ) ? '<optgroup label="'. esc_attr( $val_key ) .'">' : '</optgroup>';
 							} else {
-								$html .= '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
+								$html .= '<option value="'. esc_attr( $val_key ) .'" >'. esc_js( stripslashes( $val ) ) .'</option>';
 							}
 						?>
-						field.append('<?php echo esc_js($html);?>');
+						field.append('<?php echo $html; ?>');
 						<?php } ?>
 
 						field.insertBefore($(this));
