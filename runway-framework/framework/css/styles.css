@@ -152,6 +152,9 @@
     width: 100%;
     height: auto;
 }
+.customize-control textarea {
+    width: 100%
+}
 #theme-framework .wp-editor-container textarea.wp-editor-area {
     width: 99.9%
 }
@@ -497,4 +500,6 @@ These need to be included by the theme instead. Still working on the best way to
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 }
 
-.wp-customizer .accordion-section-content { overflow-x: auto; }
+.wp-customizer .accordion-section-content {
+    overflow-x: auto;
+}
