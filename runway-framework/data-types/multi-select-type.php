@@ -65,7 +65,7 @@ class Multi_select_type extends Data_Type {
 
 				<option value="no" <?php if(isset($vals[$key][0]) && $vals[$key][0] == 'no') { ?> selected="selected" <?php } ?>><?php echo __('No value', 'runway'); ?></option>
 				<?php foreach ( $key_values as $select_value_key => $val ) {
-					if(is_array($vals[$key])) {
+					if ( array_key_exists( $key, $vals ) && is_array( $vals[ $key ] ) ) {
 						$checked = ( in_array( $select_value_key, $vals[$key] ) ) ? ' selected="selected" checked="checked"' : '';
 					}
 					else
@@ -319,9 +319,9 @@ class Multi_select_type extends Data_Type {
 
 						field.append('<option value="no"><?php echo __('No value', 'runway'); ?></option>');
 						<?php foreach($default_values as $val_key=>$val) {
-							$html = '<option value="'.$val_key.'" >'.stripslashes( $val ).'</option>';
+							$html = '<option value="'. esc_attr( $val_key ) .'" >'. esc_js( stripslashes( $val ) ) .'</option>';
 						?>
-						field.append('<?php echo esc_js($html);?>');
+						field.append('<?php echo $html;?>');
 						<?php } ?>
 
 						field.insertBefore($(this));
