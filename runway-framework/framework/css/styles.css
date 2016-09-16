@@ -167,6 +167,9 @@
 #theme-framework .postbox .no-move {
     cursor: default
 }
+#theme-framework .checkbox_group {
+    display: inline-block;
+}
 .code-editor {
     width: 500px;
     height: 320px;
