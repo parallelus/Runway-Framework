@@ -152,9 +152,6 @@
     width: 100%;
     height: auto;
 }
-.customize-control textarea {
-    width: 100%
-}
 #theme-framework .wp-editor-container textarea.wp-editor-area {
     width: 99.9%
 }
@@ -173,6 +170,10 @@
 .code-editor {
     width: 500px;
     height: 320px;
+}
+.customize-control textarea,
+.customize-control select {
+    width: 100%
 }
 
 /* Development Helpers (code snippets) */
