@@ -438,17 +438,14 @@ class Extm_Admin extends Runway_Admin_Object {
 	 * @return string
 	 */
 	function del_extension( $ext ) {
-		global $wp_filesystem;
+		$wp_filesystem = get_runway_wp_filesystem();
 
 		do_action( 'before_delete_extension' );
 
 		$del_ext = explode( '/', $ext );
 
-		if ( is_dir( $this->extensions_dir . $del_ext[0] ) ) {
-			$wp_filesystem->delete($this->extensions_dir . $del_ext[0], true);
-		} elseif ( is_file( $this->extensions_dir . $del_ext[0] ) ) {
-			unlink( $this->extensions_dir . $del_ext[0] );
-		}
+		$path = runway_prepare_path( $this->extensions_dir . $del_ext[0] );
+		$wp_filesystem->delete( $path, true );
 
 		foreach ( $this->admin_settings as $key => $value ) {
 			if ( $value == urldecode( $ext ) ) {
