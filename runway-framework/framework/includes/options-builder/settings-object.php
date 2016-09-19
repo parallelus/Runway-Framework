@@ -68,10 +68,7 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	public function save_option_page() {
-		if(!function_exists('WP_Filesystem'))
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-		WP_Filesystem();
-		global $wp_filesystem;
+		$wp_filesystem = get_runway_wp_filesystem();
 
 		$json_page = $_REQUEST['json_form'];
 		// $new_page_id = $_REQUEST['page_id'];
@@ -126,7 +123,7 @@ class Apm_Admin extends Runway_Admin_Object {
 				}
 
 				if ( file_exists( "{$pages_dir}{$page_id}.json" ) ) {
-					$old = $wp_filesystem->get_contents( "{$pages_dir}{$page_id}.json" );
+					$old = $wp_filesystem->get_contents( runway_prepare_path( "{$pages_dir}{$page_id}.json" ) );
 				}
 				else
 					$old = '';
@@ -195,7 +192,7 @@ class Apm_Admin extends Runway_Admin_Object {
 							}
 						}
 						if( IS_CHILD && get_template() == 'runway-framework') {
-							$wp_filesystem->put_contents("{$pages_dir}{$page_id}.json", $new, FS_CHMOD_FILE);
+							$wp_filesystem->put_contents( runway_prepare_path( "{$pages_dir}{$page_id}.json" ), $new, FS_CHMOD_FILE);
 						}
 
 						$message = '<div id="message" class="updated below-h2"><p>'. __( 'Page saved.', 'runway' ) .'</div>';
@@ -297,17 +294,19 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	function reset_to_default( $pages_dir, $page_id ) {
-		if(!function_exists('WP_Filesystem'))
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-		WP_Filesystem();
-		global $wp_filesystem, $shortname;
 
-		$page = json_decode( $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' ) );
+		global $shortname;
+		$wp_filesystem = get_runway_wp_filesystem();
+
+		$page = json_decode( $wp_filesystem->get_contents( runway_prepare_path( $pages_dir . $page_id . '.json' ) ) );
 
 	 	$settings = get_settings_json();
 	 	$json_prefix = isset($settings['ThemeID']) ? $settings['ThemeID'] . '_' : $shortname;
 	 	$json_dir = get_stylesheet_directory() . '/data';
-		$json = json_decode($wp_filesystem->get_contents($json_dir . '/' . $json_prefix.$page->settings->alias.'.json'), true);
+		$json = json_decode(
+			$wp_filesystem->get_contents( runway_prepare_path( $json_dir . '/' . $json_prefix . $page->settings->alias . '.json' ) ),
+			true
+		);
 
 		foreach($page->elements as $elm) {
 			if(isset($elm->template) && $elm->template == 'field' && isset($elm->type)) {
@@ -332,10 +331,7 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	function get_pages_list() {
-		if(!function_exists('WP_Filesystem'))
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-		WP_Filesystem();
-		global $wp_filesystem;
+		$wp_filesystem = get_runway_wp_filesystem();
 
 		$error_flag = true;
 		$error_message = __( '<b>Error</b>: "data" and it\'s sub-folder "pages" must both exists and be writable. Please check these folders and their permissions in your child theme.', 'runway' );
@@ -366,7 +362,7 @@ class Apm_Admin extends Runway_Admin_Object {
 		$pages = array();
 
 		foreach ( $page_files as $page_file ) {
-			$json = $wp_filesystem->get_contents( $this->pages_dir . $page_file );
+			$json = $wp_filesystem->get_contents( runway_prepare_path( $this->pages_dir . $page_file ) );
 			$pages[] = json_decode( $json );
 		}
 		$sorted_list = sort_pages_list($pages);

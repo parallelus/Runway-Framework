@@ -33,15 +33,12 @@ else {
 
 		// edit page
 	case 'edit-page': {
-			if(!function_exists('WP_Filesystem'))
-				require_once(ABSPATH . 'wp-admin/includes/file.php');
-			WP_Filesystem();
-			global $wp_filesystem;
+			$wp_filesystem = get_runway_wp_filesystem();
 
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
+				$page_json = $wp_filesystem->get_contents( runway_prepare_path( $pages_dir . $page_id . '.json' ) );
 				$page = json_decode( $page_json, true );
 
 				$page = $apm->inputs_decode( $page );
@@ -60,14 +57,11 @@ else {
 		} break;
 
 	case 'confirm-remove-page':{
-			if(!function_exists('WP_Filesystem'))
-				require_once(ABSPATH . 'wp-admin/includes/file.php');
-			WP_Filesystem();
-			global $wp_filesystem;
+			$wp_filesystem = get_runway_wp_filesystem();
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
+				$page_json = $wp_filesystem->get_contents( runway_prepare_path( $pages_dir . $page_id . '.json' ) );
 				$page = json_decode( $page_json, true );
 
 				$item_confirm = 'option page';
@@ -89,15 +83,12 @@ else {
 		} break;
 
 	case 'duplicate-page': {
-			if(!function_exists('WP_Filesystem'))
-				require_once(ABSPATH . 'wp-admin/includes/file.php');
-			WP_Filesystem();
-			global $wp_filesystem;
+			$wp_filesystem = get_runway_wp_filesystem();
 
 			$page_id = $_GET['page_id'];
 
 			if ( file_exists( $pages_dir.$page_id.'.json' ) ) {
-				$page_json = $wp_filesystem->get_contents( $pages_dir.$page_id.'.json' );
+				$page_json = $wp_filesystem->get_contents( runway_prepare_path( $pages_dir . $page_id . '.json' ) );
 				$page = json_decode( $page_json );
 
 				$page->settings->page_id = time();
@@ -108,7 +99,11 @@ else {
 				$page->settings->alias = $alias_;
 
 				$page_json = json_encode( $page );
-				$wp_filesystem->put_contents($pages_dir.$page->settings->page_id.'.json', $page_json, FS_CHMOD_FILE);
+				$wp_filesystem->put_contents(
+					runway_prepare_path( $pages_dir . $page->settings->page_id . '.json' ),
+					$page_json, 
+					FS_CHMOD_FILE
+				);
 
 				$pages = $apm->get_pages_list();
 				include_once 'views/list-pages.php';
