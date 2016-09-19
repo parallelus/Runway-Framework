@@ -22,20 +22,21 @@ class Font_select_type extends Data_Type {
 		  trending: Sort the list by families seeing growth in usage (family seeing the most growth first)
 		 */
 
-		global $wp_filesystem;
+		$wp_filesystem = get_runway_wp_filesystem();
 		$font_list = array();
 
 		$google_api_url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=' . $key . '&sort=' . $sort;
 		//lets fetch it
 		$response = wp_remote_retrieve_body(wp_remote_get($google_api_url, array('sslverify' => false)));
+		$file = runway_prepare_path(__DIR__.'/data/web_fonts.json');
 		if (is_wp_error($response)) {
-			$response = $wp_filesystem->get_contents(__DIR__.'/data/web_fonts.json');
+			$response = $wp_filesystem->get_contents($file);
 		}
 
 		if($response !== false) {
 			$data = json_decode($response, true);
 			if(!isset($data['items'])) {
-				$response = $wp_filesystem->get_contents(__DIR__.'/data/web_fonts.json');
+				$response = $wp_filesystem->get_contents($file);
 				$data = json_decode($response, true);
 			}
 			if($response !== false) {

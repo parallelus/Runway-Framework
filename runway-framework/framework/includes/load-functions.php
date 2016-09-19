@@ -394,11 +394,9 @@ endif;
 
 if ( ! function_exists( 'theme_option_filter' ) ) :
 function theme_option_filter( $pre ) {
-	if( ! function_exists( 'WP_Filesystem' ) )
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	WP_Filesystem();
-	global $wp_filesystem;
+
 	global $wp_current_filter, $shortname;
+	$wp_filesystem = get_runway_wp_filesystem();
 
 	// if current options is from runway extension
 	if ( strstr( $wp_current_filter[0], 'pre_option_'.$shortname ) ) {
@@ -418,10 +416,11 @@ function theme_option_filter( $pre ) {
 		}
 		else {
 			// else search this option in /data folder (situation when user move extension or theme manually)
-			$extension_json_settings = THEME_DIR.'/data/'.$option_key.'.json';
-			if ( file_exists( $extension_json_settings ) ) {
+			$extension_json_settings = THEME_DIR . '/data/' . $option_key . '.json';
+			$file = runway_prepare_path( $extension_json_settings );
+			if ( $wp_filesystem->exists( $file ) ) {
 				// if have option save it into database
-				$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
+				$value = json_decode( $wp_filesystem->get_contents( $file ), true );
 
 				$result = $wpdb->insert(
 					$wpdb->options,
@@ -440,11 +439,11 @@ function theme_option_filter( $pre ) {
 				if( isset( $extensions[str_replace( '_', '-', $extension_name )] ) ) {
 					$extension_path = $extensions[str_replace( '_', '-', $extension_name )];
 					$default_settings_file = $extension_path . '/default-settings.json';
-
-					if ( file_exists( $default_settings_file ) ) {
+					$prepared_file = runway_prepare_path( $default_settings_file );
+					if ( $wp_filesystem->exists( $prepared_file ) ) {
 						// copy and rename default settings JSON into /data folder
 						copy( $default_settings_file, $extension_json_settings );
-						$value = json_decode( $wp_filesystem->get_contents( $extension_json_settings ), true );
+						$value = json_decode( $wp_filesystem->get_contents( $prepared_file ), true );
 						// save default settings into database
 						update_option( $option_key, $value );
 					}
@@ -491,10 +490,10 @@ function theme_option_dual_save_filter( $option, $oldvalue, $newvalue ) {
 		if ( is_writable( THEME_DIR.'data/' ) && ! in_array( $option, $exclude ) ) {
 			$settings = get_settings_json();
 			$option = isset( $settings['ThemeID'] ) ? str_replace( $shortname, $settings['ThemeID'] . '_', $option ) : $option;
-			if( IS_CHILD && get_template() == 'runway-framework') {
-				WP_Filesystem();
-				global $wp_filesystem;
-				$wp_filesystem->put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json, FS_CHMOD_FILE );
+			if( IS_CHILD && get_template() == 'runway-framework' ) {
+				$wp_filesystem = get_runway_wp_filesystem();
+				$file = runway_prepare_path( THEME_DIR . 'data/' . $option . '.json' );
+				$wp_filesystem->put_contents( $file, $newvalue_json, FS_CHMOD_FILE );
 				//file_put_contents( THEME_DIR.'data/'.$option.'.json', $newvalue_json );
 			}
 		}
@@ -507,14 +506,14 @@ endif;
 if ( ! function_exists( 'rw_get_custom_theme_data' ) ) :
 function rw_get_custom_theme_data( $name, $theme_dir = null ) {
 
-    WP_Filesystem();
-    global $wp_filesystem;
+	$wp_filesystem = get_runway_wp_filesystem();
 
 	if ( $theme_dir == null ) {
 		$theme_dir = get_stylesheet_directory();
 	}
 
-	$info = $wp_filesystem->get_contents( $theme_dir.'/style.css' );
+	$file = runway_prepare_path( $theme_dir . '/style.css' );
+	$info = $wp_filesystem->get_contents( $file );
 
 	$start = strpos( $info, $name );
 	$data = '';
@@ -626,11 +625,10 @@ function custom_theme_menu_icon() {
 			if ( $icon == 'custom-icon' && file_exists( THEME_DIR . 'custom-icon.png' ) ) {
 				$menu[$themeKey][6] = get_stylesheet_directory_uri() .'/custom-icon.png';
 			} else {
-
-				global $wp_filesystem;
-
-				$settings = json_decode( $wp_filesystem->get_contents( THEME_DIR . 'data/settings.json' ), true );
-				$menu[$themeKey][6] = isset( $settings['default-wordpress-icon-class'] ) ? $settings['default-wordpress-icon-class'] : '';
+				$wp_filesystem = get_runway_wp_filesystem();
+				$file = runway_prepare_path( THEME_DIR . 'data/settings.json' );
+				$settings = json_decode( $wp_filesystem->get_contents( $file ), true );
+				$menu[ $themeKey ][6] = isset( $settings['default-wordpress-icon-class'] ) ? $settings['default-wordpress-icon-class'] : '';
 			}
 		}
 	}
@@ -681,11 +679,9 @@ endif;
 
 if ( ! function_exists( 'db_json_sync' ) ) :
 function db_json_sync() {
-	if  ( ! function_exists( 'WP_Filesystem' ) )
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	WP_Filesystem();
-	global $wp_filesystem;
+
 	global $shortname;
+	$wp_filesystem = get_runway_wp_filesystem();
 
 	$settings = get_settings_json();
 
@@ -706,18 +702,19 @@ function db_json_sync() {
 			if ( pathinfo( $ff, PATHINFO_EXTENSION ) == 'json' ) {
 				$option_key_json = pathinfo( $ff, PATHINFO_FILENAME );
 				$option_key = str_replace( $json_prefix, $option_prefix, $option_key_json );
+				$file = runway_prepare_path( $json_dir . '/' . $ff );
 
 				if ( in_array( $option_key_json, array( $json_prefix . 'report-manager' ) ) )
 					continue;
 				if ( $option_key_json == $json_prefix . 'formsbuilder_' ) {
 					delete_option( $option_key );
-					$wp_filesystem->delete( $json_dir.'/'.$ff );
+					$wp_filesystem->delete( $file );
 					continue;
 				}
 
 				if ( strpos( $option_key_json, $json_prefix ) !== false ) {
 
-					$json = json_decode( $wp_filesystem->get_contents( $json_dir . '/' . $ff ), true );
+					$json = json_decode( $wp_filesystem->get_contents( $file ), true );
 					// $json = ($option_key_json == $json_prefix . 'formsbuilder_') ? (array) json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff)) :
 					// 	json_decode($wp_filesystem->get_contents($json_dir . '/' . $ff), true);
 					$db = get_option( $option_key );
@@ -908,17 +905,16 @@ function create_translate_files( $translation_dir, $json_dir, $option_prefix, $j
 	$ffs = runway_scandir( $json_dir );
 	$ffs_name = array();
 
-	if( ! function_exists( 'WP_Filesystem' ) )
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	WP_Filesystem();
-	global $wp_filesystem;
+	$wp_filesystem = get_runway_wp_filesystem();
+
     foreach( $ffs as $ff ){
 	    if( pathinfo( $ff, PATHINFO_EXTENSION ) == 'json' ) {
 	    	$option_key_json = pathinfo( $ff, PATHINFO_FILENAME );
 	    	$ffs_name[] = $option_key_json;
 	    	$option_key = str_replace( $json_prefix, $option_prefix, $option_key_json );
 
-    		$json = json_decode( $wp_filesystem->get_contents( $json_dir . '/' . $ff ), true );
+            $file = runway_prepare_path( $json_dir . '/' . $ff );    		
+            $json = json_decode( $wp_filesystem->get_contents( $file ), true );
 
 			$translation_file = $translation_dir.'/'.str_replace( '.json', '.php', $ff );
 
@@ -937,7 +933,7 @@ function create_translate_files( $translation_dir, $json_dir, $option_prefix, $j
 				foreach( $translation_array as $text )
 					$translation_string.= "__('".$text."', 'runway');\r\n";
 				$translation_string.= "?>";
-				$wp_filesystem->put_contents( $translation_file, $translation_string, FS_CHMOD_FILE );
+				$wp_filesystem->put_contents( runway_prepare_path( $translation_file ), $translation_string, FS_CHMOD_FILE );
 			}
 		}
 	}
@@ -987,16 +983,13 @@ endif;
 
 if ( ! function_exists( 'get_settings_json' ) ) :
 function get_settings_json( $folder = false ) {
-	if( ! function_exists( 'WP_Filesystem' ) )
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	WP_Filesystem();
-	global $wp_filesystem;
+    $wp_filesystem = get_runway_wp_filesystem();
 	$file = ( ! $folder ) ? get_stylesheet_directory() . '/data/settings.json' :
 						preg_replace( "~\/(?!.*\/)(.*)~", '/'.$folder, get_stylesheet_directory() ) . '/data/settings.json';
 
 	$settings = '';
 	if ( file_exists( $file ) ) {
-		$json = $wp_filesystem->get_contents( $file );
+		$json = $wp_filesystem->get_contents( runway_prepare_path( $file ) );
 		$settings = json_decode( $json, true );
 	}
 
@@ -1088,21 +1081,19 @@ endif;
 if ( ! function_exists( 'check_theme_ID' ) ) :
 function check_theme_ID( $folder = false ) {
 	global $shortname;
-	if( ! function_exists( 'WP_Filesystem' ) )
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-	WP_Filesystem();
-	global $wp_filesystem;
+	$wp_filesystem = get_runway_wp_filesystem();
 
 	$settings = get_settings_json( $folder );
 
 	if( isset( $settings['Name'] ) ) {
 		$themeInfo = rw_get_theme_data();
 		$theme_name_stylecss = $themeInfo['Name'];
+		$file = runway_prepare_path( get_stylesheet_directory() . '/data/settings.json' );
 
 		if( isset( $settings['ThemeID'] ) ) {
 			$theme_prefix_old = isset( $settings['ThemeID'] ) ? $settings['ThemeID'] : $shortname;
 			if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
-				$wp_filesystem->put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode( $settings ), FS_CHMOD_FILE );
+				$wp_filesystem->put_contents( $file, json_encode( $settings ), FS_CHMOD_FILE );
 			}
 		}
 
@@ -1120,12 +1111,12 @@ function check_theme_ID( $folder = false ) {
 
 				  	if( change_theme_prefix( $theme_prefix_old, $settings['ThemeID'] ) ) {
 				  		$settings['Name'] = $theme_name_stylecss;
-						$wp_filesystem->put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode( $settings ), FS_CHMOD_FILE );
+						$wp_filesystem->put_contents( $file, json_encode( $settings ), FS_CHMOD_FILE );
 				  	}
 			  	}
 			  	else {
 					$settings['Name'] = $theme_name_stylecss;
-					$wp_filesystem->put_contents( get_stylesheet_directory() . '/data/settings.json', json_encode( $settings ), FS_CHMOD_FILE );
+					$wp_filesystem->put_contents( $file, json_encode( $settings ), FS_CHMOD_FILE );
 			  	}
 				echo '<script type="text/javascript">window.location = "'. esc_url( $link ) .'";</script>';
 
@@ -1255,11 +1246,15 @@ if ( ! function_exists( 'runway_check_versions' ) ) :
 endif;
 
 if( ! function_exists( 'runway_filesystem_method' ) ) :
-	function runway_filesystem_method($method) {
-		$method = is_admin() ? 'direct' : $method;
+	function runway_filesystem_method( $method ) {
+
+		$wp_filesystem = get_runway_wp_filesystem();
+		$method        = is_admin() ? $wp_filesystem->method : $method;
+
 		return $method;
+
 	}
-	add_filter( 'filesystem_method', 'runway_filesystem_method' );
+	//add_filter( 'filesystem_method', 'runway_filesystem_method' );
 endif;
 
 if( ! function_exists( 'runway_scandir' ) ) :
@@ -1307,5 +1302,74 @@ if( ! function_exists( 'sort_pages_list' ) ) :
 		}
 
 		return $pages_sorted;
+	}
+endif;
+
+if ( ! function_exists( 'runway_prepare_path' ) ) :
+	function runway_prepare_path( $path ) {
+
+		$wp_filesystem = get_runway_wp_filesystem();
+
+		return str_replace( ABSPATH, $wp_filesystem->abspath(), $path );
+
+	}
+endif;
+
+if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
+	function get_runway_wp_filesystem( $url = null ) {
+
+		global $wp_filesystem;
+		static $rf_wp_filesystem = null; //alternate wp_filesystem
+
+		if ( null !== $rf_wp_filesystem ) {
+			return $rf_wp_filesystem;
+		}
+
+		if ( null === $wp_filesystem || ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) ) {
+			if ( ! function_exists( 'request_filesystem_credentials' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			}
+
+			if ( null !== $url ) {
+				$url = content_url();
+			}
+
+			ob_start(); //  prevent 'connection info' form output
+			if ( ! function_exists( 'submit_button' ) ) {
+				require_once( ABSPATH . 'wp-admin/includes/template.php' );
+			}
+			$creds = request_filesystem_credentials( $url, '', false, false, array() );
+
+			WP_Filesystem( $creds );
+			ob_end_clean();
+		}
+
+		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			// use alternate method - 'direct'
+			$method = 'direct';
+			if ( ! class_exists( 'WP_Filesystem_direct' ) ) {
+				$abstraction_file = apply_filters( 'filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method );
+
+				if ( ! file_exists( $abstraction_file ) ) {
+					return $wp_filesystem;
+				}
+
+				require_once( $abstraction_file );
+			}
+			$rf_wp_filesystem = new WP_Filesystem_direct( null );
+
+			// set the permission constants if not already set.
+			if ( ! defined( 'FS_CHMOD_DIR' ) ) {
+				define( 'FS_CHMOD_DIR', fileperms( ABSPATH ) & 0777 | 0755 );
+			}
+			if ( ! defined( 'FS_CHMOD_FILE' ) ) {
+				define( 'FS_CHMOD_FILE', fileperms( ABSPATH . 'index.php' ) & 0777 | 0644 );
+			}
+
+			return $rf_wp_filesystem;
+		} else {
+			return $wp_filesystem;
+		}
+
 	}
 endif;
