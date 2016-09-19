@@ -11,10 +11,7 @@
     Network:
     Site Wide Only:
 */
-if(!function_exists('WP_Filesystem'))
-	require_once(ABSPATH . 'wp-admin/includes/file.php');
-WP_Filesystem();
-global $wp_filesystem;
+
 global $libraries, $page_options;
 $form_builder = $libraries['FormsBuilder'];
 $page_options = array();
@@ -27,8 +24,9 @@ if ( is_dir( $pages_dir ) ) {
 }
 
 $pages = array();
+$wp_filesystem = get_runway_wp_filesystem();
 foreach ( $page_files as $page_file ) {
-	$json = $wp_filesystem->get_contents( $pages_dir . $page_file );
+	$json = $wp_filesystem->get_contents( runway_prepare_path( $pages_dir . $page_file ) );
 	$pages[] = json_decode( $json );
 }
 
