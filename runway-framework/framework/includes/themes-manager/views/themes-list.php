@@ -163,7 +163,7 @@ if ( isset( $options ) ) {
 						<div class="dashicons dashicons-edit" data-code="f105"><?php echo wp_kses_post($t['editLink']); ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-duplicate" data-action-text="<?php _e('Duplicate', 'runway'); ?>">
-						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo wp_kses_post($t['duplicateLink']); ?></div>
+						<div class="dashicons dashicons-admin-page" data-code="f464"><?php echo $t['duplicateLink']; ?></div>
 					</div>
 					<div class="dashicons-container dashicons-container-download" data-action-text="<?php _e('Standalone Theme', 'runway'); ?>">
 						<div class="dashicons dashicons-download" data-code="f316"><?php echo wp_kses_post($t['downloadLink']); ?></div>

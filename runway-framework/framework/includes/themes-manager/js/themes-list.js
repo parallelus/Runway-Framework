@@ -31,16 +31,18 @@ function popup_loader() {
 		$(".duplicate-theme").on("click", function () {
 
 			var name = $(this).data("theme-folder");
+			var adminMenuZIndex = $('#adminmenuwrap').css('z-index');
+
             $('html,body').css('overflow', 'auto');
-            $('#adminmenuwrap').css({'z-index':'auto'});
+
 			var $dlg = $(".duplicate-theme-popup").dialog({
                 open: function(event, ui) {
                     $('html,body').css('overflow', 'hidden');
-                    $('#adminmenuwrap').css({'z-index':0});
+                    $('#adminmenuwrap').css({'z-index': 0});
                 },
                 close: function(event, ui) {
                     $('html,body').css('overflow', 'auto');
-                    $('#adminmenuwrap').css({'z-index':'auto'});
+                    $('#adminmenuwrap').css({'z-index': adminMenuZIndex});
                 },							
 				//position: "center",
 				modal: true,

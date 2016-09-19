@@ -1077,7 +1077,7 @@ function runway_admin_themes_list_prepare( $theme ) {
 	// Edit Link
 	$t['editLink'] = '<a href="'. $t['editURL'] .'">'. __( 'Edit', 'runway' ) .'</a>';
 	// Duplicate link
-	$t['duplicateLink'] = '<a class="duplicate-theme" data-theme-folder="'. $t['folder'] .'" data-theme-name="'. $t['name'] .'" href="javascript: void(0);">'. __( 'Duplicate', 'runway' ) .'</a>';
+	$t['duplicateLink'] = '<a class="duplicate-theme" data-theme-folder="'. esc_attr( $t['folder'] ) .'" data-theme-name="'. esc_attr( $t['name'] ) .'" href="javascript: void(0);">'. wp_kses_post( __( 'Duplicate', 'runway' ) ) .'</a>';
 	// Delete link
 	$t['deleteLink'] = '<a href="'. $t['deleteURL'] .'" class="submitdelete deletion">'. __( 'Delete', 'runway' ) .'</a>';
 	// Download / History
