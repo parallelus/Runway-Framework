@@ -2,10 +2,7 @@
 
 global $directory;
 global $extm, $theme_updater_admin, $auth_manager_admin;
-if(!function_exists('WP_Filesystem'))
-	require_once(ABSPATH . 'wp-admin/includes/file.php');
-WP_Filesystem();
-global $wp_filesystem;
+$wp_filesystem = get_runway_wp_filesystem();
 
 $search = isset( $_REQUEST['s'] ) ? $_REQUEST['s'] : '';
 
@@ -58,7 +55,7 @@ if ( isset( $_GET['action'] ) && ($_GET['action'] == 'install' || $_GET['action'
 //	$zipPath = (isset($this->extensions_addons->$item->Path)) ? '&zip='.$this->extensions_addons->$item->Path : '';
 	$item_file = $item . '.zip';
 
-	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item_file}", array('timeout' => 0));
+	$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item_file}", array('timeout' => 30));
 	//$extension_zip = wp_remote_get($directory->extensions_server_url . "download_extension&item={$item}".$zipPath);
 
 	if( !empty($extension_zip['body']) ) {
@@ -66,7 +63,7 @@ if ( isset( $_GET['action'] ) && ($_GET['action'] == 'install' || $_GET['action'
 		if( isset($body['success']) && $body['success'] ) {
 			$extension_zip = runway_base_decode( $body['content'], true );
 
-			$wp_filesystem->put_contents($extension_zip_file_name, $extension_zip, FS_CHMOD_FILE);
+			$wp_filesystem->put_contents( runway_prepare_path( $extension_zip_file_name ), $extension_zip, FS_CHMOD_FILE );
 
 			$permissions = substr(sprintf('%o', fileperms($extension_zip_file_name)), -4);
 			if($permissions < '0755')

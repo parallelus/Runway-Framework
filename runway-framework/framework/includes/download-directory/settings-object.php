@@ -40,13 +40,11 @@ class Directory_Admin extends Runway_Admin_Object {
 	}
 
 	function make_request( $url = '', $data = array() ) {
-		if(!function_exists('WP_Filesystem'))
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-		WP_Filesystem();
-		global $wp_filesystem;
+
+		$wp_filesystem = get_runway_wp_filesystem();
 
 		//$responce = json_decode( file_get_contents( $url, false ) );
-		$responce = json_decode( $wp_filesystem->get_contents( $url, false ) );
+		$responce = json_decode( $wp_filesystem->get_contents( runway_prepare_path( $url ), false ) );
 
 		if ( isset( $responce->hash ) && $responce->hash == md5( $responce->data ) ) {
 			//return json_decode( base64_decode( $responce->data ) );
@@ -85,11 +83,8 @@ class Directory_Admin extends Runway_Admin_Object {
 
 			$body = array();
 			if ( file_exists( $extension_file_name ) ) {
-				if(!function_exists('WP_Filesystem'))
-					require_once(ABSPATH . 'wp-admin/includes/file.php');
-				WP_Filesystem();
-				global $wp_filesystem;
-				$content = $wp_filesystem->get_contents($extension_file_name);
+				$wp_filesystem = get_runway_wp_filesystem();
+				$content = $wp_filesystem->get_contents( runway_prepare_path( $extension_file_name ) );
 				$content = runway_base_encode($content);
 				$body['success'] = true;
 				$body['content'] = $content;
