@@ -1257,6 +1257,14 @@ if( ! function_exists( 'runway_filesystem_method' ) ) :
 	//add_filter( 'filesystem_method', 'runway_filesystem_method' );
 endif;
 
+if( ! function_exists( 'direct_filesystem_method' ) ) :
+	function direct_filesystem_method( $method ) {
+
+		return 'direct';
+
+	}
+endif;
+
 if( ! function_exists( 'runway_scandir' ) ) :
 	function runway_scandir($dir, $excl = array()) {
 		$all_files = scandir( $dir );

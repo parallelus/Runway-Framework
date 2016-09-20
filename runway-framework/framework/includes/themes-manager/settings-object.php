@@ -773,7 +773,7 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 		$css_ext = $this->remove_plugin_header( $css_ext, $theme_data['Name'] );
 		$css_ext = $css . $css_ext;
 
-		if ( false && class_exists( 'ZipArchive' ) ) {
+		if ( class_exists( 'ZipArchive' ) ) {
 
 			$zip = new ZipArchive();
 

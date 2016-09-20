@@ -3,6 +3,9 @@
 global $developer_tools, $Themes_Manager, $extm;
 $extensions_dir = get_template_directory() . '/framework/extensions/';
 
+// the making of archives take a lot of time. We should use only 'direct' filesystem method
+add_filter( 'filesystem_method', 'direct_filesystem_method' );
+
 $required = '<em class="required">' . __( 'Required', 'runway' ) . '</em>';
 $_data = $developer_tools->data;
 
