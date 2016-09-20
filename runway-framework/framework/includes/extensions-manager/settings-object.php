@@ -497,62 +497,104 @@ class Extm_Admin extends Runway_Admin_Object {
 	function load_new_extension( $file ) {
 
 		do_action( 'before_load_extension' );
-		$upload_dir = wp_upload_dir();
 
-		$zip = new ZipArchive();
-		$res = $zip->open($file);
+		if ( ! is_writable( $this->extensions_dir ) ) {
+			return __( 'Extensions directory must be writable', 'runway' );
+		}
 
 		if ( file_exists( $file ) ) {
-			if ( is_writable( $this->extensions_dir ) ) {
-				if(unzip_file($file, $this->extensions_dir) !== true) {
+
+			if ( class_exists( 'ZipArchive' ) ) {
+
+				$zip = new ZipArchive();
+				$zip->open( $file );
+
+				if ( unzip_file( $file, $this->extensions_dir ) !== true ) {
 					return sprintf( __( 'Install error: %s', 'runway' ), $zip->getStatusString() );
-				}
-				else {
-					$ext = explode( '/', $zip->getNameIndex( 0 ) );
-					$ext = $ext[0].'/load.php';
-					$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
+				} else {
+					$ext      = explode( '/', $zip->getNameIndex( 0 ) );
+					$ext      = $ext[0] . '/load.php';
+					$ext_info = $this->get_extension_data( $this->extensions_dir . $ext );
 
 					if ( $zip->status == 0 ) {
 						do_action( 'after_load_extension' );
-						return sprintf( __( 'Extension <b>%s</b> has been installed. Do you want to activate it? %s ', 'runway' ), $ext_info['Name'], '<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'Activate it?', 'runway' ).'</a>');
-					}
-					else {
+
+						return sprintf(
+							__( 'Extension <b>%s</b> has been installed. Do you want to activate it? %s ', 'runway' ),
+							$ext_info['Name'],
+							'<a href="admin.php?page=extensions&navigation=extension-activate&ext=' . $ext . '">' . __( 'Activate it?', 'runway' ) . '</a>'
+						);
+					} else {
 						return sprintf( __( 'Install error %s', 'runway' ), $zip->getStatusString() );
 					}
 
 				}
+
+			} else {
+
+				require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
+
+				$zip            = new PclZip( $file );
+				$archive_files = $zip->extract( $this->extensions_dir );
+
+				if ( is_array( $archive_files ) ) {
+
+					$ext = '';
+
+					foreach ( $archive_files as $archive_file ) {
+						if ( $archive_file['folder'] === true ) {
+							continue;
+						}
+
+						if ( false !== strpos( $archive_file['stored_filename'], '/load.php' ) ) {
+							$ext = $archive_file['stored_filename'];
+							break;
+						}
+					}
+
+					$ext_info = $this->get_extension_data( $this->extensions_dir . $ext );
+					do_action( 'after_load_extension' );
+
+					return sprintf(
+						__( 'Extension <b>%s</b> has been installed. Do you want to activate it? %s ', 'runway' ),
+						$ext_info['Name'],
+						'<a href="admin.php?page=extensions&navigation=extension-activate&ext=' . $ext . '">' . __( 'Activate it?', 'runway' ) . '</a>'
+					);
+
+				} else {
+					return sprintf( __( 'Install error: %s', 'runway' ), $zip->errorInfo() );
+				}
+
 			}
-			else return __( 'Extensions directory must be writable', 'runway' );
+
 		}
 
 		$overrides = array( 'test_form' => false, 'test_type' => false );
 		$ext_file = wp_handle_upload( $file, $overrides );
+
 		if ( isset( $ext_file['error'] ) ) {
 			return sprintf( __( '<b>ERROR</b>: %s', 'runway' ), $ext_file['error'] );
-		}
-		else {
-			if ( is_writable( $this->extensions_dir ) ) {
-				$exploded = $exploded = explode( '.', $file['name'] );
-				$ext = $exploded[0].'/load.php';
+		} else {
 
-				if ( !file_exists( $this->extensions_dir.$ext ) ) {
-					unzip_file($ext_file['file'], $this->extensions_dir);
-					$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
-					unlink( $ext_file['file'] );
-				}
-				else {
-					unlink( $ext_file['file'] );
-					return __( 'Extension has already installed', 'runway' );
-				}
+			$exploded = $exploded = explode( '.', $file['name'] );
+			$ext = $exploded[0].'/load.php';
 
-				if ( $zip->status == 0 ) {
-					do_action( 'after_load_extension' );
-					return sprintf( __( 'The extension <b>%s</b> installed successfully. Would you like to %s ?', 'runway' ), $ext_info['Name'], '<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>');
-				}
-				else {
-					return sprintf( __( 'Install error %s', 'runway' ), $zip->getStatusString() );
-				}
+			if ( !file_exists( $this->extensions_dir.$ext ) ) {
+				unzip_file($ext_file['file'], $this->extensions_dir);
+				$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
+				unlink( $ext_file['file'] );
 			}
+			else {
+				unlink( $ext_file['file'] );
+				return __( 'Extension has already installed', 'runway' );
+			}
+
+			do_action( 'after_load_extension' );
+			return sprintf(
+				__( 'The extension <b>%s</b> installed successfully. Would you like to %s ?', 'runway' ),
+				$ext_info['Name'],
+				'<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>'
+			);
 		}
 
 	}
