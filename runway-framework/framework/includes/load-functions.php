@@ -1249,7 +1249,14 @@ if( ! function_exists( 'runway_filesystem_method' ) ) :
 	function runway_filesystem_method( $method ) {
 
 		$wp_filesystem = get_runway_wp_filesystem();
-		$method        = is_admin() ? $wp_filesystem->method : $method;
+
+		if ( is_admin() ) {
+			if ( null === $wp_filesystem || ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) ) {
+				$method = 'direct';
+			} else {
+				$method = $wp_filesystem->method;
+			}
+		}
 
 		return $method;
 
@@ -1317,23 +1324,32 @@ if ( ! function_exists( 'runway_prepare_path' ) ) :
 	function runway_prepare_path( $path ) {
 
 		$wp_filesystem = get_runway_wp_filesystem();
+		$wp_filesystem_abspath = $wp_filesystem->abspath();
 
-		return str_replace( ABSPATH, $wp_filesystem->abspath(), $path );
+		if ( $wp_filesystem_abspath === ABSPATH ) {
+			return $path;
+		} else {
+			return str_replace( ABSPATH, $wp_filesystem_abspath, $path );
+		}
 
 	}
+
+	add_filter( 'rf_prepared_path', 'runway_prepare_path' );
 endif;
 
 if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
 	function get_runway_wp_filesystem( $url = null ) {
 
-		global $wp_filesystem;
 		static $rf_wp_filesystem = null; //alternate wp_filesystem
 
 		if ( null !== $rf_wp_filesystem ) {
 			return $rf_wp_filesystem;
 		}
 
-		if ( null === $wp_filesystem || ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) ) {
+		global $wp_filesystem;
+		$use_direct_filesystem_method = apply_filters( 'rf_use_direct_filesystem_method', false );
+
+		if ( null === $wp_filesystem && true !== $use_direct_filesystem_method ) {
 			if ( ! function_exists( 'request_filesystem_credentials' ) ) {
 				require_once( ABSPATH . 'wp-admin/includes/file.php' );
 			}
@@ -1352,7 +1368,7 @@ if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
 			ob_end_clean();
 		}
 
-		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+		if ( true === $use_direct_filesystem_method || ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) ) {
 			// use alternate method - 'direct'
 			$method = 'direct';
 			if ( ! class_exists( 'WP_Filesystem_direct' ) ) {
@@ -1362,6 +1378,7 @@ if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
 					return $wp_filesystem;
 				}
 
+				require_once( ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php' );
 				require_once( $abstraction_file );
 			}
 			$rf_wp_filesystem = new WP_Filesystem_direct( null );
@@ -1381,3 +1398,6 @@ if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
 
 	}
 endif;
+
+// Uncomment this filter if wish to use 'direct' filesystem method within framework and extensions
+//add_filter( 'rf_use_direct_filesystem_method', '__return_true' );
