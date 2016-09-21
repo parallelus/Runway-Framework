@@ -123,7 +123,76 @@ class Checkbox_bool_type extends Data_Type {
 		if ( is_array( $value ) ) {
 			return $this->field->values;
 		} else {
+
+			if( doing_filter( 'customize_value_' . $this->field->alias ) ){
+				return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+			}
+
 			return $value;
+		}
+
+	}
+
+	public function sanitize_value( $value ) {
+
+		if ( is_bool( $value ) ) {
+			$value = var_export( $value, true );
+		} else if ( is_array( $value ) ) {
+			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
+				if ( is_array( $value ) && count( $value ) === 1 ) {
+					$value = $value[0];
+				} else {
+					foreach ( $value as &$item ) {
+						if ( is_bool( $item ) ) {
+							$item = var_export( $item, true );
+						}
+					}
+				}
+			} else {
+				if ( count( $value ) === 1 ) {
+					$value = $value[0];
+				}
+			}
+		}
+
+		return $value;
+
+	}
+
+	public function save( $value = null ) {
+
+		if ( is_a( $value, 'WP_Customize_Settings' ) || is_a( $value, 'WP_Customize_Setting' ) ) {
+			$value = null;
+		}
+
+		if ( ! isset( $_REQUEST['customized'] ) ) {
+			$page_options = get_option( $this->page->option_key );
+			if ( is_object( $value ) ) {
+				$value = '';
+			}
+
+			$page_options[ $this->field->alias ]                = $value;
+			$page_options['field_types'][ $this->field->alias ] = $this->type;
+
+			update_option( $this->page->option_key, $page_options );
+		} else {
+			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
+			$value          = $submited_value->{$this->field->alias};
+
+			if ( is_object( $value ) ) {
+				$value = '';
+			} else if ( is_bool( $value ) ) {
+				$value = var_export( $value, true );
+			} else if ( is_array( $value ) ) {
+				foreach ( $value as &$item ) {
+					if ( is_bool( $item ) ) {
+						$item = var_export( $item, true );
+					}
+				}
+			}
+
+			SingletonSaveCusomizeData::getInstance()->set_option( $this->page->option_key );
+			SingletonSaveCusomizeData::getInstance()->save_data( $this->field->alias, $value, $this->type );
 		}
 
 	}
