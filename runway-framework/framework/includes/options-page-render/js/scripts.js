@@ -154,4 +154,25 @@ jQuery(function() {
             }
         });
     });
+
+    window.check_inputs_amount = function($container) {
+
+        $container.one('DOMSubtreeModified', change_listener);
+        $container.triggerHandler('DOMSubtreeModified');
+
+        function change_listener() {
+            setTimeout(function () {
+                var $items = $container.find('[class*="delete_"]');
+                
+                if ($items.length > 1) {
+                    $items.show();
+                } else {
+                    $items.hide();
+                }
+
+                $container.one('DOMSubtreeModified', change_listener);
+            }, 0);
+        }
+    }
+    
 });
