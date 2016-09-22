@@ -1,165 +1,198 @@
 <?php
+
 class Colorpicker_type extends Data_Type {
 
-	public $type = 'colorpicker-type';
 	public static $type_slug = 'colorpicker-type';
-	public $label = 'Colorpicker';
+
+	public function __construct( $page, $field, $wp_customize = null, $alias = null, $params = null ) {
+
+		$this->type  = 'colorpicker-type';
+		$this->label = 'Colorpicker';
+
+		parent::__construct( $page, $field, $wp_customize, $alias, $params );
+
+	}
 
 	public function render_content( $vals = null ) {
 
 		do_action( self::$type_slug . '_before_render_content', $this );
 
 		if ( $vals != null ) {
-			$this->field = (object)$vals;
+			$this->field = (object) $vals;
 			extract( $vals );
 		}
 
-		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.esc_attr($this->page->section).'"' : '';
-	?>
-
-	<label>
-		<div class="customize-control-content">
-		<?php if(isset($this->field->repeating) && $this->field->repeating == 'Yes'){
-
-			$this->get_value();
-			if (isset($this->field->value) && is_array($this->field->value)) {
-				foreach ($this->field->value as $key => $tmp_value) {
-					if (is_string($key))
-						unset($this->field->value[$key]);
-				}
-			}
-
-			$count = isset($this->field->value) ? count((array) $this->field->value) : 1;
-			if ($count == 0)
-				$count = 1;
-			?>
-				<legend class="customize-control-title"><span><?php echo stripslashes($this->field->title) ?></span></legend>
-			<?php
-			for ($key = 0; $key < $count; $key++) {
-				if (isset($this->field->value) && is_array($this->field->value))
-					$repeat_value = (isset($this->field->value[$key])) ? $this->field->value[$key] : '';
-				else
-					$repeat_value = "";
-			?>
-				<input class="color-picker-hex custom-data-type" <?php echo rf_string($section); // escaped above ?>
-					data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?>
-					name="<?php echo esc_attr($this->field->alias) ?>[]"
-					value="<?php echo ( isset($repeat_value) && $repeat_value != '' ) ? esc_attr($repeat_value) : ''; ?>" />
-				<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'runway'); ?></a><br>
-				<?php
-			}
-
-			$field = array(
-				'field_name' => $this->field->alias,
-				'type' => 'text',
-				'class' => 'color-picker-hex custom-data-type',
-				'data_section' => isset($this->page->section) ? $this->page->section : '',
-				'data_type' => 'colorpicker-type',
-				'after_field' => '',
-				'value' => '#'
-			);
-			$this->enable_repeating($field);
-			$this->wp_customize_js();
-			?>
-			<script type="text/javascript">
-				(function () {
-
-					var name = '<?php echo esc_js($this->field->alias); ?>';
-
-					jQuery(function () {
-
-						jQuery('.color-picker-hex.custom-data-type').wpColorPicker({ change: function () {
-
-							setTimeout(function () {
-
-								jQuery('.color-picker-hex.custom-data-type').trigger('change');
-
-							}, 50);
-
-						}});
-
-					});
-
-				})();
-			</script>
-		<?php
-		} else {
-			$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-			if(!is_string($input_value) && !is_numeric($input_value)) {
-				if(is_array($input_value) && isset($input_value[0]))
-					$input_value = $input_value[0];
-				else
-					$input_value = "";
-			}
+		$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="' . esc_attr( $this->page->section ) . '"' : '';
 		?>
-			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
-			<input class="color-picker-hex custom-data-type" <?php echo rf_string($section); // escaped above ?> data-type="colorpicker-type" <?php echo parent::add_data_conditional_display($this->field); ?> type="text" maxlength="7" <?php $this->link(); ?> name="<?php echo esc_attr($this->field->alias) ?>" value="<?php echo esc_attr($input_value); ?>" />
-			<script type="text/javascript">
-				(function () {
 
-					var name = '<?php echo esc_js($this->field->alias); ?>';
- 					var default_val = '<?php echo esc_js($this->field->values) ?>';
+		<label>
+			<div class="customize-control-content">
 
-					jQuery(document).ready(function($) {
-                        default_val = (default_val) ? default_val : false;
-						$('input.color-picker-hex[name="'+name+'"]').keydown(function (e) {
-						    if (e.keyCode == 13) {
-						    	e.preventDefault();
-						    }
-						});
-                        $('input[name="'+name+'"]').wpColorPicker({
-                            change: function (event, ui) {
-                                var hexcolor = $(this).wpColorPicker( 'color' );
-                                $('[name="'+name+'"]').attr('value', hexcolor).trigger('change');
-                            },
-                            clear: function() {
-                              $('[name="'+name+'"]').attr('value', '');
-                              if ( wp.customize ) {
-                                var alias = name.replace(/\[\d*\]$/, "");
-                                var api = wp.customize;
-                                api.instance(alias).set($('input[name="'+alias+'"]').val());
-                              }
-                            },
-                            defaultColor: default_val
-                        });
-                    });
+				<?php if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
+					$this->get_value();
+					if ( isset( $this->field->value ) && is_array( $this->field->value ) ) {
+						foreach ( $this->field->value as $key => $tmp_value ) {
+							if ( is_string( $key ) ) {
+								unset( $this->field->value[ $key ] );
+							}
+						}
+					}
 
-				})();
-			</script>
-		<?php } ?>
-		</div>
-	</label> <?php
+					$count = isset( $this->field->value ) ? count( (array) $this->field->value ) : 1;
+					if ( $count == 0 ) {
+						$count = 1;
+					}
+					?>
 
+					<legend class="customize-control-title">
+						<span><?php echo stripslashes( $this->field->title ); ?></span>
+					</legend>
+
+					<?php
+					for ( $key = 0; $key < $count; $key++ ) {
+						if ( isset( $this->field->value ) && is_array( $this->field->value ) ) {
+							$repeat_value = isset( $this->field->value[ $key ] ) ? $this->field->value[ $key ] : '';
+						} else {
+							$repeat_value = '';
+						}
+						?>
+
+						<input class="color-picker-hex custom-data-type" <?php echo rf_string( $section ); // escaped above ?>
+						       data-type="colorpicker-type" type="text" maxlength="7" <?php $this->link(); ?>
+						       name="<?php echo esc_attr( $this->field->alias ); ?>[]"
+						       value="<?php echo ( isset( $repeat_value ) && $repeat_value != '' ) ? esc_attr( $repeat_value ) : ''; ?>"/>
+							<a href="#" class="delete_colorpicker_field"><?php echo __( 'Delete', 'runway' ); ?></a><br>
+					<?php
+					}
+
+					$field = array(
+						'field_name'   => $this->field->alias,
+						'type'         => 'text',
+						'class'        => 'color-picker-hex custom-data-type',
+						'data_section' => isset( $this->page->section ) ? $this->page->section : '',
+						'data_type'    => 'colorpicker-type',
+						'after_field'  => '',
+						'value'        => '#'
+					);
+					$this->enable_repeating( $field );
+					$this->wp_customize_js();
+					?>
+
+					<script type="text/javascript">
+						(function () {
+
+							var name = '<?php echo esc_js( $this->field->alias ); ?>';
+
+							jQuery(function () {
+
+								jQuery('.color-picker-hex.custom-data-type').wpColorPicker({
+									change: function () {
+
+										setTimeout(function () {
+
+											jQuery('.color-picker-hex.custom-data-type').trigger('change');
+
+										}, 50);
+
+									}
+								});
+
+							});
+
+						})();
+					</script>
+
+				<?php
+				} else {
+
+					$input_value = ( $vals != null ) ? $this->field->saved : $this->get_value();
+					if ( ! is_string( $input_value ) && ! is_numeric( $input_value ) ) {
+						if ( is_array( $input_value ) && isset( $input_value[0] ) ) {
+							$input_value = $input_value[0];
+						} else {
+							$input_value = '';
+						}
+					}
+					?>
+
+					<legend class="customize-control-title">
+						<span><?php echo stripslashes( $this->field->title ) ?></span>
+					</legend>
+
+					<input class="color-picker-hex custom-data-type" <?php echo rf_string( $section ); // escaped above ?>
+					       data-type="colorpicker-type" <?php echo parent::add_data_conditional_display( $this->field ); ?>
+					       type="text" maxlength="7" <?php $this->link(); ?>
+					       name="<?php echo esc_attr( $this->field->alias ); ?>"
+					       value="<?php echo esc_attr( $input_value ); ?>"/>
+
+						<script type="text/javascript">
+							(function () {
+
+								var name = '<?php echo esc_js( $this->field->alias ); ?>';
+								var default_val = '<?php echo esc_js( $this->field->values ); ?>';
+
+								jQuery(document).ready(function ($) {
+									default_val = (default_val) ? default_val : false;
+									$('input.color-picker-hex[name="' + name + '"]').keydown(function (e) {
+										if (e.keyCode == 13) {
+											e.preventDefault();
+										}
+									});
+									$('input[name="' + name + '"]').wpColorPicker({
+										change: function (event, ui) {
+											var hexcolor = $(this).wpColorPicker('color');
+											$('[name="' + name + '"]').attr('value', hexcolor).trigger('change');
+										},
+										clear: function () {
+											$('[name="' + name + '"]').attr('value', '');
+											if (wp.customize) {
+												var alias = name.replace(/\[\d*\]$/, "");
+												var api = wp.customize;
+												api.instance(alias).set($('input[name="' + alias + '"]').val());
+											}
+										},
+										defaultColor: default_val
+									});
+								});
+
+							})();
+						</script>
+				<?php } ?>
+
+			</div>
+		</label>
+
+		<?php
 		do_action( self::$type_slug . '_after_render_content', $this );
+
 	}
 
 	public function save( $value = '' ) {
 
-		if ( $value == '' || is_a($value, 'WP_Customize_Settings') || is_a($value, 'WP_Customize_Setting')) {
+		if ( $value == '' || is_a( $value, 'WP_Customize_Settings' ) || is_a( $value, 'WP_Customize_Setting' ) ) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
-			$value = $submited_value->{$this->field->alias};
-
+			$value          = $submited_value->{$this->field->alias};
 		}
 
-		if(is_string($value)) {
-			if ( strstr( $value, '#' ) == false ) {
+		if ( is_string( $value ) ) {
+			if ( false === strpos( $value, '#' ) ) {
 				$value = '#' . $value;
 			}
-		}
-		else if(is_array($value)) {
-			foreach($value as $tmp_key => $tmp_val) {
-				if ( strstr( $tmp_val, '#' ) == false ) {
-					$value[$tmp_key] = '#' . $tmp_val;
+		} else if ( is_array( $value ) ) {
+			foreach ( $value as $tmp_key => &$tmp_val ) {
+				if ( false === strpos( $tmp_val, '#' ) ) {
+					$tmp_val = '#' . $tmp_val;
 				}
 			}
+			unset( $tmp_val );
 		}
 
-		if(is_object($value)) {
-			$value = "";
+		if ( is_object( $value ) ) {
+			$value = '';
 		}
 
-		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
-		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
+		SingletonSaveCusomizeData::getInstance()->set_option( $this->page->option_key );
+		SingletonSaveCusomizeData::getInstance()->save_data( $this->field->alias, $value, $this->type );
 
 	}
 
@@ -167,9 +200,11 @@ class Colorpicker_type extends Data_Type {
 
 		$value = parent::get_value();
 
-		if ( is_array( $value ) )
-			$value = ( isset( $this->field->values ) ) ? $this->field->values : '';
-		if ( strstr( $value, '#' ) === false ) {
+		if ( is_array( $value ) ) {
+			$value = isset( $this->field->values ) ? $this->field->values : '';
+		}
+
+		if ( false === strpos( $value, '#' ) ) {
 			$value = '#' . $value;
 		}
 
@@ -177,75 +212,100 @@ class Colorpicker_type extends Data_Type {
 
 	}
 
-	public static function render_settings() { ?>
+	public function sanitize_value( $value ) {
+
+		if ( is_array( $value ) ) {
+
+			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
+				if ( is_array( $value ) && count( $value ) === 1 ) {
+					$value = $value[0];
+				}
+			} else {
+				if ( count( $value ) === 1 ) {
+					$value = $value[0];
+				}
+			}
+
+		}
+
+		return $value;
+
+	}
+
+	public static function render_settings() {
+		?>
 
 		<script id="colorpicker-type" type="text/x-jquery-tmpl">
 
 		    <?php do_action( self::$type_slug . '_before_render_settings' ); ?>
 
-		<div class="settings-container">
-		    <label class="settings-title">
-			<?php echo __('Values', 'runway'); ?>:
-			<br><span class="settings-title-caption"></span>
-		    </label>
-		    <div class="settings-in">
-			<input name="values" value="${values}" class="settings-input color-picker" type="text" maxlength="7">
-		    </div>
-		    <div class="clear"></div>
-		</div>
+			<div class="settings-container">
+			    <label class="settings-title">
+					<?php echo __( 'Values', 'runway' ); ?>:
+					<br><span class="settings-title-caption"></span>
+			    </label>
+			    <div class="settings-in">
+					<input name="values" value="${values}" class="settings-input color-picker" type="text" maxlength="7">
+			    </div>
+			    <div class="clear"></div>
+			</div>
 
-		<div class="settings-container">
-		    <label class="settings-title">
-			<?php echo __('Required', 'runway'); ?>:
-			<br><span class="settings-title-caption"></span>
-		    </label>
-		    <div class="settings-in">
+			<div class="settings-container">
+			    <label class="settings-title">
+					<?php echo __( 'Required', 'runway' ); ?>:
+					<br><span class="settings-title-caption"></span>
+			    </label>
+			    <div class="settings-in">
+	
+					<label>
+					    {{if required == 'Yes'}}
+					        <input data-set="required" name="required" value="Yes" checked="true" type="checkbox">
+					    {{else}}
+				            <input data-set="required" name="required" value="Yes" type="checkbox">
+					    {{/if}}
+					    <?php echo __( 'Yes', 'runway' ); ?>
+					</label>
+	
+					<span class="settings-field-caption"><?php echo __( 'Is this a required field?', 'runway' ); ?></span><br>
+	
+					<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+	
+					<span class="settings-field-caption"><?php echo __( 'Optional. Enter a custom error message.', 'runway' ); ?></span>
+			    </div>
+			    <div class="clear"></div>
+			</div>
 
-				<label>
-				    {{if required == 'Yes'}}
-				    <input data-set="required" name="required" value="Yes" checked="true" type="checkbox">
-				    {{else}}
-				    <input data-set="required" name="required" value="Yes" type="checkbox">
-				    {{/if}}
-				    <?php echo __('Yes', 'runway'); ?>
-				</label>
+			<!-- Repeating settings -->
+			<div class="settings-container">
+			    <label class="settings-title">
+					<?php echo __( 'Repeating', 'runway' ); ?>:
+			    </label>
+			    <div class="settings-in">
+					<label>
+					    {{if repeating == 'Yes'}}
+							<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
+					    {{else}}
+							<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
+					    {{/if}}
+					    <?php echo __( 'Yes', 'runway' ); ?>
+					</label>
+					<span class="settings-field-caption"><?php echo __( 'Can this field repeat with multiple values?', 'runway' ); ?></span>
+			    </div>
+			    <div class="clear"></div>
+			</div>
 
-				<span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
+			<?php
+			parent::render_conditional_display();
+			do_action( self::$type_slug . '_after_render_settings' );
+			?>
 
-				<input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+		</script>
 
-				<span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
-		    </div>
-		    <div class="clear"></div>
-		</div>
+		<?php
+	}
 
-		<!-- Repeating settings -->
-		<div class="settings-container">
-		    <label class="settings-title">
-				<?php echo __('Repeating', 'runway'); ?>:
-		    </label>
-		    <div class="settings-in">
-				<label>
-				    {{if repeating == 'Yes'}}
-					<input data-set="repeating" name="repeating" value="Yes" checked="true" type="checkbox">
-				    {{else}}
-					<input data-set="repeating" name="repeating" value="Yes" type="checkbox">
-				    {{/if}}
-				    <?php echo __('Yes', 'runway'); ?>
-				</label>
-			<span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
-		    </div>
-		    <div class="clear"></div>
-		</div>
-
-		<?php parent::render_conditional_display(); ?>
-		<?php do_action( self::$type_slug . '_after_render_settings' ); ?>
-
-	    </script>
-
-	<?php }
-
-	public static function data_type_register() { ?>
+	public static function data_type_register() {
+		?>
 
 		<script type="text/javascript">
 
@@ -260,7 +320,7 @@ class Colorpicker_type extends Data_Type {
 
 			jQuery(document).ready(function ($) {
 				builder.registerDataType({
-					name: '<?php echo __('Colorpicker', 'runway'); ?>',
+					name: '<?php echo __( 'Colorpicker', 'runway' ); ?>',
 					alias: '<?php echo self::$type_slug ?>',
 					settingsFormTemplateID: '<?php echo self::$type_slug ?>',
 					onSettingsDialogOpen: function () {
@@ -271,83 +331,98 @@ class Colorpicker_type extends Data_Type {
 
 		</script>
 
-	<?php }
+		<?php
+	}
 
-	public function enable_repeating($field = array() ){
-		if(!empty($field)) :
-			extract($field);
+	public function enable_repeating( $field = array() ) {
 
-			$add_id = 'add_'.$field_name;
-			$del_id = 'del_'.$field_name;
+		if ( ! empty( $field ) ) {
+			extract( $field );
 
+			$add_id = 'add_' . $field_name;
 			?>
-			<div id="<?php echo esc_attr($add_id); ?>">
-				<a href="#">
-					<?php echo __('Add Field', 'runway'); ?>
-				</a>
+
+			<div id="<?php echo esc_attr( $add_id ); ?>">
+				<a href="#"><?php echo __( 'Add Field', 'runway' ); ?></a>
 			</div>
 
 			<script type="text/javascript">
-				(function($){
-					$(document).ready(function(){
-						var field = $.parseJSON('<?php echo json_encode($field); ?>');
+				(function ($) {
+					$(document).ready(function () {
+						var field = $.parseJSON('<?php echo json_encode( $field ); ?>');
+						var $container = $('#<?php echo esc_js( $add_id ); ?>').parent();
 
-						$('#<?php echo esc_js($add_id); ?>').click(function(e){
+						$('#<?php echo esc_js( $add_id ); ?>').click(function (e) {
 							e.preventDefault();
+
 							var field = $('<input/>', {
-								type: '<?php echo esc_js($type); ?>',
-								class: '<?php echo esc_js($class); ?>',
-								name: '<?php echo esc_js($field_name); ?>[]',
+								type: '<?php echo esc_js( $type ); ?>',
+								class: '<?php echo esc_js( $class ); ?>',
+								name: '<?php echo esc_js( $field_name ); ?>[]',
 								value: ""
 							})
-							.attr('data-type', '<?php echo esc_js($data_type); ?>')
-							.attr('data-section', '<?php echo isset($data_section) ? esc_js($data_section) : ""; ?>')
-							.insertBefore($(this)).focus();
+								.attr('data-type', '<?php echo esc_js( $data_type ); ?>')
+								.attr('data-section', '<?php echo isset( $data_section ) ? esc_js( $data_section ) : ''; ?>')
+								.insertBefore($(this)).focus();
 
-							field.click(function(e){
+							field.click(function (e) {
 								e.preventDefault();
 							});
 
 							$('#header').focus();
 							field.after('<br>');
-							field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __('Delete', 'runway'); ?></a>');
+							field.after('<span class="field_label"> <?php echo esc_js( $after_field ); ?> </span>');
+							field.next().after('<a href="#" class="delete_colorpicker_field"><?php echo __( 'Delete', 'runway' ); ?></a>');
 
-							field.wpColorPicker({ change: function () {
-								setTimeout(function () {
-									field.trigger('change');
-								}, 50);
-							}});
+							field.wpColorPicker({
+								change: function () {
+									setTimeout(function () {
+										field.trigger('change');
+									}, 50);
+								}
+							});
 
-							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
+							if (typeof reinitialize_customize_instance == 'function') {
+								reinitialize_customize_instance('<?php echo esc_js( $field_name ); ?>');
 							}
 						});
 
-						$('body').on('click', '.delete_colorpicker_field', function(e){
+						$('body').on('click', '.delete_colorpicker_field', function (e) {
+							var $this = $(this);
+
 							e.preventDefault();
-							$(this).prev('.field_label').remove();
-							$(this).prev().remove();
-							$(this).next('br').remove();
-							$(this).remove();
 
-							if(typeof reinitialize_customize_instance == 'function') {
-								reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
+							$this.prev('.field_label').remove();
+							$this.prev().remove();
+							$this.next('br').remove();
+							$this.remove();
+
+							if (typeof reinitialize_customize_instance == 'function') {
+								reinitialize_customize_instance('<?php echo esc_js( $field_name ); ?>');
 							}
 						});
 
-						if ( wp.customize ) {
-							if(typeof reinitialize_customize_instance == 'function') {
+						if (wp.customize) {
+							if (typeof reinitialize_customize_instance == 'function') {
 								var api = wp.customize;
-								api.bind('ready', function(){
-									reinitialize_customize_instance('<?php echo esc_js($field_name) ?>');
+
+								api.bind('ready', function () {
+									reinitialize_customize_instance('<?php echo esc_js( $field_name ) ?>');
 								});
 							}
 						}
+
+						setTimeout(function() {
+							if (typeof check_inputs_amount === 'function') {
+								check_inputs_amount($container);
+							}
+						}, 0);
 					});
 				})(jQuery);
-		</script>
-		<?php
-	endif;
+
+			</script>
+
+			<?php
+		}
 	}
-} ?>
+}
