@@ -42,6 +42,29 @@ class Datepicker_type extends Data_Type {
 				else
 					$repeat_value = "";
 			?>
+				<script type="text/javascript">
+					(function ($) {
+
+						$(function () {
+							var $inputs = $('[name="<?php echo esc_attr( $this->field->alias ); ?>[]"]');
+
+							$inputs.datepicker({
+								autoSize: false,
+								dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
+								changeMonth: $inputs.data('changemonth'),
+								changeYear: $inputs.data('changeyear'),
+
+								onSelect: function (date) {
+									if (typeof reinitialize_customize_instance == 'function') {
+										reinitialize_customize_instance('<?php echo esc_js( $this->field->alias ); ?>');
+									}
+								}
+							});
+						});
+
+					})(jQuery);
+				</script>
+
 				<input <?php $this->link() ?> type="text" class="datepicker custom-data-type"
 					name="<?php echo esc_attr($this->field->alias); ?>[]"
 					value="<?php echo esc_attr($repeat_value) ?>"
@@ -66,24 +89,7 @@ class Datepicker_type extends Data_Type {
 			$this->enable_repeating($field);
 			$this->wp_customize_js();
 			?>
-			<script type="text/javascript">
-				(function ($) {
-					$(function () {
-						$(".datepicker").datepicker({
-							autoSize: false,
-							dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
-							changeMonth: $(this).data('changemonth'),
-							changeYear: $(this).data('changeyear'),
 
-							onSelect: function(date) {
-								if(typeof reinitialize_customize_instance == 'function') {
-									reinitialize_customize_instance('<?php echo esc_js($this->field->alias) ?>');
-								}
-							}
-						});
-					});
-				})(jQuery);
-			</script>
 		<?php
 		} else {
 			$input_value = ( isset( $value ) && is_string( $value ) ) ? stripslashes( $value ) : '';
@@ -95,25 +101,30 @@ class Datepicker_type extends Data_Type {
 					$input_value = "";
 			}
 			?>
+
 			<script type="text/javascript">
 				(function ($) {
+
 					$(function () {
-						$("[name='<?php echo esc_js($this->field->alias); ?>']").datepicker({
+						var $input = $("[name='<?php echo esc_js( $this->field->alias ); ?>']");
+
+						$input.datepicker({
 							autoSize: false,
 							dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
-							changeMonth: $(this).data('changemonth'),
-							changeYear: $(this).data('changeyear'),
+							changeMonth: $input.data('changemonth'),
+							changeYear: $input.data('changeyear'),
 
-							onSelect: function(date) {
-								$("[name='<?php echo esc_js($this->field->alias); ?>']").attr('value', date).val(date);
-								if ( wp.customize ) {
+							onSelect: function (date) {
+								$("[name='<?php echo esc_js( $this->field->alias ); ?>']").attr('value', date).val(date);
+								if (wp.customize) {
 									var api = wp.customize;
 									console.log(api);
-									api.instance('<?php echo esc_js($this->field->alias); ?>').set(date);
+									api.instance('<?php echo esc_js( $this->field->alias ); ?>').set(date);
 								}
 							}
 						});
 					});
+
 				})(jQuery);
 			</script>
 
@@ -394,6 +405,8 @@ class Datepicker_type extends Data_Type {
 						})
 						.attr('data-type', '<?php echo esc_js($data_type); ?>')
 						.attr('data-section', '<?php echo isset($data_section) ? $data_section : ""; ?>')
+						.attr('data-changeMonth', '<?php echo esc_js(stripslashes($this->field->changeMonth)); ?>')
+						.attr('data-changeYear', '<?php echo esc_js(stripslashes($this->field->changeYear)); ?>')
 						.insertBefore($(this));
 
 						field.click(function(e){
@@ -408,8 +421,8 @@ class Datepicker_type extends Data_Type {
 						field.datepicker({
 							autoSize: false,
 							dateFormat: "<?php echo stripslashes( str_replace( '"', "'", $this->field->format ) ); ?>",
-							changeMonth: $(this).data('changemonth'),
-							changeYear: $(this).data('changeyear'),
+							changeMonth: field.data('changemonth'),
+							changeYear: field.data('changeyear'),
 
 							onSelect: function(date) {
 								if(typeof reinitialize_customize_instance == 'function') {
