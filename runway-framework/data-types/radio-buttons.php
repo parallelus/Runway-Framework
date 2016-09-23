@@ -115,20 +115,23 @@ class Radio_buttons extends Data_Type {
 
 			$vars = apply_filters($this->field->alias . '_data_options', $vars); // allow filters to alter values
 
-			foreach ($vars as $key => $val) {
+			foreach ( $vars as $key => $val ) {
 				$count++;
 
-				$checked = ( is_string($set) && $key == trim($set) ) ? 'checked="checked"' : '';
-				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
-				$html .= '<label><input ' . $this->get_link() . ' class="input-radio custom-data-type" ' . parent::add_data_conditional_display($this->field) . ' ' . $section . ' data-type="radio-buttons" type="radio" name="' . $this->field->alias . '" value="' . $key . '" ' . $checked . ' />' . stripslashes($val) . '</label>';
-				if ($count < $len)
+				$checked = ( is_string( $set ) && $key == trim( $set ) ) ? 'checked="checked"' : '';
+				$section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+				$html .= '<label><input ' . esc_attr( $this->get_link() ) . ' class="input-radio custom-data-type" ' .
+				         esc_attr( parent::add_data_conditional_display( $this->field ) . ' ' . $section ) . ' data-type="radio-buttons" type="radio" name="' .
+				         esc_attr( $this->field->alias ) . '" value="' . esc_attr( $key ) . '" ' . $checked . ' />' . stripslashes( $val ) . '</label>';
+				if ( $count < $len ) {
 					$html .= '<br>';
+				}
 			}
 
 			// Add the fieldset container
-			$html = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post(stripslashes($this->field->title)) . '</span></legend>' . wp_kses_post(stripslashes($html)) . '</fieldset>';
+			$html = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post( stripslashes( $this->field->title ) ) . '</span></legend>' . $html . '</fieldset>';
 
-			echo rf_string($html);
+			echo rf_string( $html );
 		}
 
 		do_action( self::$type_slug . '_after_render_content', $this );
