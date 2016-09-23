@@ -1,22 +1,31 @@
 <?php
+
 class Radio_buttons_image extends Data_Type {
 
-	public $type = 'radio-buttons-image';
 	public static $type_slug = 'radio-buttons-image';
-	public $label = 'Radio Buttons Image';
+
+	public function __construct( $page, $field, $wp_customize = null, $alias = null, $params = null ) {
+
+		$this->type  = 'radio-buttons-image';
+		$this->label = 'Radio Buttons Image';
+
+		parent::__construct( $page, $field, $wp_customize, $alias, $params );
+
+	}
 
 	public function save( $value = null ) {
 
 		/* dirty hack to make multiple elms on customize.php page */
 		$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
-		$value = $submited_value->{$this->field->alias};
+		$value          = $submited_value->{$this->field->alias};
 
-		if(is_object($value)) {
-			$value = "";
+		if ( is_object( $value ) ) {
+			$value = '';
 		}
 
-		SingletonSaveCusomizeData::getInstance()->set_option($this->page->option_key);
-		SingletonSaveCusomizeData::getInstance()->save_data($this->field->alias, $value, $this->type);
+		SingletonSaveCusomizeData::getInstance()->set_option( $this->page->option_key );
+		SingletonSaveCusomizeData::getInstance()->save_data( $this->field->alias, $value, $this->type );
+
 	}
 
 	public function render_content( $vals = null ) {
@@ -24,20 +33,30 @@ class Radio_buttons_image extends Data_Type {
 		do_action( self::$type_slug . '_before_render_content', $this );
 
 		if ( $vals != null ) {
-			$this->field = (object)$vals;
+			$this->field         = (object) $vals;
 			$this->field->values = preg_replace( "/\\r\\n|\\n|\\r/", '\\n\\r', $this->field->values );
 		}
-
-	?>
+		?>
 
 		<script type="text/javascript">
-			(function($) {
-				$('body').on('click', '.radio-image', function(){
-					$(this).siblings('div').removeClass('checked');
-					$(this).addClass('checked');
+			(function ($) {
+
+				$(function() {
+					$('body').off('click.radio_buttons_img', '.radio-image').on('click.radio_buttons_img', '.radio-image', function (e) {
+						var $this = $(this);
+
+						$this.siblings('div').removeClass('checked');
+						$this.addClass('checked');
+
+						if (!$(e.target).is('input')) {
+							$this.find('input').trigger('click');
+						}
+					});
 				});
+
 			})(jQuery);
 		</script>
+
 		<?php
 		$value = ( $vals != null ) ? $this->field->saved : $this->get_value();
 
@@ -46,142 +65,152 @@ class Radio_buttons_image extends Data_Type {
 		}
 
 		$key_values = array();
-		$comments = array();
-		if (isset($this->field->values) && !empty($this->field->values)) {
+		$comments   = array();
+		if ( isset( $this->field->values ) && ! empty( $this->field->values ) ) {
 
-			if (strstr($this->field->values, "\r\n")) {
-				$rows = explode("\r\n", $this->field->values);
+			if ( false !== strpos( $this->field->values, "\r\n" ) ) {
+				$rows = explode( "\r\n", $this->field->values );
 			} else {
-				$rows = explode("\\r\\n", $this->field->values);
+				$rows = explode( "\\r\\n", $this->field->values );
 			}
-			foreach ($rows as $v) {
-				if ($v != '') {
-					$v = htmlspecialchars_decode($v);
-					$this->field->values = explode('=>', $v);
-					if (count($this->field->values) == 1) {
-						$key = str_replace(' ', '-', trim(strtolower($this->field->values[0])));
-						$key_values[$key] = $this->field->values[0];
+			foreach ( $rows as $v ) {
+				if ( $v != '' ) {
+					$v                   = htmlspecialchars_decode( $v );
+					$this->field->values = explode( '=>', $v );
+					if ( count( $this->field->values ) == 1 ) {
+						$key                = str_replace( ' ', '-', trim( strtolower( $this->field->values[0] ) ) );
+						$key_values[ $key ] = $this->field->values[0];
 					} else {
-						$key = str_replace(' ', '-', trim(strtolower($this->field->values[0])));
-						$key_values[$key] = $this->field->values[1];
+						$key                = str_replace( ' ', '-', trim( strtolower( $this->field->values[0] ) ) );
+						$key_values[ $key ] = $this->field->values[1];
 					}
 				}
 			}
 		}
 
-		$name = $this->field->alias;
-		$vars = $key_values;
-		$checked = 1;
-		$customize_title = stripslashes($this->field->title);
+		$vars            = $key_values;
+		$checked         = 1;
+		$customize_title = stripslashes( $this->field->title );
 
-		if (isset($this->field->repeating) && $this->field->repeating == 'Yes') {
+		if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
 			?>
-			<legend class="customize-control-title"><span><?php echo stripslashes( $this->field->title ) ?></span></legend>
+
+			<legend class="customize-control-title">
+				<span><?php echo stripslashes( $this->field->title ); ?></span>
+			</legend>
+
 			<?php
 			$this->get_value();
-			if (isset($this->field->value) && is_array($this->field->value)) {
-				foreach ($this->field->value as $key => $tmp_value) {
-					if (is_string($key))
-						unset($this->field->value[$key]);
+			if ( isset( $this->field->value ) && is_array( $this->field->value ) ) {
+				foreach ( $this->field->value as $key => $tmp_value ) {
+					if ( is_string( $key ) ) {
+						unset( $this->field->value[ $key ] );
+					}
 				}
-			}
-			else if (!is_array($this->field->value) && is_string($this->field->value)) {
-				$tmp_arr = array();
-				$tmp_arr[] = $this->field->value;
+			} else if ( ! is_array( $this->field->value ) && is_string( $this->field->value ) ) {
+				$tmp_arr            = array();
+				$tmp_arr[]          = $this->field->value;
 				$this->field->value = $tmp_arr;
 			}
 
-			$count = isset($this->field->value) ? count((array) $this->field->value) : 1;
-			if ($count == 0)
+			$count = isset( $this->field->value ) ? count( (array) $this->field->value ) : 1;
+			if ( $count == 0 ) {
 				$count = 1;
+			}
 
-			$len = count($vars);
-			$vars = apply_filters($this->field->alias . '_data_options', $vars);
+			$vars = apply_filters( $this->field->alias . '_data_options', $vars );
 
-			for ($key_val = 0; $key_val < $count; $key_val++) {
-				$cnt = 0;
-				$html = "<div class='radio_group_image'>";
+			for ( $key_val = 0; $key_val < $count; $key_val++ ) {
+				$cnt  = 0;
+				$html = '<div class="radio_group_image">';
 
-				foreach ($vars as $key => $val) {
+				foreach ( $vars as $key => $val ) {
 					$cnt++;
 
-					$checked = ( isset($this->field->value[$key_val]) && $key == trim($this->field->value[$key_val]) ) ? 'checked="checked"' : '';
-					$class = 'radio-image';
-					if ($checked != '')
+					$checked = ( isset( $this->field->value[ $key_val ] ) && $key == trim( $this->field->value[ $key_val ] ) ) ? 'checked="checked"' : '';
+					$class   = 'radio-image';
+					if ( $checked != '' ) {
 						$class .= ' checked';
+					}
 
-					$image_size = isset($this->field->image_size) ? $this->field->image_size : '';
-					$comment = isset($comments[$key]) ? $comments[$key] : '';
-					$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . esc_attr($this->page->section) . '"' : '';
+					$image_size = isset( $this->field->image_size ) ? $this->field->image_size : '';
+					$comment    = isset( $comments[ $key ] ) ? $comments[ $key ] : '';
+					$section    = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="' . esc_attr( $this->page->section ) . '"' : '';
 					$html .= "
-						<div style='width: {$image_size}px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;' class='" . stripslashes($class) . "'>
+						<div style='width: {$image_size}px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;' class='" . stripslashes( $class ) . "'>
 							<label>
 								<dt class='wp-caption-dt'>
-									<img src='" . stripslashes($val) . "' width='$image_size' height='" . esc_attr($image_size) . "'>
+									<img src='" . stripslashes( $val ) . "' width='$image_size' height='" . esc_attr( $image_size ) . "'>
 								</dt>
-								<p>" . wp_kses_post(stripslashes($comment)) . "</p>
-								<input " . $this->get_link() . " class='input-radio custom-data-type' " . $section . " data-type='radio-buttons-image' type='radio' name='" . esc_attr($this->field->alias) . "[" . esc_attr($key_val) . "]' value='". esc_attr($key) ."' $checked style='display: none;'/>
+								<p>" . wp_kses_post( stripslashes( $comment ) ) . "</p>
+								<input " . $this->get_link() . " class='input-radio custom-data-type' " . $section . " data-type='radio-buttons-image' type='radio' name='" . esc_attr( $this->field->alias ) . "[" . esc_attr( $key_val ) . "]' value='" . esc_attr( $key ) . "' $checked style='display: none;'/>
 							</label>
 						</div>";
 				}
-				echo rf_string($html) . "</div>";
+				echo rf_string( $html ) . '</div>';
 				?>
-					<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'runway'); ?></a><br><br>
+
+				<a href="#" class="delete_radio_image_field"><?php echo __( 'Delete', 'runway' ); ?></a><br><br>
+
 				<?php
 			}
+
 			$field = array(
-				'field_name' => $this->field->alias,
+				'field_name'   => $this->field->alias,
 				'start_number' => $count,
-				'type' => 'radio',
-				'class' => 'input-radio custom-data-type',
-				'data_section' => isset($this->page->section) ? $this->page->section : '',
-				'data_type' => 'radio-buttons',
-				'after_field' => '',
-				'value' => '#'
+				'type'         => 'radio',
+				'class'        => 'input-radio custom-data-type',
+				'data_section' => isset( $this->page->section ) ? $this->page->section : '',
+				'data_type'    => 'radio-buttons',
+				'after_field'  => '',
+				'value'        => '#'
 			);
-			$this->enable_repeating($field, $key_values);
+			$this->enable_repeating( $field, $key_values );
 			$this->wp_customize_js();
 		} else {
 
-			$html = "";
-			$set = $value;
-			if (!isset($set) || empty($set)) {
+			$html = '';
+			$set  = $value;
+			if ( ! isset( $set ) || empty( $set ) ) {
 				$set = $checked;
 			}
 
-			$vars = apply_filters($this->field->alias . '_data_options', $vars); // allow filters to alter values
+			$vars = apply_filters( $this->field->alias . '_data_options', $vars ); // allow filters to alter values
 
-			foreach ($vars as $key => $val) {
+			foreach ( $vars as $key => $val ) {
 				$checked = ( $key == $set ) ? ' checked="checked"' : '';
-				$class = 'radio-image';
-				if ($checked != '')
+				$class   = 'radio-image';
+				if ( $checked != '' ) {
 					$class .= ' checked';
+				}
 
-				$image_size = isset($this->field->image_size) ? $this->field->image_size : '';
-				$comment = isset($comments[$key]) ? $comments[$key] : '';
-				$section = ( isset($this->page->section) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
+				$image_size = isset( $this->field->image_size ) ? $this->field->image_size : '';
+				$comment    = isset( $comments[ $key ] ) ? $comments[ $key ] : '';
+				$section    = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="' . $this->page->section . '"' : '';
 				$html .= "
-					<div style='width: {$image_size}px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;' class='" . stripslashes($class) . "'>
+					<div style='width: {$image_size}px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;' class='" . stripslashes( $class ) . "'>
 						<label>
 							<dt class='wp-caption-dt'>
-								<img src='" . stripslashes($val) . "' width='$image_size' height='" . $image_size . "'>
+								<img src='" . stripslashes( $val ) . "' width='$image_size' height='" . $image_size . "'>
 							</dt>
-							<p>" . stripslashes($comment) . "</p>
-							<input " . $this->get_link() . " class='input-radio custom-data-type' " . parent::add_data_conditional_display($this->field). ' ' . $section . " data-type='radio-buttons-image' type='radio' name='" . $this->field->alias . "' value='$key' $checked style='display: none;'/>
+							<p>" . stripslashes( $comment ) . "</p>
+							<input " . $this->get_link() . " class='input-radio custom-data-type' " . parent::add_data_conditional_display( $this->field ) . ' ' . $section . " data-type='radio-buttons-image' type='radio' name='" . $this->field->alias . "' value='$key' $checked style='display: none;'/>
 						</label>
 					</div>";
 			}
 
-			$title = isset($title) ? $title : '';
-			$html = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post(stripslashes($title)) . '</span></legend><legend class="customize-control-title"><span>' . wp_kses_post($customize_title) . '</span></legend>' . stripslashes($html) . '</fieldset>';
+			$title = isset( $title ) ? $title : '';
+			$html  = '<fieldset><legend class="screen-reader-text"><span>' . wp_kses_post( stripslashes( $title ) ) . '</span></legend><legend class="customize-control-title"><span>' . wp_kses_post( $customize_title ) . '</span></legend>' . stripslashes( $html ) . '</fieldset>';
 
-			echo rf_string($html);
+			echo rf_string( $html );
 		}
-		do_action(self::$type_slug . '_after_render_content', $this);
+
+		do_action( self::$type_slug . '_after_render_content', $this );
 
 	}
 
-	public static function render_settings() { ?>
+	public static function render_settings() {
+		?>
 
 		<script id="radio-buttons-image" type="text/x-jquery-tmpl">
 
@@ -189,12 +218,12 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Image size', 'runway'); ?>:
+		            <?php echo __( 'Image size', 'runway' ); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 		            <select name="image_size" class="settings-select">
-		                <option {{if image_size == ''}} selected="true" {{/if}} value=""><?php echo __('Real size', 'runway'); ?></option>
+		                <option {{if image_size == ''}} selected="true" {{/if}} value=""><?php echo __( 'Real size', 'runway' ); ?></option>
 		                <option {{if image_size == '16'}} selected="true" {{/if}} value="16">16x16</option>
 		                <option {{if image_size == '24'}} selected="true" {{/if}} value="24">24x24</option>
 		                <option {{if image_size == '32'}} selected="true" {{/if}} value="32">32x32</option>
@@ -209,12 +238,15 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Values', 'runway'); ?>:
+		            <?php echo __( 'Values', 'runway' ); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 
 		            <textarea data-set="values" name="values" class="settings-textarea radio-buttons-image-type">${values}</textarea>
+		            <span class="settings-field-caption">
+		                <?php printf( __( 'Enter values in the format: %s key=>image_URL %s', 'runway' ), '<code>', '</code>' ); ?>
+		            </span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -223,25 +255,25 @@ class Radio_buttons_image extends Data_Type {
 
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Required', 'runway'); ?>:
+		            <?php echo __( 'Required', 'runway' ); ?>:
 		            <br><span class="settings-title-caption"></span>
 		        </label>
 		        <div class="settings-in">
 
 		            <label>
 		                {{if required == 'true'}}
-		                <input data-set="required" name="required" value="true" checked="true" type="checkbox">
+		                    <input data-set="required" name="required" value="true" checked="true" type="checkbox">
 		                {{else}}
-		                <input data-set="required" name="required" value="true" type="checkbox">
+		                    <input data-set="required" name="required" value="true" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'runway'); ?>
+		                <?php echo __( 'Yes', 'runway' ); ?>
 		            </label>
 
-		            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'runway'); ?></span><br>
+		            <span class="settings-field-caption"><?php echo __( 'Is this a required field?', 'runway' ); ?></span><br>
 
 		            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-		            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'runway'); ?></span>
+		            <span class="settings-field-caption"><?php echo __( 'Optional. Enter a custom error message.', 'runway' ); ?></span>
 
 		        </div>
 		        <div class="clear"></div>
@@ -251,7 +283,7 @@ class Radio_buttons_image extends Data_Type {
 		    <!-- Repeating settings -->
 		    <div class="settings-container">
 		        <label class="settings-title">
-		            <?php echo __('Repeating', 'runway'); ?>:
+		            <?php echo __( 'Repeating', 'runway' ); ?>:
 		        </label>
 		        <div class="settings-in">
 		            <label>
@@ -260,206 +292,240 @@ class Radio_buttons_image extends Data_Type {
 		                {{else}}
 		                    <input data-set="repeating" name="repeating" value="Yes" type="checkbox">
 		                {{/if}}
-		                <?php echo __('Yes', 'runway'); ?>
+		                <?php echo __( 'Yes', 'runway' ); ?>
 		            </label>
-		            <span class="settings-field-caption"><?php echo __('Can this field repeat with multiple values?', 'runway'); ?></span>
+		            <span class="settings-field-caption"><?php echo __( 'Can this field repeat with multiple values?', 'runway' ); ?></span>
 		        </div>
 		        <div class="clear"></div>
 		    </div>
 
-			<?php parent::render_conditional_display(); ?>
-		    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
+			<?php
+			parent::render_conditional_display();
+			do_action( self::$type_slug . '_after_render_settings' );
+			?>
 
 		</script>
 
-	<?php }
+		<?php
+	}
 
-	public static function data_type_register() { ?>
+	public static function data_type_register() {
+		?>
 
 		<script type="text/javascript">
 
 			jQuery(document).ready(function ($) {
 
-	        builder.registerDataType({
-	            name: 'Image radio buttons',
-	            alias: '<?php echo self::$type_slug ?>',
-                settingsFormTemplateID: '<?php echo self::$type_slug ?>'
-	        });
+				builder.registerDataType({
+					name: 'Image radio buttons',
+					alias: '<?php echo self::$type_slug ?>',
+					settingsFormTemplateID: '<?php echo self::$type_slug ?>'
+				});
 
-	        function values_render_rbi(selector){
-	            var str_render = new String($(selector).val());
-	            var result_string = new Array();
-	            str_render = str_render.split('\n')
-	            for(var key in str_render){
-	                if(str_render[key] != ''){
-	                    str_render[key] = new String(str_render[key]);
-	                    str_render[key] = str_render[key].split('=>');
-	                    if(str_render[key].length == 1){
-	                        result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=><?php echo __('INSERT LINK TO IMAGE', 'runway'); ?>!');
-	                    }
-	                    else if(str_render[key].length == 2){
-	                        if(str_render[key][1] != ''){
-	                            result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=>'+ $.trim(str_render[key][1]));
-	                        }
-	                    }
-	                    else if(str_render[key].length == 3){
-	                        if(str_render[key][2] != ''){
-	                            result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=>'+ $.trim(str_render[key][1]) +
-	                                    '=>'+$.trim(str_render[key][2]));
-	                        }
-	                        else{
-	                            result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-')+'=>'+ $.trim(str_render[key][1]) +
-	                                    '=>INSERT A COMMENT!');
-	                        }
-	                    }
-	                }
-	            }
-	            $(selector).val(result_string.join('\n')+'\n');
-	        }
-
-	        $('body').on('keyup', '.radio-buttons-image-type', function(e){
-	            if(e.keyCode == 13){
-	                values_render_rbi(this);
-	            }
-	        });
-
-	        $('body').on('blur', '.radio-buttons-image-type', function(e){
-	            values_render_rbi(this);
-	        });
-
-	    });
-
-	</script>
-
-	<?php }
-
-	public function enable_repeating($field = array(), $default_values = array()) {
-		if (!empty($field)) :
-			extract($field);
-
-		$add_id = 'add_' . $field_name;
-		$del_id = 'del_' . $field_name;
-
-		$div_class = 'radio-image';
-
-		$image_size = isset($this->field->image_size) ? $this->field->image_size : '';
-		$comment = '';
-		?>
-		<div id="<?php echo esc_attr($add_id); ?>">
-			<a href="#">
-				<?php echo __('Add Field', 'runway'); ?>
-			</a>
-		</div>
-
-		<script type="text/javascript">
-			(function($){
-				$(document).ready(function(){
-					var field = $.parseJSON('<?php echo json_encode($field); ?>');
-					var start_radio_groups_index = <?php echo esc_js($start_number); ?>;
-
-					$('#<?php echo esc_js($add_id); ?>').click(function(e){
-						e.preventDefault();
-						var field = $('<div class="radio_group_image">');
-
-						<?php foreach ($default_values as $val_key => $val) { ?>
-							var child_field = $('<div style="width: <?php echo esc_js($image_size); ?>px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;" class="<?php echo stripslashes($div_class); ?>">'+
-										'<label>'+
-											'<dt class="wp-caption-dt">'+
-												'<img src="<?php echo stripslashes($val); ?>" width="<?php echo esc_attr($image_size); ?>px" height="<?php echo esc_attr($image_size); ?>px">'+
-											'</dt>'+
-											'<p></p>'+
-											'<input <?php echo esc_js($this->get_link()); ?> class="<?php echo esc_attr($class); ?>" data-section="<?php echo esc_attr($data_section); ?>" type="<?php echo esc_attr($type); ?>" name="<?php echo esc_attr($field_name); ?>['+start_radio_groups_index+']" value="<?php echo esc_attr($val_key); ?>" style="display: none" data-type="<?php echo esc_attr($data_type); ?>"/>'+
-										'</label>'+
-									'</div>');
-
-							field.append(child_field);
-						<?php } ?>
-						start_radio_groups_index++;
-
-						field.insertBefore($(this));
-
-						$('#header').focus();
-						field.after('<br><br>');
-						field.after('<span class="field_label"> <?php echo esc_js($after_field) ?> </span>');
-						field.next().after('<a href="#" class="delete_radio_image_field"><?php echo __('Delete', 'runway'); ?></a>');
-
-						if(typeof reinitialize_customize_radio_image_instance == 'function') {
-							reinitialize_customize_radio_image_instance('<?php echo esc_js($field_name) ?>');
-						}
-					});
-
-					$('body').on('click', '.delete_radio_image_field', function(e){
-						e.preventDefault();
-						$(this).prev('.field_label').remove();
-						$(this).prev('.radio_group_image').remove();
-						$(this).next('br').remove();
-						$(this).next('br').remove();
-						$(this).remove();
-
-						if(typeof reinitialize_customize_radio_image_instance == 'function') {
-							reinitialize_customize_radio_image_instance('<?php echo esc_js($field_name) ?>');
-						}
-					});
-
-					if ( wp.customize ) {
-						if(typeof reinitialize_customize_radio_image_instance == 'function') {
-							var api = wp.customize;
-							api.bind('ready', function(){
-								reinitialize_customize_radio_image_instance('<?php echo esc_js($field_name) ?>');
-							});
+				function values_render_rbi(selector) {
+					var str_render = new String($(selector).val());
+					var result_string = new Array();
+					str_render = str_render.split('\n');
+					for (var key in str_render) {
+						if (str_render[key] != '') {
+							str_render[key] = new String(str_render[key]);
+							str_render[key] = str_render[key].split('=>');
+							if (str_render[key].length == 1) {
+								result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-') + '=><?php echo __( 'INSERT LINK TO IMAGE', 'runway' ); ?>!');
+							}
+							else if (str_render[key].length == 2) {
+								if (str_render[key][1] != '') {
+									result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-') + '=>' + $.trim(str_render[key][1]));
+								}
+							}
+							else if (str_render[key].length == 3) {
+								if (str_render[key][2] != '') {
+									result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-') + '=>' + $.trim(str_render[key][1]) +
+										'=>' + $.trim(str_render[key][2]));
+								}
+								else {
+									result_string.push($.trim(str_render[key][0]).toLowerCase().split(' ').join('-') + '=>' + $.trim(str_render[key][1]) +
+										'=>INSERT A COMMENT!');
+								}
+							}
 						}
 					}
+					$(selector).val(result_string.join('\n') + '\n');
+				}
+
+				$('body').on('keyup', '.radio-buttons-image-type', function (e) {
+					if (e.keyCode == 13) {
+						values_render_rbi(this);
+					}
 				});
-			})(jQuery);
+
+				$('body').on('blur', '.radio-buttons-image-type', function (e) {
+					values_render_rbi(this);
+				});
+
+			});
+
 		</script>
+
 		<?php
-		endif;
+	}
+
+	public function sanitize_value( $value ) {
+
+		if ( is_array( $value ) ) {
+
+			if ( count( $value ) === 1 ) {
+				$value = reset( $value );
+			}
+
+		}
+
+		return $value;
+
+	}
+
+	public function enable_repeating( $field = array(), $default_values = array() ) {
+
+		if ( ! empty( $field ) ) {
+			extract( $field );
+
+			$add_id = 'add_' . $field_name;
+
+			$div_class = 'radio-image';
+
+			$image_size = isset( $this->field->image_size ) ? $this->field->image_size : '';
+			?>
+
+			<div id="<?php echo esc_attr( $add_id ); ?>">
+				<a href="#"><?php echo __( 'Add Field', 'runway' ); ?></a>
+			</div>
+
+			<script type="text/javascript">
+				(function ($) {
+					$(document).ready(function () {
+						var field = $.parseJSON('<?php echo json_encode( $field ); ?>');
+						var start_radio_groups_index = <?php echo esc_js( $start_number ); ?>;
+						var $container = $('#<?php echo esc_js( $add_id ); ?>').parent();
+
+						$('#<?php echo esc_js( $add_id ); ?>').click(function (e) {
+							e.preventDefault();
+							var field = $('<div class="radio_group_image">');
+
+							<?php foreach ($default_values as $val_key => $val) { ?>
+							var child_field = $('<div style="width: <?php echo esc_js( $image_size ); ?>px; vertical-align: middle; display: inline-block; text-align: center; vertical-align: top;" class="<?php echo stripslashes( $div_class ); ?>">' +
+								'<label>' +
+								'<dt class="wp-caption-dt">' +
+								'<img src="<?php echo stripslashes( $val ); ?>" width="<?php echo esc_attr( $image_size ); ?>px" height="<?php echo esc_attr( $image_size ); ?>px">' +
+								'</dt>' +
+								'<p></p>' +
+								'<input <?php echo esc_js( $this->get_link() ); ?> class="<?php echo esc_attr( $class ); ?>" data-section="<?php echo esc_attr( $data_section ); ?>" type="<?php echo esc_attr( $type ); ?>" name="<?php echo esc_attr( $field_name ); ?>[' + start_radio_groups_index + ']" value="<?php echo esc_attr( $val_key ); ?>" style="display: none" data-type="<?php echo esc_attr( $data_type ); ?>"/>' +
+								'</label>' +
+								'</div>');
+
+							field.append(child_field);
+							<?php } ?>
+							start_radio_groups_index++;
+
+							field.insertBefore($(this));
+
+							$('#header').focus();
+							field.after('<br><br>');
+							field.after('<span class="field_label"> <?php echo esc_js( $after_field ); ?> </span>');
+							field.next().after('<a href="#" class="delete_radio_image_field"><?php echo __( 'Delete', 'runway' ); ?></a>');
+
+							if (typeof reinitialize_customize_radio_image_instance == 'function') {
+								reinitialize_customize_radio_image_instance('<?php echo esc_js( $field_name ); ?>');
+							}
+						});
+
+						$('body').on('click', '.delete_radio_image_field', function (e) {
+							var $this = $(this);
+
+							e.preventDefault();
+							
+							$this.prev('.field_label').remove();
+							$this.prev('.radio_group_image').remove();
+							$this.next('br').remove();
+							$this.next('br').remove();
+							$this.remove();
+
+							if (typeof reinitialize_customize_radio_image_instance == 'function') {
+								reinitialize_customize_radio_image_instance('<?php echo esc_js( $field_name ); ?>');
+							}
+						});
+
+						if (wp.customize) {
+							if (typeof reinitialize_customize_radio_image_instance == 'function') {
+								var api = wp.customize;
+								api.bind('ready', function () {
+									reinitialize_customize_radio_image_instance('<?php echo esc_js( $field_name ); ?>');
+								});
+							}
+						}
+
+						setTimeout(function() {
+							if (typeof check_inputs_amount === 'function') {
+								check_inputs_amount($container);
+							}
+						}, 0);
+					});
+				})(jQuery);
+			</script>
+
+			<?php
+		}
+
 	}
 
 	public function wp_customize_js() {
-	?>
+		?>
+
 		<script type="text/javascript">
-		(function($){
-			$('body').on('click', 'input[name^="<?php echo esc_js($this->field->alias);?>"]', function(e){
-				reinitialize_customize_radio_image_instance('<?php echo esc_js($this->field->alias);?>');
-				if ( wp.customize ) {
-					e.preventDefault();
-					e.stopPropagation();
-				}
-			});
-		})(jQuery);
+			(function ($) {
+				$('body').on('click', 'input[name^="<?php echo esc_js( $this->field->alias ); ?>"]', function (e) {
 
-		if(typeof reinitialize_customize_radio_image_instance !== 'function') {
-			function reinitialize_customize_radio_image_instance(alias) {
-				(function($){
-					if ( wp.customize ) {
-						var values_array = [];
-						var current_index = -1;
-						var next_index = -1;
+					// first must be changed parent class
+					setTimeout(function () {
+						reinitialize_customize_radio_image_instance('<?php echo esc_js( $this->field->alias ); ?>');
+					}, 0);
 
-						alias = alias.replace(/(\[\d*\])?\[\d*\]$/, "");
-						$('input[name^="'+alias+'"]').each(function(){
-							var matched = $(this).attr('name').match(/\[(\d*)\]$/);
-							if(current_index != parseInt(matched[1], 10)) {
-								current_index = parseInt(matched[1], 10);
-								next_index ++;
-								values_array[next_index] = '';
-							}
-
-							if($(this).parents('.radio-image').hasClass('checked')) {
-								values_array[next_index] = $(this).val();
-							}
-						});
-						var api = wp.customize;
-						api.instance(alias).set(values_array);
+					if (wp.customize) {
+						e.preventDefault();
+						e.stopPropagation();
 					}
-				})(jQuery);
+				});
+			})(jQuery);
+
+			if (typeof reinitialize_customize_radio_image_instance !== 'function') {
+				function reinitialize_customize_radio_image_instance(alias) {
+					(function ($) {
+						if (wp.customize) {
+							var values_array = [];
+							var current_index = -1;
+							var next_index = -1;
+
+							alias = alias.replace(/(\[\d*\])?\[\d*\]$/, "");
+							$('input[name^="' + alias + '"]').each(function () {
+								var matched = $(this).attr('name').match(/\[(\d*)\]$/);
+								if (current_index != parseInt(matched[1], 10)) {
+									current_index = parseInt(matched[1], 10);
+									next_index++;
+									values_array[next_index] = '';
+								}
+
+								if ($(this).parents('.radio-image').hasClass('checked')) {
+									values_array[next_index] = $(this).val();
+								}
+							});
+							var api = wp.customize;
+							api.instance(alias).set(values_array);
+						}
+					})(jQuery);
+				}
 			}
-		}
 		</script>
-	<?php
+
+		<?php
 	}
 
 }
-
-?>
