@@ -123,6 +123,20 @@ class Input_text extends Data_Type {
 
 	}
 
+	public function sanitize_value( $value ) {
+
+		if ( is_array( $value ) ) {
+
+			if ( count( $value ) === 1 ) {
+				$value = reset( $value );
+			}
+
+		}
+
+		return $value;
+
+	}
+
 	public static function render_settings() {
 		?>
 

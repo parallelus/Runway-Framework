@@ -325,14 +325,8 @@ class Datepicker_type extends Data_Type {
 
 		if ( is_array( $value ) ) {
 
-			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
-				if ( is_array( $value ) && count( $value ) === 1 ) {
-					$value = $value[0];
-				}
-			} else {
-				if ( count( $value ) === 1 ) {
-					$value = $value[0];
-				}
+			if ( count( $value ) === 1 ) {
+				$value = reset( $value );
 			}
 
 		}

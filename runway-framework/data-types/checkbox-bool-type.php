@@ -182,20 +182,15 @@ class Checkbox_bool_type extends Data_Type {
 
 		} else if ( is_array( $value ) ) {
 
-			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
-				if ( is_array( $value ) && count( $value ) === 1 ) {
-					$value = $value[0];
-				} else {
-					foreach ( $value as &$item ) {
-						if ( is_bool( $item ) ) {
-							$item = var_export( $item, true );
-						}
-					}
+			foreach ( $value as &$item ) {
+				if ( is_bool( $item ) ) {
+					$item = var_export( $item, true );
 				}
-			} else {
-				if ( count( $value ) === 1 ) {
-					$value = $value[0];
-				}
+			}
+			unset($item);
+
+			if ( count( $value ) === 1 ) {
+				$value = reset( $value );
 			}
 
 		}

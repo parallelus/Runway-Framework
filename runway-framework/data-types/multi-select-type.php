@@ -205,13 +205,14 @@ class Multi_select_type extends Data_Type {
 		}
 
 		if ( is_array( $value ) ) {
+			$first = reset($value);
 			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
-				if ( is_array( $value[0] ) && count( $value ) === 1 ) {
-					$value = $value[0];
+				if ( is_array( $first ) && count( $value ) === 1 ) {
+					$value = $first;
 				}
 			} else {
 				if ( count( $value ) === 1 ) {
-					$value = $value[0];
+					$value = $first;
 				}
 			}
 		}

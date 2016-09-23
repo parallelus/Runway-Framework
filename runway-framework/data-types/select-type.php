@@ -203,6 +203,20 @@ class Select_type extends Data_Type {
 
 	}
 
+	public function sanitize_value( $value ) {
+
+		if ( is_array( $value ) ) {
+
+			if ( count( $value ) === 1 ) {
+				$value = reset( $value );
+			}
+
+		}
+
+		return $value;
+
+	}
+
 	public static function data_type_register() {
 		?>
 
@@ -270,6 +284,7 @@ class Select_type extends Data_Type {
 				(function ($) {
 					$(document).ready(function () {
 						var field = $.parseJSON('<?php echo json_encode( $field ); ?>');
+						var $container = $('#<?php echo esc_js( $add_id ); ?>').parent();
 
 						$('#<?php echo esc_js( $add_id ); ?>').click(function (e) {
 							e.preventDefault();
@@ -332,6 +347,12 @@ class Select_type extends Data_Type {
 								});
 							}
 						}
+
+						setTimeout(function() {
+							if (typeof check_inputs_amount === 'function') {
+								check_inputs_amount($container);
+							}
+						}, 0);
 					});
 				})(jQuery);
 			</script>

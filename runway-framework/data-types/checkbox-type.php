@@ -262,13 +262,14 @@ class Checkbox_type extends Data_Type {
 		}
 
 		if ( is_array( $value ) ) {
+			$first = reset($value);
 			if ( isset( $this->field->repeating ) && $this->field->repeating == 'Yes' ) {
-				if ( is_array( $value[0] ) && count( $value ) === 1 ) {
-					$value = $value[0];
+				if ( is_array( $first ) && count( $value ) === 1 ) {
+					$value = $first;
 				}
 			} else {
 				if ( count( $value ) === 1 ) {
-					$value = $value[0];
+					$value = $first;
 				}
 			}
 		}
@@ -420,6 +421,7 @@ class Checkbox_type extends Data_Type {
 					$(document).ready(function () {
 						var field = $.parseJSON('<?php echo json_encode( $field ); ?>');
 						var start_radio_groups_index = <?php echo esc_js( $start_number ); ?>;
+						var $container = $('#<?php echo esc_js( $add_id ); ?>').parent();
 
 						$('#<?php echo esc_js( $add_id ); ?>').click(function (e) {
 							e.preventDefault();
@@ -472,6 +474,12 @@ class Checkbox_type extends Data_Type {
 								});
 							}
 						}
+
+						setTimeout(function() {
+							if (typeof check_inputs_amount === 'function') {
+								check_inputs_amount($container);
+							}
+						}, 0);
 					});
 				})(jQuery);
 			</script>
