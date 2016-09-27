@@ -25,13 +25,56 @@ class Text_editor extends Data_Type {
         ob_end_clean();
 
         echo rf_string($html); ?>
+
         <script type="text/javascript">
-            jQuery(document).ready(function($){
-                $('textarea.wp-editor-area').addClass('custom-data-type');
-                $('textarea.wp-editor-area').attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>' );
-                $('textarea.wp-editor-area').attr('data-type', 'texteditor-type' );
+            jQuery(document).ready(function ($) {
+                var $editorArea = $('textarea.wp-editor-area');
+
+                $editorArea.addClass('custom-data-type');
+                $editorArea.attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>');
+                $editorArea.attr('data-type', 'texteditor-type');
+
+                try {
+
+                    // Fix the version compatibility issue for jquery-ui:
+                    // check if method 'instance' exists
+                    if ($.ui && $.ui.autocomplete) {
+                        $('<input>').autocomplete().autocomplete('instance');
+                    }
+
+                } catch (e) {
+
+                    // add it
+                    $.widget('ui.autocomplete', $.ui.autocomplete, {
+                        instance: function () {
+
+                            var fullName = this.widgetFullName || '';
+                            var returnValue = this;
+
+                            if (!this.length) {
+                                returnValue = undefined;
+                            } else {
+                                this.each(function () {
+                                    returnValue = $.data(this, fullName);
+                                    return false;
+                                });
+                            }
+
+                            this._renderItem = function (ul, item) {
+                                return $('<li role="option" id="mce-wp-autocomplete-' + item.ID + '">')
+                                    .append('<span>' + item.title + '</span>&nbsp;<span class="wp-editor-float-right">' + item.info + '</span>')
+                                    .appendTo(ul);
+                            };
+
+                            return returnValue;
+
+                        }
+                    });
+
+                }
             })
         </script>
+        
         <?php
 
         do_action( self::$type_slug . '_after_render_content', $this );
