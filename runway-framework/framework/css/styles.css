@@ -507,3 +507,15 @@ These need to be included by the theme instead. Still working on the best way to
 .wp-customizer .accordion-section-content {
     overflow-x: auto;
 }
+
+.wp-customizer .range-slider .noUi-target.noUi-horizontal {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.wp-customizer .range-slider .noUi-target.noUi-vertical {
+    margin-left: 10px;
+    padding: 10px 0;
+}
+
+

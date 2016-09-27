@@ -24,23 +24,39 @@ class Range_slider_type extends Data_Type {
 		$values_string = preg_replace("/[\[\]\s]*/", "", $values_string);
 		$values_array = explode(",", $values_string);
 
-		$double = (count($values_array) > 1)? true : false;
-
-		if($double) {
-			$this->field->startFirstEntry = $values_array[0];
-			$this->field->startSecondEntry = $values_array[1];
-			$start = "[".$this->field->startFirstEntry.", ".$this->field->startSecondEntry."]";
+		$double = false;
+		if (
+			isset( $this->field->startFirstEntry )
+			&& strlen( $this->field->startFirstEntry ) > 0
+			&& isset( $this->field->startSecondEntry )
+			&& strlen( $this->field->startSecondEntry ) > 0
+		) {
+			$double = true;
 		}
-		else if($values_array[0] != '') {
+
+		if ( count($values_array) > 1 && strlen( $values_array[0] ) > 0 && strlen( $values_array[1] ) > 0 ) {
+			$double = true;
+		}
+
+		if( $double ) {
+			if ( isset( $values_array[0] ) && strlen( $values_array[0] ) > 0 ) {
+				$this->field->startFirstEntry = $values_array[0];
+			}
+
+			if ( isset( $values_array[1] ) && strlen( $values_array[1] ) > 0 ) {
+				$this->field->startSecondEntry = $values_array[1];
+			}
+
+			$start = "[".$this->field->startFirstEntry.", ".$this->field->startSecondEntry."]";
+		} else if($values_array[0] != '') {
 			$this->field->startFirstEntry = $values_array[0];
 			$start = "[".$this->field->startFirstEntry."]";
 		}
 
 		$connect = 'false';
-		if($this->field->connect == 'false' || $this->field->connect == 'true')
+		if( $double && ( $this->field->connect == 'false' || $this->field->connect == 'true' ) )
 			$connect = $this->field->connect;
-		else
-			$connect = '"'.$this->field->connect.'"'
+
 		?>
 
 		<legend class='customize-control-title'><span><?php echo wp_kses_post($customize_title); ?></span></legend>
@@ -117,8 +133,9 @@ class Range_slider_type extends Data_Type {
 		$framework_pos = strlen($data_type_directory) - strlen($framework_dir) - strrpos($data_type_directory, $framework_dir) - 1;
 		$current_data_type_dir = str_replace('\\', '/', substr($data_type_directory, - $framework_pos));
 
-		wp_register_script('rw_nouislider', FRAMEWORK_URL . $current_data_type_dir . '/js/jquery.nouislider.min.js');
-		wp_register_style('rw_nouislider_css', FRAMEWORK_URL . $current_data_type_dir . '/css/jquery.nouislider.css');
+		wp_enqueue_script( 'rw_nouislider', FRAMEWORK_URL . $current_data_type_dir . '/js/jquery.nouislider.min.js' );
+		wp_enqueue_style( 'rw_nouislider_css', FRAMEWORK_URL . $current_data_type_dir . '/css/jquery.nouislider.css' );
+
 	}
 
 	public function get_value() {
