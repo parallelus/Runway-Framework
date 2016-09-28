@@ -42,11 +42,7 @@ class Code_editor_type extends Data_Type {
 					var editor = ace.edit("<?php echo esc_js($this->field->alias); ?>");
 
 					<?php if(isset($this->field->enableVim) && ($this->field->enableVim === 'true' || $this->field->enableVim === true)) { ?>
-					ace.require("ace/lib/net").loadScript("https://rawgithub.com/ajaxorg/ace-builds/master/src-min-noconflict/keybinding-vim.js",
-					function() {
-					    e = document.querySelector("#<?php echo esc_js($this->field->alias); ?>").env.editor;
-					    e.setKeyboardHandler(ace.require("ace/keyboard/vim").handler);
-					});
+					editor.setKeyboardHandler('ace/keyboard/vim');
 					<?php } ?>
 
 					editor.setTheme("ace/theme/chrome");
