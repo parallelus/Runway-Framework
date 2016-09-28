@@ -139,9 +139,32 @@ class Apm_Admin extends Runway_Admin_Object {
 							isset( $element_values['type'] ) && $element_values['type'] != $old_elements[$element_key]['type'] ) ) {
 						$diff = array_diff( $element_values, $old_elements[$element_key] );
 
+						// for edited fields
+						if (
+							$element_values['alias'] != $old_elements[ $element_key ]['alias']
+							&& array_key_exists( 'template', $element_values )
+							&& $element_values['template'] === 'field'
+						) {
+							// alias should not contain spaces
+							$page['elements'][ $element_key ]['alias'] = preg_replace( '/\s+/', '', $page['elements'][ $element_key ]['alias'] );
+						}
+
 						if ( !empty( $diff ) ) {
 							$changed[] = ( isset( $element_values['alias'] ) ) ? $element_values['alias'] : '';
 						}
+					}
+				}
+
+				// check aliases for new elements
+				$new_elements = array_diff_assoc( (array) $page['elements'], (array) $old_page['elements'] );
+				foreach ( $new_elements as $element_key => $element_values ) {
+					if (
+						array_key_exists( 'alias', $element_values )
+						&& array_key_exists( 'template', $element_values )
+						&& $element_values['template'] === 'field'
+					) {
+						// alias should not contain spaces
+						$page['elements'][ $element_key ]['alias'] = preg_replace( '/\s+/', '', $page['elements'][ $element_key ]['alias'] );
 					}
 				}
 

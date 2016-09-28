@@ -550,7 +550,7 @@ var system_vars_definition = ['template', 'index'];
                                     } break;
 
                                     case 'alias': {
-                                            options.alias = options_origin.alias + ' - ' + translations_js.duplicate;
+                                            options.alias = options_origin.alias + '-' + translations_js.duplicate;
                                     } break;
 
                                     default: {
