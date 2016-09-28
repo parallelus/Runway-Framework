@@ -518,4 +518,6 @@ These need to be included by the theme instead. Still working on the best way to
     padding: 10px 0;
 }
 
-
+.wp-customizer .code-editor.ace_editor {
+    max-width: 100%;
+}
