@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Registered actions:
  * 1. before_search_extensions
@@ -14,59 +15,67 @@
  */
 class Extm_Admin extends Runway_Admin_Object {
 
-	public $extensions_dir, $theme_name, $admin_settings, $themes_path, $ext_manager_load_file, $core_extensions,
-	$data_dir, $option_key, $extensions_List;
+	public $extensions_dir;
+	public $theme_name;
+	public $admin_settings;
+	public $themes_path;
+	public $ext_manager_load_file;
+	public $core_extensions;
+	public $data_dir;
+	public $extensions_List;
 
-	function __construct( $settings ) {
-		parent::__construct($settings);
+	public function __construct( $settings ) {
+
+		parent::__construct( $settings );
+
 		// global $settings;
-		$this->option_key = $settings['option_key'];
-		$this->core_extensions = get_template_directory() . '/framework/includes/';
-		$this->data_dir = get_stylesheet_directory() . '/data';
+		$this->option_key            = $settings['option_key'];
+		$this->core_extensions       = get_template_directory() . '/framework/includes/';
+		$this->data_dir              = get_stylesheet_directory() . '/data';
 		$this->ext_manager_load_file = get_template_directory() . '/framework/includes/extensions-manager/load.php';
-		$this->extensions_dir = get_template_directory() . '/extensions/';
-		$this->theme_name = get_stylesheet();
-		$this->admin_settings = get_option( $this->option_key );
-		$this->themes_path = explode( '/', get_template_directory() );
-		unset( $this->themes_path[count( $this->themes_path ) - 1] );
+		$this->extensions_dir        = get_template_directory() . '/extensions/';
+		$this->theme_name            = get_stylesheet();
+		$this->admin_settings        = get_option( $this->option_key );
+		$this->themes_path           = explode( '/', get_template_directory() );
+		unset( $this->themes_path[ count( $this->themes_path ) - 1 ] );
 		$this->themes_path = implode( '/', $this->themes_path );
 
 		$this->extensions_List = $this->get_extensions_list( $this->extensions_dir );
+
 	}
 
-	function get_admin_data( $option_key ) {
+	public function get_admin_data( $option_key ) {
 
-		return get_option( $option_key.'extensions-manager' );
+		return get_option( $option_key . 'extensions-manager' );
 
 	}
 
 	// Add hooks & crooks
-	function add_actions() {
+	public function add_actions() {
 
 		add_action( 'init', array( $this, 'init' ) );
 
 	}
 
-	function init() {
+	public function init() {
 
-		if ( isset( $_REQUEST['navigation'] ) && !empty( $_REQUEST['navigation'] ) ) {
+		if ( isset( $_REQUEST['navigation'] ) && ! empty( $_REQUEST['navigation'] ) ) {
 			global $extm;
 			$extm->navigation = $_REQUEST['navigation'];
 		}
 
 	}
 
-	function after_settings_init() {
-
+	public function after_settings_init() {
 	}
 
-	function validate_sumbission() {
+	public function validate_sumbission() {
 		// If all is OKq
 		return true;
 
 	}
 
-	function load_objects() {
+	public function load_objects() {
 
 		// global $extm;
 		// $this->data = $extm->load_objects();
@@ -77,19 +86,20 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Search extensions function
 	 *
-	 * @param array   $exts
-	 * @param unknown $keyword
+	 * @param array $exts
+	 * @param string $keyword
+	 *
 	 * @return array
 	 */
-	function search_exts( $exts = array(), $keyword ) {
+	public function search_exts( $exts = array(), $keyword ) {
 
 		do_action( 'before_search_extensions' );
 
 		foreach ( $exts as $key => $value ) {
 			$ext_name = strtolower( $value['Name'] );
-			$keyword = strtolower( $keyword );
-			if ( !strstr( $ext_name, $keyword ) ) {
-				unset( $exts[$key] );
+			$keyword  = strtolower( $keyword );
+			if ( false === strpos( $ext_name, $keyword ) ) {
+				unset( $exts[ $key ] );
 			}
 		}
 
@@ -102,26 +112,27 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Check resolution to do the action (activate/deactivate/delete)
 	 *
-	 * @param unknown $dependences
+	 * @param array $dependences
+	 *
 	 * @return bool
 	 */
-	function resolution_to_action( $dependences ) {
+	public function resolution_to_action( $dependences ) {
 
-		$resolution = FALSE;
+		$resolution = false;
 		if ( empty( $dependences ) ) {
-			$resolution = TRUE;
+			$resolution = true;
 		}
 
-		if ( !empty( $dependences ) ) {
+		if ( ! empty( $dependences ) ) {
 			foreach ( $dependences as $depsendece ) {
 				if ( $this->check_dependence_extension( $depsendece ) ) {
-					$resolution = TRUE;
+					$resolution = true;
 				} else {
-					$resolution = FALSE;
+					$resolution = false;
 				}
 			}
 		} else {
-			$resolution = TRUE;
+			$resolution = true;
 		}
 
 		return $resolution;
@@ -131,24 +142,25 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Check the extensions dependencies
 	 *
-	 * @param unknown $dependence
+	 * @param string $dependence
+	 *
 	 * @return bool
 	 */
-	function check_dependence_extension( $dependence ) {
+	public function check_dependence_extension( $dependence ) {
 
-		$ext_on = FALSE;
+		$ext_on     = false;
 		$dependence = explode( '|', $dependence );
-		if ( isset( $this->admin_settings['extensions'][$this->theme_name] ) ) {
-			foreach ( $this->admin_settings['extensions'][$this->theme_name] as $ext ) {
+		if ( isset( $this->admin_settings['extensions'][ $this->theme_name ] ) ) {
+			foreach ( $this->admin_settings['extensions'][ $this->theme_name ] as $ext ) {
 				if ( $ext == $dependence[1] ) {
-					$ext_on = TRUE;
+					$ext_on = true;
 				}
 			}
 		}
-		if ( file_exists( $this->extensions_dir . $dependence[1] ) && $ext_on ) {
-			return TRUE;
+		if ( $ext_on && file_exists( $this->extensions_dir . $dependence[1] ) ) {
+			return true;
 		} else {
-			return FALSE;
+			return false;
 		}
 
 	}
@@ -156,10 +168,11 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Get the dependent extensions
 	 *
-	 * @param unknown $ext
+	 * @param string $ext
+	 *
 	 * @return array
 	 */
-	function get_dependent_extensions( $ext ) {
+	public function get_dependent_extensions( $ext ) {
 
 		$dependets = array();
 		$exts_list = $this->get_extensions_list( $this->extensions_dir );
@@ -174,6 +187,7 @@ class Extm_Admin extends Runway_Admin_Object {
 				}
 			}
 		}
+
 		return $dependets;
 
 	}
@@ -181,21 +195,25 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Get extension dependencies list
 	 *
-	 * @param unknown $ext
+	 * @param string $ext
+	 *
 	 * @return array
 	 */
-	function get_extension_dependencies( $ext ) {
+	public function get_extension_dependencies( $ext ) {
 
 		$dependencies = array();
-		$ext_info = $this->get_extension_data( $ext );
+		$ext_info     = $this->get_extension_data( $ext );
 		if ( isset( $ext_info['DepsExts'] ) && is_array( $ext_info['DepsExts'] ) ) {
 			foreach ( $ext_info['DepsExts'] as $dep ) {
-				$dep = explode( '|', $dep );
+				$dep            = explode( '|', $dep );
 				$dependencies[] = $dep[1];
 
 				$dep_tmp = $this->get_extension_data( $this->extensions_dir . $dep[1] );
-				if ( isset( $dep_tmp['DepsExts'] ) && !empty( $dep_tmp['DepsExts'] ) ) {
-					$dependencies = array_merge( $dependencies, $this->get_extension_dependencies( $this->extensions_dir . $dep[1] ) );
+				if ( isset( $dep_tmp['DepsExts'] ) && ! empty( $dep_tmp['DepsExts'] ) ) {
+					$dependencies = array_merge( 
+						$dependencies,
+						$this->get_extension_dependencies( $this->extensions_dir . $dep[1] ) 
+					);
 				}
 			}
 		}
@@ -205,31 +223,32 @@ class Extm_Admin extends Runway_Admin_Object {
 
 	}
 
-
 	/**
 	 * Deactivate extension function
 	 *
-	 * @param unknown $extension
+	 * @param string $extension
+	 *
 	 * @return string
 	 */
-	function deactivate_extension( $extension ) {
+	public function deactivate_extension( $extension ) {
 
 		do_action( 'before_deactivate_extension' );
 
-		if ( isset( $this->admin_settings['extensions'][$this->theme_name]['active'] ) && isset( $extension ) ) {
-			foreach ( $this->admin_settings['extensions'][$this->theme_name]['active'] as $key => $value ) {
+		if ( isset( $extension ) && isset( $this->admin_settings['extensions'][ $this->theme_name ]['active'] ) ) {
+			foreach ( $this->admin_settings['extensions'][ $this->theme_name ]['active'] as $key => $value ) {
 				if ( $value == urldecode( $extension ) ) {
-					$this->admin_settings['extensions'][$this->theme_name]['unactive'][$key] = $this->admin_settings['extensions'][$this->theme_name]['active'][$key];
-					unset( $this->admin_settings['extensions'][$this->theme_name]['active'][$key] );
+					$this->admin_settings['extensions'][ $this->theme_name ]['unactive'][ $key ] = $this->admin_settings['extensions'][ $this->theme_name ]['active'][ $key ];
+					unset( $this->admin_settings['extensions'][ $this->theme_name ]['active'][ $key ] );
 					update_option( $this->option_key, $this->admin_settings );
 
 					$also_deactivate = $this->get_dependent_extensions( $extension );
-					if ( !empty( $also_deactivate ) ) {
+					if ( ! empty( $also_deactivate ) ) {
 						foreach ( $also_deactivate as $deact ) {
 							$this->deactivate_extension( $deact );
 						}
 					}
 					do_action( 'after_deactivate_extension' );
+
 					return __( 'Extension deactivated', 'runway' );
 				}
 			}
@@ -242,19 +261,21 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Activate extensions list without check to resolutions. Using only to activated dependencies-list for extension
 	 *
-	 * @param unknown $extensions
+	 * @param array $extensions
+	 *
 	 * @return string
 	 */
-	function activate_extensions_without_resolution_check( $extensions ) {
+	public function activate_extensions_without_resolution_check( $extensions ) {
 
 		$act_exts = array();
 		foreach ( $extensions as $extension ) {
-			$this->admin_settings['extensions'][$this->theme_name][] = urldecode( $extension );
-			$this->admin_settings['extensions'][$this->theme_name] = array_unique( $this->admin_settings['extensions'][$this->theme_name] );
+			$this->admin_settings['extensions'][ $this->theme_name ][] = urldecode( $extension );
+			$this->admin_settings['extensions'][ $this->theme_name ]   = array_unique( $this->admin_settings['extensions'][ $this->theme_name ] );
 			update_option( $this->option_key, $this->admin_settings );
-			$extension = $this->get_extension_data( $this->extensions_dir . $extension );
+			$extension  = $this->get_extension_data( $this->extensions_dir . $extension );
 			$act_exts[] = $extension['Name'];
 		}
+
 		return sprintf( __( 'Extension: <b>%s</b> activated', 'runway' ), implode( ',', $act_exts ) );
 
 	}
@@ -262,54 +283,66 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Deactivate extension function
 	 *
-	 * @param unknown $extension
+	 * @param string $extension
+	 *
 	 * @return string
 	 */
-	function activate_extension( $extension ) {
+	public function activate_extension( $extension ) {
 
 		do_action( 'before_activate_extension' );
 
 		$ext_data = $this->get_extension_data( $this->extensions_dir . $extension );
 		if ( $this->resolution_to_action( $ext_data['DepsExts'] ) ) {
-			$this->admin_settings['extensions'][$this->theme_name]['unactive'] = array_filter(
-				(array)$this->admin_settings['extensions'][$this->theme_name]['unactive'],
-				function( $elm ) use ( $extension ) {
+			$this->admin_settings['extensions'][ $this->theme_name ]['unactive'] = array_filter(
+				(array) $this->admin_settings['extensions'][ $this->theme_name ]['unactive'],
+				function ( $elm ) use ( $extension ) {
 					if ( $elm != $extension ) {
 						return $elm;
 					}
 				}
 			);
-			unset( $this->admin_settings['extensions'][$this->theme_name]['unactive'][urldecode( $extension )] );
-			$this->admin_settings['extensions'][$this->theme_name]['active'][] = urldecode( $extension );
-			$this->admin_settings['extensions'][$this->theme_name]['active'] = array_unique( $this->admin_settings['extensions'][$this->theme_name]['active'] );
+			unset( $this->admin_settings['extensions'][ $this->theme_name ]['unactive'][ urldecode( $extension ) ] );
+			$this->admin_settings['extensions'][ $this->theme_name ]['active'][] = urldecode( $extension );
+			$this->admin_settings['extensions'][ $this->theme_name ]['active']   = array_unique( $this->admin_settings['extensions'][ $this->theme_name ]['active'] );
 			update_option( $this->option_key, $this->admin_settings );
 
 			do_action( 'after_activate_extension' );
+
 			return __( 'Extension activate', 'runway' );
 		} else {
-			$deps_list = '<b>' . $ext_data['Name'] . '</b> - '.__( 'extension not activate. To activate this extension you must activate next extensions', 'runway' ).':<ul>';
-			$dep_exts = array();
+			$deps_list = '<b>' . $ext_data['Name'] . '</b> - ' . __( 'extension not activate. To activate this extension you must activate next extensions',
+					'runway' ) . ':<ul>';
+			$dep_exts  = array();
 			foreach ( $ext_data['DepsExts'] as $dep ) {
 				$dep_info = explode( '|', $dep );
-				if ( !$this->is_activated( $dep_info[1] ) && preg_match( '|(.+)/load.php|', $dep_info[1] ) ) {
+				if ( ! $this->is_activated( $dep_info[1] ) && preg_match( '|(.+)/load.php|', $dep_info[1] ) ) {
 					$dep_exts[] = $dep_info[1];
 				}
 			}
 
 			foreach ( $dep_exts as $dep_ext ) {
 				$tmp_dep = $this->get_extension_data( $this->extensions_dir . $dep_ext );
-				$tmp_dep = array_filter( (array)$tmp_dep['DepsExts'], 'is_active_filter' );
+				//$tmp_dep = array_filter( (array) $tmp_dep['DepsExts'], 'is_active_filter' );
+				$tmp_dep = array_filter( (array) $tmp_dep['DepsExts'], function ( $var ) {
 
-				if ( is_array( $tmp_dep ) && !empty( $tmp_dep ) ) {
+					global $extm;
+					$tmp = explode( '|', $var );
+
+					return ! $extm->is_activated( $tmp[0] );
+
+				} );
+
+				if ( is_array( $tmp_dep ) && ! empty( $tmp_dep ) ) {
 					foreach ( $tmp_dep as $tmp ) {
 						$tmp = explode( '|', $tmp );
-						if ( $this->extensions_dir . $tmp[0] )
+						if ( $this->extensions_dir . $tmp[0] ) {
 							$dep_exts[] = $tmp[0];
+						}
 					}
 				}
 			}
 			$dep_exts[] = $extension;
-			$dep_exts = array_unique( $dep_exts );
+			$dep_exts   = array_unique( $dep_exts );
 
 			foreach ( $dep_exts as $dep_ext ) {
 				if ( $dep_ext != '' ) {
@@ -319,75 +352,107 @@ class Extm_Admin extends Runway_Admin_Object {
 			}
 
 			$deps_list .= '</ul>';
-			$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts=' . implode( ',', $dep_exts ) . '">'.__( 'Activate dependencies and selected extensions', 'runway' ).'</a></b>';
+			$deps_list .= '<b><a href="admin.php?page=extensions&navigation=extension-activate&dep-exts=' . 
+			              implode( ',', $dep_exts ) . '">' . 
+			              __( 'Activate dependencies and selected extensions', 'runway' ) . '</a></b>';
+
 			return $deps_list;
 		}
+
+		/**
+		 * Callback function to check is active extensions
+		 *
+		 * @param unknown $var
+		 *
+		 * @return bool
+		 */
+//		function is_active_filter( $var ) {
+//
+//			global $extm;
+//			$tmp = explode( '|', $var );
+//
+//			return ! $extm->is_activated( $tmp[0] );
+//
+//		}
 
 	}
 
 	/**
 	 * Check activity of extensions
 	 *
-	 * @param unknown $ext
+	 * @param string $ext
+	 *
 	 * @return bool
 	 */
-	function is_activated( $ext ) {
+	public function is_activated( $ext ) {
 
-		if ( isset($this->admin_settings['extensions'][$this->theme_name]['active']) && in_array( $ext, (array)$this->admin_settings['extensions'][$this->theme_name]['active'] ) )
-			return TRUE;
-		else return FALSE;
+		if ( 
+			isset( $this->admin_settings['extensions'][ $this->theme_name ]['active'] ) 
+			&& in_array( $ext, (array) $this->admin_settings['extensions'][ $this->theme_name ]['active'] )
+		) {
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
 	/**
 	 * Get extensions list by extension dir
 	 *
-	 * @param unknown $exts_dir
+	 * @param string $exts_dir
+	 *
 	 * @return array
 	 */
-	function get_extensions_list( $exts_dir ) {
+	public function get_extensions_list( $exts_dir ) {
 
 		$runway_extensions = array();
-		$plugins_dir = @ opendir( $exts_dir );
-		$ext_files = array();
+		$plugins_dir       = @ opendir( $exts_dir );
+		$ext_files         = array();
+
 		if ( $plugins_dir ) {
 			while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
-				if ( substr( $file, 0, 1 ) == '.' )
+				if ( substr( $file, 0, 1 ) == '.' ) {
 					continue;
+				}
 				if ( is_dir( $exts_dir . '/' . $file ) ) {
 					$plugins_subdir = @ opendir( $exts_dir . '/' . $file );
 					if ( $plugins_subdir ) {
 						while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
-							if ( substr( $subfile, 0, 1 ) == '.' )
+							if ( substr( $subfile, 0, 1 ) == '.' ) {
 								continue;
-							if ( substr( $subfile, -4 ) == '.php' )
-								$ext_files[] = $file.'/'.$subfile;
+							}
+							if ( substr( $subfile, - 4 ) == '.php' ) {
+								$ext_files[] = $file . '/' . $subfile;
+							}
 						}
 						closedir( $plugins_subdir );
 					}
 				} else {
-					if ( substr( $file, -4 ) == '.php' )
+					if ( substr( $file, -4 ) == '.php' ) {
 						$ext_files[] = $file;
+					}
 				}
 			}
 			closedir( $plugins_dir );
 		}
 
-		if ( empty( $ext_files ) )
+		if ( empty( $ext_files ) ) {
 			return $runway_extensions;
+		}
 
 		foreach ( $ext_files as $ext_file ) {
-			if ( !is_readable( $exts_dir.'/'.$ext_file ) ) {
+			if ( ! is_readable( $exts_dir . '/' . $ext_file ) ) {
 				continue;
 			}
 
-			$ext_data = $this->get_extension_data( $exts_dir.'/'.$ext_file );
+			$ext_data = $this->get_extension_data( $exts_dir . '/' . $ext_file );
 
 			if ( empty ( $ext_data['Name'] ) ) {
 				continue;
 			}
 
-			$runway_extensions[plugin_basename( $ext_file )] = $ext_data;
+			$runway_extensions[ plugin_basename( $ext_file ) ] = $ext_data;
 		}
 
 		return $runway_extensions;
@@ -397,30 +462,29 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Get extension data by PHP comments similar to the WP plugins
 	 *
-	 * @param unknown $ext_file
-	 * @param bool    $markup
-	 * @param bool    $translate
+	 * @param string $ext_file
+	 *
 	 * @return array|string
 	 */
-	function get_extension_data( $ext_file ) {
+	public function get_extension_data( $ext_file ) {
 
 		$default_headers = array(
-			'Name' => 'Extension Name',
+			'Name'         => 'Extension Name',
 			'ExtensionURI' => 'Extension URI',
-			'Version' => 'Version',
-			'Description' => 'Description',
-			'Author' => 'Author',
-			'AuthorURI' => 'Author URI',
-			'TextDomain' => 'Text Domain',
-			'DomainPath' => 'Domain Path',
+			'Version'      => 'Version',
+			'Description'  => 'Description',
+			'Author'       => 'Author',
+			'AuthorURI'    => 'Author URI',
+			'TextDomain'   => 'Text Domain',
+			'DomainPath'   => 'Domain Path',
 			// 'Network' => 'Network',
 			// '_sitewide' => 'Site Wide Only',
-			'DepsExts' => 'Dependence Extensions',
+			'DepsExts'     => 'Dependence Extensions',
 		);
-		$ext_data = array();
-		$ext_data = get_file_data( $ext_file, $default_headers );
+		$ext_data        = array();
+		$ext_data        = get_file_data( $ext_file, $default_headers );
 
-		$ext_data['Title'] = $ext_data['Name'];
+		$ext_data['Title']      = $ext_data['Name'];
 		$ext_data['AuthorName'] = $ext_data['Author'];
 
 		if ( $ext_data['DepsExts'] ) {
@@ -434,10 +498,12 @@ class Extm_Admin extends Runway_Admin_Object {
 	/**
 	 * Deleting extension function
 	 *
-	 * @param unknown $ext
+	 * @param string $ext
+	 *
 	 * @return string
 	 */
-	function del_extension( $ext ) {
+	public function del_extension( $ext ) {
+
 		$wp_filesystem = get_runway_wp_filesystem();
 
 		do_action( 'before_delete_extension' );
@@ -455,46 +521,46 @@ class Extm_Admin extends Runway_Admin_Object {
 		}
 
 		do_action( 'after_delete_extension' );
+
 		return __( 'Extension was deleted', 'runway' );
 
 	}
 
-	function get_active_extensions_list( $theme_name ) {
+	public function get_active_extensions_list( $theme_name ) {
 
 		$theme_name = strtolower( $theme_name );
-		if( $theme_name != get_stylesheet() ) {
-			$theme = wp_get_theme( $theme_name );
+		if ( $theme_name != get_stylesheet() ) {
+			$theme      = wp_get_theme( $theme_name );
 			$option_key = apply_filters( 'shortname', sanitize_title( $theme->Name . '_' ) );
 			$admin_data = $this->get_admin_data( $option_key );
-			$exts_list = !empty( $admin_data['extensions'][$theme_name]['active'] ) ?
-				$admin_data['extensions'][$theme_name]['active'] :
+			$exts_list  = ! empty( $admin_data['extensions'][ $theme_name ]['active'] ) ?
+				$admin_data['extensions'][ $theme_name ]['active'] :
 				array();
-		}
-		else {
-			$exts_list = !empty( $this->admin_settings['extensions'][$theme_name]['active'] ) ?
-				$this->admin_settings['extensions'][$theme_name]['active'] :
+		} else {
+			$exts_list = ! empty( $this->admin_settings['extensions'][ $theme_name ]['active'] ) ?
+				$this->admin_settings['extensions'][ $theme_name ]['active'] :
 				array();
 		}
 
-		return (array)$exts_list;
+		return (array) $exts_list;
 
 	}
 
-	function get_desible_extensions_list( $theme_name ) {
-		$exts = $this->get_extensions_list( $this->extensions_dir );
+	public function get_desible_extensions_list( $theme_name ) {
+
+		$exts    = $this->get_extensions_list( $this->extensions_dir );
 		$desible = array();
 		foreach ( $exts as $extension => $extension_info ) {
-			if ( !$this->is_activated( $extension ) ) {
-				$desible[$extension] = $extension_info;
+			if ( ! $this->is_activated( $extension ) ) {
+				$desible[ $extension ] = $extension_info;
 			}
 		}
 
 		return $desible;
+
 	}
 
-
-
-	function load_new_extension( $file ) {
+	public function load_new_extension( $file ) {
 
 		do_action( 'before_load_extension' );
 
@@ -532,9 +598,9 @@ class Extm_Admin extends Runway_Admin_Object {
 
 			} else {
 
-				require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
+				require_once ABSPATH . 'wp-admin/includes/class-pclzip.php';
 
-				$zip            = new PclZip( $file );
+				$zip           = new PclZip( $file );
 				$archive_files = $zip->extract( $this->extensions_dir );
 
 				if ( is_array( $archive_files ) ) {
@@ -570,56 +636,46 @@ class Extm_Admin extends Runway_Admin_Object {
 		}
 
 		$overrides = array( 'test_form' => false, 'test_type' => false );
-		$ext_file = wp_handle_upload( $file, $overrides );
+		$ext_file  = wp_handle_upload( $file, $overrides );
 
 		if ( isset( $ext_file['error'] ) ) {
 			return sprintf( __( '<b>ERROR</b>: %s', 'runway' ), $ext_file['error'] );
 		} else {
 
 			$exploded = $exploded = explode( '.', $file['name'] );
-			$ext = $exploded[0].'/load.php';
+			$ext      = $exploded[0] . '/load.php';
 
-			if ( !file_exists( $this->extensions_dir.$ext ) ) {
-				unzip_file($ext_file['file'], $this->extensions_dir);
-				$ext_info = $this->get_extension_data( $this->extensions_dir.$ext );
+			if ( ! file_exists( $this->extensions_dir . $ext ) ) {
+				unzip_file( $ext_file['file'], $this->extensions_dir );
+				$ext_info = $this->get_extension_data( $this->extensions_dir . $ext );
 				unlink( $ext_file['file'] );
-			}
-			else {
+			} else {
 				unlink( $ext_file['file'] );
+
 				return __( 'Extension has already installed', 'runway' );
 			}
 
 			do_action( 'after_load_extension' );
+
 			return sprintf(
 				__( 'The extension <b>%s</b> installed successfully. Would you like to %s ?', 'runway' ),
 				$ext_info['Name'],
-				'<a href="admin.php?page=extensions&navigation=extension-activate&ext='.$ext.'">'.__( 'activate it now', 'runway' ).'</a>'
+				'<a href="admin.php?page=extensions&navigation=extension-activate&ext=' . $ext . '">' . __( 'activate it now', 'runway' ) . '</a>'
 			);
 		}
 
 	}
 
 	public function is_install( $extension_key ) {
-		$extension = $extension_key.'/load.php';
-		$ext_list = $this->get_extensions_list( $this->extensions_dir );
-		if ( isset( $ext_list[$extension] ) ) {
+
+		$extension = $extension_key . '/load.php';
+		$ext_list  = $this->get_extensions_list( $this->extensions_dir );
+		if ( isset( $ext_list[ $extension ] ) ) {
 			return true;
+		} else {
+			return false;
 		}
-		else return false;
+
 	}
 
 }
-
-
-/**
- * Callback function to check is active extensions
- *
- * @param unknown $var
- * @return bool
- */
-function is_active_filter( $var ) {
-	global $extm;
-	$tmp = explode( '|', $var );
-	return !$extm->is_activated( $tmp[0] );
-}
-?>
