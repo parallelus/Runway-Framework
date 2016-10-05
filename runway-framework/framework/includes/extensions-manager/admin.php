@@ -113,11 +113,14 @@ case 'bulk-actions':{
 		$no_activated = array();
 		if ( isset( $_POST['bulk-actions-submit'] ) ) {
 			if ( !$no_writable ) {
+
+				$ext_chk = ( array_key_exists( 'ext_chk', $_POST ) && is_array( $_POST['ext_chk'] ) ) ? $_POST['ext_chk'] : array();
+				if ( in_array( 'on', $ext_chk ) ) {
+					unset( $ext_chk[ array_search( 'on', $ext_chk ) ] ); // remove checkbox for all
+				}
+
 				switch ( $_POST['action'] ) {
 				case 'activate-selected':{
-						$ext_chk = $_POST['ext_chk'];
-						if ( $ext_chk[0] == 'on' )
-							array_shift( $ext_chk );  // remove checkbox for all
 						$dep_exts = array(); $deps_names = array(); $to_active_list = array();
 						foreach ( $ext_chk as $cheked ) {
 							if ( $cheked != '' ) {
@@ -161,7 +164,7 @@ case 'bulk-actions':{
 						}
 					} break;
 				case 'deactivate-selected':{
-						$ext_chk = $_POST['ext_chk']; $info_message = 'Extensions deactivated';
+						$info_message = 'Extensions deactivated';
 						foreach ( $ext_chk as $cheked ) {
 							if ( $cheked != '' ) {
 								foreach ( $extm->admin_settings['extensions'][$extm->theme_name]['active'] as $key => $value ) {
@@ -173,7 +176,6 @@ case 'bulk-actions':{
 						}
 					} break;
 				case 'delete-selected':{
-						$ext_chk = $_POST['ext_chk'];
 						foreach ( $ext_chk as $cheked ) {
 							if ( $cheked != '' ) {
 								$info_message = $extm->del_extension( $cheked );
