@@ -310,8 +310,9 @@ class Extm_Admin extends Runway_Admin_Object {
 
 			return __( 'Extension activate', 'runway' );
 		} else {
-			$deps_list = '<b>' . $ext_data['Name'] . '</b> - ' . __( 'extension not activate. To activate this extension you must activate next extensions',
-					'runway' ) . ':<ul>';
+			$deps_list = '<b>' . $ext_data['Name'] . '</b> - ' .
+			             __( 'extension not activate. To activate this extension you must activate next extensions', 'runway' ) .
+			             ':<ul>';
 			$dep_exts  = array();
 			foreach ( $ext_data['DepsExts'] as $dep ) {
 				$dep_info = explode( '|', $dep );
@@ -322,7 +323,6 @@ class Extm_Admin extends Runway_Admin_Object {
 
 			foreach ( $dep_exts as $dep_ext ) {
 				$tmp_dep = $this->get_extension_data( $this->extensions_dir . $dep_ext );
-				//$tmp_dep = array_filter( (array) $tmp_dep['DepsExts'], 'is_active_filter' );
 				$tmp_dep = array_filter( (array) $tmp_dep['DepsExts'], function ( $var ) {
 
 					global $extm;
@@ -358,22 +358,6 @@ class Extm_Admin extends Runway_Admin_Object {
 
 			return $deps_list;
 		}
-
-		/**
-		 * Callback function to check is active extensions
-		 *
-		 * @param unknown $var
-		 *
-		 * @return bool
-		 */
-//		function is_active_filter( $var ) {
-//
-//			global $extm;
-//			$tmp = explode( '|', $var );
-//
-//			return ! $extm->is_activated( $tmp[0] );
-//
-//		}
 
 	}
 

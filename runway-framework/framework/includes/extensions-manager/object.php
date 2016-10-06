@@ -23,7 +23,7 @@ class ExtmSettingsObject extends Runway_Object {
 
 		if ( ! isset( $this->settings_object ) ) {
 			include_once FRAMEWORK_DIR . 'framework/core/admin-object.php';
-			include_once __DIR__ . 'settings-object.php';
+			include_once __DIR__ . '/settings-object.php';
 			$this->settings_object = new Extm_Admin( $this->settings );
 		}
 
@@ -41,7 +41,7 @@ class ExtmSettingsObject extends Runway_Object {
 		
 		if ( ! isset( $this->settings_object ) ) {
 			include_once FRAMEWORK_DIR . 'framework/core/admin-object.php';
-			include_once __DIR__ . 'settings-object.php';
+			include_once __DIR__ . '/settings-object.php';
 			$this->settings_object = new Extm_Admin( $this->settings );
 		}
 
