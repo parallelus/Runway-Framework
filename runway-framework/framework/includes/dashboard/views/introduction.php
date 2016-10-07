@@ -32,7 +32,22 @@
 				<p><?php echo __('Create options pages, admin menus and much more. The Options Builder interface allows you to create theme options.', 'runway'); ?></p>
 				<ul class="bullet-list">
 					<li><a href="<?php echo admin_url('admin.php?page=options-builder'); ?>"><?php echo __('Add theme options pages', 'runway'); ?></a></li>
-					<li><a href="<?php echo admin_url('admin.php?page=admin-menu'); ?>"><?php echo __('Manage admin menus', 'runway'); ?></a></li>
+
+					<?php
+					global $extm;
+
+					$admin_menu_activated = $extm->is_activated('admin-menu-editor/load.php');
+					if ( $admin_menu_activated === true ) {
+						?>
+
+						<li>
+							<a href="<?php echo admin_url( 'admin.php?page=admin-menu' ); ?>">
+								<?php echo __( 'Manage admin menus', 'runway' ); ?>
+							</a>
+						</li>
+
+					<?php } ?>
+
 				</ul>
 			</div>
 		</div>
