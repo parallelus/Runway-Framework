@@ -224,6 +224,10 @@
 .ui-dialog .ui-dialog-titlebar {
     padding: .4em 0 0.9em;
     position: relative;
+	background: transparent;
+	border: none;
+	height: auto;
+	line-height: inherit;
 }
 .ui-dialog .ui-dialog-title {
     font-size: 18px;
@@ -292,6 +296,9 @@ div.ui-dialog-content,
     border-radius: 12px;
     background: #f5f5f5;
     border: 0px solid #f5f5f5;
+}
+.ui-dialog .ui-dialog-titlebar-close:before {
+    content: '';
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {

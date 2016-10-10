@@ -1,4 +1,5 @@
 jQuery( document ).ready(function( $ ) {
+	var adminMenuZIndex = $('#adminmenuwrap').css('z-index');
 
     $( ".tags-dialog" ).dialog( {
       	autoOpen: false,
@@ -16,9 +17,9 @@ jQuery( document ).ready(function( $ ) {
 		},
 		close: function(event, ui) {
             $('html,body').css('overflow', 'auto');
-			$('#adminmenuwrap').css({'z-index':'auto'});
+			$('#adminmenuwrap').css({'z-index': adminMenuZIndex});
             $(this).find('textarea').val('');
-        },
+        }
     });
 
 
