@@ -82,7 +82,9 @@ if ( $current_package['c_hash'] ) { ?>
 				<p class="checksum"><?php echo __('Checksum', 'runway') .": <span class='code'>". $current_package['c_hash']; ?></span></p>
 <?php
 }
-else { ?>Not found<?php } ?>
+else {
+	_e('Not found', 'runway');
+} ?>
 			</td>
 			<td>
                 <span class="text-display" title="<?php echo esc_attr(substr($current_tag, 0, 50)); if(strlen($current_tag) > 50) echo '...'; ?>">
