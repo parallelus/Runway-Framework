@@ -1,37 +1,47 @@
-(function($){
-	$(document).ready(function(){
-		$('.input-select').change(function(){
-			if($(this).val() == 'custom-icon'){
-				$('.custom-icon-upload').show();
-			}
-			else{
-				$('.custom-icon-upload').hide();	
-			}
-		});
-		
-		if($('.input-select').val() == 'default-wordpress-icon'){
-			$('.choose-default-wordpress').show();
-		}			
-		if($('.input-select').val() == 'custom-icon'){
-			$('.choose-another').show();
-		}
+(function ($) {
 
-		$('.input-select').change(function(){
-			if($('.input-select').val() == 'default-wordpress-icon')
-				$('.choose-another').hide();
-			else
-				$('.choose-another').show();
-			$('.custom-icon-upload').hide();
-			$('.choose-default-wordpress').toggle();
-		});
+    $(document).ready(function () {
+        var $inputSelect = $('.input-select');
+        var $customIconUpload = $('.custom-icon-upload');
+        var $chooseAnother = $('.choose-another');
+        var $chooseDefaultWP = $('.choose-default-wordpress');
 
-		$('.choose-another-link').click(function(e){
-			e.preventDefault();
-			$('.choose-another').hide();
-			$('.custom-icon-upload').show();
+        $inputSelect.change(function () {
+            if ($(this).val() == 'custom-icon') {
+                $customIconUpload.show();
+            }
+            else {
+                $customIconUpload.hide();
+            }
+        });
 
-		});
+        if ($inputSelect.val() == 'default-wordpress-icon') {
+            $chooseDefaultWP.show();
+        }
 
-		$("#menu_icon").val('menu-icon-page').attr('selected',true);						
-	});
+        if ($inputSelect.val() == 'custom-icon') {
+            $chooseAnother.show();
+        }
+
+        $inputSelect.change(function () {
+            if ($inputSelect.val() == 'default-wordpress-icon') {
+                $chooseAnother.hide();
+            } else {
+                $chooseAnother.show();
+            }
+
+            $customIconUpload.hide();
+            $chooseDefaultWP.toggle();
+        });
+
+        $('.choose-another-link').click(function (e) {
+            e.preventDefault();
+
+            $chooseAnother.hide();
+            $customIconUpload.show();
+        });
+
+        $('#menu_icon').val('menu-icon-page').attr('selected', true);
+    });
+
 })(jQuery);
