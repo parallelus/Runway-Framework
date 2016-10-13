@@ -1400,4 +1400,4 @@ if ( ! function_exists( 'get_runway_wp_filesystem' ) ) :
 endif;
 
 // Uncomment this filter if wish to use 'direct' filesystem method within framework and extensions
-//add_filter( 'rf_use_direct_filesystem_method', '__return_true' );
+add_filter( 'rf_use_direct_filesystem_method', '__return_true' );

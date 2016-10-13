@@ -126,6 +126,33 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 				$page->settings->alias = $alias_;
 
 				$page_json = json_encode( $page );
+
+				foreach ( $page->elements as $element ) {
+					// replace indexes
+					if ( is_object( $element ) && property_exists( $element, 'index' ) ) {
+						$old_index = $element->index;
+						$new_index = $apm->make_ID();
+						$page_json = str_replace( '"' . $old_index . '"', '"' . $new_index . '"', $page_json );
+
+						// replace aliases
+						if ( $element->template === 'field' ) {
+							$old_el_alias = $element->alias;
+							$new_el_alias = $old_el_alias . '-copy';
+							$page_json    = str_replace(
+								array(
+									'"alias":"' . $old_el_alias . '"',
+									'"conditionalAlias":"' . $old_el_alias . '"'
+								),
+								array(
+									'"alias":"' . $new_el_alias . '"',
+									'"conditionalAlias":"' . $new_el_alias . '"'
+								),
+								$page_json
+							);
+						}
+					}
+				}
+
 				$wp_filesystem->put_contents(
 					runway_prepare_path( $pages_dir . $page->settings->page_id . '.json' ),
 					$page_json,

@@ -522,4 +522,19 @@ class Apm_Admin extends Runway_Admin_Object {
 
 	}
 
+	// create field ID's. This is an analog of the function 'make_ID' from formsbuilder.js
+	public function make_ID() {
+
+		$result = '';
+		$chars  = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$length = strlen( $chars );
+
+		for ( $i = 12; $i > 0; --$i ) {
+			$result .= $chars[ mt_rand( 0, $length - 1 ) ];
+		}
+
+		return $result;
+
+	}
+
 }
