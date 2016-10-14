@@ -2,61 +2,69 @@
 
 class Reports_Admin_Object extends Runway_Admin_Object {
 
-	public $option_key, $reports;
+	public $reports;
 
-	function __construct($settings){
-		parent::__construct($settings);
+	public function __construct( $settings ) {
+
+		parent::__construct( $settings );
 
 		$this->option_key = $settings['option_key'];
-		$this->reports = get_option( $this->option_key );
-		if ( empty( $this->reports ) ) {
+		// maybe we do not need to save this data
+		//$this->reports    = get_option( $this->option_key );
+		//if ( empty( $this->reports ) ) {
 			$this->reports = array();
-		}
+		//}
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'admin_notices', array( $this, 'site_admin_notice' ) );
+
 	}
 
 	// Add hooks & crooks
-	function add_actions() {
+	public function add_actions() {
+
 		add_action( 'init', array( $this, 'init' ) );
+
 	}
 
-	function init() {
+	public function init() {
 
-		if ( isset( $_REQUEST['navigation'] ) && !empty( $_REQUEST['navigation'] ) ) {
+		if ( isset( $_REQUEST['navigation'] ) && ! empty( $_REQUEST['navigation'] ) ) {
 			global $reports;
 			$reports->navigation = $_REQUEST['navigation'];
 		}
 
 		$this->system_reports();
 		do_action( 'add_report', $this );
+
 	}
 
-	function after_settings_init() {
+	public function after_settings_init() {
 		/* nothing */
 	}
 
-	function validate_sumbission() {
+	public function validate_sumbission() {
 
 		return true;
 
 	}
 
-	function load_objects() {
-
+	public function load_objects() {
 	}
 
-	function count_fails() {
+	public function count_fails() {
+
 		$this->fail = 0;
 		foreach ( $this->reports as $report_key => $report_info ) {
 			if ( $report_info['state'] == 'fail' ) {
 				$this->fail++;
 			}
 		}
+
 	}
 
-	function site_admin_notice() {
+	public function site_admin_notice() {
+
 		global $theme_name, $reports;
 
 		if ( $theme_name != 'runway-framework' ) {
@@ -67,42 +75,59 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 
 			$this->count_fails();
 			if ( $this->fail != 0 ) {
-				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' )
-		           $reports->fix_all_issues();
-		        else
-				   echo "<div class='update-nag'>" . sprintf( __( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %s', 'runway' ), $this->fail, '<a href="'.$reports->self_url().'">'.__( 'reports page', 'runway' ).'</a>' ) . "</div>";
+				if ( IS_CHILD && isset( $_GET['activated'] ) && $_GET['activated'] == 'true' ) {
+					$reports->fix_all_issues();
+				} else {
+					echo "<div class='update-nag'>" . sprintf(
+							__( 'You have %s failed tests. To have a good time with Runway these should be fixed. See the error details on the %s', 'runway' ),
+							$this->fail, '<a href="' . $reports->self_url() . '">' . __( 'reports page', 'runway' ) . '</a>'
+						) . "</div>";
+				}
 			}
-		}
-		else {
+		} else {
 			global $developer_tools;
-			echo "<div class='update-nag'>" . sprintf( __( 'A Runway child theme has not been activated. You can create or activate one from the %s', 'runway' ), '<a href="'.$developer_tools->self_url().'">'.__( 'Runway Themes Manager', 'runway' ).'</a>' ) . "</div>";
+			echo "<div class='update-nag'>" . sprintf(
+					__( 'A Runway child theme has not been activated. You can create or activate one from the %s', 'runway' ),
+					'<a href="' . $developer_tools->self_url() . '">' . __( 'Runway Themes Manager', 'runway' ) . '</a>'
+				) . "</div>";
 		}
 	}
 
 	public function system_reports() {
-		// check php version compare
-		if(!defined('MIN_PHP_VERSION_ID'))
-			define('MIN_PHP_VERSION_ID', 50301);
 
-		$min_version_display = "5.3.1";
-		$current_php_version = (!defined('PHP_VERSION')) ? "5.3.1" : PHP_VERSION;
+		// check php version compare
+		if ( ! defined( 'MIN_PHP_VERSION_ID' ) ) {
+			define( 'MIN_PHP_VERSION_ID', 50301 );
+		}
+
+		$min_version_display = '5.3.1';
+		$current_php_version = ( ! defined( 'PHP_VERSION' ) ) ? '5.3.1' : PHP_VERSION;
 
 		$settings = array(
-			'source' => 'Runway System',
-			'report_key' => 'runway_min_php_version_compare',
-			'success_message' => sprintf( __( 'Your PHP version is good! You are running version %s', 'runway' ), $current_php_version ),
-			'fail_message' => sprintf( __( 'Your PHP version is: %s. Your PHP version id is: %s. You must have PHP version %s or later.', 'runway' ), PHP_VERSION, PHP_VERSION_ID, $min_version_display ),
-			'type' => 'SYSTEM',
+			'source'          => 'Runway System',
+			'report_key'      => 'runway_min_php_version_compare',
+			'success_message' => sprintf(
+				__( 'Your PHP version is good! You are running version %s', 'runway' ),
+				$current_php_version
+			),
+			'fail_message'    => sprintf(
+				__( 'Your PHP version is: %s. Your PHP version id is: %s. You must have PHP version %s or later.', 'runway' ),
+				PHP_VERSION,
+				PHP_VERSION_ID,
+				$min_version_display
+			),
+			'type'            => 'SYSTEM',
 		);
-		if ( MIN_PHP_VERSION_ID <= runway_php_version(true) ) {
+		if ( MIN_PHP_VERSION_ID <= runway_php_version( true ) ) {
 			$this->set_success( $settings );
-		}
-		else {
+		} else {
 			$this->set_fail( $settings );
 		}
+		
 	}
 
 	public function have_fails() {
+		
 		$fail = false;
 		foreach ( $this->reports as $report_key => $report_info ) {
 			if ( $report_info['state'] == 'fail' ) {
@@ -111,142 +136,155 @@ class Reports_Admin_Object extends Runway_Admin_Object {
 		}
 
 		return $fail;
+		
 	}
 
 	public function fix_issue( $issue_key = null ) {
-		$report = $this->reports[$issue_key];
+		
+		$report = $this->reports[ $issue_key ];
 		if ( $issue_key != null ) {
 			switch ( $report['type'] ) {
-			case 'DIR_EXISTS':{
-					if ( !file_exists( $report['path'] ) ) {
-						return mkdir( $report['path'], 0755 );
-					}
-					else {
+				case 'DIR_EXISTS': {
+					if ( ! file_exists( $report['path'] ) ) {
+						return @mkdir( $report['path'], 0755 );
+					} else {
 						return true;
 					}
-				} break;
+				}
+					break;
 
-			case 'FILE_EXISTS':{
-					if ( !file_exists( $report['path'] ) ) {
+				case 'FILE_EXISTS': {
+					if ( ! file_exists( $report['path'] ) ) {
 						$wp_filesystem = get_runway_wp_filesystem();
 						$wp_filesystem->put_contents( runway_prepare_path( $report['path'] ), '', FS_CHMOD_FILE );
 
-						chmod( $report['path'], 0755 );
+						@chmod( $report['path'], 0755 );
+
 						return file_exists( $report['path'] );
-					}
-					else {
+					} else {
 						return true;
 					}
-				} break;
+				}
+					break;
 
-			case 'IS_WRITABLE':{
-					if ( !is_writable( $report['path'] ) ) {
-						return chmod( $report['path'], 0755 );
-					}
-					else {
+				case 'IS_WRITABLE': {
+					if ( ! is_writable( $report['path'] ) ) {
+						return @chmod( $report['path'], 0755 );
+					} else {
 						return true;
 					}
-				} break;
+				}
+					break;
 
-			case 'SYSTEM':{
+				case 'SYSTEM': {
 					if ( $report['state'] == 'success' ) {
 						return true;
-					}
-					else {
+					} else {
 						return false;
 					}
-				} break;
+				}
+					break;
 			}
 
 		}
 	}
 
 	public function fix_all_issues() {
+		
 		foreach ( $this->reports as $report_key => $report_info ) {
 			$settings = array(
-				'source' => $report_info['source'],
-				'report_key' => $report_key,
-				'path' => $report_info['path'],
+				'source'          => $report_info['source'],
+				'report_key'      => $report_key,
+				'path'            => $report_info['path'],
 				'success_message' => $report_info['success_message'],
-				'fail_message' => $report_info['fail_message'],
-				'type' => $report_info['type'],
+				'fail_message'    => $report_info['fail_message'],
+				'type'            => $report_info['type'],
 			);
+			
 			if ( $this->fix_issue( $report_key ) ) {
 				$this->set_success( $settings );
-			}
-			else {
+			} else {
 				$this->set_fail( $settings );
 			}
 
 		}
+		
 	}
 
 	public function set_success( $settings ) {
-		$this->reports[$settings['report_key']]['type']            = ( isset( $settings['type'] ) ) ? $settings['type'] : false;
-		$this->reports[$settings['report_key']]['source']          = ( isset( $settings['source'] ) ) ? $settings['source'] : false;
-		$this->reports[$settings['report_key']]['state']           = 'success';
-		$this->reports[$settings['report_key']]['path']            = ( isset( $settings['path'] ) ) ? $settings['path'] : false;
-		$this->reports[$settings['report_key']]['success_message'] = ( isset( $settings['success_message'] ) ) ? $settings['success_message'] : false;
-		$this->reports[$settings['report_key']]['fail_message']    = ( isset( $settings['fail_message'] ) ) ? $settings['fail_message'] : false;
-		update_option( $this->option_key, $this->reports );
+		
+		$this->reports[ $settings['report_key'] ]['type']            = isset( $settings['type'] ) ? $settings['type'] : false;
+		$this->reports[ $settings['report_key'] ]['source']          = isset( $settings['source'] ) ? $settings['source'] : false;
+		$this->reports[ $settings['report_key'] ]['state']           = 'success';
+		$this->reports[ $settings['report_key'] ]['path']            = isset( $settings['path'] ) ? $settings['path'] : false;
+		$this->reports[ $settings['report_key'] ]['success_message'] = isset( $settings['success_message'] ) ? $settings['success_message'] : false;
+		$this->reports[ $settings['report_key'] ]['fail_message']    = isset( $settings['fail_message'] ) ? $settings['fail_message'] : false;
+
+		// see comment in __construct
+		//update_option( $this->option_key, $this->reports );
+		
 	}
 
 	public function set_fail( $settings ) {
-		$this->reports[$settings['report_key']]['type']            = ( isset( $settings['type'] ) ) ? $settings['type'] : false;
-		$this->reports[$settings['report_key']]['source']          = ( isset( $settings['source'] ) ) ? $settings['source'] : false;
-		$this->reports[$settings['report_key']]['path']            = ( isset( $settings['path'] ) ) ? $settings['path'] : false;
-		$this->reports[$settings['report_key']]['state']           = 'fail';
-		$this->reports[$settings['report_key']]['success_message'] = ( isset( $settings['success_message'] ) ) ? $settings['success_message'] : false;
-		$this->reports[$settings['report_key']]['fail_message']    = ( isset( $settings['fail_message'] ) ) ? $settings['fail_message'] : false;
-		update_option( $this->option_key, $this->reports );
+		
+		$this->reports[ $settings['report_key'] ]['type']            = isset( $settings['type'] ) ? $settings['type'] : false;
+		$this->reports[ $settings['report_key'] ]['source']          = isset( $settings['source'] ) ? $settings['source'] : false;
+		$this->reports[ $settings['report_key'] ]['path']            = isset( $settings['path'] ) ? $settings['path'] : false;
+		$this->reports[ $settings['report_key'] ]['state']           = 'fail';
+		$this->reports[ $settings['report_key'] ]['success_message'] = isset( $settings['success_message'] ) ? $settings['success_message'] : false;
+		$this->reports[ $settings['report_key'] ]['fail_message']    = isset( $settings['fail_message'] ) ? $settings['fail_message'] : false;
+
+		// see comment in __construct
+		//update_option( $this->option_key, $this->reports );
+		
 	}
 
 	// Function assign new report. It's get two parametrs:
 	// $settings (array) - array with settings
-	// $flag (string) - flage, that define action to do. This array
+	// $flag (string) - flag, that define action to do. This array
 	// must have next fields: source, report_key, path, success_message, fail_message
 	public function assign_report( $settings = array(), $flag = 'FILE_EXISTS' ) {
-		if ( !empty( $settings ) ) {
+		
+		if ( ! empty( $settings ) ) {
 			$settings['type'] = $flag;
 			switch ( $flag ) {
-			case 'DIR_EXISTS':{
+				case 'DIR_EXISTS': {
 					if ( file_exists( $settings['path'] ) ) {
 						$this->set_success( $settings );
-					}
-					else {
+					} else {
 						$this->set_fail( $settings );
 					}
-				} break;
+				}
+					break;
 
-			case 'FILE_EXISTS':{
+				case 'FILE_EXISTS': {
 					if ( file_exists( $settings['path'] ) ) {
 						$this->set_success( $settings );
-					}
-					else {
+					} else {
 						$this->set_fail( $settings );
 					}
-				} break;
+				}
+					break;
 
-			case 'IS_WRITABLE':{
+				case 'IS_WRITABLE': {
 					if ( is_writable( $settings['path'] ) ) {
 						$this->set_success( $settings );
-					}
-					else {
+					} else {
 						$this->set_fail( $settings );
 					}
-				} break;
+				}
+					break;
 
-			case 'IS_SET':{
+				case 'IS_SET': {
 					if ( isset( $settings['path'] ) ) {
 						$this->set_success( $settings );
-					}
-					else {
+					} else {
 						$this->set_fail( $settings );
 					}
-				} break;
+				}
+					break;
 			}
 		}
 	}
 
 }
-?>
