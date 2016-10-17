@@ -3,14 +3,14 @@
 // Load extensions
 //-----------------------------------------------------------------
 // Include report manager
-$report_manager_load_file = get_template_directory().'/framework/includes/report-manager/load.php';
+$report_manager_load_file = get_template_directory() . '/framework/includes/report-manager/load.php';
 if ( file_exists( $report_manager_load_file ) ) {
 	include_once $report_manager_load_file;
 }
 // Include extensions manager
 //................................................................
 global $settings;
-$ext_manager_load_file = get_template_directory().'/framework/includes/extensions-manager/load.php';
+$ext_manager_load_file = get_template_directory() . '/framework/includes/extensions-manager/load.php';
 
 if ( file_exists( $ext_manager_load_file ) ) {
 	include_once $ext_manager_load_file;
@@ -18,8 +18,9 @@ if ( file_exists( $ext_manager_load_file ) ) {
 	// including core extensions
 	$core_exts_list = $extm->get_extensions_list( $extm->core_extensions );
 	foreach ( (array) $core_exts_list as $ext => $ext_info ) {
-		if ( file_exists( $extm->core_extensions.$ext ) )
-			include_once $extm->core_extensions.$ext;
+		if ( file_exists( $extm->core_extensions . $ext ) ) {
+			include_once $extm->core_extensions . $ext;
+		}
 	}
 
 	// including additional extensions
@@ -39,12 +40,12 @@ if ( file_exists( $ext_manager_load_file ) ) {
 	} else {
 
 		// Default method, only load activated extensions
-		if ( isset( $extm->admin_settings['extensions'][$extm->theme_name]['active'] ) )
-			foreach ( (array) $extm->admin_settings['extensions'][$extm->theme_name]['active'] as $ext ) {
-				if ( file_exists( $extm->extensions_dir.$ext ) && $ext != '' ) {
-					include_once $extm->extensions_dir.$ext;
+		if ( isset( $extm->admin_settings['extensions'][ $extm->theme_name ]['active'] ) ) {
+			foreach ( (array) $extm->admin_settings['extensions'][ $extm->theme_name ]['active'] as $ext ) {
+				if ( $ext != '' && file_exists( $extm->extensions_dir . $ext ) ) {
+					include_once $extm->extensions_dir . $ext;
 				}
 			}
+		}
 	}
 }
-?>
