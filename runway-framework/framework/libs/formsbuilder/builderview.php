@@ -4,6 +4,7 @@
 
 	// output the page in JSON format
 	var SAVE_ACTION = '<?php echo rf_string( $this->save_action ); ?>';
+	var BUILDER_NONCE = '<?php echo wp_create_nonce( 'options-builder' ); ?>';
 </script>
 <style type="text/css">
 	#new-item-added, #new-item-duplicated {

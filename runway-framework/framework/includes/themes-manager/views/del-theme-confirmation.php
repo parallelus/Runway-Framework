@@ -7,7 +7,12 @@
 </ul>
 
 <p><?php echo __( 'Are you sure you wish to delete these files', 'runway' ); ?>?</p>
-<a href="<?php echo esc_url( admin_url( 'admin.php?page=themes&navigation=delete-theme&name=' . $del_theme_info['Folder'] . '&confirm=true' ) ); ?>"
+<a href="<?php echo esc_url( admin_url(
+		'admin.php?page=themes&navigation=delete-theme&name=' .
+		$del_theme_info['Folder'] . '&confirm=true' .
+        '&_wpnonce=' .  wp_create_nonce( 'delete-theme' )
+	)
+); ?>"
    class="button-secondary"><?php echo __( 'Yes, Delete these files', 'runway' ); ?></a>
 <a href="<?php echo esc_url( admin_url( 'admin.php?page=themes' ) ); ?>"
    class="button-secondary"><?php echo __( 'No, Return me to the theme list', 'runway' ); ?></a>

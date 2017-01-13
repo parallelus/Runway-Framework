@@ -383,7 +383,8 @@ function save_custom_options(alias, custom_alias, section){
                 custom_alias: custom_alias,
                 vals: values,
                 types: types,
-                layout_alias: layout_alias
+                layout_alias: layout_alias,
+                _wpnonce: BUILDER_NONCE
             }
         }).done(function(response){
                 console.log(response);
@@ -1369,7 +1370,8 @@ var system_vars_definition = ['template', 'index'];
                         data: {
                             action: SAVE_ACTION,
                             json_form: JSON.stringify(page),
-                            page_id : page.settings.page_id
+                            page_id : page.settings.page_id,
+                            _wpnonce: BUILDER_NONCE
                         }
                     }).done(function(response){
 			            ajax_result = $.parseJSON(response);
@@ -1382,7 +1384,8 @@ var system_vars_definition = ['template', 'index'];
                             data: {
                                 action: 'add_page_to_pages_list',
                                 json_form: JSON.stringify(page),
-                                page_id : page.settings.page_id
+                                page_id : page.settings.page_id,
+                                _wpnonce: BUILDER_NONCE
                             }
                         });
                         

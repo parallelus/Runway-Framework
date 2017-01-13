@@ -30,6 +30,8 @@ if ( ! empty( $exts ) ) {
 
 switch ( $this->navigation ) {
 	case 'extension-activate': { // Activate extension
+		check_admin_referer( 'extension-activate' );
+
 		if ( ! $no_writable ) {
 			if ( isset( $_GET['ext'] ) ) {
 				$info_message = $extm->activate_extension( $_GET['ext'] );
@@ -49,6 +51,8 @@ switch ( $this->navigation ) {
 		break;
 
 	case 'extension-deactivate': { // Deactivate extension
+		check_admin_referer( 'extension-deactivate' );
+
 		if ( ! $no_writable ) {
 			$also_deactivate = $extm->get_dependent_extensions( 'options-builder/load.php' );
 			if ( isset( $_GET['ext'] ) ) {
@@ -103,6 +107,8 @@ switch ( $this->navigation ) {
 		break;
 
 	case 'del-extension': { // Delete extension
+		check_admin_referer( 'del-extension' );
+
 		if ( ! $no_writable && $_GET['confirm'] == 'true' ) {
 			if ( isset( $extm->admin_settings['extensions'][ $extm->theme_name ] ) && isset( $_GET['ext'] ) ) {
 				$info_message = $extm->del_extension( urldecode( $_GET['ext'] ) );
@@ -118,6 +124,8 @@ switch ( $this->navigation ) {
 		break;
 
 	case 'bulk-actions': { // Bulk operations with extensions
+		check_admin_referer( 'extensions-bulk-actions' );
+
 		$no_activated = array();
 
 		if ( isset( $_POST['bulk-actions-submit'] ) ) {

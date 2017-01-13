@@ -17,6 +17,8 @@ $ts      = time();
 
 // Get most recent package (or create it)
 if ( $action == 'rebuild' || ! count( $history ) ) {
+	check_admin_referer( 'packages' );
+
 	// No packages exist or user requested new build
 	$alone_package_download_url = $developer_tools->build_alone_theme( $nameKey, $ts );
 	$child_package_download_url = $developer_tools->build_child_package( $nameKey, $ts );

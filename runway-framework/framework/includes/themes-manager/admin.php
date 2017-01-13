@@ -16,9 +16,17 @@ $themes_path = implode( '/', $themes_path );
 wp_register_script( 'themes-manager-themes', FRAMEWORK_URL . 'framework/includes/themes-manager/js/themes.js' );
 wp_enqueue_script( 'themes-manager-themes' );
 
+wp_register_script( 'themes-package-tags', FRAMEWORK_URL . 'framework/includes/themes-manager/js/package-tags.js' );
+wp_localize_script( 'themes-package-tags', 'Packages', array(
+	'nonce' => wp_create_nonce( 'packages' ),
+));
+wp_enqueue_script( 'themes-package-tags' );
+
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 switch ( $action ) {
 	case 'delete-package': {
+		check_admin_referer( 'delete-package' );
+
 		$package = isset( $_REQUEST['package'] ) ? $_REQUEST['package'] : '';
 		$name    = isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : '';
 		if ( $name != '' && $package != '' ) {
@@ -37,6 +45,8 @@ switch ( $action ) {
 		break;
 
 	case 'delete-package-all': {
+		check_admin_referer( 'delete-package-all' );
+
 		$theme_name = isset( $_REQUEST['name'] ) ? $_REQUEST['name'] : '';
 		if ( $theme_name != '' ) {
 			$history         = $developer_tools->get_history( $theme_name );
@@ -58,7 +68,6 @@ switch ( $action ) {
 
 switch ( $this->navigation ) {
 	case 'do-package': {
-
 		if ( isset( $_REQUEST['name'] ) ) {
 			$vals['developer_tools']      = $developer_tools;
 			$vals['Themes_Manager_Admin'] = $developer_tools;
@@ -80,6 +89,8 @@ switch ( $this->navigation ) {
 		break;
 
 	case 'duplicate-theme': {
+		check_admin_referer( 'duplicate-theme' );
+
 		/* under construction */
 		if ( isset( $_REQUEST['name'] ) && isset( $_REQUEST['new_name'] ) ) {
 			$options = $developer_tools->make_theme_copy( $_REQUEST['name'], $_REQUEST['new_name'] );
@@ -94,6 +105,8 @@ switch ( $this->navigation ) {
 		$developer_tools->mode = 'edit';
 
 		if ( isset( $_REQUEST['save'] ) ) {
+			check_admin_referer( 'edit-theme' );
+
 			$post   = stripslashes_deep( $_POST['theme_options'] );
 			$errors = $developer_tools->validate_theme_settings( $post );
 			if ( count( $errors ) ) {
@@ -122,8 +135,9 @@ switch ( $this->navigation ) {
 		break;
 
 	case 'delete-theme': {
-
 		if ( isset( $_REQUEST['confirm'] ) ) {
+			check_admin_referer( 'delete-theme' );
+
 			if ( isset( $_REQUEST['name'] ) && $_REQUEST['name'] != 'runway' ) {
 				$developer_tools->delete_child_theme( $_REQUEST['name'] );
 			}
@@ -142,6 +156,8 @@ switch ( $this->navigation ) {
 		$developer_tools->mode = 'new';
 
 		if ( isset( $_POST['theme_options'] ) ) {
+			check_admin_referer( 'edit-theme' );
+
 			$post   = stripslashes_deep( $_POST['theme_options'] );
 			$errors = $developer_tools->validate_theme_settings( $post );
 			if ( count( $errors ) ) {

@@ -2,6 +2,7 @@
 
     $(document).ready(function ($) {
         var adminMenuZIndex = $('#adminmenuwrap').css('z-index');
+        var nonce = Packages.nonce;
 
         $('.tags-dialog').dialog({
             autoOpen: false,
@@ -81,14 +82,18 @@
                     action: 'update_package_tags',
                     id: id,
                     tags_show: tags_show,
-                    tags_edit: tags_edit
+                    tags_edit: tags_edit,
+                    _wpnonce: nonce
                 }
             }).done(function (response) {
                 $('.tags-dialog').dialog('close');
                 params = getURLParameters($(location).attr('href'));
                 if (tags_mode == 'add') {
                     params = getURLParameters($(location).attr('href'));
-                    redirect = 'admin.php?page=themes&action=rebuild&navigation=do-package&name=' + params.name + '&tags_show=' + tags_show + '&tags_edit=' + tags_edit;
+                    redirect = 'admin.php?page=themes&action=rebuild&navigation=do-package&name=' + params.name +
+                        '&tags_show=' + tags_show +
+                        '&tags_edit=' + tags_edit +
+                        '&_wpnonce=' + nonce;
                 }
                 else
                     redirect = 'admin.php?page=themes&navigation=do-package&name=' + params.name;

@@ -172,7 +172,7 @@ if ( ! function_exists( 'get_options_data' ) ) {
 
 		if ( $option && isset( $_REQUEST['customized'] ) ) {
 			$submited_value = json_decode( stripslashes( $_REQUEST['customized'] ) );
-			if ( isset( $submited_value->{$option} ) ) {
+			if ( isset( $submited_value->{$option} ) && runway_is_customizer_preview() ) {
 				$value = $submited_value->{$option};
 
 				return apply_filters( 'customize_sanitize_' . $option, $value );
@@ -1441,4 +1441,19 @@ if ( ! function_exists( 'get_runway_wp_filesystem' ) ) {
 }
 
 // Uncomment this filter if wish to use 'direct' filesystem method within framework and extensions
-add_filter( 'rf_use_direct_filesystem_method', '__return_true' );
+// add_filter( 'rf_use_direct_filesystem_method', '__return_true' );
+
+if ( ! function_exists( 'runway_is_customizer_preview' ) ) :
+	function runway_is_customizer_preview() {
+		$is_preview = false;
+
+		if ( isset( $GLOBALS['wp_customize'] ) && $GLOBALS['wp_customize'] instanceof WP_Customize_Manager ) {
+			$customize_manager = $GLOBALS['wp_customize'];
+			if ( check_ajax_referer( 'preview-customize_' . $customize_manager->get_stylesheet(), 'nonce', false ) ) {
+				$is_preview = true;
+			}
+		}
+		
+		return $is_preview;
+	}
+endif;

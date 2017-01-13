@@ -9,7 +9,11 @@
 </ul>
 
 <p><?php echo __( 'Are you sure you wish to delete these files', 'runway' ); ?>?</p>
-<a href="<?php echo esc_url( admin_url( 'admin.php?page=extensions&navigation=del-extension&ext=' . $_GET['ext'] . '&confirm=true' ) ); ?>"
+<a href="<?php echo esc_url( admin_url(
+	'admin.php?page=extensions&navigation=del-extension&ext=' .
+	$_GET['ext'] . '&confirm=true' .
+	'&_wpnonce=' .  wp_create_nonce( 'del-extension' )
+) ); ?>"
    class="button-secondary"><?php echo __( 'Yes, Delete these files', 'runway' ); ?></a>
 <a href="<?php echo esc_url( admin_url( 'admin.php?page=extensions' ) ); ?>"
    class="button-secondary"><?php echo __( 'No, Return me to the theme list', 'runway' ); ?></a>

@@ -91,7 +91,7 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 
 				$item_confirm   = 'option page';
 				$item_title     = $page['settings']['title'];
-				$action_url_yes = admin_url( 'admin.php?page=options-builder&navigation=remove-page&page_id=' . $page_id );
+				$action_url_yes = admin_url( 'admin.php?page=options-builder&navigation=remove-page&page_id=' . $page_id . '&_wpnonce=' . wp_create_nonce( 'remove-page' ) );
 				$action_url_no  = admin_url( 'admin.php?page=options-builder' );
 
 				require_once get_template_directory() . '/framework/templates/delete-confirmation.php';
@@ -102,6 +102,8 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 			break;
 
 		case 'remove-page': {
+			check_admin_referer( 'remove-page' );
+
 			$apm->del_page( $_GET['page_id'], $pages_dir );
 			$pages = $apm->get_pages_list();
 
@@ -110,6 +112,8 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 			break;
 
 		case 'duplicate-page': {
+			check_admin_referer( 'duplicate-page' );
+
 			$wp_filesystem = get_runway_wp_filesystem();
 
 			$page_id = $_GET['page_id'];
@@ -170,6 +174,8 @@ if ( get_stylesheet_directory() == get_template_directory() ) {
 			break;
 
 		case 'reset-fields-page': {
+			check_admin_referer( 'reset-fields-page' );
+
 			$apm->reset_to_default( $pages_dir, $_GET['page_id'] );
 			$pages = $apm->get_pages_list();
 

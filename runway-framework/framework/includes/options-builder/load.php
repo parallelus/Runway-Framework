@@ -12,6 +12,20 @@
 	Site Wide Only:
 */
 
+if ( ! function_exists( 'try_to_create_folder' ) ) {
+	function try_to_create_folder( $pathname ) {
+
+		if ( is_writable( $pathname ) ) {
+			mkdir( $pathname, 0755, true );
+
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+}
+
 // Create pages dir
 if ( ! file_exists( get_stylesheet_directory() . '/data/pages' ) ) {
 	try_to_create_folder( get_stylesheet_directory() . '/data/pages' );
@@ -99,18 +113,4 @@ if ( ! function_exists( 'options_page_render_report' ) ) {
 
 	}
 	add_action( 'add_report', 'options_page_render_report' );
-}
-
-if ( ! function_exists( 'try_to_create_folder' ) ) {
-	function try_to_create_folder( $pathname ) {
-
-		if ( is_writable( $pathname ) ) {
-			mkdir( $pathname, 0755, true );
-
-			return true;
-		} else {
-			return false;
-		}
-		
-	}
 }

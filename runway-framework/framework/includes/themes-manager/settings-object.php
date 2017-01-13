@@ -82,6 +82,8 @@ class Themes_Manager_Admin extends Runway_Admin_Object {
 
 	public function ajax_update_package_tags() {
 
+		check_admin_referer( 'packages' );
+		
 		$tags = array(
 			'id'        => $_REQUEST['id'],
 			'tags_show' => isset( $_REQUEST['tags_show'] ) ? $_REQUEST['tags_show'] : '',

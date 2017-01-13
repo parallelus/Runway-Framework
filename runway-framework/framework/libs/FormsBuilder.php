@@ -104,8 +104,11 @@ class FormsBuilder {
 
 	// Add options page to pages list
 	public function add_page_to_pages_list( $page = null ) {
+		
 
 		if ( $page == null && ! empty( $_REQUEST['json_form'] ) ) {
+			check_admin_referer( 'options-builder' );
+
 			$page_options                                          = json_decode( stripslashes( $_REQUEST['json_form'] ) );
 			$this->options_pages[ $page_options->settings->alias ] = $page_options;
 			update_option( $this->option_key, $this->options_pages );
@@ -392,6 +395,8 @@ class FormsBuilder {
 
 		$is_ajax = false;
 		if ( $options == null ) {
+			check_admin_referer( 'options-builder' );
+
 			$is_ajax      = true;
 			$options      = $_REQUEST;
 			$custom_alias = $options['custom_alias'];

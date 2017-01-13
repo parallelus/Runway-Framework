@@ -56,6 +56,8 @@ $required = '<p class="description required">' . __( 'Required', 'runway' ) . '<
 
 	<input type="hidden" name="save" value="true">
 
+	<?php wp_nonce_field( 'edit-theme' ); ?>
+
 	<table class="form-table">
 
 		<?php

@@ -44,6 +44,7 @@ switch ( $this->navigation ) {
 </form>
 
 <form action="<?php echo admin_url( 'admin.php?page=extensions&navigation=bulk-actions' ); ?>" method="post">
+	<?php wp_nonce_field( 'extensions-bulk-actions' ); ?>
 	<div class="alignleft actions">
 		<select name="action">
 			<option value="-1" selected="selected"><?php echo __( 'Bulk Actions', 'runway' ); ?></option>
@@ -85,7 +86,7 @@ switch ( $this->navigation ) {
 					<strong><?php echo wp_kses_post( $ext_info['Name'] ); ?></strong>
 					<?php if ( $ext_cnt ) { ?>
 						<br>
-						<a href="<?php echo admin_url( 'admin.php?page=extensions&navigation=extension-activate&ext=' . urlencode( $ext ) ); ?>">
+						<a href="<?php echo admin_url( 'admin.php?page=extensions&navigation=extension-activate&ext=' . urlencode( $ext ) . '&_wpnonce=' .  wp_create_nonce( 'extension-activate' ) ); ?>">
 							<?php echo __( 'Activate', 'runway' ); ?>
 						</a> |
 						<a style="color: #BC0B0B;"
@@ -95,7 +96,7 @@ switch ( $this->navigation ) {
 					<?php } elseif ( ! $ext_cnt ) { ?>
 						<br>
 						<a class="edit"
-						   href="<?php echo admin_url( 'admin.php?page=extensions&navigation=extension-deactivate&ext=' . urlencode( $ext ) ); ?>">
+						   href="<?php echo admin_url( 'admin.php?page=extensions&navigation=extension-deactivate&ext=' . urlencode( $ext ) . '&_wpnonce=' .  wp_create_nonce( 'extension-deactivate' ) ); ?>">
 							<?php echo __( 'Deactivate', 'runway' ); ?>
 						</a>
 					<?php } ?>

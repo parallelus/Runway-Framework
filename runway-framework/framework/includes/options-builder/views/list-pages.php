@@ -51,12 +51,12 @@
 						</span>
 						<span class="edit">
 							<a class="submitdelete" title="<?php _e( 'Duplicate this item', 'runway' ); ?>"
-							   href="<?php echo esc_url( admin_url( 'admin.php?page=options-builder&navigation=duplicate-page&page_id=' . $page->settings->page_id ) ); ?>">
+							   href="<?php echo esc_url( admin_url( 'admin.php?page=options-builder&navigation=duplicate-page&page_id=' . $page->settings->page_id . '&_wpnonce=' . wp_create_nonce( 'duplicate-page' ) ) ); ?>">
 								<?php _e( 'Duplicate', 'runway' ); ?>
 							</a> |
 						</span>
 						<span class="edit">
-							<a href="<?php echo esc_url( admin_url( 'admin.php?page=options-builder&navigation=reset-fields-page&page_id=' . $page->settings->page_id ) ); ?>"
+							<a href="<?php echo esc_url( admin_url( 'admin.php?page=options-builder&navigation=reset-fields-page&page_id=' . $page->settings->page_id ) . '&_wpnonce=' . wp_create_nonce( 'reset-fields-page' ) ); ?>"
 							   title="<?php _e( 'Reset default field values. This will clear any data added while testing the page.', 'runway' ); ?>">
 								<?php _e( 'Reset Defaults', 'runway' ); ?>
 							</a> |

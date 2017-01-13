@@ -35,7 +35,6 @@ $settings = array(
 		//'theme',
 		FRAMEWORK_URL . 'framework/js/jquery-ui.min.js',
 		FRAMEWORK_URL . 'framework/js/jquery.tmpl.min.js',
-		FRAMEWORK_URL . 'framework/includes/themes-manager/js/package-tags.js',
 	),
 	'css'              => array(
 		FRAMEWORK_URL . 'framework/includes/themes-manager/css/style.css',
@@ -138,7 +137,7 @@ if ( ! function_exists( 'runway_admin_themes_list_prepare' ) ) {
 		// Delete URL
 		$t['deleteURL'] = esc_url( 'admin.php?page=themes&navigation=delete-theme&name=' . $t['folder'] );
 		// Download URL
-		$t['downloadURL'] = esc_url( 'admin.php?page=themes&navigation=do-package&name=' . $t['folder'] );
+		$t['downloadURL'] = esc_url( 'admin.php?page=themes&navigation=do-package&name=' . $t['folder'] . '&_wpnonce=' .  wp_create_nonce( 'packages' ) );
 		// History URL
 		$t['historyURL'] = esc_url( 'admin.php?page=themes&navigation=do-download&name=' . $t['folder'] );
 

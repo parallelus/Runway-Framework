@@ -73,6 +73,7 @@ class Apm_Admin extends Runway_Admin_Object {
 	}
 
 	public function save_option_page() {
+		check_admin_referer( 'options-builder' );
 
 		$wp_filesystem = get_runway_wp_filesystem();
 

@@ -112,7 +112,7 @@ if ( isset( $options ) ) {
 		       value="Another theme already exists with this folder name. Please choose a different name.">
 	</p>
 	<p>
-		<a href="<?php echo admin_url( 'admin.php?page=themes&navigation=duplicate-theme&name=' ); ?>"
+		<a href="<?php echo admin_url( 'admin.php?page=themes&navigation=duplicate-theme&_wpnonce='. wp_create_nonce( 'duplicate-theme' ) .'&name=' ); ?>"
 		   class="submit-theme-new-folder button-primary"
 		   title="<?php _e( 'Duplicate', 'runway' ); ?>">
 			<?php _e( 'Duplicate', 'runway' ); ?>
