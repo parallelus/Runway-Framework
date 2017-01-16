@@ -1,3 +1,7 @@
+## v1.4.4 (January 16th 2017)
+
+* Various bug fixes and updates
+
 ## v1.4.3 (February 20th 2016)
 
 * Fixed page sorting for theme options pages
