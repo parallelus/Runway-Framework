@@ -35,21 +35,21 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			// Set extension or page name
-			$this->name = (isset($settings['name'])) ? $settings['name'] : __('Options', 'framework');
+			$this->name = (isset($settings['name'])) ? $settings['name'] : __('Options', 'runway');
 
 			// if dynamic page set slug as alias else create slug from title
 			$this->slug = isset( $settings['alias'] ) ? sanitize_title( $settings['alias'] ) : sanitize_title( $this->name );
 
 			$this->pref = '';
 
-			if(isset($this->builder_page)) {						
-				$this->pref = $this->get_menu_adapt($this->builder_page->settings->adminMenuTopItem);								
+			if(isset($this->builder_page)) {
+				$this->pref = $this->get_menu_adapt($this->builder_page->settings->adminMenuTopItem);
 			} else {
 				$this->pref = $this->pref . strtolower('framework');
 			}
 
-			$this->page_hook = $this->pref . "_page_" . $this->slug;			
-			
+			$this->page_hook = $this->pref . "_page_" . $this->slug;
+
 			// set fields (for static reated page objects)
 			$this->fields = isset($settings['fields']) ? $settings['fields'] : array( 'var' => array(),'array' => array() );
 
@@ -67,16 +67,16 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			// set admin menu parent item
 			if(!isset($this->parent_menu)) {
-				$this->parent_menu = isset( $settings['parent_menu'] ) ? $settings['parent_menu'] : 'settings';							
+				$this->parent_menu = isset( $settings['parent_menu'] ) ? $settings['parent_menu'] : 'settings';
 			}
 
 			// set parent menu url (slug)
 			$this->menu_url = $this->get_admin_menu( $this->parent_menu );
-					
+
 			// set parent menu url
-			$this->options_url = 
-				strpos($this->parent_menu, '.php') === false && $this->parent_menu == $this->get_admin_menu( $this->parent_menu ) ? 
-					'admin.php?page=' . $this->slug : 
+			$this->options_url =
+				strpos($this->parent_menu, '.php') === false && $this->parent_menu == $this->get_admin_menu( $this->parent_menu ) ?
+					'admin.php?page=' . $this->slug :
 					$this->menu_url . '?page=' . $this->slug;
 
 			// ???
@@ -111,7 +111,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			//add_action('admin_head-' . $this->parent_menu . '_page_' . $this->slug, array(&$this, 'settings_head'));
 			//-!!!!--- ABOVE: Moved to admin_menu() function because it's just easier to call ---!!!!-\\
 
-			// COMMENTED OUT BECAUSE OF ERROR MESSAGE IN WP PLUGINS ADMIN // 
+			// COMMENTED OUT BECAUSE OF ERROR MESSAGE IN WP PLUGINS ADMIN //
 			// add_filter( 'plugin_row_meta', array( &$this, 'plugin_row_meta' ), 10, 2 );
 
 			add_action( 'init', array( $this, 'admin_init' ), 11 );
@@ -134,7 +134,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 		function settings_save_button( $text = 'Save', $class = 'button' ) {
 			$this->keys = isset( $this->keys ) ? $this->keys : array();
-			$keys = implode( ',', (array) $this->keys ); 
+			$keys = implode( ',', (array) $this->keys );
 
 			$import_key = (!is_array($this->get_val( 'import_key' ))) ? $this->get_val( 'import_key' ) : '';
 			$ancestor_key = (!is_array($this->get_val( 'ancestor_key' ))) ? $this->get_val( 'ancestor_key' ) : '';
@@ -166,15 +166,15 @@ if ( !defined( $runway_framework_admin ) ) {
 			$view_path = $this->dir . 'views/' . $view . ".php";
 			if(file_exists($view_path)) {
 				if(!$return_as_string) {
-					include_once $view_path;	
+					include_once $view_path;
 				} else {
 					ob_start();
-					include_once $view_path;	
+					include_once $view_path;
 					$view_content = ob_get_contents();
 					ob_end_clean();
 					return $view_content;
 				}
-				
+
 			}
 
 		}
@@ -202,7 +202,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				return $slugs[$url];
 			else {
 				global $shortname;
-				
+
 				if(isset($shortname) && $shortname != "")
 					return preg_replace('/_$/', "", $shortname);
 				else
@@ -231,7 +231,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			);
 
 			if ( isset( $parent_slug[$menu] ) ) {
-				$menuURL = $parent_slug[$menu];				
+				$menuURL = $parent_slug[$menu];
 			} else {
 				$menuURL = $menu;
 			}
@@ -246,9 +246,9 @@ if ( !defined( $runway_framework_admin ) ) {
 				if(isset($this->builder_page)) {
 					foreach ($this->builder_page->elements as $page_element) {
 						if($page_element != 'none' && $page_element->template == 'field') {
-							$this->cache[$page_element->alias] = $page_element;							
+							$this->cache[$page_element->alias] = $page_element;
 						}
-					}					
+					}
 				}
 			}
 
@@ -285,7 +285,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			// This function was intentionally left blank
 
-		}	
+		}
 
 		// attach submenu items to admin menu
 		function admin_menu() {
@@ -305,9 +305,9 @@ if ( !defined( $runway_framework_admin ) ) {
 				}
 
 				if($this->menu_url != 'hidden') {
-					$this_page = add_submenu_page( $this->menu_url, $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );				
+					$this_page = add_submenu_page( $this->menu_url, $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );
 				} else {
-					$this_page = add_submenu_page( 'admin.php', $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );				
+					$this_page = add_submenu_page( 'admin.php', $this->name, $this->name, $this->menu_permissions, $this->slug, array( $this, 'options_page' ) );
 				}
 
 				add_action( 'runway_page_' . $this->slug, array( $this, 'options_page' ));
@@ -316,7 +316,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			}
 
-		}		
+		}
 
 		/*
 		**
@@ -353,7 +353,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		 */
 		function include_extension_js() {
 			global $translation_array;
-		
+
 			if ( isset( $this->js ) && !empty( $this->js ) ) {
 				foreach ( $this->js as $js ) {
 					if ( preg_match( '|(.+)/(.+).js|', $js ) ) {
@@ -420,7 +420,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				return $d;
 			}
 			return $data;
-		}				
+		}
 
 		function get_data( $s = array(), $override = false ) {
 
@@ -518,7 +518,7 @@ if ( !defined( $runway_framework_admin ) ) {
 					if ( !empty( $this->action_keys ) ) {
 						$keys = $this->action_keys;
 						$this->keys = $keys;
-					}					
+					}
 					$this->set_data( $this->extract_submission(), $keys );
 				}
 				return false;
@@ -535,7 +535,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				$data = $this->get_data( $action_keys );
 
 				if ( empty( $data ) )
-					return $this->error( __( 'Someting has gone awry. Sorry.', 'framework' ) );
+					return $this->error( __( 'Someting has gone awry. Sorry.', 'runway' ) );
 
 				// Which element is being moved?
 				$row = esc_attr( $_GET['row'] );
@@ -587,17 +587,17 @@ if ( !defined( $runway_framework_admin ) ) {
 						if ( is_array( $value ) ) {
 							$keys[$key] = $value[0];
 						}
-					}					
+					}
 					$this->set_data( $arr, $keys );
 					$this->save_data();
-					$this->message = __( 'Saved!', 'framework' );
+					$this->message = __( 'Saved!', 'runway' );
 				}
 			}
 
 			if ( $this->action == 'delete' ) {
 				$data = $this->unset_data( $this->action_keys );
 				$this->save_data();
-				$this->message = __( 'Deleted!', 'framework' );
+				$this->message = __( 'Deleted!', 'runway' );
 			}
 
 			if ( count( $this->keys ) && $this->action == 'add' ) {
@@ -713,7 +713,7 @@ if ( !defined( $runway_framework_admin ) ) {
 					$field_object = $this->get_field_by_alias($field);
 
 					if($field_object !== false) {
-						$arr['field_types'][$field] = $field_object->type;	
+						$arr['field_types'][$field] = $field_object->type;
 					}
 
 					if ( isset( $_POST[$field] ) ) {
@@ -791,7 +791,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 			return $data;
 
-		}		
+		}
 
 		/*
 		**
@@ -847,7 +847,7 @@ if ( !defined( $runway_framework_admin ) ) {
 
 			// Page title
 			if ( !isset( $this->builder_page ) || $this->builder_page->settings->showPageTitle ) {
-				$adminPageTitle = '<h2 class="adminTitle">'.apply_filters( 'framework_admin_title', $this->name ).'</h2>';
+				$adminPageTitle = '<h2 class="adminTitle">'.apply_filters( 'framework_admin_title',  wp_kses_post($this->name) ) .'</h2>';
 				$hasTitleClass = 'hasPageTitle';
 			}
 
@@ -875,8 +875,8 @@ if ( !defined( $runway_framework_admin ) ) {
 				<div id="icon-options-general" class="icon32"><br /></div>
 
 			<?php
-			echo  $adminPageTitle . PHP_EOL; // The title
-			echo  $adminPageDesc . PHP_EOL; // The description
+			echo rf_string($adminPageTitle) . PHP_EOL; // The title
+			echo rf_string($adminPageDesc) . PHP_EOL; // The description
 ?>
 
 			<?php
@@ -892,8 +892,8 @@ if ( !defined( $runway_framework_admin ) ) {
 					$is_first_tab = false;
 				} ?>
 
-					</h2>	
-				<?php 
+					</h2>
+				<?php
 			endif;
 
 			// Post Body Containers - disable with the setting: 'wp_containers' => 'none'
@@ -919,7 +919,7 @@ if ( !defined( $runway_framework_admin ) ) {
 				<div id="theme-framework" class="has-right-sidebar <?php echo esc_attr($this->slug); ?> <?php echo esc_attr($this->slug . '-' . $this->navigation); ?>">
 
 					<div id="icon-options-general" class="icon32"><br /></div>
-					<h2><?php echo  $this->name; ?></h2>
+					<h2><?php echo wp_kses_post($this->name); ?></h2>
 
 					<div class="inner-sidebar metabox-holder">
 
@@ -931,14 +931,14 @@ if ( !defined( $runway_framework_admin ) ) {
 
 							// Right Column Box ?>
 							<div class="dpostbox theme-framework-box">
-								<h3 class="hndle"><span><?php _e('Title', 'framework'); ?></span></h3>
+								<h3 class="hndle"><span><?php _e('Title', 'runway'); ?></span></h3>
 								<div class="inside">
 									<ul class="action-links">
 
 										<li>
 											<dl>
-												<dt><a href="#"><?php _e('A Title', 'framework'); ?></a></dt>
-												<dd><?php _e('Description', 'framework'); ?></dd>
+												<dt><a href="#"><?php _e('A Title', 'runway'); ?></a></dt>
+												<dd><?php _e('Description', 'runway'); ?></dd>
 											</dl>
 										</li>
 
@@ -966,7 +966,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		function options_page_wrapper_footer() {
 
 			if ( $this->footed ) return false;
-			
+
 			if ( isset($this->admin_layout) && $this->admin_layout != 'none' ) : ?>
 						</div> <!-- / #post-body-content -->
 					</div> <!-- / #post-body -->
@@ -977,7 +977,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			<?php
 			$this->footed = true;
 
-		}		
+		}
 
 		/*
 		**
@@ -1001,7 +1001,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 			return $new;
 
-		}	
+		}
 
 		/*
 		**
@@ -1017,13 +1017,13 @@ if ( !defined( $runway_framework_admin ) ) {
 				if ( $a = esc_attr( $args['action'] ) ) $action .= $a;
 			}
 			return $action;
-		}	
+		}
 
-		function get_val( $name, $k = array() ) {		
+		function get_val( $name, $k = array() ) {
 
-			if ( empty( $k ) ) 
+			if ( empty( $k ) )
 				$k = $this->keys;
-			
+
 			$s = array();
 
 			foreach ( (array) $k as $b ) {
@@ -1038,7 +1038,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			if ( strpos( $name, ',' ) === false) {
 				$c = explode( ',', str_replace( ' ', '', $name ) );
 				foreach ( $c as $d ) $s[] = $d;
-			} else {				
+			} else {
 				$s[] = $name;
 			}
 
@@ -1048,7 +1048,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			foreach ( $s as $key ) {
 				if ( $this->dynamic === true ) {
 					if ( isset( $subdata[$key] ) ) {
-						$subdata = $subdata[$key];						
+						$subdata = $subdata[$key];
 					}
 				} else {
 					$subdata = $subdata[$key];
@@ -1071,13 +1071,13 @@ if ( !defined( $runway_framework_admin ) ) {
 			return $ret;
 
 		}
-		
+
         /**
 		 * Load all css files from a directory
-		 * 
+		 *
 		 * @param $file_dir = file path to css directory
 		 * @return array - full server path to each file
-		 * 
+		 *
 		 */
 		function loadFolderCSS($file_dir) {
 			$stylesheets = '';
@@ -1092,39 +1092,39 @@ if ( !defined( $runway_framework_admin ) ) {
 			}
 
 			return $stylesheets;
-		} 
+		}
 
 		/**
-		 * Get the theme's CSS skin files 
+		 * Get the theme's CSS skin files
 		 * @return array Key is CSS file name, Value is CSS file name
 		 */
 		function get_skin_css() {
 
 			$themeFolder = get_stylesheet_directory(); // If child theme it will search child theme folder only
-			$css_files = $this->loadFolderCSS( $themeFolder ); 
+			$css_files = $this->loadFolderCSS( $themeFolder );
 			$skins = array();
-		
+
 			if ( is_array( $css_files ) ) {
 				$base = array( trailingslashit(get_template_directory()), trailingslashit(get_stylesheet_directory()) );
-		
+
 				foreach ( $css_files as $skin ) {
 					$basename = str_replace($base, '', $skin);
-		
+
 					$skin_data = implode( '', file( $skin ));
-		
+
 					$name = '';
 					if ( preg_match( '|Skin Name:(.*)$|mi', $skin_data, $name ) )
 						$name = _cleanup_header_comment($name[1]);
-		
+
 					if ( !empty( $name ) ) {
 						$skins[$basename] = trim( $name );
 					}
 				}
 			}
-		
+
 			return $skins;
 		}
-	
+
 
 		function get_version_id( $prefix = 'id_' ) {
 			$key1 = base_convert( mt_rand( 0x1679616, 0x39AA3FF ), 10, 36 );
@@ -1140,7 +1140,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		function navigation_bar( $levels ) {
 
 			?><ul class="nav-bar-trail">
-			<li><a href="<?php echo esc_url($this->settings_url); ?>"><?php echo  $this->name; ?></a></li>
+			<li><a href="<?php echo esc_url($this->settings_url); ?>"><?php echo wp_kses_post($this->name); ?></a></li>
 			<?php
 			for ( $i = 0; $i < count( $levels ); $i++ ) {
 				$selected = ( $i == count( $levels ) - 1 ) ? ' selected="selected"' : '';
@@ -1160,7 +1160,7 @@ if ( !defined( $runway_framework_admin ) ) {
 			//<![CDATA[
 				jQuery(document).ready(function($){
 					$("a.common-delete, a.more-common-delete").click(function(){
-						return confirm("<?php _e( 'Are you sure you want to delete?', 'framework' ); ?>");
+						return confirm("<?php _e( 'Are you sure you want to delete?', 'runway' ); ?>");
 					});
 					$("#post-body-content .postbox").each( function(){
 							var handle = jQuery(this).children('.hndle, .handlediv');
@@ -1169,17 +1169,18 @@ if ( !defined( $runway_framework_admin ) ) {
 								content.slideToggle();
 								return false;
 							});
-					});	
+					});
 				});
 			//]]>
 			</script>
-			<?php $css = FRAMEWORK_URL . 'framework/css/styles.css'; ?>
-			<link rel='stylesheet' type='text/css' href='<?php echo esc_url($css); ?>' />
-			<?php
-		}		
+			<?php 
+			$css = FRAMEWORK_URL . 'framework/css/styles.css';
+			wp_enqueue_style( 'styles.css', $css );
+			
+		}
 
 		function field_template_path($field) {
-			
+
 			$theme_data = rw_get_theme_data();
 
 			$template_path = null;
@@ -1199,12 +1200,12 @@ if ( !defined( $runway_framework_admin ) ) {
 						}
 					}
 				}
-				
+
 				$found_in_framework_dirs = false;
 				if(!$found_in_theme_dirs) {
 					$names = runway_scandir(get_theme_root().'/'.$theme_data['Template'] . '/data-types', array('data-type.php'));
 					foreach ( $names as $name ) {
-						if(is_dir( get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name) && 
+						if(is_dir( get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name) &&
 							file_exists(get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name . "/" . $field->type . '.php'))
 						{
 							$template_path = get_theme_root().'/'.$theme_data['Template'] . '/data-types/' . $name . "/" . $field->type . '.php';
@@ -1213,7 +1214,7 @@ if ( !defined( $runway_framework_admin ) ) {
 						}
 					}
 				}
-				
+
 				if(!$found_in_framework_dirs && !$found_in_theme_dirs) {
 					$template_path = get_theme_root().'/'.$theme_data['Template'].'/data-types/'.$field->type.'.php';
 				}
@@ -1225,54 +1226,54 @@ if ( !defined( $runway_framework_admin ) ) {
 				return false;
 			}
 
-		}		
+		}
 
 		function render_field($field) {
 
 			ob_start();
-			
-			extract( (array)$field );			
+
+			extract( (array)$field );
 
 			include $template_path;
-			
+
 			return ob_get_clean();
-			
+
 
 		}
 
 		function get_rendered_field_content($field) {
-			
-			ob_start();						
 
-			$field->render_content();	
-			
+			ob_start();
+
+			$field->render_content();
+
 			$html = ob_get_contents();
 			ob_end_clean();
-			
+
 			return $html;
 
 		}
 
 		/* loading data-types for dynamic created pages */
-		function dynamic_template_field( $field ) {			
+		function dynamic_template_field( $field ) {
 
 			// set field template file path
-			$field->template_path = $this->field_template_path($field);	
+			$field->template_path = $this->field_template_path($field);
 			if( $field->template_path !== false) {
 
 				/* new data types loading */
 
-				// include_once get_theme_root() . '/runway-framework/data-types/data-type.php';									
-				include_once FRAMEWORK_DIR . 'data-types/data-type.php';									
-				include_once $field->template_path;			
+				// include_once get_theme_root() . '/runway-framework/data-types/data-type.php';
+				include_once FRAMEWORK_DIR . 'data-types/data-type.php';
+				include_once $field->template_path;
 
 				$class_Name = ucfirst(str_replace('-', '_', $field->type));
 
-				$field_object = new $class_Name($this, $field);				
+				$field_object = new $class_Name($this, $field);
 
 				return $this->get_rendered_field_content($field_object);
 			}
-		}		
+		}
 	}
 }
 

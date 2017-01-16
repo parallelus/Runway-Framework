@@ -5,6 +5,21 @@ function out( $what ) {
 	echo '<br><br>' . $bt[0]['file'] . '[' . $bt[0]['line'] . ']: <br><pre>' . print_r( $what, true ) . '</pre><br>';
 }
 
+/**
+ * Helper function for output escaping. Ensures only strings are returned.
+ *
+ * @since 1.4.4
+ * @param string $text A text value to be cast (string)
+ * @return string A text string.
+ */
+if( ! function_exists( 'rf_string' ) ) :
+	function rf_string( $text = '' ) {
+
+		$new_text = (string) apply_filters('rf_string', $text);
+		return $new_text;
+	}
+endif;
+
 define('MIN_PHP_VERSION_ID', 50301);
 
 function runway_php_version( $version = false ) {
@@ -14,16 +29,16 @@ function runway_php_version( $version = false ) {
 		$ver[0] *= 10000;
 		$ver[1] *= 100;
 		define ('PHP_VERSION_ID', array_sum ($ver));
-		
+
 		unset ($ver);
 	}
-	
+
 	$tmp_version = array_map ('intval', explode ('.', PHP_VERSION, 3));
 	$tmp_version[0] *= 10000;
 	$tmp_version[1] *= 100;
 	$tmp_version_id = array_sum ($tmp_version);
 	$php_version_id = PHP_VERSION_ID;
-	
+
 	if($php_version_id < $tmp_version_id) {
 		$php_version_id = $tmp_version_id;
 	}
@@ -59,7 +74,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	// Load framework components
 	//-----------------------------------------------------------------
 	include_once 'core/common-object.php';
-	
+
 	//-----------------------------------------------------------------
 	// Load translations for javascript
 	//-----------------------------------------------------------------
@@ -72,7 +87,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	if ( is_admin() || isset($GLOBALS['wp_customize']) ) {
 		include_once 'core/admin-object.php';
 	}
-	
+
 	if ( is_admin() ) {
 		db_json_sync();
 		check_theme_ID();
@@ -94,7 +109,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	// Set filters on get option and update option for extensions
 	//................................................................
 	foreach ( $extensions as $extension_name => $extension_path ) {
-		$key = $shortname.$extension_name;		
+		$key = $shortname.$extension_name;
 		add_filter( 'pre_option_'.$key, 'theme_option_filter', 10, 1 );
 		add_action( 'update_option', 'theme_option_dual_save_filter', 10, 3 );
 	}
@@ -102,7 +117,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	// Set filters on get option and update option for all forms, which build with FormsBuilder
 	//................................................................
 	$forms = new FormsBuilder();
-	if( ! empty( $forms->options_pages ) )	
+	if( ! empty( $forms->options_pages ) )
 		foreach ($forms->options_pages as $key => $value) {
 			$key = $shortname.$key;
 			add_filter( 'pre_option_'.$key, 'theme_option_filter', 10, 1 );
@@ -172,14 +187,14 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 
 	function framework_localization() {
 		$langDir = apply_filters('rf_languages_dir', get_template_directory() . '/framework/languages');
-		$isLoadedDir = load_theme_textdomain('framework', $langDir);
+		$isLoadedDir = load_theme_textdomain('runway', $langDir);
 	}
 	add_action('after_setup_theme', 'framework_localization');
 
 	function framework_localization_warning_message() {
-		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'framework').'</div>';
+		echo '<div id="message" class="error">'.__('Localization directory not exists or empty. Textdomain hasn\'t loaded.', 'runway').'</div>';
 	}
-	
+
 	// Force custom icon styles on every page
 	function framework_theme_menu_custom_icon() {
 		?>
@@ -201,7 +216,7 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 
 	// Dashboard "Getting Started"
 	if ( is_admin() && isset( $_GET['page'] ) && $_GET['page'] !== 'dashboard' && !isset( $_GET['activate-default'] ) ) {
-		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => __('Start Here', 'framework'), 'body' => '<p>'.__('Visit the dashboard and learn how Runway works to start making awesome themes today.', 'framework').'</p>' ), 'edge: "left", align: "center"' );
+		WP_Pointers::add_pointer( 'all', 'a.wp-first-item[href=\'admin.php?page=dashboard\']', array( 'title' => __('Start Here', 'runway'), 'body' => '<p>'.__('Visit the dashboard and learn how Runway works to start making awesome themes today.', 'runway').'</p>' ), 'edge: "left", align: "center"' );
 	}
 
 } else {
@@ -213,10 +228,10 @@ if ( runway_php_version(true) >= MIN_PHP_VERSION_ID ) {
 	function php_version_warning_message() {
 		global $current_screen;
 		echo '<div id="message" class="error">',
-		'<h3><strong>'.__('You must have PHP v5.3.1 or later to use this theme.', 'framework').'</strong></h3>',
-		'<p>'.__('You can try adding the following to the top of your .htaccess file in the WordPress root directory', 'framework').':</p>',
+		'<h3><strong>'.__('You must have PHP v5.3.1 or later to use this theme.', 'runway').'</strong></h3>',
+		'<p>'.__('You can try adding the following to the top of your .htaccess file in the WordPress root directory', 'runway').':</p>',
 		'<p><code style="font-size: 14px; font-weight: 800;">AddType application/x-httpd-php53 .php</code></p>',
-		'<p>.'.__('If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.', 'framework').'</p>',
+		'<p>.'.__('If that does not work, contact your host and ask them to update your PHP version. The theme will not be functional until this issue is corrected.', 'runway').'</p>',
 		'</div>';
 	}
 

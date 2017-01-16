@@ -1,39 +1,92 @@
 <?php
+
 class Text_editor extends Data_Type {
 
-    public $type = 'text-editor';
     public static $type_slug = 'text-editor';
-    public $label = 'Text Editor';
+
+    public function __construct( $page, $field, $wp_customize = null, $alias = null, $params = null ) {
+
+        $this->type  = 'text-editor';
+        $this->label = 'Text Editor';
+
+        parent::__construct( $page, $field, $wp_customize, $alias, $params );
+
+    }
 
     public function render_content( $vals = null ) {
 
         do_action( self::$type_slug . '_before_render_content', $this );
 
         if ( $vals != null ) {
-            $this->field = (object)$vals;
+            $this->field = (object) $vals;
         }
 
-        $value = ( $vals != null ) ? $this->field->saved : $this->get_value();
-        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="'.$this->page->section.'"' : '';
+        $value   = ( $vals != null ) ? $this->field->saved : $this->get_value();
+        $section = ( isset( $this->page->section ) && $this->page->section != '' ) ? 'data-section="' . esc_attr( $this->page->section ) . '"' : '';
         ob_start();
 
-        wp_editor( htmlspecialchars_decode( is_string( $value )? $value : '' ), $this->field->alias, array(
-            'data-section' => isset( $this->page->section ) ? $this->page->section : ''
+        wp_editor( htmlspecialchars_decode( is_string( $value ) ? $value : '' ), $this->field->alias, array(
+            'data-section' => $section
         ) );
+
         $this->link();
         $html = ob_get_contents();
         ob_end_clean();
 
-        echo  $html; ?>
+        echo rf_string( $html ); ?>
+
         <script type="text/javascript">
-            jQuery(document).ready(function($){
-                $('textarea.wp-editor-area').addClass('custom-data-type');
-                $('textarea.wp-editor-area').attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>' );
-                $('textarea.wp-editor-area').attr('data-type', 'texteditor-type' );
+            jQuery(document).ready(function ($) {
+                var $editorArea = $('textarea.wp-editor-area');
+
+                $editorArea.addClass('custom-data-type');
+                $editorArea.attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>');
+                $editorArea.attr('data-type', 'texteditor-type');
+
+                try {
+
+                    // Fix the version compatibility issue for jquery-ui:
+                    // check if method 'instance' exists
+                    if ($.ui && $.ui.autocomplete) {
+                        $('<input>').autocomplete().autocomplete('instance');
+                    }
+
+                } catch (e) {
+
+                    // add it
+                    $.widget('ui.autocomplete', $.ui.autocomplete, {
+                        instance: function () {
+
+                            var fullName = this.widgetFullName || '';
+                            var returnValue = this;
+
+                            if (!this.length) {
+                                returnValue = undefined;
+                            } else {
+                                this.each(function () {
+                                    returnValue = $.data(this, fullName);
+                                    return false;
+                                });
+                            }
+
+                            this._renderItem = function (ul, item) {
+                                return $('<li role="option" id="mce-wp-autocomplete-' + item.ID + '">')
+                                    .append('<span>' + item.title + '</span>&nbsp;<span class="wp-editor-float-right">' + item.info + '</span>')
+                                    .appendTo(ul);
+                            };
+
+                            return returnValue;
+
+                        }
+                    });
+
+                }
             })
         </script>
+
         <?php
 
+        $this->wp_customize_js();
         do_action( self::$type_slug . '_after_render_content', $this );
 
     }
@@ -59,72 +112,81 @@ class Text_editor extends Data_Type {
 
     }
 
-    public function link( $setting_key = 'default' ) { ?><script type="text/javascript">
+    public function link( $setting_key = 'default' ) {
+        ?>
 
-        (function () {
+        <script type="text/javascript">
 
-            var name = '<?php echo  $this->field->alias; ?>';
+            (function () {
 
-            jQuery('[name="'+name+'"]')
-                .attr('data-customize-setting-link', name);
+                var name = '<?php echo esc_attr( $this->field->alias ); ?>';
 
-        })();
+                jQuery('[name="' + name + '"]')
+                    .attr('data-customize-setting-link', name);
 
-    </script><?php }
+            })();
 
-    public static function render_settings() { ?>
+        </script>
 
-    <script id="text-editor" type="text/x-jquery-tmpl">
+        <?php
+    }
 
-        <?php do_action( self::$type_slug . '_before_render_settings' ); ?>
+    public static function render_settings() {
+        ?>
 
-    <div class="settings-container">
-        <label class="settings-title">
-            <?php echo __('Values', 'framework'); ?>:
-            <br><span class="settings-title-caption"></span>
-        </label>
-        <div class="settings-in">
+        <script id="text-editor" type="text/x-jquery-tmpl">
 
-            <textarea data-set="values" name="values" class="settings-textarea">${values}</textarea>
+            <?php do_action( self::$type_slug . '_before_render_settings' ); ?>
 
-        </div>
-        <div class="clear"></div>
+            <div class="settings-container">
+                <label class="settings-title">
+                    <?php echo __( 'Values', 'runway' ); ?>:
+                    <br><span class="settings-title-caption"></span>
+                </label>
+                <div class="settings-in">
 
-    </div>
+                    <textarea data-set="values" name="values" class="settings-textarea">${values}</textarea>
 
-    <div class="settings-container">
-        <label class="settings-title">
-            <?php echo __('Required', 'framework'); ?>:
-            <br><span class="settings-title-caption"></span>
-        </label>
-        <div class="settings-in">
+                </div>
+                <div class="clear"></div>
+            </div>
 
-            <label>
-                {{if required == 'true'}}
-                <input data-set="required" name="required" value="true" checked="true" type="checkbox">
-                {{else}}
-                <input data-set="required" name="required" value="true" type="checkbox">
-                {{/if}}
-                <?php echo __('Yes', 'framework'); ?>
-            </label>
+            <div class="settings-container">
+                <label class="settings-title">
+                    <?php echo __( 'Required', 'runway' ); ?>:
+                    <br><span class="settings-title-caption"></span>
+                </label>
+                <div class="settings-in">
 
-            <span class="settings-field-caption"><?php echo __('Is this a required field?', 'framework'); ?></span><br>
+                    <label>
+                        {{if required == 'true'}}
+                            <input data-set="required" name="required" value="true" checked="true" type="checkbox">
+                        {{else}}
+                            <input data-set="required" name="required" value="true" type="checkbox">
+                        {{/if}}
+                        <?php echo __( 'Yes', 'runway' ); ?>
+                    </label>
 
-            <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
+                    <span class="settings-field-caption"><?php echo __( 'Is this a required field?', 'runway' ); ?></span><br>
 
-            <span class="settings-field-caption"><?php echo __('Optional. Enter a custom error message.', 'framework'); ?></span>
+                    <input data-set="requiredMessage" name="requiredMessage" value="${requiredMessage}" type="text">
 
-        </div>
-        <div class="clear"></div>
+                    <span class="settings-field-caption"><?php echo __( 'Optional. Enter a custom error message.', 'runway' ); ?></span>
 
-    </div>
+                </div>
+                <div class="clear"></div>
 
-    <?php parent::render_conditional_display(); ?>
-    <?php do_action( self::$type_slug . '_after_render_settings' ); ?>
+            </div>
 
-</script>
+            <?php
+            parent::render_conditional_display();
+            do_action( self::$type_slug . '_after_render_settings' );
+            ?>
 
-    <?php }
+        </script>
+
+        <?php
+    }
 
     public function get_value() {
 
@@ -133,18 +195,19 @@ class Text_editor extends Data_Type {
         if ( is_string( $value ) ) {
             return $value;
         } else {
-            return ( isset( $this->field->values ) ) ? $this->field->values : '';
+            return isset( $this->field->values ) ? $this->field->values : '';
         }
 
     }
 
-    public static function data_type_register() { ?>
+    public static function data_type_register() {
+        ?>
 
         <script type="text/javascript">
 
             jQuery(document).ready(function ($) {
                 builder.registerDataType({
-                    name: '<?php echo __('Text editor', 'framework'); ?>',
+                    name: '<?php echo __( 'Text editor', 'runway' ); ?>',
                     separate: 'none',
                     alias: '<?php echo self::$type_slug ?>',
                     settingsFormTemplateID: '<?php echo self::$type_slug ?>'
@@ -153,5 +216,20 @@ class Text_editor extends Data_Type {
 
         </script>
 
-    <?php }
-} ?>
+        <?php
+    }
+
+    public function wp_customize_js() {
+        ?>
+
+        <script type="text/javascript">
+            (function ($) {
+                // hide editor
+                $('#customize-control-<?php echo esc_js( $this->field->alias ); ?>').hide();
+            })(jQuery);
+        </script>
+
+        <?php
+    }
+
+}

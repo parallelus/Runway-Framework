@@ -43,7 +43,7 @@ class Html {
 				<tr>
 		<?php
 		foreach ( (array) $titles as $title ) : ?>
-			<th><?php echo  $title; ?></th>
+			<th><?php echo rf_string($title); ?></th>
 		<?php endforeach; ?>
 				</tr>
 			</thead>
@@ -60,7 +60,7 @@ class Html {
 		</tbody><tfoot><tr>
 		<?php
 		foreach ( (array) $titles as $title ) : ?>
-			<th><?php echo  $title; ?></th>
+			<th><?php echo rf_string($title); ?></th>
 		<?php endforeach; ?>
 		</tr></tfoot></table>
 		<?php
@@ -79,7 +79,7 @@ class Html {
 		$total = count( $contents );
 		foreach ( (array) $contents as $content ) {
 			?>
-			<td <?php echo ( $count == $total ) ? 'class="last-td"' : ''; ?>><?php echo  $content; ?></td>
+			<td <?php echo ( $count == $total ) ? 'class="last-td"' : ''; ?>><?php echo rf_string($content); ?></td>
 		<?php $count++; } ?>
 		</tr>
 		<?php
@@ -95,7 +95,7 @@ class Html {
 			<?php echo array_shift( $cols ); ?></th>
 		<?php
 		foreach ( $cols as $col ) { ?>
-			<td><?php echo  $col; ?></td>
+			<td><?php echo rf_string($col); ?></td>
 		<?php
 		} ?></tr>
 		<?php
@@ -314,7 +314,7 @@ class Html {
 		$html .= '<div id="colorpick-dialog" name = "' . $name . '" style="text-align:center;" title="' . $additional_options->title . '">';
 		$html .= '<input type="text" id="color-colorpick" maxlength="7" name="'.$name.'" value="'.$value.'" style="background-color:'.$value.'; visibility: hidden; position:absolute;" />';
 		$html .= '<div id="colorpicker" align="center" name = "'.$name.'"></div>';
-		$html .= '<br><button class="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;">'. __( 'Apply Color', 'framework' ) .'</button>';
+		$html .= '<br><button class="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;">'. __( 'Apply Color', 'runway' ) .'</button>';
 		// $html .= '<input type="button" id="color-colorpick-done" name="'.$name.'" style="visibility: hidden; position:absolute;" value="Done pick color" /></div>';
 
 		$html .= '
@@ -391,7 +391,7 @@ class Html {
 
 		if ( empty( $wp_rewrite->permalink_structure ) ) {
 			$html = '<em class="warning">';
-			$html .= __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the <a href="options-permalink.php">Permalink Settings</a>.', 'framework' );
+			$html .= sprintf( __( 'Permalinks are currently not enabled! To use this feature, enable permalinks in the %sPermalink Settings%s.', 'runway' ), '<a href="options-permalink.php">', '</a>');
 			$html .= '</em>';
 			return $html;
 		} else {
@@ -469,7 +469,7 @@ class Html {
 
 		$html = '<select multiple class="input-select" name="' . $name . ( $_name ? "[{$_name}]" : '' ) . '[]" size="5" style="height: 103px;">';
 
-		$html .= '<option value="no">'.__('No value', 'framework').'</option>';
+		$html .= '<option value="no">'.__('No value', 'runway').'</option>';
 
 		foreach ( $vars as $key => $val ) {
 			if ( is_array( $values ) ) {
@@ -496,13 +496,13 @@ class Html {
 	function bool_var( $name, $title, $arr ) { ?>
 
 		<tr>
-			<th scope="row" valign="top"><?php echo  $title; ?></th>
+			<th scope="row" valign="top"><?php echo rf_string($title); ?></th>
 			<td>
 				<?php
 		$true = ( $arr[$name] ) ? " checked='checked'" : '';
 		$false = ( $true ) ?  '' : " checked='checked'"; ?>
-				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="true" <?php echo  $true; ?>> <?php echo  $title2; ?> Yes</label>
-				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="false" <?php echo  $false; ?>> <?php echo  $title2; ?> No</label>
+				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="true" <?php echo rf_string($true); ?>> <?php echo rf_string($title2); ?> Yes</label>
+				<label><input type="radio" name="<?php echo esc_attr($name); ?>" value="false" <?php echo rf_string($false); ?>> <?php echo rf_string($title2); ?> No</label>
 			</td>
 		</tr>
 		<?php
@@ -516,12 +516,12 @@ class Html {
 	function checkboxes( $name, $title, $values, $arr ) { ?>
 
 		<tr>
-			<th scope="row" valign="top"><?php echo  $title; ?></th>
+			<th scope="row" valign="top"><?php echo rf_string($title); ?></th>
 			<td>
 		<?php
 		foreach ( $values as $key => $title2 ) {
 			$checked = ( in_array( $key, (array) $arr[$name] ) ) ? " checked='checked'" : ''; ?>
-			<label><input type="checkbox" name="<?php echo esc_attr($name); ?>[]" value="<?php echo esc_attr($key); ?>" <?php echo  $checked; ?>> <?php echo  $title2; ?></label>
+			<label><input type="checkbox" name="<?php echo esc_attr($name); ?>[]" value="<?php echo esc_attr($key); ?>" <?php echo rf_string($checked); ?>> <?php echo rf_string($title2); ?></label>
 		<?php } ?>
 			</td>
 		</tr>

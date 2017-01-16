@@ -311,6 +311,12 @@
 .ui-dialog .ui-dialog-titlebar {
 	top: -15px;
 	margin-bottom: -20px;
+	background: transparent;
+	border: none;
+	height: auto;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
 }
 .ui-dialog-title h2 {
 	font-size: 24px;
@@ -320,6 +326,10 @@
 .ui-dialog-titlebar-close {
 	position: relative;
 	top: -50px;
+	cursor: pointer;
+}
+.ui-dialog-titlebar-close:before {
+	content: '';
 }
 .ui-dialog .ui-dialog-titlebar-close .ui-button-text { display: none; }
 .ui-dialog {

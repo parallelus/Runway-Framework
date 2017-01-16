@@ -167,9 +167,16 @@
 #theme-framework .postbox .no-move {
     cursor: default
 }
+#theme-framework .checkbox_group {
+    display: inline-block;
+}
 .code-editor {
     width: 500px;
     height: 320px;
+}
+.customize-control textarea,
+.customize-control select {
+    width: 100%
 }
 
 /* Development Helpers (code snippets) */
@@ -217,6 +224,10 @@
 .ui-dialog .ui-dialog-titlebar {
     padding: .4em 0 0.9em;
     position: relative;
+	background: transparent;
+	border: none;
+	height: auto;
+	line-height: inherit;
 }
 .ui-dialog .ui-dialog-title {
     font-size: 18px;
@@ -285,6 +296,9 @@ div.ui-dialog-content,
     border-radius: 12px;
     background: #f5f5f5;
     border: 0px solid #f5f5f5;
+}
+.ui-dialog .ui-dialog-titlebar-close:before {
+    content: '';
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
@@ -495,4 +509,22 @@ These need to be included by the theme instead. Still working on the best way to
     border: 1px solid #e5e5e5;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+}
+
+.wp-customizer .accordion-section-content {
+    overflow-x: auto;
+}
+
+.wp-customizer .range-slider .noUi-target.noUi-horizontal {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.wp-customizer .range-slider .noUi-target.noUi-vertical {
+    margin-left: 10px;
+    padding: 10px 0;
+}
+
+.wp-customizer .code-editor.ace_editor {
+    max-width: 100%;
 }

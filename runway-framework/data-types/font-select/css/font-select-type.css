@@ -32,7 +32,6 @@ a.button.edit-font-options-a { margin: 10px 0 6px; }
     width: 70%;
 }
 
-
 .toogle-font-select-container .settings-container .settings-in input[type=text]:not(.wp-color-picker), 
 .toogle-font-select-container .settings-container .settings-in select, 
 .toogle-font-select-container .settings-container .settings-in textarea {
@@ -42,3 +41,14 @@ a.button.edit-font-options-a { margin: 10px 0 6px; }
 .preview-text-input .settings-title { display: none; }
 .toogle-font-select-container .settings-container.preview-text-input .settings-in { float: none; width: 100%; }
 .toogle-font-select-container .settings-container.preview-text-input .settings-in input { font-size: 20px; }
+
+.wp-customizer .font-options-container {
+    width: auto;
+    margin-right: 12px;
+    box-shadow: 0 2px 9px rgba(0, 0, 0, .25);
+    border-color: #c2c2c2 #c2c2c2 #bdbdbd;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+}
+
+.wp-customizer .wp-picker-holder { right: 0; }

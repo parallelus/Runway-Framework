@@ -1,20 +1,25 @@
-jQuery(document).ready(function($) {
+(function ($) {
 
-	var code_selected = $('.dashicon-code-selected').val();
-	var class_selected = $('.dashicon-class-selected').val();
-	
-	if(code_selected != false && code_selected != '' && code_selected != undefined)
-		$('[data-code='+code_selected+']').addClass('active');
+    $(document).ready(function ($) {
 
-	$('#iconlist .dashicons').on('click', function(){
-		var data_code = $(this).attr('data-code');
- 		var classNames = $(this).attr("class").toString().split(' ');
+        var code_selected = $('.dashicon-code-selected').val();
 
-		$('.dashicons').removeClass('active');
-		$(this).addClass('active');
+        if (code_selected != false && code_selected != '' && code_selected != undefined) {
+            $('[data-code=' + code_selected + ']').addClass('active');
+        }
 
-		$('.dashicon-code-selected').val(data_code);	
-		$('.dashicon-class-selected').val(classNames[1]);	
-	});
+        $('#iconlist .dashicons').on('click', function () {
+            var $this = $(this);
+            var data_code = $this.attr('data-code');
+            var classNames = $this.attr('class').toString().split(' ');
 
-});
+            $('.dashicons').removeClass('active');
+            $this.addClass('active');
+
+            $('.dashicon-code-selected').val(data_code);
+            $('.dashicon-class-selected').val(classNames[1]);
+        });
+
+    });
+
+})(jQuery);

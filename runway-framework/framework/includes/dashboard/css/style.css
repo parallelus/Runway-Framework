@@ -157,3 +157,7 @@ ul.list-w-indent {
 .about-wrap ul.release-list li:first-child {
 	margin-top: 0
 }
+
+.about-wrap .changelog p {
+	max-width: none;
+}
