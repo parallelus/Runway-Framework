@@ -1080,7 +1080,7 @@ if ( !defined( $runway_framework_admin ) ) {
 		 *
 		 */
 		function loadFolderCSS($file_dir) {
-			$stylesheets = '';
+			$stylesheets = array();
 
 			if ($css_dir = opendir($file_dir)) {
 				while (false !== ($file = readdir($css_dir))) {
