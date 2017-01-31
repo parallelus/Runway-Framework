@@ -150,7 +150,7 @@
 
                 if (typeof alias !== 'undefined') {
 
-                    elWatch = $(".custom-data-type[name='" + alias + "']");
+                    elWatch = $(".custom-data-type[name^='" + alias + "']");
 
                     if (elWatch.length > 0) {
                         if (elWatch.is('[data-targetalias]') && typeof elWatch.attr('data-targetalias') !== 'undefined') {
@@ -185,8 +185,8 @@
                             default:
                                 // It is enough to attach only one handler
                                 $(document)
-                                    .off('change.rw_conditions', elWatch)
-                                    .on('change.rw_conditions', elWatch, getValueChangeHandler(elWatch, alias));
+                                    .off('change.rw_conditions', ".custom-data-type[name^='" + alias + "']")
+                                    .on('change.rw_conditions', ".custom-data-type[name^='" + alias + "']", getValueChangeHandler(elWatch, alias));
                                 break;
                         }
 
