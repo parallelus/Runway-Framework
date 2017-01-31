@@ -513,6 +513,7 @@ These need to be included by the theme instead. Still working on the best way to
 
 .wp-customizer .accordion-section-content {
     overflow-x: auto;
+    min-height: 100%;
 }
 
 .wp-customizer .range-slider .noUi-target.noUi-horizontal {

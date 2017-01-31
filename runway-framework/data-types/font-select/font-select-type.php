@@ -95,6 +95,7 @@ class Font_select_type extends Data_Type {
 
 		}
 
+		$font_family_param        = str_replace( ' ', '+', trim( $font_family ) );
 		$escaped_attr_alias       = esc_attr( $this->field->alias );
 		$escaped_js_alias         = esc_js( $this->field->alias );
 		$data_conditional_display = parent::add_data_conditional_display( $this->field );
@@ -257,136 +258,214 @@ class Font_select_type extends Data_Type {
 
 							</div>
 
-							<input class="button" type="button" value="<?php _e( 'Close', 'runway' ); ?>"
+							<input class="button" type="button" value="<?php _e( 'Apply', 'runway' ); ?>"
 							       name="<?php echo $escaped_attr_alias; ?>_save"/>
+							<input class="button" type="button" value="<?php _e('Cancel', 'runway'); ?>"
+							       name="<?php echo $escaped_attr_alias;?>_cancel"/>
 
 						</div>
 						<script type="text/javascript">
-							var alias = '<?php echo $escaped_js_alias; ?>';
+							(function($) {
+								var $preview = $('.<?php echo $escaped_js_alias; ?> .font-preview');
 
-							jQuery(document).ready(function ($) {
+								// Inputs
+								var $_previewText = $('input[name="<?php echo $escaped_js_alias; ?>[_previewText]"]');
+								var $_family = $('select[name="<?php echo $escaped_js_alias; ?>[_family]"]');
+								var $_style = $('select[name="<?php echo $escaped_js_alias; ?>[_style]"]');
+								var $_weight = $('input[name="<?php echo $escaped_js_alias; ?>[_weight]"]');
+								var $_size = $('input[name="<?php echo $escaped_js_alias; ?>[_size]"]');
+								var $_color = $('input[name="<?php echo $escaped_js_alias; ?>[_color]"]');
 
-								function deselect(e) {
-									$('.<?php echo $escaped_js_alias; ?> .pop').slideFadeToggle(function () {
-										e.removeClass('font-edit');
-									});
-								}
-
-								$.fn.slideFadeToggle = function (easing, callback) {
-									return this.animate({
-										opacity: 'toggle',
-										height: 'toggle'
-									}, 'fast', easing, callback);
+								var appliedParams = {
+									family: $_family.val(),
+									style: $_style.val(),
+									weight: $_weight.val(),
+									size: $_size.val(),
+									color: $_color.val(),
+									previewText: $_previewText.val(), // in input
+									text: $preview.text()
 								};
 
-								$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({
-									change: function () {
-										var hexcolor = $(this).wpColorPicker('color');
-
-										$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
-
+								if (typeof(loadFont) !== 'function') {
+									function loadFont(family) {
+										if (typeof WebFont === 'object') {
+											WebFont.load({
+												google: {
+													families: [family]
+												}
+											});
+										} else {
+											$('head').append('<link href="https://fonts.googleapis.com/css?family=' + family + '" rel="stylesheet">');
+										}
 									}
-								});
-
-								$('input[name=<?php echo $escaped_js_alias; ?>_save]').on('click', function (e) {
-									e.preventDefault();
-									e.stopPropagation();
-
-									var alias = "<?php echo $escaped_js_alias; ?>";
-									var previewText = $('input[name="' + alias + '[_previewText]"]').val();
-									var family = $('select[name="' + alias + '[_family]"]').val();
-									var style = $('select[name="' + alias + '[_style]"]').val();
-									var weight = $('input[name="' + alias + '[_weight]"]').val();
-									var size = $('input[name="' + alias + '[_size]"]').val();
-									var color = $('input[name="' + alias + '[_color]"]').val();
-
-									$('input[name="' + alias + '[previewText]"]').val(previewText);
-									$('input[name="' + alias + '[family]"]').val(family);
-									$('input[name="' + alias + '[style]"]').val(style);
-									$('input[name="' + alias + '[weight]"]').val(weight);
-									$('input[name="' + alias + '[size]"]').val(size);
-									$('input[name="' + alias + '[color]"]').val(color);
-
-									if (wp.customize) {
-										var api = wp.customize;
-										var values_array = {};
-										var $parent = $('.<?php echo $escaped_js_alias; ?>.custom-data-type');
-
-										$parent.find('input, select, textarea').not('[type="button"], [type="submit"]').each(function () {
-											var $this = $(this);
-											var name = $this.attr('name');
-
-											if (name !== undefined) {
-												name = name.replace(alias, '').replace("[", "").replace("]", "");
-												values_array[name] = $this.val();
-											}
-
-										});
-
-										api.instance(alias).set(values_array);
-
-									}
-
-									deselect($(this));
-
-									// update preview text
-									if (typeof WebFont === 'object') {
-										WebFont.load({
-											google: {
-												families: [family]
-											}
-										});
-									} else {
-										$('head').append('<link href="https://fonts.googleapis.com/css?family=' + family + '" rel="stylesheet">');
-									}
-
-									if ( previewText == '' ) {
-										previewText = family;
-										previewText.replace('-', ' ');
-										previewText = ucwords(previewText);
-									}
-
-									$('.<?php echo $escaped_js_alias; ?> .font-preview')
-										.css({
-											'font-family': family,
-											'font-style': style,
-											'font-weight': weight,
-											'font-size': size,
-											'color': color
-										})
-										.text(previewText);
-
-								});
-
-								$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({
-									change: function () {
-										var hexcolor = $(this).wpColorPicker('color');
-
-										$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
-									}
-								});
-
-
-								$('.<?php echo $escaped_js_alias; ?> a.edit-font-options-a').on('click', function (e) {
-									var $this = $(this);
-
-									e.preventDefault();
-									e.stopPropagation();
-
-									if ($this.hasClass('font-edit')) {
-										deselect($(this));
-									} else {
-										$this.addClass('font-edit');
-										$('.<?php echo $escaped_js_alias; ?> .pop').slideFadeToggle();
-									}
-
-								});
-
-								function ucwords( str ) {	// Uppercase the first character of each word in a string
-									return str.replace(/^(.)|\s(.)/g, function ( $1 ) { return $1.toUpperCase ( ); } );
 								}
 
-							});
+								loadFont('<?php echo esc_js($font_family_param); ?>');
+
+								$(document).ready(function($){
+
+									function deselect(e) {
+										$('.<?php echo $escaped_js_alias; ?> .pop').slideFadeToggle(function() {
+											e.removeClass('font-edit');
+										});
+									}
+
+									$.fn.slideFadeToggle = function(easing, callback) {
+										return this.animate({ 
+											opacity: 'toggle', 
+											height: 'toggle' 
+										}, 'fast', easing, callback);
+									};
+
+									$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').wpColorPicker({
+										change: function () {
+											var hexcolor = $(this).wpColorPicker('color');
+
+											$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container .color-picker-hex').attr('value', hexcolor).val(hexcolor).trigger('change');
+										}
+									});
+
+									$('.<?php echo $escaped_js_alias; ?> .toogle-font-select-container').on('change input', 'select, input', function(e) {
+										e.preventDefault();
+										e.stopPropagation();
+
+										var previewText = $_previewText.val();
+										var family = $_family.val();
+										var style = $_style.val();
+										var weight = $_weight.val();
+										var size = $_size.val();
+										var color = $_color.val();
+
+										// update preview text
+										if ($(e.target).is('select[name="<?php echo $escaped_js_alias; ?>[_family]"]')) {
+											loadFont(family);
+										}
+
+										if (previewText == '') {
+											previewText = family;
+											previewText.replace('-', ' ');
+											previewText = ucwords(previewText);
+										}
+
+										$preview
+											.css({
+												'font-family': family,
+												'font-style': style,
+												'font-weight': weight,
+												'font-size': size,
+												'color': color
+											})
+											.text(previewText);
+									});
+
+									$('input[name=<?php echo $escaped_js_alias; ?>_save]').on('click', function(e){
+										e.preventDefault();
+										e.stopPropagation();
+
+										var alias = '<?php echo $escaped_js_alias; ?>';
+
+										var previewText = $_previewText.val();
+										var family = $_family.val();
+										var style = $_style.val();
+										var weight = $_weight.val();
+										var size = $_size.val();
+										var color = $_color.val();
+
+										$('input[name="<?php echo $escaped_js_alias; ?>[previewText]"]').val(previewText);
+										$('input[name="<?php echo $escaped_js_alias; ?>[family]"]').val(family);
+										$('input[name="<?php echo $escaped_js_alias; ?>[style]"]').val(style);
+										$('input[name="<?php echo $escaped_js_alias; ?>[weight]"]').val(weight);
+										$('input[name="<?php echo $escaped_js_alias; ?>[size]"]').val(size);
+										$('input[name="<?php echo $escaped_js_alias; ?>[color]"]').val(color);
+
+										if (wp.customize) {
+											var api = wp.customize;
+											var values_array = {};
+											var $parent = $('.<?php echo $escaped_js_alias; ?>.custom-data-type');
+
+											$parent.find('input, select, textarea').not('[type="button"], [type="submit"]').each(function () {
+												var $this = $(this);
+												var name = $this.attr('name');
+
+												if (name !== undefined) {
+													name = name.replace(alias, '').replace("[", "").replace("]", "");
+													values_array[name] = $this.val();
+												}
+											});
+
+											api.instance(alias).set(values_array);
+										}
+
+										deselect($(this));
+
+										appliedParams = {
+											family: family,
+											style: style,
+											weight: weight,
+											size: size,
+											color: color,
+											previewText: previewText,
+											text: $preview.text()
+										};
+									});
+
+									$('.<?php echo $escaped_js_alias; ?> a.edit-font-options-a').on('click', function(e){
+										e.preventDefault();
+										e.stopPropagation();
+
+										if($(this).hasClass('font-edit')) {
+											deselect($(this));
+											resetPreview();
+										} else {
+											$(this).addClass('font-edit');
+											$('.<?php echo $escaped_js_alias; ?> .pop').slideFadeToggle();
+
+											updateFontInputs();
+										}
+									});
+
+									$('input[name=<?php echo $escaped_js_alias;?>_cancel]').on('click', function(e) {
+										e.preventDefault();
+										e.stopPropagation();
+
+										deselect($('.<?php echo $escaped_js_alias; ?> a.edit-font-options-a'));
+										resetPreview();
+									});
+
+									function updateFontInputs() {
+										$_previewText.val(appliedParams.previewText);
+										$_family.val(appliedParams.family);
+										$_style.val(appliedParams.style);
+										$_weight.val(appliedParams.weight);
+										$_size.val(appliedParams.size);
+										$_color.val(appliedParams.color).trigger('change');
+									}
+
+									function resetPreview() {
+										$preview
+											.attr('style', '')
+											.css({
+												'font-family': appliedParams.family,
+												'font-style': appliedParams.style,
+												'font-weight': appliedParams.weight,
+												'font-size': appliedParams.size,
+												'color': appliedParams.color
+											})
+											.text(appliedParams.text);
+									}
+
+								});
+
+							})(jQuery);
+
+							if (typeof(ucwords) !== 'function') {
+								function ucwords(str) {	// Uppercase the first character of each word in a string
+									return str.replace(/^(.)|\s(.)/g, function ($1) {
+										return $1.toUpperCase();
+									});
+								}
+							}
+
 						</script>
 
 					</div>
