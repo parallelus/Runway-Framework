@@ -150,7 +150,7 @@ class Fileupload_type extends Data_Type {
 			</legend>
 			<input id="upload_image-<?php echo esc_attr( $this->field->alias ); ?>"
 			       class="custom-data-type" <?php echo rf_string( $section ); // escaped above ?>
-			       data-type="fileupload-type" <?php echo esc_attr( parent::add_data_conditional_display( $this->field ) ); ?>
+			       data-type="fileupload-type" <?php echo parent::add_data_conditional_display( $this->field ); ?>
 			       type="text" size="36" name="<?php echo esc_attr( $this->field->alias ); ?>"
 			       value="<?php echo esc_attr( @stripslashes( $input_value ) ); ?>" <?php $this->link(); ?> />
 			<span class="field_label">
