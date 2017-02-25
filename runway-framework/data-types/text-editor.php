@@ -43,6 +43,14 @@ class Text_editor extends Data_Type {
                 $editorArea.attr('data-section', '<?php echo isset( $this->page->section ) ? $this->page->section : '' ?>');
                 $editorArea.attr('data-type', 'texteditor-type');
 
+                <?php if( isset( $this->field->conditionalAlias ) && !empty( $this->field->conditionalAlias ) ): ?>
+                $editorArea.attr('data-conditionalAlias', '<?php echo esc_js( $this->field->conditionalAlias ); ?>');
+                <?php endif; if( isset( $this->field->conditionalValue ) && !empty( $this->field->conditionalValue ) ): ?>
+                $editorArea.attr('data-conditionalValue', '<?php echo esc_js( $this->field->conditionalValue ); ?>');
+                <?php endif; if( isset( $this->field->conditionalAction ) && !empty( $this->field->conditionalAction ) ): ?>
+                $editorArea.attr('data-conditionalAction', '<?php echo esc_js( $this->field->conditionalAction ); ?>');
+                <?php endif; ?>
+
                 try {
 
                     // Fix the version compatibility issue for jquery-ui:
