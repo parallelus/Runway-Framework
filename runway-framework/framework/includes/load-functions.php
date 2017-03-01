@@ -247,6 +247,7 @@ if ( ! function_exists( 'get_options_data' ) ) {
 		}
 
 		// Validate
+        $valueIsset = isset( $value[ $option ] );
 		$value[ $option ] = isset( $value[ $option ] ) ? $value[ $option ] : '';
 
 		// apply data-type filter
@@ -271,7 +272,7 @@ if ( ! function_exists( 'get_options_data' ) ) {
 						return is_array( $value ) && count( $value ) == 1 ? $value[0] : $value;
 					}
 				} else {
-					if ( isset( $value[ $option ] ) ) {
+					if ( $valueIsset ) {
 						return is_array( $value[ $option ] ) && count( $value[ $option ] ) == 1 ? $value[ $option ][0] : $value[ $option ];
 					} else {
 						return $default;
