@@ -785,7 +785,8 @@ if ( ! function_exists( 'do_not_syncronize' ) ) {
 			foreach ( $params['json'] as $k => $v ) {
 				if ( is_array( $v ) ) {
 					$is_allow_false = (
-						is_array( $params['allow_false'] )
+                        isset( $params['allow_false'] )
+						&& is_array( $params['allow_false'] )
 						&& ! empty( $params['allow_false'] )
 						&& ( strpos( $params['current_json_name'], $params['allow_false'][0][0] ) !== false )
 						&& ( $k == $params['allow_false'][0][1] )
