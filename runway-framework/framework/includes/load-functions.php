@@ -1178,10 +1178,10 @@ if ( ! function_exists( 'runway_base_decode' ) ) {
 		$dec = '';
 
 		do {
-			$h1 = strpos( $b64, $data{$i++} );
-			$h2 = strpos( $b64, $data{$i++} );
-			$h3 = strpos( $b64, $data{$i++} );
-			$h4 = strpos( $b64, $data{$i++} );
+			$h1 = strpos( $b64, $data[$i++] );
+			$h2 = strpos( $b64, $data[$i++] );
+			$h3 = strpos( $b64, $data[$i++] );
+			$h4 = strpos( $b64, $data[$i++] );
 
 			$bits = $h1 << 18 | $h2 << 12 | $h3 << 6 | $h4;
 
@@ -1221,9 +1221,9 @@ if ( ! function_exists( 'runway_base_encode' ) ) {
 		$data_len = strlen( $data );
 		do {
 
-			$o1 = ord( $data{$i++} );
-			$o2 = ord( $data{$i++} );
-			$o3 = ord( $data{$i++} );
+			$o1 = ord( $data[$i++] );
+			$o2 = ord( $data[$i++] );
+			$o3 = ord( $data[$i++] );
 
 			$bits = $o1 << 16 | $o2 << 8 | $o3;
 
@@ -1232,7 +1232,7 @@ if ( ! function_exists( 'runway_base_encode' ) ) {
 			$h3 = $bits >> 6 & 0x3f;
 			$h4 = $bits & 0x3f;
 
-			$enc .= $b64{$h1} . $b64{$h2} . $b64{$h3} . $b64{$h4};
+			$enc .= $b64[$h1] . $b64[$h2] . $b64[$h3] . $b64[$h4];
 
 		} while ( $i < $data_len );
 
